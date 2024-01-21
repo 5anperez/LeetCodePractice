@@ -29,7 +29,7 @@
 
 
 
-import itertools
+
 
 # # Read and process the lines within the with block
 # with open("message_file.txt") as file:
@@ -852,10 +852,34 @@ NOTE:
 
 
 
+
+
+
+'''
+    *******************************************************************************************************************************************
+
+    START OF THE PROMPT + UNIT TESTS PROJECT!
+
+    Come back here and add comments to all these methods for good practice! Try to break the DP problems down, i.e., what are the smaller problems that overlap, which is step 1 of creating the DP solute? Can you see some pattern amongst multiple probs?
+
+    *******************************************************************************************************************************************
+'''
+
+
+
+
+
+
+
+
+
+
 '''
     91. Decode Ways
 
-    Can you write a function called "def possibileGroups(self, s: str) -> int:" that takes a string 's' and calculates the number of possible partitions, i.e., the function partitions 's' evenly into groups of integers in the range [1, 26] (inclusive), where each partition or group is made from the elements in 's', and returns the number of possible ways to partition 's'.
+    Can you write a function called "def possibleMessages(self, s: str) -> int:" that takes a string 's' and calculates the number of possible partitions, i.e., the function partitions 's' evenly into groups of integers in the range [1, 26] (inclusive), where each partition or group is made from the elements in 's', and returns the number of possible ways to partition 's'.
+
+    Since there are only two subproblems that over lap, we can sum the ways bc its an OR situation...
 '''
 
 
@@ -903,12 +927,59 @@ NOTE:
 '''
     93. Restore IP Addresses
 
-    Write me a function that
+    Write me a function that takes in a string of numbers and returns all possible IP addresses that can be formed by inserting dots into 's' without reordering or removing any digits in 's'. Name the function "def ipDistribute(self, s: str) -> List[str]:"
+
+    It seems like the recursive strategy is best here since we know the worst case recursive call stack will be, more or less. Each segment can be a 
 '''
 
 
+# from typing import List
+# def ipDistribute(raw: str) -> List[str]:
+#     def is_valid(segment):
+#         return len(segment) == 1 or (segment[0] != '0' and int(segment) <= MAX_SEGMENT_VAL)
+
+#     def backtrack(start, path):
+#         if len(path) == NUM_SEGMENTS:
+#             if start == len(raw):
+#                 result.append('.'.join(path))
+#             return
+
+#         for end in range(start + 1, len(raw) + 1):
+#             segment = raw[start:end]
+#             if is_valid(segment):
+#                 backtrack(end, path + [segment])
+
+#     NUM_SEGMENTS = 4
+#     MAX_SEGMENT_VAL = 255
+#     result = []
+#     backtrack(0, [])
+#     return result
+
+# # Example usage
+# print(ipDistribute("2550000"))
+# print(ipDistribute("2561001234"))
+# print(ipDistribute("1111"))
 
 
+
+# assert ipDistribute("1111") == ["1.1.1.1"]
+# assert ipDistribute("25514135255") == ["255.14.135.255", "255.141.35.255"]
+# assert ipDistribute("202025") == ["2.0.20.25","2.0.202.5","20.2.0.25","20.20.2.5","202.0.2.5"]
+# assert ipDistribute("2561001234") == []
+# assert ipDistribute("0000") == ["0.0.0.0"]
+
+
+
+
+
+
+
+
+'''
+    97. Interleaving String
+
+    
+'''
 
 
 
