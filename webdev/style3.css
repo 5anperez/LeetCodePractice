@@ -1,0 +1,35 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Prevent scrolling on the root level */
+}
+
+.container {
+    display: flex;
+    height: 100%;
+}
+
+.fixed-side {
+    width: 17%; /* Fixed side takes up half the width */
+    height: 100%;
+    position: flex; /* Fixed position to keep it still on scroll */
+    top: 0;
+    left: 0;
+    background: url('sun-tornado.svg') no-repeat center center;
+    background-size: cover; /* Ensure the image covers the area */
+}
+
+
+
+.scrollable-side {
+    width: 83%;
+    height: 100%;
+    overflow-y: scroll; /* Enable scrolling on the scrollable content */
+    margin-left: 17%; /* Push content to the right half of the screen */
+}
+
+.scrollable-side section {
+    height: 100vh; /* Each section is the full height of the viewport */
+    width: 100%;
+    /* Add your styles for the sections */
+}

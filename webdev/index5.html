@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="styles5.css" >
+    </head>
+
+
+
+    <!--Main-->
+    <body>
+
+        <div id="header">
+
+            <!-- Navigation Menu w/ links -->
+           <div class=".container">
+                <nav>
+                    <img src="images/myLogo.png" class="myLogo">
+                    
+                    <!-- List -->
+                    <ul>
+                        <!-- Links -->
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Portfolio</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </nav>
+
+                <div class="header-text">
+                    <p><span>Engineer, Programer, and Designer</span> </p>
+                    <h1>What's Up...<br> I'm <span>Santiago</span>, Let's Collab!</h1>
+                </div>
+           </div>
+        </div>
+
+
+        <!-- About -->
+        <div id="about">
+            <div class="container">
+                <div class="row">
+
+                    <!-- Columns -->
+                    <div class="about-col-1">
+                        <img src="images/me.jpg" alt="">
+                    </div>
+                    
+                    <div class="about-col-2">
+                        <h1 class="sub-title">About Me</h1>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla quisquam cupiditate aliquid at, rerum nihil delectus sit beatae eum sed ullam non, quis voluptatem veritatis blanditiis voluptatum, quia et impedit!
+                        </p>
+
+                        <div class="tab-titles">
+                            <p class="tab-links active-link" onclick="opentab('skills')"><span>Skills</span></p>
+                            <p class="tab-links" onclick="opentab('experience')"><span>Experience</span></p>
+                            <p class="tab-links" onclick="opentab('education')"><span>Education</span></p>
+                        </div>
+
+                        <!-- These tabs appear on a title click -->
+
+                        <!--Skills-->
+                        <div class="tab-contents active-tab" id="skills">
+                            <ul>
+                                <li><span>Software Eng</span><br>Code review etc.</li>
+                                <li><span>Software Prog</span><br>Back-end</li>
+                            </ul>
+                        </div>
+
+                        <!--experience-->
+                        <div class="tab-contents" id="experience">
+                            <ul>
+                                <li><span>2023 - Current</span><br>Prompt Engineer</li>
+                            </ul>
+                        </div>
+                        
+
+                        <!--education-->
+                        <div class="tab-contents" id="education">
+                            <ul>
+                                <li><span>U of M</span><br>BSE Computer Science</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- My Work -->
+        <div>
+            <div class="container">
+                <h1 class="sub-title">My Work</h1>
+                <div class="work-list">
+                    <div class="work">
+                        <!-- PUT THUMBNAILS OF YOUR WORK HERE -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <!-- JavaScript -->
+        <script>
+
+            var tablinks = document.getElementsByClassName("tab-links");
+            var tabcontents = document.getElementsByClassName("tab-contents");
+
+            function opentab(tabname)
+            {
+                for (tablink of tablinks){
+                    tablink.classList.remove("active-link");
+                }
+                for (tabcontent of tabcontents){
+                    tabcontent.classList.remove("active-tab");
+                }
+
+                event.currentTarget.classList.add("active-link");
+                document.getElementById(tabname).classList.add("active-tab");
+            }
+        </script>
+    </body>
+</html>

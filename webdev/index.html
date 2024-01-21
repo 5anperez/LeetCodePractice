@@ -1,0 +1,68 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage Template with Tailwind CSS</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script type="text/javascript" src="freestyle.js"></script> 
+    <script type="text/javascript" src="freestyle2.js"></script> 
+</head>
+<body class="bg-gray-200">
+    <!-- Header -->
+    <header class="bg-blue-500 text-white">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="#" class="text-xl font-bold">MyWebsite</a>
+
+                <!-- Navigation for large screens -->
+                <nav class="hidden md:flex space-x-4">
+                    <a href="#" class="hover:text-gray-300">Home</a>
+                    <a href="#" class="hover:text-gray-300">About</a>
+                    <a href="#" class="hover:text-gray-300">Services</a>
+                    <a href="#" class="hover:text-gray-300">Contact</a>
+                </nav>
+
+                <!-- Hamburger button for smaller screens -->
+                <button id="menuButton" class="md:hidden focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile navigation -->
+        <nav id="mobileMenu" class="md:hidden bg-blue-400 px-4 pt-2 pb-5">
+            <a href="#" class="block py-2 hover:text-gray-300">Home</a>
+            <a href="#" class="block py-2 hover:text-gray-300">About</a>
+            <a href="#" class="block py-2 hover:text-gray-300">Services</a>
+            <a href="#" class="block py-2 hover:text-gray-300">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Content -->
+    <main class="container mx-auto px-4 mt-6">
+        <!-- Add your homepage content here -->
+        <h1 class="text-3xl font-bold mb-4">Welcome to our website!</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lacinia...</p>
+    </main>
+
+    <!-- JavaScript for the hamburger menu -->
+    <script>
+        const menuButton = document.getElementById('menuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+
+    
+    
+</body>
+</html>

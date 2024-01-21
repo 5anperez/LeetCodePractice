@@ -1,0 +1,15 @@
+.left, .right
+{
+    height: 100vh;
+    width: 100%;
+}
+
+.left
+{
+    background: aquamarine;
+}
+
+.right
+{
+    background: blue;
+}

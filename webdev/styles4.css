@@ -1,0 +1,106 @@
+/* Base styles to ensure padding/margin are reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Container for the whole layout */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 3fr; /* Sidebar takes 1 fraction, main content takes 3 fractions */
+    grid-template-rows: auto 1fr auto; /* Header, main content, footer */
+    min-height: 100vh; /* Full viewport height */
+  }
+  
+  /* Header with a simple shadow effect */
+  .header {
+    grid-column: 1 / -1; /* Spans from the first to the last track */
+    background: rgb(203, 1, 203);
+    color: black;
+    text-shadow: 2px 2px 4px rgb(0, 255, 208);
+    font-family: 'Roboto Mono', monospace;
+    padding: 1rem;
+    box-shadow: 0 2px 5px darkblue;
+    border-bottom: 4px solid rgb(0, 255, 208);
+  }
+  
+  /* Navigation sidebar */
+  .sidebar {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    background: url('./images/sun-tornado.svg') no-repeat center center;
+    background-size: cover; /* Ensure the image covers the area */
+    color: black;
+    text-shadow: 2px 2px 4px rgb(0, 255, 208);
+    font-family: 'Roboto Mono', monospace;
+    font-size: 45px;
+  }
+  
+  /* Styling for navigation links */
+  .nav-link {
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  /* Main content area */
+  .main-content {
+    background: #fff;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive cards layout */
+    gap: 1rem;
+  }
+  
+  /* Footer at the bottom */
+  .footer {
+    grid-column: 1 / -1; /* Spans across all columns */
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  /* Card component inside main content */
+  .card {
+    opacity: 1;
+    background: #eee;
+    padding: 1rem;
+    border-radius: 5px;
+    transition: transform 0.3s ease; /* Animation on hover */
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Initially, all cards are fully visible */
+
+  
+  /* When hovering over the container that holds all the cards, 
+     every card becomes slightly transparent */
+  .main-content:hover .card {
+    opacity: 0.5;
+  }
+  
+  /* Except for the card that is actually being hovered over - 
+     it remains fully opaque */
+  .main-content:hover .card:hover {
+    opacity: 1;
+  }
+  
+  
+  /* Responsive design for smaller screens */
+  @media screen and (max-width: 768px) {
+    .layout {
+      grid-template-columns: 1fr; /* Stack sidebar and main content on top of each other */
+    }
+  
+    .header,
+    .footer {
+      grid-column: 1;
+    }
+  }
+  
