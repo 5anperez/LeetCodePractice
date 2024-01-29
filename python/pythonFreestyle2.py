@@ -933,8 +933,9 @@ NOTE:
 '''
 
 
-# from typing import List
-# def ipDistribute(raw: str) -> List[str]:
+# from typing import list
+
+# def ipDistribute(raw: str) -> list[str]:
 #     def is_valid(segment):
 #         return len(segment) == 1 or (segment[0] != '0' and int(segment) <= MAX_SEGMENT_VAL)
 
@@ -978,8 +979,519 @@ NOTE:
 '''
     97. Interleaving String
 
+    Given strings s1, s2, and s3, find whether s3 is formed by an interleaving of s1 and s2.
+
+    An interleaving of two strings s and t is a configuration where s and t are divided into n and m 
+    substrings respectively, such that:
+
+    s = s1 + s2 + ... + sn, 
+    t = t1 + t2 + ... + tm, 
+    |n - m| <= 1,
+
+    The interleaving is s1 + t1 + s2 + t2 + s3 + t3 + ... or t1 + s1 + t2 + s2 + t3 + s3 + ...
+
+    Note: a + b is the concatenation of strings a and b.
+
+
+    Application: DNA sequence analysis - I am building a bioinformatics program used by genetic engineers to understand genetic recombination, diagnose diseases, develop treatments, and study evolutionary biology. The feature I am currently working on will verify precise gene editing. Therefore, the function that implements this feature determines whether a given DNA sequence, denoted by "dnaSeq" in the function, was formed by an interleaving of two other sequences, denoted by "seqA" and "seqB", thereby helping engineers predict potential off-target effects and recombination events. The function is not case-sensitive and returns a boolean value based on the status of the DNA sequence passed in, i.e., it returns true if it was formed by an interleaving of sequence A and sequence B, and false otherwise. The function also checks whether the strings contain only the characters that represent the four nucleotides in DNA: Adenine (A), Cytosine (C), Guanine (G), and Thymine (T). If any of the strings do not, then an error is raised. The function also returns false in the case where "dnaSeq" is a concatenation of sequences, as opposed to an interleaving.
+'''
+
+# def validSequence(s1: str, s2: str, s3: str) -> bool:
+#     if len(s1) + len(s2) != len(s3):
+#         return False
+    
+#     if len(s1) == 0 or len(s2) ==0:
+#         return False
+    
+#     def is_valid_dna_sequence(seq):
+#         # Convert the sequence to uppercase for consistency
+#         seq = seq.upper()
+
+#         # Set of valid nucleotide characters
+#         valid_nucleotides = {'A', 'C', 'G', 'T'}
+
+#         # Check if each character in the sequence is a valid nucleotide
+#         return all(char in valid_nucleotides for char in seq) and seq.isalpha()
+    
+#     if not (is_valid_dna_sequence(s1)) or not (is_valid_dna_sequence(s2)) or not (is_valid_dna_sequence(s3)):
+#         raise TypeError
+
+#     def dfs(i, j):
+#         if i == len(s1) and j == len(s2):
+#             return True
+#         choose_s1, choose_s2 = False, False
+#         if i < len(s1) and s1[i] == s3[i + j]:
+#             choose_s1 = dfs(i + 1, j)
+#         if j < len(s2) and s2[j] == s3[i + j]:
+#             choose_s2 = dfs(i, j + 1)
+
+#         return choose_s1 or choose_s2
+
+#     return dfs(0, 0)
+
+
+
+
+# # def validSequence(seqA: str, seqB: str, dnaSeq: str) -> bool: pass
+
+# import unittest
+
+# class TestValidSequence(unittest.TestCase):
+#     def test_validSequence_true(self) -> None:
+#         sequenceA = "tttga"
+#         sequenceB = "gccac"
+#         targetDNA = "ttgccatgca"
+
+#         test_bool = validSequence(sequenceA, sequenceB, targetDNA)
+#         self.assertTrue(test_bool)
+
+#     def test_validSequence_false(self) -> None:
+#         sequenceA = "tttga" 
+#         sequenceB = "gccac"
+#         targetDNA = "ttgcctcaga"
+
+#         test_bool = validSequence(sequenceA, sequenceB, targetDNA)
+#         self.assertFalse(test_bool)
+
+#     def test_validSequence_notValid_int(self) -> None:
+#         sequenceA = "tttga" 
+#         sequenceB = "gccac"
+#         targetDNA = "ttgccatgc3"
+
+#         with self.assertRaises(TypeError):
+#             validSequence(sequenceA, sequenceB, targetDNA)
+
+#     def test_validSequence_notValid_char(self) -> None:
+#         sequenceA = "tttga" 
+#         sequenceB = "pccac"
+#         targetDNA = "ttgccatgca"
+
+#         with self.assertRaises(TypeError):
+#             validSequence(sequenceA, sequenceB, targetDNA)
+
+#     def test_validSequence_AB_empty(self) -> None:
+#         sequenceA = "" 
+#         sequenceB = ""
+#         targetDNA = "t"
+
+#         test_bool = validSequence(sequenceA, sequenceB, targetDNA)
+#         self.assertFalse(test_bool)
+
+#     def test_validSequence_B_empty(self) -> None:
+#         sequenceA = "t" 
+#         sequenceB = ""
+#         targetDNA = "t"
+
+#         test_bool = validSequence(sequenceA, sequenceB, targetDNA)
+#         self.assertFalse(test_bool)
+
+#     def test_validSequence_empty(self) -> None:
+#         sequenceA = "t" 
+#         sequenceB = "a"
+#         targetDNA = ""
+
+#         test_bool = validSequence(sequenceA, sequenceB, targetDNA)
+#         self.assertFalse(test_bool)
+
+#     def test_validSequence_cat(self) -> None:
+#         sequenceA = "ttt" 
+#         sequenceB = "aaa"
+#         targetDNA = "tttaaa"
+
+#         test_bool = validSequence(sequenceA, sequenceB, targetDNA)
+#         self.assertFalse(test_bool)
+
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+'''
+    115. Distinct Subsequences
+
+    Given two strings s and t, return the number of distinct subsequences of s which equals t. The test cases are generated so that the answer fits on a 32-bit signed integer.
+
+    App: text messages - I am building my own text messaging app and I have a helper function that helps suggest words whenever a misspelled word is detected. When a misspelling is detected, the larger program invokes this helper function; its output will be used in subsequent methods, which are not relevant here, to eventually pinpoint word suggestions with the highest probability. This helper takes two strings, "before" and "after", and returns the number of unique, possible substrings of "before" that are the same as "after". If any of the inputs are empty, then a value error should be raised. Note that the function is case-sensitive and subsequences are also valid as long as they are in the same relative order.
+'''
+
+# def numPossWords(s: str, t: str) -> int:
+#     n=len(s)
+#     m=len(t)
+
+#     if n < 1 or m < 1:
+#         raise ValueError
+    
+#     dp=[[0 for i in range(m+1)]for j in range(n+1)]
+#     for i in range(n+1):
+#         dp[i][0]=1
+#     for j in range(1,m+1):
+#         dp[0][j]=0
+#     for i in range(1,n+1):
+#         for j in range(1,m+1):
+#             if s[i-1]==t[j-1]:
+#                 dp[i][j]=dp[i-1][j-1]+dp[i-1][j]
+#             else:
+#                 dp[i][j]=dp[i-1][j]
+#     return dp[n][m]
+
+
+
+# # def numPossWords(before: str, after: str) -> int: pass
+
+# import unittest
+
+# class TestNumPossWords(unittest.TestCase):
+#     def test_numPossWords_three(self) -> None:
+#         before = "helllo"
+#         after = "hello"
+#         expected = 3
+
+#         self.assertEqual(numPossWords(before, after), expected)
+
+#     def test_numPossWords_five(self) -> None:
+#         before = "sasdsad"
+#         after = "sad"
+#         expected = 5
+
+#         self.assertEqual(numPossWords(before, after), expected)
+
+#     def test_numPossWords_empty(self) -> None:
+#         before = ""
+#         after = ""
+#         with self.assertRaises(ValueError):
+#             numPossWords(before, after)
+
+#     def test_numPossWords_notPoss1(self) -> None:
+#         before = "sad"
+#         after = "sasdsad"
+#         expected = 0
+
+#         self.assertEqual(numPossWords(before, after), expected)
+
+#     def test_numPossWords_one(self) -> None:
+#         before = "sad"
+#         after = "sad"
+#         expected = 1
+
+#         self.assertEqual(numPossWords(before, after), expected)
+
+#     def test_numPossWords_notPoss2(self) -> None:
+#         before = "sad"
+#         after = "car"
+#         expected = 0
+
+#         self.assertEqual(numPossWords(before, after), expected)
+
+#     def test_numPossWords_caseSen(self) -> None:
+#         before = "HEllo"
+#         after = "HEllo"
+#         expected = 1
+
+#         self.assertEqual(numPossWords(before, after), expected)
+
+#     def test_numPossWords_caseSen(self) -> None:
+#         before = "hello"
+#         after = "HEllo"
+#         expected = 0
+
+#         self.assertEqual(numPossWords(before, after), expected)
+
+#     def test_numPossWords_subSeq(self) -> None:
+#         before = "wordl"
+#         after = "world"
+#         expected = 0
+
+#         self.assertEqual(numPossWords(before, after), expected)
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+        FUTURE PROMPT&TEST THAT YOU CAN ALIGN WITH THE SPELL CHECKER STORY
+
+        126. Word Latter 2
+'''
+
+
+
+                
+                
+                
+                
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    123. Best Time to Buy and Sell Stocks 3
+
+    You are given an array prices where prices[i] is the price of a given stock on the ith day. Find the maximum profit you can achieve. You may complete at most two transactions. Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+    App - I am implementing a program that helps me decide when and what Pokemon cards to buy and sell while I am at the Collect-A-Con convention. Since it is always packed with people, I need to quickly calculate a sequence of trades that will maximize the profit I collect, so I implemented this logic within a function. I give the function a list that represents card buy and sell prices and it returns the max profit I can make if I purchase and then sell a card. This is a physical event, so I can only do one trade at a time, but if there exists a sequence of events that involves less than three consequtive trades, then I accept that as well.
+'''
+
+
+
+# def pokeTradeSequence(prices: list[int]) -> int:
+#     """
+#     :type prices: List[int]
+#     :rtype: int
+#     """
+#     high = 0
+#     low = float('inf')
+#     p1 = 0
+#     p2 = 0
+#     short = 0
+#     #1st, 2nd long
+#     for i in range(len(prices)): 
+#         price = prices[i]
+#         if price > high:
+#             high = price
+#             hiIndex = i
+#         if price < low or i == len(prices)-1:
+#             tmp = high - low
+#             if tmp > p1:
+#                 p1 = tmp
+#                 pIndex = [lowIndex,hiIndex]
+#                 short =1
+#             low = price
+#             lowIndex = i
+#             high = low
+#             hiIndex = i
+#     if short == 1:
+#         fr = float('inf')
+#         to = 0  
+#         p2 = 0
+#         for i in range(pIndex[0]):
+#             price = prices[i]
+#             if price > to:
+#                 to = price
+#             if price < fr or i == pIndex[0] -1:
+#                 tmp = to - fr
+#                 if tmp > p2:
+#                     p2 = tmp
+#                 fr = to = price 
+#         fr = float('inf')
+#         to = 0    
+#         for i in range(pIndex[1]+1,len(prices)):
+#             price = prices[i]
+#             if price > to:
+#                 to = price
+#             if price < fr or i == len(prices)-1:
+#                 tmp = to - fr
+#                 if tmp > p2:
+#                     p2 = tmp
+#                 fr = to = price 
+        
+#     p3 = 0
+#     fr = 0
+#     to = float('inf')     #max short profit when you long it
+#     if short == 1:
+#         for i in range(pIndex[0]+1,pIndex[1]):
+#             price = prices[i]
+#             if price < to:
+#                 to = price
+#             if price > fr or i == pIndex[1]-1:
+#                 tmp = fr - to
+#                 if tmp > p3:
+#                     p3 = tmp
+#                 fr = to = price            
+#     # compare 2 longs vs long + short
+#     return max(p1,0)+ max(p2,0,p3)
+
+
+
+
+
+# # def pokeTradeSequence(prices: list[int]) -> int: pass
+
+# import unittest
+
+# class TestPokeTradeSequence(unittest.TestCase):
+#     def test_pokeTradeSeq_firstLast(self) -> None:
+#         prices = [1,2,3,4,5]
+#         expected = 4
+#         actual = pokeTradeSequence(prices)
+#         self.assertEqual(expected, actual)
+
+#     def test_pokeTradeSeq_notPoss(self) -> None:
+#         prices = [10,9,8,7,6]
+#         expected = 0
+#         actual = pokeTradeSequence(prices)
+#         self.assertEqual(expected, actual)
+
+#     def test_pokeTradeSeq_many(self) -> None:
+#         prices = [12,12,14,9,9,12,10,13]
+#         expected = 6
+#         actual = pokeTradeSequence(prices)
+#         self.assertEqual(expected, actual)
+
+#     def test_pokeTradeSeq_many2(self) -> None:
+#         prices = [12,11,15,14,9,12]
+#         expected = 7
+#         actual = pokeTradeSequence(prices)
+#         self.assertEqual(expected, actual)
+
+#     def test_pokeTradeSeq_small(self) -> None:
+#         prices = [9,8,9,7,8]
+#         expected = 2
+#         actual = pokeTradeSequence(prices)
+#         self.assertEqual(expected, actual)
+
+#     def test_pokeTradeSeq_med(self) -> None:
+#         prices = [6,36,18,12,42,24]
+#         expected = 60
+#         actual = pokeTradeSequence(prices)
+#         self.assertEqual(expected, actual)
+
+#     def test_pokeTradeSeq_med2(self) -> None:
+#         prices = [36,6,18,12,24,42]
+#         expected = 42
+#         actual = pokeTradeSequence(prices)
+#         self.assertEqual(expected, actual)
+
+#     def test_pokeTradeSeq_large(self) -> None:
+#         prices = [36,6,18,12,24,72,6,35,30,42]
+#         expected = 102
+#         actual = pokeTradeSequence(prices)
+#         self.assertEqual(expected, actual)
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    134. Gas Station
+
+    There are n gas stations along a circular route, where the amount of gas at the ith station is gas[i]. You have a car with an unlimited gas tank and it costs cost[i] of gas to travel from the ith station to its next (i + 1)th station. You begin the journey with an empty tank at one of the gas stations. Given two integer arrays gas and cost, return the starting gas station's index if you can travel around the circuit once in the clockwise direction, otherwise return -1. If there exists a solution, it is guaranteed to be unique
+
+    I am implementing a function that simulates an electric delivery robot making deliveries via a route that maximizes its battery's charge. Every delivery location also has a charge port, but not all charge ports are the same. The function takes two lists. The first, 'power', represents the amount of power you will get from charging the robot at the ith charging port, and 'deplete' represents the route where 'deplete[i]' is the amount of power depleted when going to the next charging port. Since the robot starts off with a fully depleted battery, it must choose a starting point such that it can traverse the entire route once. The function should then return the traversable route or an empty route if it is not feasible.
     
 '''
+
+
+
+
+
+def isTraversable(power: list[int], deplete: list[int]) -> int:
+    total_power, total_deplete, start, tank = 0, 0, 0, 0
+
+    for i in range(len(power)):
+        total_power += power[i]
+        total_deplete += deplete[i]
+        tank += power[i] - deplete[i]
+
+        # If tank is negative, reset the start position and tank
+        if tank < 0:
+            start = i + 1
+            tank = 0
+
+    # Check if the total power is enough to cover the total depletion
+    if total_power < total_deplete:
+        return []  # Not possible to traverse the entire route
+
+    # Create the route starting from the identified start position
+    route = list(range(start, len(power))) + list(range(start))
+    return route
+
+
+# def isTraversable(power: list[int], deplete: list[int]) -> list[int]: pass
+
+import unittest
+
+class TestIsTraversable(unittest.TestCase):
+    def test_isTraversable_fourth(self) -> None:
+        power = [36, 45, 27, 9, 54]
+        deplete = [45, 36, 18, 36, 27]
+        expected = [4, 0, 1, 2, 3]
+        actual = isTraversable(power, deplete)
+        self.assertEqual(expected, actual)
+
+    def test_isTraversable_notPossA(self) -> None:
+        power = [12, 18, 24]
+        deplete = [18, 24, 18]
+        expected = []
+        actual = isTraversable(power, deplete)
+        self.assertEqual(expected, actual)
+
+    def test_isTraversable_notPossB(self) -> None:
+        power = [5, 7, 8, 9, 10]
+        deplete = [8, 9, 10, 6, 7]
+        expected = []
+        actual = isTraversable(power, deplete)
+        self.assertEqual(expected, actual)
+
+    def test_isTraversable_third(self) -> None:
+        power = [6, 7, 8, 9, 10]
+        deplete = [8, 9, 10, 6, 7]
+        expected = [3, 4, 0, 1, 2]
+        actual = isTraversable(power, deplete)
+        self.assertEqual(expected, actual)
+
+    def test_isTraversable_single(self) -> None:
+        power = [6]
+        deplete = [7]
+        expected = []
+        actual = isTraversable(power, deplete)
+        self.assertEqual(expected, actual)
+
+    def test_isTraversable_any(self) -> None:
+        power = [7, 6, 7, 6]
+        deplete = [6, 7, 6, 7]
+        expected = [0, 1, 2, 3]
+        actual = isTraversable(power, deplete)
+        self.assertEqual(expected, actual)
+
+
+if __name__ == "__main__":
+    unittest.main()
+
 
 
 

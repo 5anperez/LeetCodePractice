@@ -31,29 +31,84 @@
 // };
 
 
-var longestValidParentheses = function(s) {
-    let maxLen = 0;
-    let stack = [-1];  // Initialize stack with -1 to handle edge cases
+// var longestValidParentheses = function(s) {
+//     let maxLen = 0;
+//     let stack = [-1];  // Initialize stack with -1 to handle edge cases
 
-    for (let i = 0; i < s.length; i++) {
-        if (s[i] === '(') {
-            // Push the index of '(' onto the stack
-            stack.push(i);
-        } else {
-            // Pop the top element from the stack
-            stack.pop();
-            if (stack.length === 0) {
-                // If stack is empty, push the current index onto the stack
-                stack.push(i);
-            } else {
-                // Calculate the length of the current valid substring
-                maxLen = Math.max(maxLen, i - stack[stack.length - 1]);
-            }
-        }
-    }
+//     for (let i = 0; i < s.length; i++) {
+//         if (s[i] === '(') {
+//             // Push the index of '(' onto the stack
+//             stack.push(i);
+//         } else {
+//             // Pop the top element from the stack
+//             stack.pop();
+//             if (stack.length === 0) {
+//                 // If stack is empty, push the current index onto the stack
+//                 stack.push(i);
+//             } else {
+//                 // Calculate the length of the current valid substring
+//                 maxLen = Math.max(maxLen, i - stack[stack.length - 1]);
+//             }
+//         }
+//     }
 
-    return maxLen;
-};
+//     return maxLen;
+// };
+
+
+
+
+// gpt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// B
+
+
+
+
+
+
+
 
 
 

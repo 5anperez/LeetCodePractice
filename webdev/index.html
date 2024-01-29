@@ -1,68 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
+  <style>
+    .error {
+      border: 1px solid red;
+    }
+  </style>
+</head>
+
+<body>
+
+  <form id="loginForm" onsubmit="return validateForm()">
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <input type="email" class="form-control" placeholder="Enter Email Id" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+      <small id="emailError" style="color: red;"></small>
+    </div>
+    <div class="mb-4 my-4">
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input type="password" class="form-control" placeholder="Enter Your Password" id="exampleInputPassword1" required>
+      <small id="passwordError" style="color: red;"></small>
+    </div>
+
+    <button type="submit" class="btn px-4 py-2 bg-dark text-white">Log in</button>
+    <p class="pt-3">Don't have an account? <a href="signup.html">Create one now</a></p>
+  </form>
+
+  <script>
+    function validateForm() {
+  event.preventDefault();
+
+  var emailInput = document.getElementById('exampleInputEmail1');
+  var passwordInput = document.getElementById('exampleInputPassword1');
+  var email = emailInput.value;
+  var password = passwordInput.value;
+
+  // Clear previous errors
+  clearErrors();
+
+  // **Email validation**
+  if (!email || !/\S+@\S+\.\S+/.test(email)) {
+    addError('emailError', 'Please enter a valid email address.');
+  }
+
+  // **Password validation**
+  if (!password || password.length < 8 || !/[a-z]/i.test(password) || !/\d/.test(password) || !/[^\w\s]/.test(password)) {
+    addError('passwordError', 'Password must be at least 8 characters long with mix of letters, numbers, and special characters.');
+  }
+
+  // Function to remove error class and message
+  function clearErrors() {
+    emailInput.classList.remove('error');
+    passwordInput.classList.remove('error');
+    document.getElementById('emailError').innerHTML = "";
+    document.getElementById('passwordError').innerHTML = "";
+  }
+
+  // Function to add error class and message
+  function addError(elementId, message) {
+    document.getElementById(elementId).innerHTML = message;
+    document.getElementById(elementId).parentNode.classList.add('error'); // Add error class to field container
+  }
+
+  // Check if any errors
+  return document.querySelectorAll('.error').length === 0;
+}
+  </script>
+
+</body>
+
+</html>
+
+
+
+
+
 
 
 <!DOCTYPE html>
 <html lang="en">
-    
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage Template with Tailwind CSS</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <script type="text/javascript" src="freestyle.js"></script> 
-    <script type="text/javascript" src="freestyle2.js"></script> 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
+  <style>
+    .error {
+      border: 1px solid red;
+    }
+  </style>
 </head>
-<body class="bg-gray-200">
-    <!-- Header -->
-    <header class="bg-blue-500 text-white">
-        <div class="container mx-auto px-4 py-4">
-            <div class="flex justify-between items-center">
-                <!-- Logo -->
-                <a href="#" class="text-xl font-bold">MyWebsite</a>
 
-                <!-- Navigation for large screens -->
-                <nav class="hidden md:flex space-x-4">
-                    <a href="#" class="hover:text-gray-300">Home</a>
-                    <a href="#" class="hover:text-gray-300">About</a>
-                    <a href="#" class="hover:text-gray-300">Services</a>
-                    <a href="#" class="hover:text-gray-300">Contact</a>
-                </nav>
+<body>
 
-                <!-- Hamburger button for smaller screens -->
-                <button id="menuButton" class="md:hidden focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
+  <form id="loginForm" onsubmit="return validateForm()">
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <input type="email" class="form-control" placeholder="Enter Email Id" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+      <small id="emailError" style="color: red;"></small>
+    </div>
+    <div class="mb-4 my-4">
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input type="password" class="form-control" placeholder="Enter Your Password" id="exampleInputPassword1" required>
+      <small id="passwordError" style="color: red;"></small>
+    </div>
 
-        <!-- Mobile navigation -->
-        <nav id="mobileMenu" class="md:hidden bg-blue-400 px-4 pt-2 pb-5">
-            <a href="#" class="block py-2 hover:text-gray-300">Home</a>
-            <a href="#" class="block py-2 hover:text-gray-300">About</a>
-            <a href="#" class="block py-2 hover:text-gray-300">Services</a>
-            <a href="#" class="block py-2 hover:text-gray-300">Contact</a>
-        </nav>
-    </header>
+    <button type="submit" class="btn px-4 py-2 bg-dark text-white">Log in</button>
+    <p class="pt-3">Don't have an account? <a href="signup.html">Create one now</a></p>
+  </form>
 
-    <!-- Content -->
-    <main class="container mx-auto px-4 mt-6">
-        <!-- Add your homepage content here -->
-        <h1 class="text-3xl font-bold mb-4">Welcome to our website!</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lacinia...</p>
-    </main>
+  <script>
+    function validateForm() {
+      var emailInput = document.getElementById('exampleInputEmail1');
+      var passwordInput = document.getElementById('exampleInputPassword1');
+      var email = emailInput.value;
+      var password = passwordInput.value;
 
-    <!-- JavaScript for the hamburger menu -->
-    <script>
-        const menuButton = document.getElementById('menuButton');
-        const mobileMenu = document.getElementById('mobileMenu');
+      // Clear previous error messages and styling
+      document.getElementById('emailError').innerHTML = "";
+      document.getElementById('passwordError').innerHTML = "";
+      emailInput.classList.remove('error');
+      passwordInput.classList.remove('error');
 
-        menuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-    </script>
+      if (email === "") {
+        document.getElementById('emailError').innerHTML = "Please enter your email.";
+        emailInput.classList.add('error');
+        return false;
+      }
 
-    
-    
+      if (password === "") {
+        document.getElementById('passwordError').innerHTML = "Please enter your password.";
+        passwordInput.classList.add('error');
+        return false;
+      }
+
+      // You can add more complex validation logic here if needed
+
+      return true; // Form will be submitted if it passes validation
+    }
+  </script>
+
 </body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
+  <style>
+    .error {
+      border: 1px solid red;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 0.8rem;
+      margin-top: 0.2rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <form id="loginForm" onsubmit="return validateForm()">
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <input type="email" class="form-control" placeholder="Enter Email Id" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+      <small id="emailError" class="error-message"></small>
+    </div>
+    <div class="mb-4 my-4">
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input type="password" class="form-control" placeholder="Enter Your Password" id="exampleInputPassword1" required>
+      <small id="passwordError" class="error-message"></small>
+    </div>
+
+    <button type="submit" class="btn px-4 py-2 bg-dark text-white">Log in</button>
+    <p class="pt-3">Don't have an account? <a href="signup.html">Create one now</a></p>
+  </form>
+
+  <script>
+    function validateForm() {
+      var emailInput = document.getElementById('exampleInputEmail1');
+      var passwordInput = document.getElementById('exampleInputPassword1');
+      var email = emailInput.value;
+      var password = passwordInput.value;
+
+      // Clear previous error messages and styling
+      document.getElementById('emailError').innerHTML = "";
+      document.getElementById('passwordError').innerHTML = "";
+      emailInput.classList.remove('error');
+      passwordInput.classList.remove('error');
+
+      if (email === "") {
+        document.getElementById('emailError').innerHTML = "Please enter your email.";
+        emailInput.classList.add('error');
+        return false;
+      }
+
+      if (password === "") {
+        document.getElementById('passwordError').innerHTML = "Please enter your password.";
+        passwordInput.classList.add('error');
+        return false;
+      }
+
+      // You can add more complex validation logic here if needed
+
+      return true; // Form will be submitted if it passes validation
+    }
+  </script>
+
+</body>
+
 </html>
