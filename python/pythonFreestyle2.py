@@ -1261,12 +1261,12 @@ NOTE:
 
     You are given an array prices where prices[i] is the price of a given stock on the ith day. Find the maximum profit you can achieve. You may complete at most two transactions. Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
 
-    App - I am implementing a program that helps me decide when and what Pokemon cards to buy and sell while I am at the Collect-A-Con convention. Since it is always packed with people, I need to quickly calculate a sequence of trades that will maximize the profit I collect, so I implemented this logic within a function. I give the function a list that represents card buy and sell prices and it returns the max profit I can make if I purchase and then sell a card. This is a physical event, so I can only do one trade at a time, but if there exists a sequence of events that involves less than three consequtive trades, then I accept that as well.
+    App - I am implementing a program that helps me decide when and what Pokemon cards to buy and sell while I am at the Collect-A-Con convention. Since it is always packed with people, I need to quickly calculate a sequence of trades that will maximize the profit I collect, so I implemented this logic within a function. I give the function a list that represents card buy and sell prices, which is sorted in the order that I must execute trades in, and it returns a pair (e.g., (totalProfit, [sequence of trades])) where the first element is the max profit and the second element is a list of indexes representing the cards to trade. This is a physical event, so I can only do one trade at a time, but I can also do two back-to-back, i.e., in sequence. The returned sequence list can come in one of three flavors. The first is when no trades exists and its all zeros, e.g., [0, 0, 0, 0]. The second is when a single trade yields the best outcome and the last two elements are zero, e.g., [i, j, 0, 0] where 'i' and 'j' are the indexes of the buy and sell, respectively. The third is when I need to perform a back-to-back trade, e.g., [i, j, p, q] where 'i' and 'j' are the indexes of the first trade and 'p' and 'q' are the indexes of the second trade, respectively.
 '''
 
 
 
-# def pokeTradeSequence(prices: list[int]) -> int:
+# def pokeTradeSequence_confirmMaxProfit(prices: list[int]) -> int:
 #     """
 #     :type prices: List[int]
 #     :rtype: int
@@ -1333,60 +1333,114 @@ NOTE:
 #     # compare 2 longs vs long + short
 #     return max(p1,0)+ max(p2,0,p3)
 
+# prices = [3, 3, 5, 0, 0, 3, 1, 4]
+# print(pokeTradeSequence_confirmMaxProfit(prices))
 
 
 
 
-# # def pokeTradeSequence(prices: list[int]) -> int: pass
+# THIS NEEDS DEBUGGING
+# def pokeTradeSequence(prices: list[int]) -> (int, list[int]):
+#     def findBestTransaction(prices):
+#         min_price = float('inf')
+#         max_profit = 0
+#         buy_day = sell_day = 0
+
+#         for i, price in enumerate(prices):
+#             if price < min_price:
+#                 min_price = price
+#                 potential_buy_day = i
+#             elif price - min_price > max_profit:
+#                 max_profit = price - min_price
+#                 buy_day = potential_buy_day
+#                 sell_day = i
+
+#         return max_profit, buy_day, sell_day
+
+#     # First transaction
+#     first_profit, first_buy_day, first_sell_day = findBestTransaction(prices)
+
+#     # Modify prices to remove the effect of the first transaction
+#     modified_prices = prices[:]
+#     for i in range(first_buy_day, first_sell_day + 1):
+#         modified_prices[i] = -1  # Set to -1 or any non-influential value
+
+#     # Second transaction
+#     second_profit, second_buy_day, second_sell_day = findBestTransaction(modified_prices)
+
+#     # Total profit and days
+#     total_profit = first_profit + second_profit
+#     transaction_days = [first_buy_day, first_sell_day, second_buy_day, second_sell_day]
+
+#     return total_profit, transaction_days
+
+# # Example usage
+# prices = [12,12,14,9,9,12,10,13]
+# max_profit, days = pokeTradeSequence(prices)
+# print(f"Max Profit: {max_profit}, Days: {days}")  
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def pokeTradeSequence(prices: list[int]) -> (int, list[int]): pass
 
 # import unittest
 
 # class TestPokeTradeSequence(unittest.TestCase):
 #     def test_pokeTradeSeq_firstLast(self) -> None:
 #         prices = [1,2,3,4,5]
-#         expected = 4
+#         expected = (4, [0, 4, 0, 0])
 #         actual = pokeTradeSequence(prices)
 #         self.assertEqual(expected, actual)
 
 #     def test_pokeTradeSeq_notPoss(self) -> None:
 #         prices = [10,9,8,7,6]
-#         expected = 0
+#         expected = (0, [0, 0, 0, 0])
 #         actual = pokeTradeSequence(prices)
 #         self.assertEqual(expected, actual)
 
 #     def test_pokeTradeSeq_many(self) -> None:
 #         prices = [12,12,14,9,9,12,10,13]
-#         expected = 6
+#         expected = (6, [0, 2, 3, 7])
 #         actual = pokeTradeSequence(prices)
 #         self.assertEqual(expected, actual)
 
 #     def test_pokeTradeSeq_many2(self) -> None:
 #         prices = [12,11,15,14,9,12]
-#         expected = 7
+#         expected = (7, [1, 2, 4, 5])
 #         actual = pokeTradeSequence(prices)
 #         self.assertEqual(expected, actual)
 
 #     def test_pokeTradeSeq_small(self) -> None:
 #         prices = [9,8,9,7,8]
-#         expected = 2
+#         expected = (2, [1, 2, 3, 4])
 #         actual = pokeTradeSequence(prices)
 #         self.assertEqual(expected, actual)
 
 #     def test_pokeTradeSeq_med(self) -> None:
 #         prices = [6,36,18,12,42,24]
-#         expected = 60
+#         expected = (60, [0, 1, 3, 4])
 #         actual = pokeTradeSequence(prices)
 #         self.assertEqual(expected, actual)
 
 #     def test_pokeTradeSeq_med2(self) -> None:
 #         prices = [36,6,18,12,24,42]
-#         expected = 42
+#         expected = (42, [1, 2, 3, 5])
 #         actual = pokeTradeSequence(prices)
 #         self.assertEqual(expected, actual)
 
 #     def test_pokeTradeSeq_large(self) -> None:
 #         prices = [36,6,18,12,24,72,6,35,30,42]
-#         expected = 102
+#         expected = (102, [1, 5, 6, 9])
 #         actual = pokeTradeSequence(prices)
 #         self.assertEqual(expected, actual)
 
@@ -1419,84 +1473,672 @@ NOTE:
 
 
 
-def isTraversable(power: list[int], deplete: list[int]) -> int:
-    total_power, total_deplete, start, tank = 0, 0, 0, 0
+# def isTraversable(power: list[int], deplete: list[int]) -> int:
+#     total_power, total_deplete, start, tank = 0, 0, 0, 0
 
-    for i in range(len(power)):
-        total_power += power[i]
-        total_deplete += deplete[i]
-        tank += power[i] - deplete[i]
+#     for i in range(len(power)):
+#         total_power += power[i]
+#         total_deplete += deplete[i]
+#         tank += power[i] - deplete[i]
 
-        # If tank is negative, reset the start position and tank
-        if tank < 0:
-            start = i + 1
-            tank = 0
+#         # If tank is negative, reset the start position and tank
+#         if tank < 0:
+#             start = i + 1
+#             tank = 0
 
-    # Check if the total power is enough to cover the total depletion
-    if total_power < total_deplete:
-        return []  # Not possible to traverse the entire route
+#     # Check if the total power is enough to cover the total depletion
+#     if total_power < total_deplete:
+#         return []  # Not possible to traverse the entire route
 
-    # Create the route starting from the identified start position
-    route = list(range(start, len(power))) + list(range(start))
-    return route
+#     # Create the route starting from the identified start position
+#     route = list(range(start, len(power))) + list(range(start))
+#     return route
 
 
-# def isTraversable(power: list[int], deplete: list[int]) -> list[int]: pass
+# # def isTraversable(power: list[int], deplete: list[int]) -> list[int]: pass
+
+# import unittest
+
+# class TestIsTraversable(unittest.TestCase):
+#     def test_isTraversable_fourth(self) -> None:
+#         power = [36, 45, 27, 9, 54]
+#         deplete = [45, 36, 18, 36, 27]
+#         expected = [4, 0, 1, 2, 3]
+#         actual = isTraversable(power, deplete)
+#         self.assertEqual(expected, actual)
+
+#     def test_isTraversable_notPossA(self) -> None:
+#         power = [12, 18, 24]
+#         deplete = [18, 24, 18]
+#         expected = []
+#         actual = isTraversable(power, deplete)
+#         self.assertEqual(expected, actual)
+
+#     def test_isTraversable_notPossB(self) -> None:
+#         power = [5, 7, 8, 9, 10]
+#         deplete = [8, 9, 10, 6, 7]
+#         expected = []
+#         actual = isTraversable(power, deplete)
+#         self.assertEqual(expected, actual)
+
+#     def test_isTraversable_third(self) -> None:
+#         power = [6, 7, 8, 9, 10]
+#         deplete = [8, 9, 10, 6, 7]
+#         expected = [3, 4, 0, 1, 2]
+#         actual = isTraversable(power, deplete)
+#         self.assertEqual(expected, actual)
+
+#     def test_isTraversable_single(self) -> None:
+#         power = [6]
+#         deplete = [7]
+#         expected = []
+#         actual = isTraversable(power, deplete)
+#         self.assertEqual(expected, actual)
+
+#     def test_isTraversable_any(self) -> None:
+#         power = [7, 6, 7, 6]
+#         deplete = [6, 7, 6, 7]
+#         expected = [0, 1, 2, 3]
+#         actual = isTraversable(power, deplete)
+#         self.assertEqual(expected, actual)
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+'''
+    135. Candy
+
+    There are n children standing in a line. Each child is assigned a rating value given in the integer array ratings. You are giving candies to these children subjected to the following requirements: 1. Each child must have at least one candy. and 2. Children with a higher rating get more candies than their neighbors. Return the minimum number of candies you need to have to distribute the candies to the children.
+
+    App - I maintain a weekly list of employees, and everyone gets ranked by their time served in the company and their performance, which is just an integer rank. I will be giving out Lions tickets as a small weekly bonus. Therefore, I am using this function to help me calculate and minimize the number of Lions tickets I will need such that everyone on my list has at least one ticket, but better ranking employees get more tickets than lower ranking adjacent employees.
+'''
+
+
+
+# def weeklyTix(rankings: list[int]) -> int:
+#     n = len(rankings)
+#     if n == 0:
+#         return 0
+
+#     # Initialize tickets array
+#     tickets = [1] * n
+
+#     # Forward pass: Give more tickets if the current employee has a higher rank
+#     for i in range(1, n):
+#         if rankings[i] > rankings[i - 1]:
+#             tickets[i] = tickets[i - 1] + 1
+
+#     # Backward pass: Adjust tickets based on the next employee's rank and tickets
+#     for i in range(n - 2, -1, -1):
+#         if rankings[i] > rankings[i + 1]:
+#             tickets[i] = max(tickets[i], tickets[i + 1] + 1)
+
+#     return sum(tickets)
+
+# # Test the function
+# rankings = [0, 50, 100, 50, 0]
+# print(weeklyTix(rankings))  
+
+
+
+
+# # def weeklyTix(rankings: list[int]) -> int: pass
+
+# import unittest
+
+# class TestWeeklyTix(unittest.TestCase):
+#     def test_weeklyTix1(self) -> None:
+#         rankings = [8,7,9]
+#         expected = 5
+#         actual = weeklyTix(rankings)
+#         self.assertEqual(expected, actual)
+
+#     def test_weeklyTix2(self) -> None:
+#         rankings = [19,41,77,77,62,2]
+#         expected = 12
+#         actual = weeklyTix(rankings)
+#         self.assertEqual(expected, actual)
+
+#     def test_weeklyTix3(self) -> None:
+#         rankings = [1,1,1]
+#         expected = 3
+#         actual = weeklyTix(rankings)
+#         self.assertEqual(expected, actual)
+
+#     def test_weeklyTix4(self) -> None:
+#         rankings = [3,6,6]
+#         expected = 4
+#         actual = weeklyTix(rankings)
+#         self.assertEqual(expected, actual)
+
+#     def test_weeklyTix5(self) -> None:
+#         rankings = [3,5,4,4,3]
+#         expected = 7
+#         actual = weeklyTix(rankings)
+#         self.assertEqual(expected, actual)
+
+#     def test_weeklyTix6(self) -> None:
+#         rankings = [30]
+#         expected = 1
+#         actual = weeklyTix(rankings)
+#         self.assertEqual(expected, actual)
+
+#     def test_weeklyTix7(self) -> None:
+#         rankings = [10,9,8,7,6,5,4,3,2,1]
+#         expected = 55
+#         actual = weeklyTix(rankings)
+#         self.assertEqual(expected, actual)
+
+#     def test_weeklyTix8(self) -> None:
+#         rankings = [0, 50, 100, 50, 0]
+#         expected = 9
+#         actual = weeklyTix(rankings)
+#         self.assertEqual(expected, actual)
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    137. Single Number 2
+
+    Given an integer array nums where every element appears three times except for one, which appears exactly once. Find the single element and return it. You must implement a solution with a linear runtime complexity and use only constant extra space.
+
+    App - I am using the following function on an embedded device that receives a continuous stream of data wirelessly. The embedded device is very low on resources and since it runs in real-time, it needs to be very efficient with respect to memory and time, so the function has to run in linear time with linear space complexity in the worst case. However, it has been reported that the transmission is picking up noise, which is altering the data stream, i.e., the device expects the stream to contain only a single, 32-bit integer, but it receives multiple. The team has consistently noticed repeated digits, specifically triplets, which do not correspond to any data on our end, so after rigorous trial and error, we deduce that the triplets represent the noise; the following function cleans up the noise and returns the valid data. If the stream passed in is empty, it simply returns None.
+'''
+
+
+
+
+# def cleaned(stream: list[int]) -> int:
+#     if not len(stream):
+#         return None
+#     once = twice = 0
+#     for num in stream:
+#         # Appear once
+#         once = ~twice & (once ^ num)
+#         # Appear twice
+#         twice = ~once & (twice ^ num)
+
+#     return once 
+
+# # Test the function
+# nums = []
+# print(cleaned(nums))  # Expected output: 3
+
+
+
+# # def cleaned(stream: list[int]) -> int: pass
+
+# import unittest
+
+# class TestCleaned(unittest.TestCase):
+#     def test_cleaned1(self) -> None:
+#         stream = [1, 1, 3, 1]
+#         expected = 3
+#         actual = cleaned(stream)
+#         self.assertEqual(expected, actual)
+
+#     def test_cleaned2(self) -> None:
+#         stream = [2, 2, 3, 2, 3, 1, 3]
+#         expected = 1
+#         actual = cleaned(stream)
+#         self.assertEqual(expected, actual)
+
+#     def test_cleaned3(self) -> None:
+#         stream = [0,1,0,2,100,2,0,2,1,1]
+#         expected = 100
+#         actual = cleaned(stream)
+#         self.assertEqual(expected, actual)
+
+#     def test_cleaned4(self) -> None:
+#         stream = [100,0,1,0,2,2,0,2,1,1]
+#         expected = 100
+#         actual = cleaned(stream)
+#         self.assertEqual(expected, actual)
+
+#     def test_cleaned5(self) -> None:
+#         stream = [0]
+#         expected = 0
+#         actual = cleaned(stream)
+#         self.assertEqual(expected, actual)
+
+#     def test_cleaned6(self) -> None:
+#         stream = [990,8010,3456,8010,25000,3456,990,8010,990,3456]
+#         expected = 25000
+#         actual = cleaned(stream)
+#         self.assertEqual(expected, actual)
+
+#     def test_cleaned7(self) -> None:
+#         stream = [-990,8010,-3456,8010,-25000,-3456,-990,8010,-990,-3456]
+#         expected = -25000
+#         actual = cleaned(stream)
+#         self.assertEqual(expected, actual)
+
+#     def test_cleaned8(self) -> None:
+#         stream = []
+#         expected = None
+#         actual = cleaned(stream)
+#         self.assertEqual(expected, actual)
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    140. Word Break 2
+
+    Given a string s and a dictionary of strings wordDict, add spaces in s to construct a sentence where each word is a valid dictionary word. Return all such possible sentences in any order. Note that the same word in the dictionary may be reused multiple times in the segmentation.
+
+    App - I am using the following function in a program I am building that helps people with their grammar. This function helps make suggestions when a misspelling or a grammar mistake has been detected, i.e., it suggests sentences that the user might have meant. The larger program detects the misspelling or grammar mistake and then finds the words that are calculated to have the highest probability, which are then sent to this function. The function takes the invalid word or sentence and a dictionary of words that are what the user probably meant. It then creates and returns a list of suggestion sentences that should have cleaned up the grammar mistake. Note that the order of elements in the returned list is not guaranteed, nor does it matter.
+'''
+
+
+
+# def buildSentence(invalid: str, words: list[str]) -> list[str]:
+#     # Return an empty list if 'invalid' is empty or contains only whitespace
+#     if not invalid.strip():
+#         return []
+    
+#     def backtrack(start, path):
+#         if start == len(invalid):
+#             sentences.append(" ".join(path))
+#             return
+        
+#         for end in range(start + 1, len(invalid) + 1):
+#             word = invalid[start:end]
+#             if word in word_set:
+#                 backtrack(end, path + [word])
+
+#     word_set = set(words)
+#     sentences = []
+#     backtrack(0, [])
+#     return sentences
+
+# # Example usage
+# # invalid = "catsanddog"
+# # words = ["cat", "cats", "and", "sand", "dog"]
+# invalid = "batsanddung"
+# words = ["bat", "bats", "sand", "and", "dung"]
+# print(buildSentence(invalid, words))
+
+
+
+
+
+# # def buildSentence(invalid: str, words: list[str]) -> list[str]: pass
+
+
+# import unittest
+
+# class TestBuildSentence(unittest.TestCase):
+#     def test_buildSentence1(self) -> None:
+#         invalid = "themangonowhere"
+#         words = ["the", "them", "man", "mango", "go", "no", "where", "nowhere"]
+#         expected = ['the man go no where', 'the man go nowhere', 'the mango no where', 'the mango nowhere']
+#         actual = buildSentence(invalid, words)
+#         self.assertCountEqual(expected, actual)
+
+#     def test_buildSentence2(self) -> None:
+#         invalid = "batslamblast"
+#         words = ["bat", "bats", "slam", "lamb", "blast", "last"]
+#         expected = ['bat slam blast', 'bats lamb last']
+#         actual = buildSentence(invalid, words)
+#         self.assertCountEqual(expected, actual)
+
+#     def test_buildSentence3(self) -> None:
+#         invalid = "helloworld"
+#         words = ["world", "hello"]
+#         expected = ['hello world']
+#         actual = buildSentence(invalid, words)
+#         self.assertCountEqual(expected, actual)
+
+#     def test_buildSentence4(self) -> None:
+#         invalid = ""
+#         words = ["world", "hello"]
+#         expected = []
+#         actual = buildSentence(invalid, words)
+#         self.assertCountEqual(expected, actual)
+
+#     def test_buildSentence5(self) -> None:
+#         invalid = " "
+#         words = ["world", "hello"]
+#         expected = []
+#         actual = buildSentence(invalid, words)
+#         self.assertCountEqual(expected, actual)
+
+#     def test_buildSentence6(self) -> None:
+#         invalid = "butterflyingestimate"
+#         words = ["but", "butter", "fly", "butterfly", "flying", "estimate", "ingest", "im", "ate"]
+#         expected = ['butter fly ingest im ate', 'butter flying estimate', 'butterfly ingest im ate']
+#         actual = buildSentence(invalid, words)
+#         self.assertCountEqual(expected, actual)
+
+#     def test_buildSentence7(self) -> None:
+#         invalid = "batsanddung"
+#         words = ["bat", "bats", "sand", "and", "dung"]
+#         expected = ['bat sand dung', 'bats and dung']
+#         actual = buildSentence(invalid, words)
+#         self.assertCountEqual(expected, actual)
+
+#     def test_buildSentence8(self) -> None:
+#         invalid = "batsandung"
+#         words = ["bat", "bats", "sand", "and", "dung"]
+#         expected = []
+#         actual = buildSentence(invalid, words)
+#         self.assertCountEqual(expected, actual)
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    2312. Selling pieces of wood
+
+    You are given two integers m and n that represent the height and width of a rectangular piece of wood. You are also given a 2D integer array prices, where prices[i] = [h_i, w_i, price_i] indicates you can sell a rectangular piece of wood of height h_i and width w_i for price_i dollars. To cut a piece of wood, you must make a vertical or horizontal cut across the entire height or width of the piece to split it into two smaller pieces. After cutting a piece of wood into some number of smaller pieces, you can sell pieces according to prices. You may sell multiple pieces of the same shape, and you do not have to sell all the shapes. The grain of the wood makes a difference, so you cannot rotate a piece to swap its height and width. Return the maximum money you can earn after cutting an m x n piece of wood. Note that you can cut the piece of wood as many times as you want.
+
+    App - I am selling large plots of land on behalf of my customers and I use the following function to calculate the highest sale price after cross-referencing the current market prices. I can sell the land quicker and possibly for more if I break the land up because the market is willing to pay more for a specific size plot of land, so I give the function these market values and let it tell me what's the most I can sell the entire plot for. However, when we partition the land, we must do it such that its split into two constituent pieces that either have the same length or the same height. This way, no matter how the original plot was partitioned, we are guaranteed to always have pieces with four sides. The market prices are formatted in the following way: a list of lists where each sub-list is a market valuation triple, e.g., the land's dimensions followed by the sale price, so if the market is willing to pay 100k for a m x n plot, then one element in the list 'marketValues' will be [m, n, 100]. The function also needs to know how much land I am currently selling, so it also takes the dimensions of my current plot denoted myPlot_m and myPlot_n. If the function gets passed any market values with non-positive integers or where the dimensions are larger than whats being sold, then a value error should be raised.
+'''
+
+
+# def salePrice(myPlot_m: int, myPlot_n: int, marketValues: list[list[int]]) -> int:
+
+#     if not marketValues or not marketValues[0]:
+#         return 0
+
+#     # Create a table for all sizes of land
+#     dp = [[0] * (myPlot_n + 1) for _ in range(myPlot_m + 1)]
+
+#     # Seed with market prices
+#     for length, width, price in marketValues:
+#         if (0 < length <= myPlot_m) and (0 < width <= myPlot_n) and (price > 0):
+#             dp[length][width] = price
+#         else:
+#             raise ValueError(f"The [{length}, {width}, {price}] market valuation is not compatible")
+    
+#     # Traverse all cells
+#     for length in range(myPlot_m + 1):
+#         for width in range(myPlot_n + 1):
+            
+#             # Attempt to slice about the x
+#             for partition in range(length // 2 + 1):
+#                 dp[length][width] = max(dp[length][width], dp[partition][width] + dp[length - partition][width])
+
+#             # Attempt to slice about the y
+#             for partition in range(width // 2 + 1):
+#                 dp[length][width] = max(dp[length][width], dp[length][partition] + dp[length][width - partition])
+
+#     # The best sale price
+#     return dp[myPlot_m][myPlot_n]
+
+
+# m = 20
+# n = 10
+# marketValues = [[]]
+# print(salePrice(m, n, marketValues))
+
+
+
+
+
+# # def salePrice(myPlot_m: int, myPlot_n: int, marketValues: list[list[int]]) -> int: pass
+
+# import unittest
+
+# class TestSalePrice(unittest.TestCase):
+#     def test_salePrice1(self) -> None:
+#         m = 9
+#         n = 15
+#         marketValues = [[3,12,6],[6,6,21],[6,3,9]]
+#         expected = 57
+#         actual = salePrice(m,n,marketValues)
+#         self.assertEqual(expected, actual)
+
+#     def test_salePrice2(self) -> None:
+#         m = 20
+#         n = 30
+#         marketValues = [[3,12,67],[6,16,215],[6,13,90],[20,20,3226]]
+#         expected = 3226
+#         actual = salePrice(m,n,marketValues)
+#         self.assertEqual(expected, actual)
+
+#     def test_salePrice3(self) -> None:
+#         m = 20
+#         n = 10
+#         marketValues = [[3,12,67],[6,6,215],[6,3,90]]
+#         with self.assertRaises(ValueError):
+#             salePrice(m,n,marketValues)
+
+#     def test_salePrice4(self) -> None:
+#         m = 20
+#         n = 10
+#         marketValues = [[6,6,215],[6,3,90],[17,8,916]]
+#         expected = 916
+#         actual = salePrice(m,n,marketValues)
+#         self.assertEqual(expected, actual)
+
+#     def test_salePrice5(self) -> None:
+#         m = 20
+#         n = 10
+#         marketValues = [[3,12,67],[6,6,215],[6,3,-90]]
+#         with self.assertRaises(ValueError):
+#             salePrice(m,n,marketValues)
+
+#     def test_salePrice6(self) -> None:
+#         m = 20
+#         n = 10
+#         marketValues = [[3,12,67],[6,6,215],[-6,3,90]]
+#         with self.assertRaises(ValueError):
+#             salePrice(m,n,marketValues)
+
+#     def test_salePrice7(self) -> None:
+#         m = 20
+#         n = 10
+#         marketValues = [[1,1,215],[6,3,90],[20,10,43001],[19,10,43002]]
+#         expected = 45152
+#         actual = salePrice(m,n,marketValues)
+#         self.assertEqual(expected, actual)
+
+#     def test_salePrice8(self) -> None:
+#         m = 20
+#         n = 10
+#         marketValues = [[]]
+#         expected = 0
+#         actual = salePrice(m,n,marketValues)
+#         self.assertEqual(expected, actual)
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    2316. Count unreachable pairs of nodes in an undirected graph
+
+    You are given an integer n. There is an undirected graph with n nodes, numbered from 0 to n - 1. You are given a 2D integer array edges where edges[i] = [ai, bi] denotes that there exists an undirected edge connecting nodes ai and bi. Return the number of pairs of different nodes that are unreachable from each other.
+
+    App - I help maintain the communal solar farm in my neighborhood and our solar grid has grown to provide energy accross multiple blocks. Every house on the grid is connected so that we can share batteries, which means that new comers do not have to spend a ton right away, all they need is some panels installed to get connected. I am using the following function whenever the grid experiences outage to find out which houses are still connected and which houses are not. The function takes a 2D list where every inner list is two integers in length that represent a pair of connected houses. It also takes the total number of houses on our grid. With that information, this function gives me all disconnected houses, so that I can begin investigating and repairing connections. If the list contains any integers that are out of range, a value error is raised.
+'''
+
+
+
+
+def disconnected(numHomes: int, connections: list[list[int]]) -> list[list[int]]:
+    # Validate the list
+    invalidList = any(element > numHomes or element < 0 for pair in connections for element in pair)
+    if invalidList:
+        raise ValueError("There are invalid connections!")
+
+    # Create a set of all possible connections
+    all_connections = {(min(i, j), max(i, j)) for i in range(numHomes) for j in range(i + 1, numHomes)}
+
+    # Remove the existing connections
+    existing_connections = {tuple(sorted(connection)) for connection in connections}
+    disconnected_pairs = all_connections - existing_connections
+
+    # Convert the set of tuples back to a list of lists
+    disconnected = [list(pair) for pair in disconnected_pairs]
+
+    return disconnected
+
+# Example usage
+# numHomes = 4
+# connections = [[1,0],[6,2],[0,3]]
+# print(disconnected(numHomes, connections))  # Output will be the pairs of homes that are disconnected
+
+
+
+
+# def disconnected(numHomes: int, connections: list[list[int]]) -> list[list[int]]: pass
 
 import unittest
 
-class TestIsTraversable(unittest.TestCase):
-    def test_isTraversable_fourth(self) -> None:
-        power = [36, 45, 27, 9, 54]
-        deplete = [45, 36, 18, 36, 27]
-        expected = [4, 0, 1, 2, 3]
-        actual = isTraversable(power, deplete)
-        self.assertEqual(expected, actual)
+class TestDisconnected(unittest.TestCase):
+    def test_disconnected1(self) -> None:
+        numHomes = 4
+        connections = [[1,2],[2,3]]
+        expected = [[0,1],[0,2],[0,3],[1,3]]
+        actual = disconnected(numHomes, connections)
+        self.assertCountEqual(expected, actual)
 
-    def test_isTraversable_notPossA(self) -> None:
-        power = [12, 18, 24]
-        deplete = [18, 24, 18]
+    def test_disconnected2(self) -> None:
+        numHomes = 7
+        connections = [[0,2],[0,5],[2,4],[1,6],[5,4]]
+        expected = [[0,1],[0,3],[0,6],[1,2],[1,3],[1,4],[1,5],[2,3],[2,6],[3,4],[3,5],[3,6],[4,6],[5,6],[0,4],[2,5]]
+        actual = disconnected(numHomes, connections)
+        self.assertCountEqual(expected, actual)
+
+    def test_disconnected3(self) -> None:
+        numHomes = 4
+        connections = []
+        expected = [[0,1],[2,3],[0,2],[1,2],[0,3],[1,3]]
+        actual = disconnected(numHomes, connections)
+        self.assertCountEqual(expected, actual)
+
+    def test_disconnected4(self) -> None:
+        numHomes = 4
+        connections = [[0,1],[2,3],[0,2],[1,2],[0,3],[1,3]]
         expected = []
-        actual = isTraversable(power, deplete)
-        self.assertEqual(expected, actual)
+        actual = disconnected(numHomes, connections)
+        self.assertCountEqual(expected, actual)
 
-    def test_isTraversable_notPossB(self) -> None:
-        power = [5, 7, 8, 9, 10]
-        deplete = [8, 9, 10, 6, 7]
+    def test_disconnected5(self) -> None:
+        numHomes = 4
+        connections = [[0,1],[2,-3],[1,2],[3,0]]
+        with self.assertRaises(ValueError):
+            disconnected(numHomes, connections)
+
+    def test_disconnected6(self) -> None:
+        numHomes = 4
+        connections = [[0,1],[1,0],[0,1]]
+        expected = [[2,3],[0,2],[1,2],[0,3],[1,3]]
+        actual = disconnected(numHomes, connections)
+        self.assertCountEqual(expected, actual)
+
+    def test_disconnected7(self) -> None:
+        numHomes = 4
+        connections = [[1,0],[6,2],[0,3]]
+        with self.assertRaises(ValueError):
+            disconnected(numHomes, connections)
+
+    def test_disconnected8(self) -> None:
+        numHomes = 3
+        connections = [[2,1],[2,0],[1,0]]
         expected = []
-        actual = isTraversable(power, deplete)
-        self.assertEqual(expected, actual)
-
-    def test_isTraversable_third(self) -> None:
-        power = [6, 7, 8, 9, 10]
-        deplete = [8, 9, 10, 6, 7]
-        expected = [3, 4, 0, 1, 2]
-        actual = isTraversable(power, deplete)
-        self.assertEqual(expected, actual)
-
-    def test_isTraversable_single(self) -> None:
-        power = [6]
-        deplete = [7]
-        expected = []
-        actual = isTraversable(power, deplete)
-        self.assertEqual(expected, actual)
-
-    def test_isTraversable_any(self) -> None:
-        power = [7, 6, 7, 6]
-        deplete = [6, 7, 6, 7]
-        expected = [0, 1, 2, 3]
-        actual = isTraversable(power, deplete)
-        self.assertEqual(expected, actual)
+        actual = disconnected(numHomes, connections)
+        self.assertCountEqual(expected, actual)
 
 
 if __name__ == "__main__":
     unittest.main()
-
-
-
-
-
-
 
 
 
