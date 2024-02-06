@@ -1227,6 +1227,33 @@ NOTE:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 '''
         FUTURE PROMPT&TEST THAT YOU CAN ALIGN WITH THE SPELL CHECKER STORY
 
@@ -2051,23 +2078,23 @@ NOTE:
 
 
 
-def disconnected(numHomes: int, connections: list[list[int]]) -> list[list[int]]:
-    # Validate the list
-    invalidList = any(element > numHomes or element < 0 for pair in connections for element in pair)
-    if invalidList:
-        raise ValueError("There are invalid connections!")
+# def disconnected(numHomes: int, connections: list[list[int]]) -> list[list[int]]:
+#     # Validate the list
+#     invalidList = any(element > numHomes or element < 0 for pair in connections for element in pair)
+#     if invalidList:
+#         raise ValueError("There are invalid connections!")
 
-    # Create a set of all possible connections
-    all_connections = {(min(i, j), max(i, j)) for i in range(numHomes) for j in range(i + 1, numHomes)}
+#     # Create a set of all possible connections
+#     all_connections = {(min(i, j), max(i, j)) for i in range(numHomes) for j in range(i + 1, numHomes)}
 
-    # Remove the existing connections
-    existing_connections = {tuple(sorted(connection)) for connection in connections}
-    disconnected_pairs = all_connections - existing_connections
+#     # Remove the existing connections
+#     existing_connections = {tuple(sorted(connection)) for connection in connections}
+#     disconnected_pairs = all_connections - existing_connections
 
-    # Convert the set of tuples back to a list of lists
-    disconnected = [list(pair) for pair in disconnected_pairs]
+#     # Convert the set of tuples back to a list of lists
+#     disconnected = [list(pair) for pair in disconnected_pairs]
 
-    return disconnected
+#     return disconnected
 
 # Example usage
 # numHomes = 4
@@ -2079,73 +2106,1628 @@ def disconnected(numHomes: int, connections: list[list[int]]) -> list[list[int]]
 
 # def disconnected(numHomes: int, connections: list[list[int]]) -> list[list[int]]: pass
 
+# import unittest
+
+# class TestDisconnected(unittest.TestCase):
+#     def test_disconnected1(self) -> None:
+#         numHomes = 4
+#         connections = [[1,2],[2,3]]
+#         expected = [[0,1],[0,2],[0,3],[1,3]]
+#         actual = disconnected(numHomes, connections)
+#         self.assertCountEqual(expected, actual)
+
+#     def test_disconnected2(self) -> None:
+#         numHomes = 7
+#         connections = [[0,2],[0,5],[2,4],[1,6],[5,4]]
+#         expected = [[0,1],[0,3],[0,6],[1,2],[1,3],[1,4],[1,5],[2,3],[2,6],[3,4],[3,5],[3,6],[4,6],[5,6],[0,4],[2,5]]
+#         actual = disconnected(numHomes, connections)
+#         self.assertCountEqual(expected, actual)
+
+#     def test_disconnected3(self) -> None:
+#         numHomes = 4
+#         connections = []
+#         expected = [[0,1],[2,3],[0,2],[1,2],[0,3],[1,3]]
+#         actual = disconnected(numHomes, connections)
+#         self.assertCountEqual(expected, actual)
+
+#     def test_disconnected4(self) -> None:
+#         numHomes = 4
+#         connections = [[0,1],[2,3],[0,2],[1,2],[0,3],[1,3]]
+#         expected = []
+#         actual = disconnected(numHomes, connections)
+#         self.assertCountEqual(expected, actual)
+
+#     def test_disconnected5(self) -> None:
+#         numHomes = 4
+#         connections = [[0,1],[2,-3],[1,2],[3,0]]
+#         with self.assertRaises(ValueError):
+#             disconnected(numHomes, connections)
+
+#     def test_disconnected6(self) -> None:
+#         numHomes = 4
+#         connections = [[0,1],[1,0],[0,1]]
+#         expected = [[2,3],[0,2],[1,2],[0,3],[1,3]]
+#         actual = disconnected(numHomes, connections)
+#         self.assertCountEqual(expected, actual)
+
+#     def test_disconnected7(self) -> None:
+#         numHomes = 4
+#         connections = [[1,0],[6,2],[0,3]]
+#         with self.assertRaises(ValueError):
+#             disconnected(numHomes, connections)
+
+#     def test_disconnected8(self) -> None:
+#         numHomes = 3
+#         connections = [[2,1],[2,0],[1,0]]
+#         expected = []
+#         actual = disconnected(numHomes, connections)
+#         self.assertCountEqual(expected, actual)
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    146. LRU Cache
+
+    Design a data structure that follows the constraints of a Least Recently Used (LRU) cache. Implement the LRUCache class: 1. LRUCache(int capacity) Initialize the LRU cache with positive size capacity. 2. int get(int key) Return the value of the key if the key exists, otherwise return -1. 3. void put(int key, int value) Update the value of the key if the key exists. Otherwise, add the key-value pair to the cache. If the number of keys exceeds the capacity from this operation, evict the least recently used key. Note that the functions get and put must each run in O(1) average time complexity.
+
+    App - I am interested in computer architecture and have begun my learning journey by implementing a cache simulator. So far, I have implemented a class to simulate a least recently used eviction policy. However, I am getting the wrong answer when I call the "access" method. If I call it on an element that was never inserted with the "insert" method, it should return -1, otherwise, it should return the element thats in the cache, but its not. Can you help me debug this? Here is the class:
+'''
+
+
+# TESTS: MAKE SURE IT RETURNS A POSITIVE SIZE CAPACITY WHEN INITIALIZED.
+
+
+# class LRUCache:
+
+#     def __init__(self, capacity: int) -> None:
+#         if capacity > 0:
+#             self.cacheCapacity = capacity
+#         else:
+#             raise ValueError("Cache capacity must be posiitve!")
+        
+#         self.cache = {}
+#         self.lru = []
+
+#     def get_capacity(self) -> int:
+#         return self.cacheCapacity
+    
+#     def get_cache(self) -> dict[int,int]:
+#         return self.cache
+    
+#     def get_lru(self) -> int:
+#         return self.lru[0]
+
+#     def access(self, tag: int) -> int:
+#         if tag in self.cache:
+#             self.cacheCapacity -= 1
+#             # Update LRU
+#             self.lru.remove(tag)
+#             self.lru.append(tag)
+#             return self.cache[tag]
+#         # else
+#         return -1
+        
+
+#     def insert(self, tag: int, data: int) -> None: 
+#         # If the key already exists, update it
+#         if tag in self.cache:
+#             self.cache[tag] = data
+#             self.lru.remove(tag)
+#             return
+        
+#         # If it doesnt, then check the current capacity
+#         if len(self.cache) > self.cacheCapacity:
+#             # Invoke eviction policy
+#             evict = self.lru.pop(0)
+#             del self.cache[evict]
+#             self.cacheCapacity -= 1
+        
+#         # Insert into cache and increment count
+#         self.cache[tag] = data
+#         self.lru.append(tag)
+#         self.cacheCapacity += 1
+         
+        
+
+
+
+# import unittest
+# class TestLRUCache(unittest.TestCase):
+#     def setUp(self) -> None:
+#         self.instance = LRUCache(3)
+
+#     def test_cache_neg(self) -> None:
+#         with self.assertRaises(ValueError):
+#             self.instance2 = LRUCache(-1)
+
+#     def test_current_capacity(self) -> None:
+#         expected = 3
+#         actual = self.instance.get_capacity()
+#         self.assertEqual(expected, actual)
+
+#     def test_cache_insert(self) -> None:
+#         self.instance.insert(1, 10)
+#         self.instance.insert(2, 20)
+#         self.instance.insert(3, -3)
+#         expected = {1:10, 2:20, 3:-3}
+#         actual = self.instance.get_cache()
+#         self.assertEqual(expected, actual)
+
+#     def test_cache_miss(self) -> None:
+#         expected = -1
+#         actual = self.instance.access(4)
+#         self.assertEqual(expected, actual)
+
+#     def test_cache_hit(self) -> None:
+#         expected = 10
+#         actual = self.instance.access(1)
+#         self.assertEqual(expected, actual)
+
+#     def test_cache_lru(self) -> None:
+#         expected = 2
+#         actual = self.instance.get_lru()
+#         self.assertEqual(expected, actual)
+
+#     def test_cache_evict(self) -> None:
+#         self.instance.insert(4, 45)
+#         expected = {1:10, 3:-3, 4:45}
+#         actual = self.instance.get_cache()
+#         self.assertEqual(expected, actual)
+
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    2319. Check if matrix is a x-matrix
+
+    A square matrix is said to be an X-Matrix if both of the following conditions hold: 1. All the elements in the diagonals of the matrix are non-zero. and 2. All other elements are 0. Given a 2D integer array grid of size n x n representing a square matrix, return true if grid is an X-Matrix. Otherwise, return false.
+
+    App - I am starting my own drone light show company and I have created the following class, which I will be porting over to my fleet of drones so that upon recieving my command, they create the formation encoded within the messege. The drones are represented by an integer id that maps to a pair of strings that store their status and the name of their next formation. The message is a 2D matrix that represents a pixel art image where each cell represents a color intensity and the drone will represent that one cell or pixel in the sky. I just finished three new methods: "is_side_criss_cross", "is_box", and "decode_msg", which accepts the message and figures out the image to draw in the sky, or what I call the "formation". It is crucial that all the drones are syncronized, so every drone in the fleet must always have the same status and formation.
+'''
+
+
+# class DroneFormations:
+#     STATUS_TYPES = ["Disarmed", "Armed", "In Flight"]
+#     FORMATIONS = [
+#         None,
+#         "Criss Cross",
+#         "Side Criss Cross",
+#         "Circle",
+#         "Box",
+#         "Comet Maneuver",
+#     ]
+
+#     def __init__(self, count: int) -> None:
+#         self.droneCount = count
+#         self.droneFleet = {}
+#         for i in range(self.droneCount):
+#             self.droneFleet[i] = (self.STATUS_TYPES[0], self.FORMATIONS[0])
+        
+
+#     def validate_msg(self, msg: list[list[int]]) -> bool:
+#         if not msg:
+#             return False
+#         return True
+
+#     # Set the new Arming status
+#     def arm_drone(self) -> None:
+#         for drone in self.droneFleet:
+#             self.droneFleet[drone] = (self.STATUS_TYPES[1], self.droneFleet[drone][1])
+
+#     def takeoff(self) -> None:
+#         for drone in self.droneFleet:
+#             self.droneFleet[drone] = (self.STATUS_TYPES[2], self.droneFleet[drone][1])
+
+#     def is_side_criss_cross(self, msg: list[list[int]]) -> bool:
+#         dimension = len(msg)
+#         for i in range(dimension):
+#             for j in range(dimension):
+#                 # Check for main diagonal and anti-diagonal
+#                 if i == j or i + j == dimension - 1:
+#                     if msg[i][j] == 0:
+#                         return False
+#                 else:  # Check for non-diagonal elements
+#                     if msg[i][j] != 0:
+#                         return False
+#         return True
+
+#     def is_box(self, msg: list[list[int]]) -> str:
+#         if not msg[0]:
+#             return False
+#         rows, cols = len(msg), len(msg[0])
+#         # Check top and bottom border
+#         if any(msg[0][j] == 0 or msg[rows - 1][j] == 0 for j in range(cols)):
+#             return "Invalid"
+#         # Check left and right border
+#         if any(msg[i][0] == 0 or msg[i][cols - 1] == 0 for i in range(rows)):
+#             return "Invalid"
+#         # Check if it's a square or rectangle
+#         return "Square" if rows == cols else "Rectangle"
+
+#     def decode_msg(self, msg: list[list[int]]) -> None:
+#         # Decode the formation message
+#         if self.validate_msg(msg):
+#             formFlag = 0
+#             if self.is_side_criss_cross(msg):
+#                 formFlag = 2
+#             elif self.is_box(msg):
+#                 formFlag = 4
+#             for drone in self.droneFleet:
+#                 self.droneFleet[drone] = (
+#                     self.droneFleet[drone][0],
+#                     self.FORMATIONS[formFlag],
+#                 )
+#         else:
+#             raise ValueError("Could not decode the formation message!")
+
+
+
+
+# # def is_side_criss_cross(self, msg: list[list[int]]) -> bool: pass
+# # def is_box(self, msg: list[list[int]]) -> str: pass
+# # def decode_msg(self, msg: list[list[int]]) -> None: pass
+
+
+
+# import unittest
+
+# class TestDroneFormations(unittest.TestCase):
+#     def setUp(self) -> None:
+#         numberOfDrones = 4
+#         self.instance = DroneFormations(numberOfDrones)
+
+#     def test_validate1(self) -> None:
+#         msg = [[2,0,0,1],[0,3,1,0],[0,5,2,0],[4,0,0,2]]
+#         self.assertTrue(self.instance.is_side_criss_cross(msg))
+
+#     def test_validate2(self) -> None:
+#         msg = [[8, 3, 1], [1, 0, 2], [1, 2, 5]]
+#         self.assertFalse(self.instance.is_side_criss_cross(msg))
+
+#     def test_validate3(self) -> None:
+#         msg = [[9, 9, 9, 9], [8, 0, 0, 8], [7, 7, 7, 7]]
+#         expected = "Rectangle"
+#         actual = self.instance.is_box(msg)
+#         self.assertEqual(expected, actual)
+
+#     def test_validate4(self) -> None:
+#         msg = [[1, 0, 1], [1, 0, 1], [1, 1, 1]]
+#         expected = "Invalid"
+#         actual = self.instance.is_box(msg)
+#         self.assertEqual(expected, actual)
+
+#     def test_validate5(self) -> None:
+#         msg = [[1, 1, 1], [1, 0, 1], [1, 1, 1]]
+#         expected = "Square"
+#         actual = self.instance.is_box(msg)
+#         self.assertEqual(expected, actual)
+
+#     def test_validate_msg_decode(self) -> None:
+#         msg = [[2,0,0,1],[0,3,1,0],[0,5,2,0],[4,0,0,2]]
+#         expected = "Side Criss Cross"
+#         self.instance.decode_msg(msg)
+#         actual = self.instance.droneFleet[3][1]
+#         self.assertEqual(expected, actual)
+
+#     def test_validate_msg_decode2(self) -> None:
+#         msg = []
+#         with self.assertRaises(ValueError):
+#             self.instance.decode_msg(msg)
+
+
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    149. Max points on a line
+
+    Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane, return the maximum number of points that lie on the same straight line.
+
+    App - As an engineer and scientist, I have been anxious to try a sophisticated experiment for a while. One that is not new, but is famous and has chilling implications and I think I am finally ready to perform it. General relativity predicted the curvature of spacetime and that gravity can bend light. This was proven by Eddington when a solar eclipse blocked the sun just enough to see stars that are aligned with the sun, i.e., behind the sun. During a solar eclipse, the Sun, Moon, and Earth are aligned. The Moon passes between the Earth and the Sun, blocking the Sun's light. We know the star's position in the sky, so if the star apears to be shifted, then it proves that gravity bends light. I am using the following function to run continuously with input from my telescope to predict when it is possible to perform this beautiful experiment. In other words, my function will tell me when a certain number of cellestial bodies become aligned. It takes a 2D list of candidate coordinates and returns the max number of heavenly bodies that will aligned.
+'''
+
+
+# from collections import defaultdict
+
+# class Interstellar:
+
+#     class CelestialBody:
+#         def __init__(self, currCoords:list[int], date:str) -> None:
+#             self.currentCoords = currCoords
+#             self.date = date
+
+
+#     def __init__(self, newData: dict[str : (list[int], str)]) -> None: 
+#         self.celestialBodies = {}
+#         # Unpack the data and organize it 
+#         for name, (coords, date) in newData.items():
+#             new_body = self.CelestialBody(coords, date)
+#             self.celestialBodies[name] = new_body
+
+#     # Add a singleton
+#     def add_celestial_body(self, name:str, coords:list[int], date:str) -> None: 
+#         new_body = self.CelestialBody(coords, date)
+#         self.celestialBodies[name] = new_body
+
+#     def remove_celestial_body(self, name:str, clear:bool) -> None: 
+#         if clear:
+#             self.celestialBodies.clear()
+#             return
+        
+#         if name in self.celestialBodies:
+#             del self.celestialBodies[name]
+
+#     # Used to resolve discrepancies
+#     def update_body_position(self, name:str, newPosition:list[int], date:str) -> None: 
+#         if name in self.celestialBodies:
+#             self.remove_celestial_body(name, False)
+#             self.add_celestial_body(name, newPosition, date)
+#         else:
+#             raise LookupError(f"There was no {name} entry!")
+        
+#     def extract_coords(self) -> list[list[int]]:
+#         points = []
+#         for name, body in self.celestialBodies.items():
+#             points.append(body.currentCoords)
+
+#         return points
+
+#     def predict_alignment_gcd_help(self, pointA:int, pointB:int) -> int:
+#         while pointB:
+#             pointA, pointB = pointB, pointA % pointB
+#         return pointA
+    
+#     def predict_alignment_slope_help(self, pointA:int, pointB:int) -> (int, int):
+#         dx, dy = pointA[0] - pointB[0], pointA[1] - pointB[1]
+#         # Vertical line
+#         if dx == 0:  
+#             return 'inf'
+#          # Horizontal line
+#         if dy == 0: 
+#             return 0
+#         d = self.predict_alignment_gcd_help(dx, dy)
+#         return (dy // d, dx // d)
+
+
+#     def predict_alignment(self) -> int:
+#         celestialCoords = self.extract_coords()
+        
+#         if len(celestialCoords) <= 2:
+#             return len(celestialCoords)
+
+#         maxAligned = 0
+#         for i in range(len(celestialCoords)):
+#             slopes = defaultdict(int)
+#             same = 1  # Count the point itself
+#             for j in range(len(celestialCoords)):
+#                 if i != j:
+#                     if celestialCoords[i] == celestialCoords[j]:
+#                         same += 1  # Overlapping point
+#                     else:
+#                         slopes[self.predict_alignment_slope_help(celestialCoords[i], celestialCoords[j])] += 1
+#             maxAligned = max(maxAligned, max(slopes.values(), default=0) + same)
+
+#         return maxAligned
+
+
+
+
+# # def predict_alignment(self) -> int: pass
+# # def update_body_position(self, name:str, newPosition:list[int], date:str) -> None: pass
+
+
+
+
+
+# import unittest
+
+# class TestInterstellar(unittest.TestCase):
+#     def setUp(self) -> None: 
+#         newData = {"Moon": ([3,3], "1/1/2024"), "Earth": ([6,6], "1/1/24"), "Sun": ([9,9], "2024-01-01"), "Hyades": ([12,12], "01/01/2024")}
+#         self.inerstellar = Interstellar(newData)
+#         newData2 = {"Moon": ([3,3], "1/1/2024"), "Mars": ([9,6], "1/1/24"), "Sun": ([15,9], "2024-01-01"), "Haley": ([12,3], "4-17-24"), "Andromeda": ([6,9], "1-20-24"), "Jupiter": ([3,12], "2-1-24")}
+#         self.inerstellar2 = Interstellar(newData2)
+
+#     def test_predict_alignment(self) -> None:
+#         expected = 4
+#         actual = self.inerstellar.predict_alignment()
+#         self.assertEqual(expected, actual)
+
+#     def test_predict_alignment2(self) -> None:
+#         expected = 4
+#         actual = self.inerstellar2.predict_alignment()
+#         self.assertEqual(expected, actual)
+
+#     def test_update(self) -> None:
+#         with self.assertRaises(LookupError):
+#             self.inerstellar.update_body_position("Haley", [3,12], "4/17/2024")
+
+#     def test_update2(self) -> None:    
+#         self.inerstellar.update_body_position("Moon", [3,8], "1/31/2024")
+#         expected = 3
+#         actual = self.inerstellar.predict_alignment()
+#         self.assertEqual(expected, actual)
+
+
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    23.20 Count number of ways to place a house
+
+    There is a street with n * 2 plots, where there are n plots on each side of the street. The plots on each side are numbered from 1 to n. On each plot, a house can be placed. Return the number of ways houses can be placed such that no two houses are adjacent to each other on the same side of the street. Since the answer may be very large, return it modulo 109 + 7. Note that if a house is placed on the ith plot on one side of the street, a house can also be placed on the ith plot on the other side of the street.
+
+    App - I am installing ports for robotic delivery, i.e., robots deliver food to special mailboxes we call "ports" that are placed in sub-divisions and apartment complexes. These first generation ports produce a significant amount of data transmission and are sensitive to electromagnetic interferance (EMI), so we have the constraint of not placing ports next to eachother. Also, we guarantee two independent locations, within the area of installation, with enough space to accomidate half of the ports being installed. To streamline the installation team's task, I am implementing the following "PortConfiguration" class, which will help in the port placement and configuration layout. I have just finished the "valid_configurations" function but it is returning the wrong value. It is supposed to return the total number of possible configurations of installing exactly 'n' ports within '2n' available spaces, but the count is always off. The function uses the member variable "numPorts" in the calculation, which is passed in when a class instance is initialized. If numPorts is not positive, then a value error should be raised. Similarly, if the wrong type or size of port is passed in, a type error will be raised. We offer large, medium, and small sizes and aerial or land type ports. NOTE: GPT cannot solve this!!!!
+'''
+
+
+
+
+# class PortConfiguration:
+#     PORT_TYPES = {"Aerial": 0, "Land": 1}
+#     PORT_SIZES = {"Large": 0, "Medium": 1, "Small": 2}
+
+#     class Ports:
+#         def __init__(self, t:str, s:int) -> None:
+#             self.portType = t
+#             self.portSize = s
+
+#         def __repr__(self): 
+#             return f"Ports(portType='{self.portType}', portSize='{self.portSize}')"
+            
+#     def __init__(self, type:str, size:int, amount:int) -> None:
+#         if amount > 0:
+#             self.numPorts = amount
+#         else:
+#             raise ValueError
+        
+#         if type in self.PORT_TYPES and size in self.PORT_SIZES:
+#             self.ports = []
+#             for _ in range(amount):
+#                 currPort = self.Ports(type, size)
+#                 self.ports.append(currPort)
+#         else:
+#             raise TypeError
+        
+#     def display_ports(self) -> None:
+#         print(self.ports)
+
+#     def total_configurations(self) -> int:
+#         # Base cases: 1 way for 0 ports, 2 ways for 1 port
+#         portConfigs = [0] * (self.numPorts + 1)
+#         portConfigs[0], portConfigs[1] = 1, 2  
+        
+#         for i in range(2, self.numPorts + 1):
+#             portConfigs[i] = (portConfigs[i-1] + portConfigs[i-2]) 
+        
+#         # Since the config in a location is independent of the other,
+#         # the total number of configs is the square of configs on one side.
+#         return (portConfigs[self.numPorts] * portConfigs[self.numPorts])
+    
+#     def valid_configurations(self) -> int:
+#         # For numPorts = 1, there are 2 ways: one port on either side.
+#         if self.numPorts == 1:
+#             return 2
+        
+#         # For numPorts > 1, calculate configs considering no two ports are adjacent.
+#         # Initialize dp arrays for single and double port placements.
+#         single = [0] * (self.numPorts + 1)  # Ways to config in a location.
+#         double = [0] * (self.numPorts + 1)  # Ways to config in both locations considering exact numPorts ports in total.
+        
+#         # Base cases
+#         single[1] = 2  # Two ways to config a single port in a location.
+#         double[1] = 2  # Two ways for numPorts = 1, as described.
+        
+#         for i in range(2, self.numPorts + 1):
+#             single[i] = (single[i-1] + single[i-2])   # Same as before, for one location.
+#             # For double, consider placing a port in each location on this step.
+#             double[i] = (double[i-1] + single[i-1] * single[i-1]) 
+        
+#         return double[self.numPorts]
+
+
+    
+
+# myObject1 = PortConfiguration("Aerial", "Large", 15)
+# print(myObject1.display_ports())
+# myObject2 = PortConfiguration("Aerial", "Large", 2)
+# myObject3= PortConfiguration("Aerial", "Large", 1)
+# print(myObject1.total_configurations())  # Output: 2
+# print(myObject2.total_configurations())  # Output: 9
+# print(myObject3.total_configurations())  # Output: 25
+
+# print(myObject1.valid_configurations())  # Output: 2
+# print(myObject2.valid_configurations())  # Output: 4
+# print(myObject3.valid_configurations())  # Output: 6
+
+
+# import unittest
+
+# class TestPortConfiguration(unittest.TestCase):
+#     def setUp(self) -> None:
+#         self.myPorts1 = PortConfiguration("Land", "Small", 2)
+#         self.myPorts2 = PortConfiguration("Aerial", "Large", 3)
+
+#     def test_portConfig1(self) -> None:
+#         expected = 2
+#         actual = self.myPorts1.valid_configurations()
+#         self.assertEqual(expected, actual)
+
+#     def test_portConfig2(self) -> None:
+#         expected = 6
+#         actual = self.myPorts2.valid_configurations()
+#         self.assertEqual(expected, actual)
+
+#     def test_numPorts(self) -> None:
+#         with self.assertRaises(ValueError):
+#             self.myPorts3 = PortConfiguration("Land", "Small", -1)
+
+#     def test_typePorts(self) -> None:
+#         with self.assertRaises(TypeError):
+#             self.myPorts4 = PortConfiguration("Land", "Extralarge", 1)
+        
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    160. Intersection of twi linked lists
+
+    Given the heads of two singly linked-lists headA and headB, return the node at which the two lists intersect. If the two linked lists have no intersection at all, return null. Note that the linked lists must retain their original structure after the function returns.
+    
+    App - At my company, we are implementing our own version control system much like Git, and I am working on a function called "find_merge_base" which is used when merging two branches using the concept of linked lists. In our version control system, each commit is represented as a node in a singly linked list, and a branch is a pointer to a commit node. Merging two branches involves finding a common ancestor, i.e., finding an intersection point in the linked list, and then appending the non-common part of the branch being merged into the target branch. The function "find_merge_base" takes the head of two linked lists and returns the common ancestor. If there are no common ancestors, then it should return None. Also, it should return the head for identical lists.
+'''
+
+# from typing import Callable, Iterator, Union, Optional
+
+# class ListNode:
+#     def __init__(self, commit_id):
+#         self.commit_id = commit_id
+#         self.next = None
+
+# class VersionControlSystem:
+
+#     def __init__(self) -> None: pass
+
+#     def find_merge_base(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]: 
+#         currentA, currentB = headA, headB
+#         nodesA, nodesB = set(), set()
+#         # Traverse each list and find the common ancestor
+#         while currentA or currentB:
+#             if currentA:
+#                 if currentA in nodesB:
+#                     # Found it in the first list
+#                     return currentA
+#                 nodesA.add(currentA)
+#                 currentA = currentA.next
+#             if currentB:
+#                 if currentB in nodesA:
+#                     # Found it in the second list
+#                     return currentB
+#                 nodesB.add(currentB)
+#                 currentB = currentB.next
+        
+#         return None
+    
+#     def simple_merge(target_branch_head: ListNode, source_branch_head: ListNode, merge_base: ListNode) -> None:
+#         # Find the last commit of the target branch
+#         last_commit = target_branch_head
+#         while last_commit.next:
+#             last_commit = last_commit.next
+        
+#         # Find the start of the unique part of the source branch
+#         unique_start = source_branch_head
+#         while unique_start and unique_start != merge_base:
+#             unique_start = unique_start.next
+        
+#         # Append the unique part of the source branch to the target branch
+#         if unique_start:
+#             # Skip the merge base itself
+#             unique_start = unique_start.next  
+#             last_commit.next = unique_start
+
+
+
+
+
+
+
+# import unittest
+
+# class TestVersionControlSystem(unittest.TestCase):
+#     def setUp(self) -> None: 
+#         self.obj = VersionControlSystem()
+
+#     def test_vcs1(self) -> None:
+#         headA = ListNode(1)
+#         headA.next = ListNode(2)
+#         headB = ListNode(3)
+#         headB.next = ListNode(4)
+#         self.assertIsNone(self.obj.find_merge_base(headA, headB))
+
+#     def test_vcs2(self) -> None:
+#         head = ListNode(1)
+#         head.next = ListNode(2)
+#         self.assertIs(self.obj.find_merge_base(head, head), head)
+
+#     def test_vcs3(self) -> None:
+#         # Create the merge base node
+#         merge_base = ListNode(3)  
+#         headA = ListNode(1)
+#         headA.next = ListNode(2)
+#         # Use the same merge base node in list A
+#         headA.next.next = merge_base  
+#         headB = ListNode(4)
+#         # Use the same merge base node in list B
+#         headB.next = merge_base  
+#         self.assertIs(self.obj.find_merge_base(headA, headB), merge_base)
+
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    164. Maximum Gap
+
+    Given an integer array nums, return the maximum difference between two successive elements in its sorted form. If the array contains less than two elements, return 0. You must write an algorithm that runs in linear time and uses linear extra space.
+
+    App - I implemented a function to help me research the types of influence that make certain stock shares volatile. This function identifies large gaps between share prices on successive days, which in turn indicates high volatility. Once I've learned about the points where these large gaps occur, I map them to their respective influence, which could be related to the economy, geopolitical events, or even changes in market sentiment. I pass this volatility indicator function a list of daily share prices, "dailyPrices", where each element in the list is a day and its corresponding share price, and it returns the most considerable difference between successive days. The function should be capable of calculating the biggest gap when encountering negative values, and should also be correct regardless of the initial order of elements.
+'''
+
+
+
+
+# def volatilityIndicator(dailyPrices: list[int]) -> int:
+#     dailyPrices=sorted(dailyPrices)
+#     min=float("-inf")
+#     if len(dailyPrices)<2:
+#         return 0
+#     for i in range(len(dailyPrices)-1):
+#         x=abs(dailyPrices[i]-dailyPrices[i+1])
+#         if min<x:
+#             min=x
+#     return min
+    
+
+# print(volatilityIndicator([-300, 300, 700, -700, 1000, -100, -1000, 56000, 560, 45000, 300, 700]))
+
+# import unittest
+
+# class TestVolatilityIndicator(unittest.TestCase):
+#     def test_volatility1(self) -> None:
+#         dailyPrices = []
+#         expected = 0
+#         actual = volatilityIndicator(dailyPrices)
+#         self.assertEqual(expected, actual)
+
+#     def test_volatility2(self) -> None:
+#         dailyPrices = [100]
+#         expected = 0
+#         actual = volatilityIndicator(dailyPrices)
+#         self.assertEqual(expected, actual)
+
+#     def test_volatility3(self) -> None:
+#         dailyPrices = [300, 600, 900, 100]
+#         expected = 300
+#         actual = volatilityIndicator(dailyPrices)
+#         self.assertEqual(expected, actual)
+
+#     def test_volatility4(self) -> None:
+#         dailyPrices = [34000000000, 7000000000, 1000000000000]
+#         expected = 966000000000
+#         actual = volatilityIndicator(dailyPrices)
+#         self.assertEqual(expected, actual)
+
+#     def test_volatility5(self) -> None:
+#         dailyPrices = [900, 900, 900, 900]
+#         expected = 0
+#         actual = volatilityIndicator(dailyPrices)
+#         self.assertEqual(expected, actual)
+
+#     def test_volatility6(self) -> None:
+#         dailyPrices = [-300, -700, -100]
+#         expected = 400
+#         actual = volatilityIndicator(dailyPrices)
+#         self.assertEqual(expected, actual)
+
+#     def test_volatility7(self) -> None:
+#         dailyPrices = [-300, 300, 700, -700, 1000, -100, -1000, 56000, 560, 45000, 300, 700]
+#         expected = 44000
+#         actual = volatilityIndicator(dailyPrices)
+#         self.assertEqual(expected, actual)
+
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    2323. Find minimum time to finish all jobs 2
+
+    You are given two 0-indexed integer arrays jobs and workers of equal length, where jobs[i] is the amount of time needed to complete the ith job, and workers[j] is the amount of time the jth worker can work each day. Each job should be assigned to exactly one worker, such that each worker completes exactly one job. Return the minimum number of days needed to complete all the jobs after assignment.
+
+    App - I wrote a method that takes two integer lists as arguments where one is "flightTimes" which represents a set of unmanned aerial vehicles (UAVs) and their respective flight time, i.e., the number of minutes the UAV can fly, which we keep as an integer. These UAVs make commercial deliveries for the supermarket directly to customer homes. The other list represents the duration of flight time, again as integers, required to traverse the straight line distance to an arbitrary customer home where the UAV lands on top of a charge-point. The list is called "flightDurations". The function takes these lists and creates a one-to-one correspondence between the two such that it is possible to return the minimum number of charge-point interceptions possible. A charge-point interception is when the UAV does not have enough battery power, i.e., flight time available to deliver its payload, and has to stop at the nearest charge-point along the route to charge up, effectively making two trips. All deliveries are two trips, i.e., flights perform at least one charge-point interception because every customer provides and is required to have a charge-point. The charge-point is what accepts the delivery from the UAV, and it charges the UAV's battery when making the drop-off, so 1 is the absolute min and is what we strive for. Regarding the input lists, if a one-to-one correspondence is not possible, for any reason, then there should be a value error raised.
+'''
+
+
+
+
+# def min_charge_point_intercept(flightDurations: list[int], flightTimes: list[int]) -> int:
+#     if (not len(flightDurations) == len(flightTimes)) or not len(flightDurations) or not len(flightTimes):
+#         raise ValueError
+#     return max((j+w-1)//w for j, w in zip(sorted(flightDurations), sorted(flightTimes)))
+
+
+# flightTimes = [1, 2, 3] # w
+# flightDurations = [5, 6, 7] # j
+# print(min_charge_point_intercept(flightDurations, flightTimes))
+
+
+
+# import unittest
+
+# class TestMinChargePointIntercept(unittest.TestCase):
+#     def test_min_intercept1(self) -> None:
+#         flightTimes = [25,10,20]
+#         flightDurations = [5,35,25]
+#         expected = 2
+#         actual = min_charge_point_intercept(flightDurations, flightTimes)
+#         self.assertTrue(expected == actual)
+
+#     def test_min_intercept2(self) -> None:
+#         flightTimes = [12,10,2,6]
+#         flightDurations = [6,36,30,18]
+#         expected = 3
+#         actual = min_charge_point_intercept(flightDurations, flightTimes)
+#         self.assertTrue(expected == actual)
+
+#     def test_min_intercept3(self) -> None:
+#         flightTimes = [12,10,2,6]
+#         flightDurations = [6,36,30,18,26]
+#         with self.assertRaises(ValueError):
+#             min_charge_point_intercept(flightDurations, flightTimes)
+
+#     def test_min_intercept4(self) -> None:
+#         flightTimes = [12,12,12,12]
+#         flightDurations = [12,12,12,12]
+#         expected = 1
+#         actual = min_charge_point_intercept(flightDurations, flightTimes)
+#         self.assertTrue(expected == actual)
+
+#     def test_min_intercept5(self) -> None:
+#         flightTimes = [12121212]
+#         flightDurations = [12121212]
+#         expected = 1
+#         actual = min_charge_point_intercept(flightDurations, flightTimes)
+#         self.assertTrue(expected == actual)
+
+#     def test_min_intercept6(self) -> None:
+#         flightTimes = [20,40,60]
+#         flightDurations = [100,120,140]
+#         expected = 5
+#         actual = min_charge_point_intercept(flightDurations, flightTimes)
+#         self.assertTrue(expected == actual)
+
+#     def test_min_intercept7(self) -> None:
+#         flightTimes = []
+#         flightDurations = []
+#         with self.assertRaises(ValueError):
+#             min_charge_point_intercept(flightDurations, flightTimes)
+
+#     def test_min_intercept8(self) -> None:
+#         flightTimes = [20,20,30]
+#         flightDurations = [30,30,20]
+#         expected = 2
+#         actual = min_charge_point_intercept(flightDurations, flightTimes)
+#         self.assertTrue(expected == actual)
+        
+
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    167. Two sum 2 - input is sorted
+
+    Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number. Let these two numbers be numbers[index1] and numbers[index2] where 1 <= index1 < index2 <= numbers.length. Return the indices of the two numbers, index1 and index2, added by one as an integer array [index1, index2] of length 2.
+
+    App - My online store needs special promotions for the holiday season, so I implemented a Python function that will help facilitate promotional bundles that meet a specific price point to encourage consumers to purchase more. I've noticed that often, people ask for deals regarding some budget they emphasized, so the function, called "promotionBundle", will be passed item prices directly from the customer's digital shopping cart to calculate two items that meet their budget. Once the two items are found, given the inventory is appropriate, the customer will see a special message indicating the tailored promotional bundle, which is not relevant to said function. The function's first parameter, "customerItems", is a nested dictionary data structure of item names or strings as the keys and a nested dict of float and integer as the value where the float is the item price and the integer is the inventory count. For example, the dictionary is structured like this: customerItems = {"item name": {item price : float, inventory count : int}}, ...,{str : {float : int}}}. The function's second parameter is "customerBudget", which is a float. The function then returns the indices of the two items in a list. If no solution is found, for whatever reason, the function returns "None". If the "customerItems" list contains duplicates, only the first occurrence should be considered, unless the first occurrence inventory is zero, then try the next occurrence and so forth.
+
+    
+'''
+
+
+
+
+
+# def promotionBundle2(customerItems: list[int], customerBudget: int) -> list[int]:
+#     i,j = 0, len(customerItems) - 1
+#     while i < j:
+#         if customerItems[i] + customerItems[j] == customerBudget:
+#             return [i,j]
+#         elif customerItems[i] + customerItems[j] > customerBudget:
+#             j -= 1
+#         else:
+#             i += 1
+        
+
+# customerItems = {"soap": [2, 2], "usb charger": [7, 15], "toothbrush": [11, 30], "4K Interstellar Blu-Ray": [15, 1]}
+# cI = [4.99, 14.99, 9.99]
+# customerBudget = 19.98
+# print(promotionBundle2(cI, customerBudget))
+
+
+
+# def promotionBundle(customerItems: dict[str, dict[float, int]], customerBudget: float) -> list[str]: pass
+
+# import unittest
+
+# class TestPromotionBundle(unittest.TestCase):
+#     def test_promot_bundle1(self) -> None:
+#         customerItems = {"soap": {4 : 2}, "usb charger": {14 : 15}, "toothbrush": {22 : 30}, "4K Interstellar Blu-Ray": {30 : 1}}
+#         customerBudget = 18
+#         expected = ["soap","usb charger"]
+#         actual = promotionBundle(customerItems, customerBudget)
+#         self.assertEqual(expected, actual)
+
+#     def test_promot_bundle2(self) -> None:
+#         customerItems = {"usb-c charger": {25 : 2}, "4K Interstellar Blu-Ray": {30 : 15}, "iPhone case": {60 : 30}, "Nike Hoodie": {90 : 1}}
+#         customerBudget = 50
+#         actual = promotionBundle(customerItems, customerBudget)
+#         self.assertIsNone(actual)
+
+#     def test_promot_bundle3(self) -> None:
+#         customerItems = {"soap": {4 : 2}, "usb charger": {14 : 0}, "toothbrush": {22 : 30}, "4K Interstellar Blu-Ray": {30 : 1}}
+#         customerBudget = 18
+#         actual = promotionBundle(customerItems, customerBudget)
+#         self.assertIsNone(actual)
+
+#     def test_promot_bundle4(self) -> None:
+#         customerItems = {"soap": {4 : 2}, "soap": {4 : 2}, "usb charger": {14 : 15}, "toothbrush": {22 : 30}, "4K Interstellar Blu-Ray": {30 : 1}}
+#         customerBudget = 18
+#         expected = ["soap","usb charger"]
+#         actual = promotionBundle(customerItems, customerBudget)
+#         self.assertEqual(expected, actual)
+
+#     def test_promot_bundle5(self) -> None:
+#         customerItems = {"soap": {4 : 0}, "soap": {4 : 2}, "usb charger": {14 : 15}, "toothbrush": {22 : 30}, "4K Interstellar Blu-Ray": {30 : 1}}
+#         customerBudget = 18
+#         expected = ["soap","usb charger"]
+#         actual = promotionBundle(customerItems, customerBudget)
+#         self.assertEqual(expected, actual)
+
+#     def test_promot_bundle6(self) -> None:
+#         customerItems = {"bar soap": {1 : 1}, "hand soap": {2 : 2}, "usb charger": {3 : 15}, "toothbrush": {4 : 30}, "4K Interstellar Blu-Ray": {5 : 1}}
+#         customerBudget = 9
+#         expected = ["toothbrush","4K Interstellar Blu-Ray"]
+#         actual = promotionBundle(customerItems, customerBudget)
+#         self.assertEqual(expected, actual)
+
+#     def test_promot_bundle7(self) -> None:
+#         customerItems = {"bar soap": {10 : 1}, "hand soap": {10 : 2}, "usb charger": {10 : 15}, "toothbrush": {10 : 30}, "4K Interstellar Blu-Ray": {10 : 1}}
+#         customerBudget = 20
+#         expected = ["bar soap","4K Interstellar Blu-Ray"]
+#         actual = promotionBundle(customerItems, customerBudget)
+#         self.assertEqual(expected, actual)
+
+#     def test_promot_bundle8(self) -> None:
+#         customerItems = {"usb charger": {4.99 : 15}, "toothbrush": {14.99, 30}, "4K Interstellar Blu-Ray": {9.99 : 1}}
+#         customerBudget = 19.98
+#         expected = ["usb charger","toothbrush"]
+#         actual = promotionBundle(customerItems, customerBudget)
+#         self.assertEqual(expected, actual)
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+
+    NOTE: Repurpose the 170. Two sum 3
+
+    You can use the same app as above?
+
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+'''
+    2327. Number of people aware of a secret
+
+    On day 1, one person discovers a secret. You are given an integer delay, which means that each person will share the secret with a new person every day, starting from delay days after discovering the secret. You are also given an integer forget, which means that each person will forget the secret forget days after discovering it. A person cannot share the secret on the same day they forgot it, or on any day afterwards. Given an integer n, return the number of people who know the secret at the end of day n. Since the answer may be very large, return it modulo 10^9 + 7.
+
+    App - As part of a Black Friday promotional deal this year, I have been tasked with creating an algorithm that will quantify the number of people the deal has propagated to. In other words, it will calculate and report exactly how many people have recieved the deal. This exclusive deal is shared and spread, within some set interval, by selected customers. Customers are told that they can begin sending the deal to family and friends after a specific number of days, or what they are calling "prime day". They can share it up until it expires. Therefore, the function I wrote accpets 3 integers, "numDays", which is the total number of days the promotional deal spans, "primeDay" which is the number of days until a customer's activation day, i.e., the number of days until prime day, when the deal becomes sharable by its owner. The third parameter is "expireDay" which is the number of days the deal is valid for its specific customer, which is different from the total duration of the promotion "numDays". Note that "expireDay" should be greater than the "primeDay", and the function should not be given any non-positive integers, otherwise, a value error should be raised. The number of days the deal is valid for should never be less than 2 nor greater than 365 either, otherwise a value error will be raised.
+'''
+
+
+
+
+# # MAX_N = 684 (1.8 years!)
+# def black_friday_exclusive(numDays: int, primeDay: int, expireDay: int) -> int:
+#     if (numDays < 2 or numDays > 365) or (primeDay < 1) or (expireDay < 1) or (expireDay < primeDay):
+#         raise ValueError
+
+#     dp = [0] * numDays
+#     dp[0] = 1
+
+#     for i in range(0, numDays):
+#         for j in range(i - expireDay + 1, i - primeDay + 1):
+#             # people who know the news from day i - forgot + 1 to 
+#             # i - dealy can share the news on day i. 
+#             if j >= 0:
+#                 dp[i] += dp[j]
+
+#     return sum(dp[-1 - expireDay + 1:]) 
+
+
+
+# nd = 365
+# pd = 18
+# ed = 177
+
+# print("Num Peeps:", black_friday_exclusive(nd, pd, ed))
+
+
+
+
+
+
+
+
+
+# import unittest
+
+# class TestBlackFridayExclusive(unittest.TestCase):
+#     def test_exclusive1(self) -> None:
+#         numDays = 366
+#         pDay = 3
+#         eDay = 4
+#         with self.assertRaises(ValueError):
+#             black_friday_exclusive(numDays, pDay, eDay)
+
+#     def test_exclusive2(self) -> None:
+#         numDays = 1
+#         pDay = 3
+#         eDay = 4
+#         with self.assertRaises(ValueError):
+#             black_friday_exclusive(numDays, pDay, eDay)
+
+#     def test_exclusive3(self) -> None:
+#         numDays = 3
+#         pDay = 0
+#         eDay = 4
+#         with self.assertRaises(ValueError):
+#             black_friday_exclusive(numDays, pDay, eDay)
+
+#     def test_exclusive4(self) -> None:
+#         numDays = 3
+#         pDay = 4
+#         eDay = 0
+#         with self.assertRaises(ValueError):
+#             black_friday_exclusive(numDays, pDay, eDay)
+        
+
+#     def test_exclusive5(self) -> None:
+#         numDays = 4
+#         pDay = 1
+#         eDay = 3
+#         expected = 6
+#         actual = black_friday_exclusive(numDays, pDay, eDay)
+#         self.assertEqual(expected, actual)
+
+#     def test_exclusive6(self) -> None:
+#         numDays = 6
+#         pDay = 2
+#         eDay = 4
+#         expected = 5
+#         actual = black_friday_exclusive(numDays, pDay, eDay)
+#         self.assertEqual(expected, actual)
+
+#     def test_exclusive7(self) -> None:
+#         numDays = 10
+#         pDay = 3
+#         eDay = 4
+#         expected = 2
+#         actual = black_friday_exclusive(numDays, pDay, eDay)
+#         self.assertEqual(expected, actual)
+
+#     def test_exclusive8(self) -> None:
+#         numDays = 2
+#         pDay = 4
+#         eDay = 3
+#         with self.assertRaises(ValueError):
+#             black_friday_exclusive(numDays, pDay, eDay)
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    2328. Number of increasing paths in a grid
+
+    You are given an m x n integer matrix grid, where you can move from a cell to any adjacent cell in all 4 directions. Return the number of strictly increasing paths in the grid such that you can start from any cell and end at any cell. Since the answer may be very large, return it modulo 109 + 7. Two paths are considered different if they do not have exactly the same sequence of visited cells.
+
+    App - My team and I are building an excersise app thats focused on exploration and outdoor activities, so it has geo-mapping capabilities. I just implemented a new terrain analysis feature in the form of a function, but it is returning the incorrect value. Can you help me debug it? It tells users where routes are for hiking and mountain biking that require a continuous ascent. The function takes a single argument "terrain", which is a 2D matrix that represents some physical area that the user is interested in and models paths across "terrain" where each cell represents elevation. It then returns the number of all routes in the area spanning "terrain" that are strictly elevating. The function raises a value error if passed an argument with a dimension greater than 100 or less than two.
+'''
+
+
+
+
+
+# def number_of_routes(terrain: list[list[int]]) -> int:      
+#     n = len(terrain)        
+#     m = len(terrain[0])     
+#     MIN_DIM, MAX_DIM = 1, 101  
+
+#     if not ((MIN_DIM < n < MAX_DIM) and (MIN_DIM < m < MAX_DIM)):
+#         raise ValueError
+    
+#     dp = [[-1 for _ in range(m)] for _ in range(n)]
+#     directions=[[1,0],[-1,0],[0,-1],[0,1]]
+    
+#     def routes_helper_dfs(row:int, col:int, prev:int) -> int:
+#         if row < 0 or col < 0 or row >= n or col >= m or terrain[row][col] <= prev:
+#             return 0
+#         if dp[row][col] != -1: 
+#             return dp[row][col]
+                    
+#         routes = 0
+#         for dx, dy in directions:
+#             newRow = row + dx
+#             newCol = col + dy
+#             routes += routes_helper_dfs(newRow, newCol, terrain[row][col])
+#         dp[row][col] = routes
+#         return routes
+    
+#     totalRoutes = 0
+#     for row in range(n):
+#         for col in range(m):
+#             totalRoutes += routes_helper_dfs(row, col, -1)
+#     return totalRoutes 
+
+
+
+# t = [[2,2,2,2],[2,2,2,2],[2,2,2,2],[2,2,2,2]]
+# print("Num routes:", number_of_routes(t))
+
+
+
+
+
+# import unittest
+
+# class TestNumberOfRoutes(unittest.TestCase):
+#     def test_num_routes1(self) -> None:
+#         ter = [[3,3],[9,12]]
+#         expected = 8
+#         actual = number_of_routes(ter)
+#         self.assertEqual(expected, actual)
+
+#     def test_num_routes2(self) -> None:
+#         ter = [[1],[3]]
+#         with self.assertRaises(ValueError):
+#             number_of_routes(ter)
+
+#     def test_num_routes3(self) -> None:
+#         ter = [[1]]
+#         for i in range(100):
+#             ter.append([i])
+#         with self.assertRaises(ValueError):
+#             number_of_routes(ter)
+
+#     def test_num_routes4(self) -> None:
+#         ter = [[-1,-1],[-2,-3],[-4,-4],[-5,-6],[-2,-3],[-1,-1]]
+#         expected = 0
+#         actual = number_of_routes(ter)
+#         self.assertEqual(expected, actual)
+        
+#     def test_num_routes5(self) -> None:
+#         ter = [[2,2,2,2],[2,2,2,2],[2,2,2,2],[2,2,2,2]]
+#         expected = 0
+#         actual = number_of_routes(ter)
+#         self.assertEqual(expected, actual)
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    179. Largest Number
+
+    Given a list of non-negative integers nums, arrange them such that they form the largest number and return it. Since the result may be very large, so you need to return a string instead of an integer.
+
+    App - The following code snippet works in conjunction with a scoring system that evaluates and prioritizes investment strategies based on their potential return, risk, and other relevant factors. Each investment strategy is assigned a unique non-negative integer identifier. For example, the first digit represents the risk category (0 for low, 9 for high), the second digit represents the expected return category (0 for low, 9 for high), and so on. A strategy's fitness score is derived from its identifier, with higher scores indicating a preference for higher returns and acceptable levels of risk. The snippet is a fitness function for a given portfolio configuration (i.e., a combination of strategies); it accepts a list of integer identifiers "portfolioConfig" where each integer represents an investment strategy. To prioritize strategies with higher scores while considering the portfolio's overall balance, the function arranges the identifiers to form the largest number possible and returns it. However, it is returning incorrect values and I need help debugging it.  
+'''
+
+
+
+
+
+
+# BUGGY VERSION THAT WAS TURNED IN
+
+# def fitness(portfolioConfig: list[int]) -> str:
+#     if not len(portfolioConfig):
+#         return "0"
+
+#     str_nums = list(map(str, portfolioConfig))
+    
+#     # Define a custom comparator that compares based on concatenation
+#     def compare(x:int, y:int) -> int:
+#         return int(y+x) - int(x+y)
+    
+#     # Sort the string numbers based on the custom comparator
+#     str_nums.sort(key=lambda x: (x*10)[:10], reverse=True)
+
+#     # Special case: if the largest number is '0', the result is '0'
+#     if str_nums[0] == '0':
+#         return '0'
+    
+#     return ''.join(str_nums)
+
+
+
+
+
+
+# CORRECT VERSION USED FOR TESTS
+
+# class LargerNumKey(str):
+#     def __lt__(x, y):
+#         # Compare x+y with y+x in reverse order to get descending order
+#         return x+y > y+x
+
+
+# def fitness(nums: list[int]) -> str:
+#     # Convert the list of numbers to list of strings
+#     nums = [str(num) for num in nums]
+    
+#     # Sort the list of strings using our custom sorting function
+#     nums.sort(key=LargerNumKey)
+    
+#     # Join the sorted list of strings to form the final result
+#     largest_num = ''.join(nums)
+    
+#     # If the largest number is 0, return "0"
+#     # Otherwise, return the largest number
+#     return "0" if largest_num[0] == "0" else largest_num
+
+
+
+
+# Example usage
+# nums = []
+# print("Largest:", fitness(nums))
+
+
+
+
+# import unittest
+
+# class TestFitnessFunction(unittest.TestCase):
+#     def test_fitness1(self) -> None:
+#         strategies = [5, 33, 36, 7, 11]
+#         expected = "75363311"
+#         actual = fitness(strategies)
+#         self.assertEqual(expected, actual)
+
+#     def test_fitness2(self) -> None:
+#         strategies = [24682, 246822468]
+#         expected = "24682246824682"
+#         actual = fitness(strategies)
+#         self.assertEqual(expected, actual)
+
+#     def test_fitness3(self) -> None:
+#         strategies = [100, 2, 30]
+#         expected = "302100"
+#         actual = fitness(strategies)
+#         self.assertEqual(expected, actual)
+
+#     def test_fitness4(self) -> None:
+#         strategies = [9, 123, 56]
+#         expected = "956123"
+#         actual = fitness(strategies)
+#         self.assertEqual(expected, actual)
+
+#     def test_fitness5(self) -> None:
+#         strategies = []
+#         expected = "0"
+#         actual = fitness(strategies)
+#         self.assertEqual(expected, actual)
+
+#     def test_fitness6(self) -> None:
+#         strategies = [0]
+#         expected = "0"
+#         actual = fitness(strategies)
+#         self.assertEqual(expected, actual)
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+'''
+    186. Reverse words in a string 2
+
+    Given a character array s, reverse the order of the words. A word is defined as a sequence of non-space characters. The words in s will be separated by a single space. Your code must solve the problem in-place, i.e. without allocating extra space.
+
+    App - I implemented the following code snippet for an embedded wearable device that will control a Holloween costume helmet I have designed for myself. It is the costume of my favorite Science-Fiction character named "Yodi". Yodi doesnt speak like us Humans. Yodi is from another planet and speaks English in reverse compared to how we speak. Therefore, the following function will execute on a microcontroller embedded in the costume helmet, which is identical to Yodi's, to translate my speech to Yodi's speech. When I speak, it is recorderded and parsed into a character array, via NLP techniques, inside the helmet and no one can hear until I push a button. When that happens, the snippet takes my sentence and reverses it, then sends it to the helmet's speaker where it is output. If the list is empty, then a value error should be raised.
+'''
+
+
+
+
+
+# from typing import List
+
+
+# def yodi_speech(sentence: list[str]) -> None:
+#     if not len(sentence):
+#         raise ValueError
+    
+#     string = ''.join(sentence)
+#     words = string.split(' ')
+#     words.reverse()
+#     reversed_string = ' '.join(words)
+#     sentence.clear()
+#     sentence.extend(reversed_string) 
+
+
+# s = ['I',' ','f','e','e','l',' ','s','a','d',' ','h','a','p','p','p','y',' ','a','n','d',' ','t','i','r','e','d']
+# yodi_speech(s)
+# print("Yodi says:", s)  # Output should show the characters of "s" updated to represent "blue is sky the"
+
+
+
+
+
+
+# import unittest
+
+# class TestYodiSpeech(unittest.TestCase):
+#     def test_yodi_speech(self) -> None:
+#         sentence = ['I',' ','f','e','e','l',' ','h','a','p','p','p','y',' ','a','n','d',' ','t','i','r','e','d']
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    2332. The latest time to catch bus
+
+    You are given a 0-indexed integer array buses of length n, where buses[i] represents the departure time of the ith bus. You are also given a 0-indexed integer array passengers of length m, where passengers[j] represents the arrival time of the jth passenger. All bus departure times are unique. All passenger arrival times are unique. You are given an integer capacity, which represents the maximum number of passengers that can get on each bus. When a passenger arrives, they will wait in line for the next available bus. You can get on a bus that departs at x minutes if you arrive at y minutes where y <= x, and the bus is not full. Passengers with the earliest arrival times get on the bus first. More formally when a bus arrives, either: 1. If capacity or fewer passengers are waiting for a bus, they will all get on the bus, or 2. The capacity passengers with the earliest arrival times will get on the bus. Return the latest time you may arrive at the bus station to catch a bus. You cannot arrive at the same time as another passenger. Note: The arrays buses and passengers are not necessarily sorted.
+
+    App - I implemented the following function to help my friends and I register for the college courses that are known to fill up quick. This function tells us the optimal registration times, that is, the time that I should log into my university account and be prepared to register for classes such that I spend the minimal amount of time waiting. The following snippet cross-refrences two lists of integers "openRegistrationTimes" and "classmateCredits" that represent the times courses open for registration and the number of credits that students interested in the course have, respectively. Everyone has two chances to enroll in the courses they want. The first is when there are enough seats, denoted by "numSeats", for everyone registering. The second is when the number of students registering is larger than the course size ("numSeats"), but you're in the group of students that have least credits. 
+
+'''
+
+
+
+def latestTimeCatchBus(buses: list[int], passengers: list[int], capacity: int) -> int:
+    buses.sort()  # Sort the buses' departure times
+    passengers.sort()  # Sort the passengers' arrival times
+    
+    passenger_index = 0  # To track the current passenger
+    last_passenger_time = -1  # To track the last possible time
+    
+    for bus in buses:
+        current_capacity = capacity  # Reset capacity for each bus
+        
+        # Board passengers for the current bus
+        while passenger_index < len(passengers) and passengers[passenger_index] <= bus and current_capacity > 0:
+            last_passenger_time = passengers[passenger_index]  # Track the last passenger time that can board
+            passenger_index += 1
+            current_capacity -= 1
+    
+    # Find the latest time to arrive
+    # Start by considering the last bus's departure time
+    latest_time = buses[-1]
+    
+    # If the last bus is full, the latest time is the arrival time of the last passenger who boarded minus 1
+    if current_capacity == 0:
+        latest_time = last_passenger_time - 1
+    
+    # Ensure not to pick a time that coincides with a passenger's arrival time
+    while latest_time in passengers:
+        latest_time -= 1
+    
+    return latest_time
+
+# Example usage
+buses = [10, 20]
+passengers = [2, 17, 18, 19]
+capacity = 2
+print(latestTimeCatchBus(buses, passengers, capacity))
+
+
+
+
+
+
+
 import unittest
 
-class TestDisconnected(unittest.TestCase):
-    def test_disconnected1(self) -> None:
-        numHomes = 4
-        connections = [[1,2],[2,3]]
-        expected = [[0,1],[0,2],[0,3],[1,3]]
-        actual = disconnected(numHomes, connections)
-        self.assertCountEqual(expected, actual)
-
-    def test_disconnected2(self) -> None:
-        numHomes = 7
-        connections = [[0,2],[0,5],[2,4],[1,6],[5,4]]
-        expected = [[0,1],[0,3],[0,6],[1,2],[1,3],[1,4],[1,5],[2,3],[2,6],[3,4],[3,5],[3,6],[4,6],[5,6],[0,4],[2,5]]
-        actual = disconnected(numHomes, connections)
-        self.assertCountEqual(expected, actual)
-
-    def test_disconnected3(self) -> None:
-        numHomes = 4
-        connections = []
-        expected = [[0,1],[2,3],[0,2],[1,2],[0,3],[1,3]]
-        actual = disconnected(numHomes, connections)
-        self.assertCountEqual(expected, actual)
-
-    def test_disconnected4(self) -> None:
-        numHomes = 4
-        connections = [[0,1],[2,3],[0,2],[1,2],[0,3],[1,3]]
-        expected = []
-        actual = disconnected(numHomes, connections)
-        self.assertCountEqual(expected, actual)
-
-    def test_disconnected5(self) -> None:
-        numHomes = 4
-        connections = [[0,1],[2,-3],[1,2],[3,0]]
-        with self.assertRaises(ValueError):
-            disconnected(numHomes, connections)
-
-    def test_disconnected6(self) -> None:
-        numHomes = 4
-        connections = [[0,1],[1,0],[0,1]]
-        expected = [[2,3],[0,2],[1,2],[0,3],[1,3]]
-        actual = disconnected(numHomes, connections)
-        self.assertCountEqual(expected, actual)
-
-    def test_disconnected7(self) -> None:
-        numHomes = 4
-        connections = [[1,0],[6,2],[0,3]]
-        with self.assertRaises(ValueError):
-            disconnected(numHomes, connections)
-
-    def test_disconnected8(self) -> None:
-        numHomes = 3
-        connections = [[2,1],[2,0],[1,0]]
-        expected = []
-        actual = disconnected(numHomes, connections)
-        self.assertCountEqual(expected, actual)
+class TestOptimalTime(unittest.TestCase):
+    def test_optimal_time(self) -> None:
+        pass
 
 
 if __name__ == "__main__":
     unittest.main()
-
-
-
-
-
-
-
 
 
 
