@@ -855,6 +855,89 @@ NOTE:
 
 
 
+
+
+
+
+
+
+
+
+'''
+    2333. Minimum sum of squared difference
+
+    You are given two positive 0-indexed integer arrays nums1 and nums2, both of length n. The sum of squared difference of arrays nums1 and nums2 is defined as the sum of (nums1[i] - nums2[i])^2 for each 0 <= i < n. You are also given two positive integers k1 and k2. You can modify any of the elements of nums1 by +1 or -1 at most k1 times. Similarly, you can modify any of the elements of nums2 by +1 or -1 at most k2 times. Return the minimum sum of squared difference after modifying array nums1 at most k1 times and modifying array nums2 at most k2 times. Note: You are allowed to modify the array elements to become negative integers.
+
+
+'''
+
+
+
+from heapq import heapify, heappush, heappop
+
+def minSumSquareDiff(nums1: list[int], nums2: list[int], k1: int, k2: int) -> int:
+    # Create a list to keep the differences. Negate to heapify and keep 
+    # the largest diffs on top as opposed to the smallest on top as the default.
+    heap = [ -abs(x-y) for x, y in zip(nums1, nums2)]
+
+    # The differences are negative, so negate the sum to 
+    # get a positive baseline to compare k1+k2 against.
+    s = -sum(heap)
+
+    # If we have more modifications available than 
+    # we have in the sum, then modify to zero.
+    if k1+k2 >= s: return 0
+
+    # Assume these are symmetric
+    delta = k1 + k2
+
+    # Min-heap with largest diffs as highest priority
+    heapify(heap)
+
+    # Apply modifications until we run out
+    n = len(nums1)
+    while delta > 0:
+
+        # The largest diff. Need it to be positive again, so negate
+        d = -heappop(heap)
+
+        # This only works because k1 == k2v (symmetry)
+        gap = max(delta//n, 1) if heap else delta
+        
+        # Apply mod.
+        d -= gap
+
+        # Put it back in line
+        heappush(heap, -d)
+
+        # Update the number of mods available.
+        delta -= gap
+
+    return sum(pow(e,2) for e in heap)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 '''
     *******************************************************************************************************************************************
 
@@ -3667,6 +3750,8 @@ NOTE:
 
 
 '''
+NOTE: This one isnt finished but is almost finished!
+
     2332. The latest time to catch bus
 
     You are given a 0-indexed integer array buses of length n, where buses[i] represents the departure time of the ith bus. You are also given a 0-indexed integer array passengers of length m, where passengers[j] represents the arrival time of the jth passenger. All bus departure times are unique. All passenger arrival times are unique. You are given an integer capacity, which represents the maximum number of passengers that can get on each bus. When a passenger arrives, they will wait in line for the next available bus. You can get on a bus that departs at x minutes if you arrive at y minutes where y <= x, and the bus is not full. Passengers with the earliest arrival times get on the bus first. More formally when a bus arrives, either: 1. If capacity or fewer passengers are waiting for a bus, they will all get on the bus, or 2. The capacity passengers with the earliest arrival times will get on the bus. Return the latest time you may arrive at the bus station to catch a bus. You cannot arrive at the same time as another passenger. Note: The arrays buses and passengers are not necessarily sorted.
@@ -3677,57 +3762,160 @@ NOTE:
 
 
 
-def latestTimeCatchBus(buses: list[int], passengers: list[int], capacity: int) -> int:
-    buses.sort()  # Sort the buses' departure times
-    passengers.sort()  # Sort the passengers' arrival times
+# def latestTimeCatchBus(buses: list[int], passengers: list[int], capacity: int) -> int:
+#     buses.sort()  # Sort the buses' departure times
+#     passengers.sort()  # Sort the passengers' arrival times
     
-    passenger_index = 0  # To track the current passenger
-    last_passenger_time = -1  # To track the last possible time
+#     passenger_index = 0  # To track the current passenger
+#     last_passenger_time = -1  # To track the last possible time
     
-    for bus in buses:
-        current_capacity = capacity  # Reset capacity for each bus
+#     for bus in buses:
+#         current_capacity = capacity  # Reset capacity for each bus
         
-        # Board passengers for the current bus
-        while passenger_index < len(passengers) and passengers[passenger_index] <= bus and current_capacity > 0:
-            last_passenger_time = passengers[passenger_index]  # Track the last passenger time that can board
-            passenger_index += 1
-            current_capacity -= 1
+#         # Board passengers for the current bus
+#         while passenger_index < len(passengers) and passengers[passenger_index] <= bus and current_capacity > 0:
+#             last_passenger_time = passengers[passenger_index]  # Track the last passenger time that can board
+#             passenger_index += 1
+#             current_capacity -= 1
     
-    # Find the latest time to arrive
-    # Start by considering the last bus's departure time
-    latest_time = buses[-1]
+#     # Find the latest time to arrive
+#     # Start by considering the last bus's departure time
+#     latest_time = buses[-1]
     
-    # If the last bus is full, the latest time is the arrival time of the last passenger who boarded minus 1
-    if current_capacity == 0:
-        latest_time = last_passenger_time - 1
+#     # If the last bus is full, the latest time is the arrival time of the last passenger who boarded minus 1
+#     if current_capacity == 0:
+#         latest_time = last_passenger_time - 1
     
-    # Ensure not to pick a time that coincides with a passenger's arrival time
-    while latest_time in passengers:
-        latest_time -= 1
+#     # Ensure not to pick a time that coincides with a passenger's arrival time
+#     while latest_time in passengers:
+#         latest_time -= 1
     
-    return latest_time
+#     return latest_time
 
-# Example usage
-buses = [10, 20]
-passengers = [2, 17, 18, 19]
-capacity = 2
-print(latestTimeCatchBus(buses, passengers, capacity))
-
-
+# # Example usage
+# buses = [10, 20]
+# passengers = [2, 17, 18, 19]
+# capacity = 2
+# print(latestTimeCatchBus(buses, passengers, capacity))
 
 
 
 
 
-import unittest
-
-class TestOptimalTime(unittest.TestCase):
-    def test_optimal_time(self) -> None:
-        pass
 
 
-if __name__ == "__main__":
-    unittest.main()
+# import unittest
+
+# class TestOptimalTime(unittest.TestCase):
+#     def test_optimal_time(self) -> None:
+#         pass
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    2333. minimum sum os squared difference
+
+    This was used in codex and is a buggy implementation with the failed test below!!
+'''
+
+
+
+# class Solution:
+#     def minSumSquareDiff(self, img1: List[int], img2: List[int], k1: int, k2: int) -> int:
+#         from typing import List
+#         """
+#         Adjusts pixel intensities within given thresholds to minimize the sum of squared differences (SSD)
+#         between two images.
+
+#         Args:
+#         img1 (List[int]): Pixel intensities of the first image.
+#         img2 (List[int]): Pixel intensities of the second image.
+#         k1 (int): Maximum number of intensity adjustments for img1's pixels.
+#         k2 (int): Maximum number of intensity adjustments for img2's pixels.
+
+#         Returns:
+#         int: The minimized SSD between the adjusted images.
+#         """
+#         def adjust_pixel_intensity(pixel1, pixel2, adjustments_left1, adjustments_left2):
+#             # Calculate the difference and its square
+#             diff = pixel1 - pixel2
+#             squared_diff = diff ** 2
+            
+#             # Attempt to adjust pixel intensities if adjustments are left and 
+#             # can reduce the squared difference
+#             for _ in range(abs(diff)):
+#                 if diff > 0 and adjustments_left2 > 0:
+#                     pixel2 += 1
+#                     adjustments_left2 -= 1
+#                 elif diff < 0 and adjustments_left1 > 0:
+#                     pixel1 += 1
+#                     adjustments_left1 -= 1
+#                 else:
+#                     break  # No more adjustments possible or needed
+                
+#                 # Recalculate difference after adjustment
+#                 diff = pixel1 - pixel2
+#                 squared_diff = min(squared_diff, diff ** 2)
+            
+#             return squared_diff, adjustments_left1, adjustments_left2
+
+#         # Initialize SSD and adjustments left
+#         ssd = 0
+#         for i in range(len(img1)):
+#             squared_diff, k1, k2 = adjust_pixel_intensity(img1[i], img2[i], k1, k2)
+#             ssd += squared_diff
+
+#         return ssd
+
+
+
+# img1 = [1,4,10,12]
+# img2 = [5,8,6,9]
+# k1 = 10
+# k2 = 5
+# print(minSumSquareDiff(img1,img2,k1,k2)) # expected 0, actual 4
+
+
+# another test
+# img1 = [1,4,10,12]
+# img2 = [5,8,6,9]
+# k1 = 1
+# k2 = 1
+# print(minSumSquareDiff(img1,img2,k1,k2)) # expected 45, actual ?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

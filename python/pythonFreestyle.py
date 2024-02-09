@@ -1,6 +1,6 @@
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
 
 # # Load the CSV file
 # file_path = 'Bold21_Data_set-orders_export_1V2-Bold21_data_set-orders_export_1-Marcelo_Leal_Martinez.csv'  # Replace with your file path
@@ -1033,28 +1033,392 @@ sales_df = pd.read_csv('./CSVs/Sales-PrintingOffice2023v1-Sheet1.csv')
 
 
 
-# Load the file to check its structure
-file_path = './CSVs/caja-dia-a-dia-no-Pii.csv'
-data = pd.read_csv(file_path)
+# # Load the file to check its structure
+# file_path = './CSVs/caja-dia-a-dia-no-Pii.csv'
+# data = pd.read_csv(file_path)
 
-# Display the first few rows of the file to understand its structure
-# data.head()
+# # Display the first few rows of the file to understand its structure
+# # data.head()
 
-# Convert the 'Fecha' column to datetime and filter for the year 2021
-data['Fecha'] = pd.to_datetime(data['Fecha'])
-data_2021 = data[data['Fecha'].dt.year == 2021]
+# # Convert the 'Fecha' column to datetime and filter for the year 2021
+# data['Fecha'] = pd.to_datetime(data['Fecha'])
+# data_2021 = data[data['Fecha'].dt.year == 2021]
 
-# Fill missing values in 'Monto HABER' and 'Monto DEBE' with 0
-data_2021['Monto HABER'] = data_2021['Monto HABER'].fillna(0)
-data_2021['Monto DEBE'] = data_2021['Monto DEBE'].fillna(0)
+# # Fill missing values in 'Monto HABER' and 'Monto DEBE' with 0
+# data_2021['Monto HABER'] = data_2021['Monto HABER'].fillna(0)
+# data_2021['Monto DEBE'] = data_2021['Monto DEBE'].fillna(0)
 
-# Calculate net amount for each row (Monto HABER - Monto DEBE)
-data_2021['Net Amount'] = data_2021['Monto HABER'] - data_2021['Monto DEBE']
+# # Calculate net amount for each row (Monto HABER - Monto DEBE)
+# data_2021['Net Amount'] = data_2021['Monto HABER'] - data_2021['Monto DEBE']
 
-# Group by month and sum the net amounts
-monthly_accumulation = data_2021.groupby(data_2021['Fecha'].dt.to_period('M'))['Net Amount'].sum()
+# # Group by month and sum the net amounts
+# monthly_accumulation = data_2021.groupby(data_2021['Fecha'].dt.to_period('M'))['Net Amount'].sum()
 
-print(monthly_accumulation)
+# print(monthly_accumulation)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd 
+# import matplotlib.pyplot as plt 
+# df = pd.read_csv("Cities with the Best Work-Life Balance 2022.csv") 
+# grouped = df.groupby("Country")[["Covid Impact", "Covid Support"]].mean() 
+# grouped["Ratio"] = grouped["Covid Impact"] / grouped["Covid Support"] 
+# grouped["Ratio"].plot(kind="bar", figsize=(10, 6)) 
+# plt.ylabel("Covid Impact to Support Ratio") 
+# plt.title("Covid Impact to Support Ratio by Country") 
+# plt.tight_layout() 
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Re-importing pandas after a reset
+# import pandas as pd
+
+# # Load the data from the newly uploaded file
+# file_path_chardonnay_sales = './CSVs/Ventas_primer_semestre-wines.xlsxcsv-Hoja1.csv'
+
+# # Attempting to read the CSV file again after the reset
+# try:
+#     chardonnay_sales_data = pd.read_csv(file_path_chardonnay_sales)
+    
+#     # Display the first few rows to understand its structure
+#     display = chardonnay_sales_data.head()
+# except Exception as e:
+#     display = str(e)
+
+# # # display
+
+
+# # # Filtering for Chardonnay sales
+# chardonnay_sales = chardonnay_sales_data[chardonnay_sales_data['Varietal'].str.contains("Chardonnay", case=False)]
+
+# # print(chardonnay_sales)
+
+# # Grouping by month and counting the number of sales (assuming each row represents a sale)
+# sales_by_month = chardonnay_sales['Comp. - Año / Mes Contab. (AAAA/MM)'].value_counts().reset_index()
+# sales_by_month.columns = ['Month', 'Sales Count']
+
+# # Finding the month with the most Chardonnay sales
+# max_sales_month = sales_by_month.loc[sales_by_month['Sales Count'].idxmax()]
+
+# print(max_sales_month)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, WE ARE SUMMING TOTAL SALES FOR A SPECIFIC YEAR (2022). SINCE THERE ARE BOTH CREDIT AND DEBIT SALES, WE HAVE TO CREATE A CONDITIONAL BASED ON WHAT THE ROW/COL CELL ENTRY IS. EVERY SALE IS EITHER A DEBIT OR CREDIT, SO WE HAVE AN OR CONDITION!
+'''
+
+
+# Load the data from the uploaded file
+file_path_accounts = './CSVs/caja-dia-a-dia-no-Pii.csv'
+
+# Reading the CSV file
+accounts_data = pd.read_csv(file_path_accounts)
+
+# Display the first few rows to understand its structure and identify the relevant columns
+# accounts_data.head()
+
+# Handling 'Monto HABER' and 'Monto DEBE' as specified
+# Coalesce 'Monto HABER' with 'Monto DEBE', prioritizing 'Monto HABER' unless it's empty, zero, null, or NaN
+# accounts_data['Effective Monto'] = accounts_data['Monto HABER'].fillna(0) + accounts_data['Monto DEBE'].fillna(0)
+# accounts_data.loc[accounts_data['Monto HABER'].isnull() | (accounts_data['Monto HABER'] == 0), 'Effective Monto'] = accounts_data['Monto DEBE']
+
+# # Filter the data for the year 2022
+# data_2022_effective = accounts_data[accounts_data['Fecha'].dt.year == 2022]
+
+# # Aggregating the effective amounts by account name
+# effective_amounts_by_account_2022 = data_2022_effective.groupby('Nombre de la cuenta DEBE')['Effective Monto'].sum().reset_index()
+
+# # Sorting to find the top 10 accounts with highest effective amounts
+# top_10_effective_accounts_2022 = effective_amounts_by_account_2022.sort_values('Effective Monto', ascending=False).head(10)
+
+# # Creating a bar chart for the top 10 accounts with highest effective amounts in 2022, after adjustment
+# plt.figure(figsize=(10, 8))
+# plt.barh(top_10_effective_accounts_2022['Nombre de la cuenta DEBE'], top_10_effective_accounts_2022['Effective Monto'], color='skyblue')
+# plt.xlabel('Effective Total Amount')
+# plt.ylabel('Account Name')
+# plt.title('Top 10 Accounts by Highest Effective Amount in 2022')
+# plt.gca().invert_yaxis()  # To display the highest amount at the top
+# plt.show()
+
+
+
+
+
+
+
+# import numpy as np
+
+# # Correcting the approach with the right column names
+# # Convert 'Fecha' to datetime to extract the year
+# accounts_data['Fecha'] = pd.to_datetime(accounts_data['Fecha'])
+
+# # Filter data for the year 2022
+# data_2022 = accounts_data[accounts_data['Fecha'].dt.year == 2022]
+
+# # Adjusting the approach to consider both credit and debit transactions
+# # Use 'Monto HABER' if available, otherwise 'Monto DEBE'
+# accounts_data['Monto'] = np.where(accounts_data['Monto HABER'].notna() & (accounts_data['Monto HABER'] != 0), accounts_data['Monto HABER'], accounts_data['Monto DEBE'])
+
+# # Filter data for the year 2022 again, now with the adjusted amounts
+# data_2022 = accounts_data[accounts_data['Fecha'].dt.year == 2022]
+
+# # Sum amounts by account name and sort
+# amounts_by_account_2022 = data_2022.groupby('Nombre de la cuenta DEBE')['Monto'].sum().sort_values(ascending=False).head(10)
+
+# print(amounts_by_account_2022)
+
+# Plot with labels and names
+# plt.figure(figsize=(12, 8))
+# amounts_by_account_2022.plot(kind='bar', color='skyblue')
+# plt.title('Top 10 Accounts by Amount in 2022')
+# plt.xlabel('Account Name')
+# plt.ylabel('Amount')
+# plt.xticks(rotation=45, ha='right')
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+# import pandas as pd
+
+# # Read the CSV file into a Pandas DataFrame
+# df = pd.read_csv('./CSVs/caja-dia-a-dia-no-Pii.csv')
+
+# # Add a "Year" column extracted from the "Fecha" column using pd.to_datetime() and dt.year
+# df["Year"] = pd.to_datetime(df["Fecha"]).dt.year
+
+# # Filter the DataFrame to keep rows where "Year" is 2022
+# df_filtered = df[df["Year"] == 2022]
+
+# # print(df_filtered)
+
+# # Group the filtered DataFrame by the "Nombre cuenta HABER" column
+# grouped_df_c = df_filtered.groupby("Nombre cuenta HABER")
+# grouped_df_d = df_filtered.groupby("Nombre de la cuenta DEBE")
+
+# # Calculate the sum of the "Monto HABER" column for each group
+# summed_df_credit = grouped_df_c["Monto HABER"].sum().reset_index()
+# summed_df_debit = grouped_df_d["Monto DEBE"].sum().reset_index()
+
+# merged_df = pd.merge(summed_df_credit, summed_df_debit, on="Nombre de la cuenta", how="outer")
+# merged_df.fillna(0, inplace=True)
+# print(merged_df)
+
+# Sort the resulting DataFrame by the sum of "Monto HABER" in descending order
+# sorted_df_c = summed_df_credit.sort_values(by="Monto HABER", ascending=False)
+# sorted_df_d = summed_df_debit.sort_values(by="Monto DEBE", ascending=False)
+
+# # Display the top 10 rows using `df.head(10)` to show the top 10 accounts and their total amounts
+# top_10_df_c = sorted_df_c.head(10)
+# top_10_df_d = sorted_df_d.head(10)
+
+# print(top_10_df_c)
+# print(top_10_df_d)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Load the dataset
+# df = pd.read_csv('./CSVs/ByrdBiteAdData.csv')
+# data = pd.read_csv('./CSVs/ByrdBiteAdData.csv')
+
+# Assuming there's a column named 'Campaign Source' that indicates the platform, including Instagram
+# You'll need to replace 'Campaign Source' with the actual column name if it's different
+# instagram_campaigns = df[df['Campaign name'] == 'Instagram'] # Adjust the condition based on actual data
+
+# # Calculate the percentage
+# percentage_instagram = (len(instagram_campaigns) / len(df)) * 100
+
+# print(f"Percentage of Instagram campaigns: {percentage_instagram:.2f}%")
+
+
+
+
+# Count the total number of campaigns
+# total_campaigns = data['Campaign name'].nunique()
+
+# print(total_campaigns)
+
+# # Count the number of Instagram campaigns
+# instagram_campaigns = data[data['Campaign name'].str.contains('Instagram', na=False)]['Campaign name'].nunique()
+
+# # Calculate the percentage
+# percentage_instagram_campaigns = (instagram_campaigns / total_campaigns) * 100 if total_campaigns > 0 else 0
+# print(percentage_instagram_campaigns)
+
+
+
+
+# Filter the DataFrame to include only rows where 'Campaign name' contains 'Instagram'
+# instagram_rows = data[data['Campaign name'].str.contains('Instagram', case=False, na=False)]
+# ig_rows = data[data["Ad Set Name"] == "Instagram Post"]
+
+# # Print the filtered rows to see the variations
+# # print(instagram_rows)
+# print(ig_rows)
+# print(len(data))
+
+
+# Group by 'Campaign name' and count the ads
+# campaign_ad_counts = data.groupby('Campaign name').size()
+
+# Sort the counts
+# campaign_ad_counts_sorted = campaign_ad_counts.sort_values(ascending=False)
+
+# Display the sorted table
+# print(campaign_ad_counts)
+
+
+# ads_per_campaign = data['Campaign name'].value_counts()
+
+# # Convert the series to a dataframe for better display
+# ads_per_campaign_df = ads_per_campaign.reset_index()
+# ads_per_campaign_df.columns = ['Campaign Name', 'Number of Ads']
+
+# print(ads_per_campaign_df)
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    DIRTY CLEAN-UP HERE!
+'''
+
+
+
+
+# import pandas as pd
+
+# # Load the data
+# sales_data = pd.read_csv('./CSVs/sales_memos.csv')
+
+# # Clean the "Commission" column
+# sales_data['Commission Cleaned'] = sales_data['Commission'].str.replace('[^\d,]', '', regex=True).str.replace(',', '')
+
+# # Convert the cleaned column to a numeric type
+# sales_data['Commission Cleaned'] = pd.to_numeric(sales_data['Commission Cleaned'], errors='coerce')
+
+# # Optionally, fill NaN values with 0 or another placeholder if needed
+# # sales_data['Commission Cleaned'] = sales_data['Commission Cleaned'].fillna(0)
+
+# # Verify the results
+# print(sales_data[['Commission', 'Commission Cleaned']].head())
+
+# # Assuming 'CustomerID' and 'SaleAmount' are the relevant columns
+# # Summarize sales by customer
+# sales_by_customer = sales_data.groupby('Customer')['Commission Cleaned'].sum().reset_index()
+
+# # Sort customers by total sales in descending order
+# sales_by_customer_sorted = sales_by_customer.sort_values('Commission Cleaned', ascending=False)
+
+# # Calculate the cumulative sales
+# sales_by_customer_sorted['Cumulative Sales'] = sales_by_customer_sorted['Commission Cleaned'].cumsum()
+
+# # Calculate the total sales
+# total_sales = sales_by_customer_sorted['Commission Cleaned'].sum()
+
+# # Calculate the cumulative percentage of total sales
+# sales_by_customer_sorted['Cumulative Percentage'] = 100 * sales_by_customer_sorted['Cumulative Sales'] / total_sales
+
+# # Identify customers representing 80% of sales
+# top_customers = sales_by_customer_sorted[sales_by_customer_sorted['Cumulative Percentage'] <= 80]
+
+# print(top_customers)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
