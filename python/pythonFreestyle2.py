@@ -868,52 +868,74 @@ NOTE:
 
     You are given two positive 0-indexed integer arrays nums1 and nums2, both of length n. The sum of squared difference of arrays nums1 and nums2 is defined as the sum of (nums1[i] - nums2[i])^2 for each 0 <= i < n. You are also given two positive integers k1 and k2. You can modify any of the elements of nums1 by +1 or -1 at most k1 times. Similarly, you can modify any of the elements of nums2 by +1 or -1 at most k2 times. Return the minimum sum of squared difference after modifying array nums1 at most k1 times and modifying array nums2 at most k2 times. Note: You are allowed to modify the array elements to become negative integers.
 
-
+    NOTE: Can you redo this one without looking at the answer??????
 '''
 
 
 
-from heapq import heapify, heappush, heappop
 
-def minSumSquareDiff(nums1: list[int], nums2: list[int], k1: int, k2: int) -> int:
-    # Create a list to keep the differences. Negate to heapify and keep 
-    # the largest diffs on top as opposed to the smallest on top as the default.
-    heap = [ -abs(x-y) for x, y in zip(nums1, nums2)]
 
-    # The differences are negative, so negate the sum to 
-    # get a positive baseline to compare k1+k2 against.
-    s = -sum(heap)
 
-    # If we have more modifications available than 
-    # we have in the sum, then modify to zero.
-    if k1+k2 >= s: return 0
+# from heapq import heapify, heappush, heappop
 
-    # Assume these are symmetric
-    delta = k1 + k2
+# def minSumSquareDiff(nums1: list[int], nums2: list[int], k1: int, k2: int) -> int:
+#     # Create a list to keep the differences. Negate to heapify and keep 
+#     # the largest diffs on top as opposed to the smallest on top as the default.
+#     heap = [-abs(x-y) for x, y in zip(nums1, nums2)]
 
-    # Min-heap with largest diffs as highest priority
-    heapify(heap)
+#     # The differences are negative, so negate the sum to 
+#     # get a positive baseline to compare k1+k2 against.
+#     s = -sum(heap)
 
-    # Apply modifications until we run out
-    n = len(nums1)
-    while delta > 0:
+#     # If we have more modifications available than 
+#     # we have in the sum, then modify to zero.
+#     if k1+k2 >= s: return 0
 
-        # The largest diff. Need it to be positive again, so negate
-        d = -heappop(heap)
+#     # Assume these are symmetric
+#     delta = k1 + k2
 
-        # This only works because k1 == k2v (symmetry)
-        gap = max(delta//n, 1) if heap else delta
+#     # Min-heap with largest diffs as highest priority
+#     heapify(heap)
+
+#     # Apply modifications until we run out
+#     n = len(nums1)
+#     while delta > 0:
+
+#         # The largest diff. Need it to be positive again, so negate
+#         d = -heappop(heap)
+
+#         # This only works because k1 == k2v (symmetry)
+#         gap = max(delta//n, 1) if heap else delta
         
-        # Apply mod.
-        d -= gap
+#         # Apply mod.
+#         d -= gap
 
-        # Put it back in line
-        heappush(heap, -d)
+#         # Put it back in line
+#         heappush(heap, -d)
 
-        # Update the number of mods available.
-        delta -= gap
+#         # Update the number of mods available.
+#         delta -= gap
 
-    return sum(pow(e,2) for e in heap)
+#     return sum(pow(e,2) for e in heap)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1350,6 +1372,24 @@ def minSumSquareDiff(nums1: list[int], nums2: list[int], k1: int, k2: int) -> in
                 
                 
         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2856,7 +2896,7 @@ def minSumSquareDiff(nums1: list[int], nums2: list[int], k1: int, k2: int) -> in
 
 
 '''
-    160. Intersection of twi linked lists
+    160. Intersection of two linked lists
 
     Given the heads of two singly linked-lists headA and headB, return the node at which the two lists intersect. If the two linked lists have no intersection at all, return null. Note that the linked lists must retain their original structure after the function returns.
     
@@ -3750,53 +3790,69 @@ def minSumSquareDiff(nums1: list[int], nums2: list[int], k1: int, k2: int) -> in
 
 
 '''
-NOTE: This one isnt finished but is almost finished!
+    NOTE: YOU LEFT OFF @ 2335. Minimum amount of time to fill cups
 
     2332. The latest time to catch bus
 
     You are given a 0-indexed integer array buses of length n, where buses[i] represents the departure time of the ith bus. You are also given a 0-indexed integer array passengers of length m, where passengers[j] represents the arrival time of the jth passenger. All bus departure times are unique. All passenger arrival times are unique. You are given an integer capacity, which represents the maximum number of passengers that can get on each bus. When a passenger arrives, they will wait in line for the next available bus. You can get on a bus that departs at x minutes if you arrive at y minutes where y <= x, and the bus is not full. Passengers with the earliest arrival times get on the bus first. More formally when a bus arrives, either: 1. If capacity or fewer passengers are waiting for a bus, they will all get on the bus, or 2. The capacity passengers with the earliest arrival times will get on the bus. Return the latest time you may arrive at the bus station to catch a bus. You cannot arrive at the same time as another passenger. Note: The arrays buses and passengers are not necessarily sorted.
 
-    App - I implemented the following function to help my friends and I register for the college courses that are known to fill up quick. This function tells us the optimal registration times, that is, the time that I should log into my university account and be prepared to register for classes such that I spend the minimal amount of time waiting. The following snippet cross-refrences two lists of integers "openRegistrationTimes" and "classmateCredits" that represent the times courses open for registration and the number of credits that students interested in the course have, respectively. Everyone has two chances to enroll in the courses they want. The first is when there are enough seats, denoted by "numSeats", for everyone registering. The second is when the number of students registering is larger than the course size ("numSeats"), but you're in the group of students that have least credits. 
+    App - At the company I work for, it is required to meet with the project manager at least once every week. However, if you meet every day, its a guaranteed promotion. Whenever someone is ready to meet with the boss, they simply pick a positive integer and submit it to the online queue. Later the same day, the boss posts available meeting times and the size of the meet, i.e., the number of people per meet. If your integer is unique and within the meeting's start time, then you're in. However, there is a small five minute window in which the queue is still open and the meeting times have been released. The queue is bombarded in this window because people try to submit integers by guessing (i.e., the five minutes doesnt suffice to cross reference both lists to find a unique integer), hoping that their guess is unique and falls within the meeting time; if their guess does successfully align, they're in. I'm having difficulty implementing this function that generates the largest unique integer needed to fall within my bosses meeting times on any given day, will you help me? The function accepts the two integer lists mentioned, "availableMeets" which my boss posts, and "queue", the integers already chosen. The function also has to account for the meeting's size "meetSize" because the boss usually wants a specific number of people at one time. The function does not accept any duplicate elements or non-positive integers and raises a value error if encountered.
 
 '''
 
 
 
-# def latestTimeCatchBus(buses: list[int], passengers: list[int], capacity: int) -> int:
-#     buses.sort()  # Sort the buses' departure times
-#     passengers.sort()  # Sort the passengers' arrival times
+# def largestUnique(availableMeets: list[int], queue: list[int], meetSize: int) -> int:
+
+#     def checkForDuplicates(intList) -> None:
+#         seen = set()
+#         for num in intList:
+#             if (num in seen) or (num < 1) or (not isinstance(num, int)):
+#                 raise ValueError(f"Duplicate found: {num}")
+#             seen.add(num)
+
+#     checkForDuplicates(availableMeets)
+#     checkForDuplicates(queue)
+
+#     # Sort the two lists
+#     availableMeets.sort()  
+#     queue.sort()  
     
-#     passenger_index = 0  # To track the current passenger
-#     last_passenger_time = -1  # To track the last possible time
+#     # To track the queue and the 
+#     # largest non-unique int
+#     queueIdx = 0  
+#     largestTakenInt = -1  
     
-#     for bus in buses:
-#         current_capacity = capacity  # Reset capacity for each bus
+#     for times in availableMeets:
+
+#         # Reset availability for each meet
+#         availability = meetSize  
         
-#         # Board passengers for the current bus
-#         while passenger_index < len(passengers) and passengers[passenger_index] <= bus and current_capacity > 0:
-#             last_passenger_time = passengers[passenger_index]  # Track the last passenger time that can board
-#             passenger_index += 1
-#             current_capacity -= 1
+#         # Send people to the meeting
+#         while queueIdx < len(queue) and queue[queueIdx] <= times and availability > 0:
+#             # Track the last taken int that aligns with the meet time
+#             largestTakenInt = queue[queueIdx]  
+#             queueIdx += 1
+#             availability -= 1
     
-#     # Find the latest time to arrive
-#     # Start by considering the last bus's departure time
-#     latest_time = buses[-1]
+#     # Start by considering the last meet's start time
+#     largestInt = availableMeets[-1]
     
-#     # If the last bus is full, the latest time is the arrival time of the last passenger who boarded minus 1
-#     if current_capacity == 0:
-#         latest_time = last_passenger_time - 1
+#     # If the last meet is full, the largest unique int is the largest taken int thats aligned minus 1
+#     if availability == 0:
+#         largestInt = largestTakenInt - 1
     
-#     # Ensure not to pick a time that coincides with a passenger's arrival time
-#     while latest_time in passengers:
-#         latest_time -= 1
+#     # Ensure a unique int
+#     while largestInt in queue:
+#         largestInt -= 1
     
-#     return latest_time
+#     return largestInt
 
 # # Example usage
-# buses = [10, 20]
-# passengers = [2, 17, 18, 19]
-# capacity = 2
-# print(latestTimeCatchBus(buses, passengers, capacity))
+# meets = [15,25]
+# queue = [2,22,23,24,1]
+# size = 2
+# print(largestUnique(meets, queue, size))
 
 
 
@@ -3806,9 +3862,67 @@ NOTE: This one isnt finished but is almost finished!
 
 # import unittest
 
-# class TestOptimalTime(unittest.TestCase):
-#     def test_optimal_time(self) -> None:
-#         pass
+# class TestLargestUnique(unittest.TestCase):
+#     def test_largestUnique1(self) -> None:
+#         meets = [17, 7, 27]
+#         queue = [18, 8, 22, 1, 23, 10, 16]
+#         size = 2
+#         expected = 17
+#         actual = largestUnique(meets, queue, size)
+#         self.assertEqual(expected, actual)
+
+#     def test_largestUnique2(self) -> None:
+#         meets = [15, 25]
+#         queue = [2, 22, 23, 24, 1]
+#         size = 2
+#         expected = 21
+#         actual = largestUnique(meets, queue, size)
+#         self.assertEqual(expected, actual)
+
+#     def test_largestUnique3(self) -> None:
+#         meets = [15, 25, 25]
+#         queue = [2, 22, -23, 24, 1]
+#         size = 2
+#         with self.assertRaises(ValueError):
+#             largestUnique(meets, queue, size)
+
+#     def test_largestUnique4(self) -> None:
+#         meets = [15, 25, 25]
+#         queue = [2, 22, 23, 24, 1]
+#         size = 2
+#         with self.assertRaises(ValueError):
+#             largestUnique(meets, queue, size)
+
+#     def test_largestUnique5(self) -> None:
+#         meets = [15, 25]
+#         queue = [2, 22, 23, 24, 2]
+#         size = 2
+#         with self.assertRaises(ValueError):
+#             largestUnique(meets, queue, size)
+
+#     def test_largestUnique6(self) -> None:
+#         meets = [3, 6]
+#         queue = [2, 4, 3, 5, 1, 6]
+#         size = 3
+#         expected = 0
+#         actual = largestUnique(meets, queue, size)
+#         self.assertEqual(expected, actual)
+
+#     def test_largestUnique7(self) -> None:
+#         meets = [3, 6]
+#         queue = [2, 4, 3, 5, 6]
+#         size = 3
+#         expected = 1
+#         actual = largestUnique(meets, queue, size)
+#         self.assertEqual(expected, actual)
+
+#     def test_largestUnique8(self) -> None:
+#         meets = [15, 25, 0.25]
+#         queue = [2, 22, 23, 24, 1]
+#         size = 2
+#         with self.assertRaises(ValueError):
+#             largestUnique(meets, queue, size)
+        
 
 
 # if __name__ == "__main__":
@@ -3835,73 +3949,454 @@ NOTE: This one isnt finished but is almost finished!
 '''
     2333. minimum sum os squared difference
 
+    You are given two positive 0-indexed integer arrays nums1 and nums2, both of length n. The sum of squared difference of arrays nums1 and nums2 is defined as the sum of (nums1[i] - nums2[i])2 for each 0 <= i < n. You are also given two positive integers k1 and k2. You can modify any of the elements of nums1 by +1 or -1 at most k1 times. Similarly, you can modify any of the elements of nums2 by +1 or -1 at most k2 times. Return the minimum sum of squared difference after modifying array nums1 at most k1 times and modifying array nums2 at most k2 times. Note: You are allowed to modify the array elements to become negative integers.
+
+    App: I am creating a ecological modeling program for my city's environmental agency, who is attempting to improve the city's air and water quality to meet certain health and environmental standards. The city has several measures, like enhancing green spaces and reducing industrial emissions, that are carried out with very specific and varying degrees of effort. My program needs to identify an optimal distribution of their resources and efforts across its environmental measures to achieve an improvement in environmental health indicators, e.g., air quality indices, water quality parameters, soil health metrics, and biodiversity indices. Yet, I am having issues with one of the functions, i.e., it is returning incorrect values. Can you help me debug it? To decide on the degree of the measures taken, the function should minimize the difference between current pollution levels and target levels set by environmental standards. Accordingly, the function accepts two lists of integers, where the first represents current state values of environmental health indicators and the second represents ideal or target state values for the same indicators. The function also accepts two budgets that reflect total allowable adjustments across all measures.
+
     This was used in codex and is a buggy implementation with the failed test below!!
 '''
 
 
 
-# class Solution:
-#     def minSumSquareDiff(self, img1: List[int], img2: List[int], k1: int, k2: int) -> int:
-#         from typing import List
-#         """
-#         Adjusts pixel intensities within given thresholds to minimize the sum of squared differences (SSD)
-#         between two images.
 
-#         Args:
-#         img1 (List[int]): Pixel intensities of the first image.
-#         img2 (List[int]): Pixel intensities of the second image.
-#         k1 (int): Maximum number of intensity adjustments for img1's pixels.
-#         k2 (int): Maximum number of intensity adjustments for img2's pixels.
 
-#         Returns:
-#         int: The minimized SSD between the adjusted images.
-#         """
-#         def adjust_pixel_intensity(pixel1, pixel2, adjustments_left1, adjustments_left2):
-#             # Calculate the difference and its square
-#             diff = pixel1 - pixel2
-#             squared_diff = diff ** 2
+class EcologicalModel:
+    def ecoOptimize(self, currentM: list[int], targetM: list[int], budget1: int, budget2: int) -> int:
+        def adjustMeasures(indicator1: int, indicator2: int, budget1: int, budget2: int) -> int:
+            # Calculate the difference and its square
+            diff = indicator1 - indicator2
+            squared_diff = diff ** 2
             
-#             # Attempt to adjust pixel intensities if adjustments are left and 
-#             # can reduce the squared difference
-#             for _ in range(abs(diff)):
-#                 if diff > 0 and adjustments_left2 > 0:
-#                     pixel2 += 1
-#                     adjustments_left2 -= 1
-#                 elif diff < 0 and adjustments_left1 > 0:
-#                     pixel1 += 1
-#                     adjustments_left1 -= 1
-#                 else:
-#                     break  # No more adjustments possible or needed
+            # Attempt to adjust indicators if budget available
+            # and it can reduce the squared difference
+            for _ in range(abs(diff)):
+                if diff > 0 and budget2 > 0:
+                    indicator2 += 1
+                    budget2 -= 1
+                elif diff < 0 and budget1 > 0:
+                    indicator1 += 1
+                    budget1 -= 1
+                else:
+                    break  # No more adjustments possible or needed
                 
-#                 # Recalculate difference after adjustment
-#                 diff = pixel1 - pixel2
-#                 squared_diff = min(squared_diff, diff ** 2)
+                # Recalculate difference after adjustment
+                diff = indicator1 - indicator2
+                squared_diff = min(squared_diff, diff ** 2)
             
-#             return squared_diff, adjustments_left1, adjustments_left2
+            return squared_diff, budget1, budget2
 
-#         # Initialize SSD and adjustments left
-#         ssd = 0
-#         for i in range(len(img1)):
-#             squared_diff, k1, k2 = adjust_pixel_intensity(img1[i], img2[i], k1, k2)
-#             ssd += squared_diff
+        # Initialize SSD and adjustments left
+        ssd = 0
+        for i in range(len(currentM)):
+            squared_diff, budget1, budget2 = adjustMeasures(currentM[i], targetM[i], budget1, budget2)
+            ssd += squared_diff
 
-#         return ssd
+        return ssd
+    
+    def generateReport(self, currentM: list[int], targetM: list[int], budget1: int) -> None:
+        adjusted_ssd = self.ecoOptimize(currentM, targetM, budget1, 0)
+        print("Environmental Adjustment Report")
+        print(f"Initial Sum of Squared Differences: {sum((c - t) ** 2 for c, t in zip(currentM, targetM))}")
+        print(f"Adjusted Sum of Squared Differences: {adjusted_ssd}")
+        print(f"Budget Used: {budget1}")
+
+    def optimizeBudget(self, currentM: list[int], targetM: list[int], desired_reduction: int) -> int:
+        for budget1 in range(1, sum(abs(m1 - m2) for m1, m2 in zip(currentM, targetM)) + 1):
+            if self.ecoOptimize(currentM, targetM, budget1, 0) <= desired_reduction:
+                return budget1
+        return -1  # Indicates that the desired reduction is not achievable within realistic adjustments
+    
+    def simulateAdjustmentStrategies(self, currentM: list[int], targetM: list[int], budget1: int) -> dict:
+        strategies = {"greedy": 0, "conservative": 0}
+        # Greedy approach
+        strategies["greedy"] = self.ecoOptimize(currentM, targetM, budget1, 0)
+        # Conservative approach 
+        conservative_budget = budget1 // 2  
+        strategies["conservative"] = self.ecoOptimize(currentM, targetM, conservative_budget, 0)
+        return strategies
+
+
+   
 
 
 
-# img1 = [1,4,10,12]
-# img2 = [5,8,6,9]
-# k1 = 10
-# k2 = 5
-# print(minSumSquareDiff(img1,img2,k1,k2)) # expected 0, actual 4
 
 
-# another test
-# img1 = [1,4,10,12]
-# img2 = [5,8,6,9]
-# k1 = 1
-# k2 = 1
-# print(minSumSquareDiff(img1,img2,k1,k2)) # expected 45, actual ?
+
+
+import unittest
+
+class TestEcologicalModel(unittest.TestCase):
+    def setUp(self) -> None:
+        self.obj = EcologicalModel()
+
+    def test_ecoModel1(self) -> None:
+        curr = [1,4,10,12]
+        target = [5,8,6,9]
+        b1, b2 = 10, 5
+        expected = 0
+        actual = self.obj.ecoOptimize(curr, target, b1, b2)
+        self.assertTrue(expected == actual)
+
+    def test_ecoModel2(self) -> None:
+        curr = [1,4,10,12]
+        target = [5,8,6,9]
+        b1, b2 = 1, 1
+        expected = 43
+        actual = self.obj.ecoOptimize(curr, target, b1, b2)
+        self.assertTrue(expected == actual)
+
+    def test_ecoModel3(self) -> None:
+        curr = []
+        target = []
+        b1, b2 = 1, 1
+        expected = 0
+        actual = self.obj.ecoOptimize(curr, target, b1, b2)
+        self.assertTrue(expected == actual)
+
+    def test_ecoModel4(self) -> None:
+        curr = [1,4,-10,12]
+        target = [-5,8,6,9]
+        b1, b2 = 1, 2
+        expected = 230
+        actual = self.obj.ecoOptimize(curr, target, b1, b2)
+        self.assertTrue(expected == actual)
+
+    def test_ecoModel5(self) -> None:
+        curr = [1,4,-10,12]
+        target = [1,4,-10,12]
+        b1, b2 = 10, 20
+        expected = 0
+        actual = self.obj.ecoOptimize(curr, target, b1, b2)
+        self.assertTrue(expected == actual)
+
+    def test_ecoModel6(self) -> None:
+        curr = [12]
+        target = [4]
+        b1, b2 = 3, 2
+        expected = 9
+        actual = self.obj.ecoOptimize(curr, target, b1, b2)
+        self.assertTrue(expected == actual)
+    
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    2334. Subarray w/ elements greater than varying threshold
+
+    You are given an integer array nums and an integer threshold. Find any subarray of nums of length k such that every element in the subarray is greater than threshold / k. Return the size of any such subarray. If there is no such subarray, return -1. A subarray is a contiguous non-empty sequence of elements within an array.
+
+    App - I am helping my city's environmental monitoring agency track the levels of air pollutants. For example, the agency collects hourly PM2.5 (particulate matter, i.e., pollutants that are less than 2.5 micrometers in diameter) readings, and other pollutant readings, from various monitoring stations across the city and needs to identify any periods within the readings dataset where the average PM2.5 concentration consistently exceeds what would be considered safe, adjusted for the length of the period being considered. I am creating a program to analyze any dataset corresponding to any air pollutants. Therefore, I could really use your help implementing a function that calculates these averages and can identify the periods we are interested in. The function will accept the readings dataset, i.e., the hourly dataset, as an integer array "hours" and an integer "threshold," which represents the custom safety threshold for pollutants regarding health advisory standards. The function will find and return the duration where the readings exceed the threshold, i.e., the length of any contiguous subarray of "hours" of length "k" such that every element in the subarray is greater than "threshold / k". Or, it will return -1 if there is no such subarray. If the dataset "hours" contains any non-integers or non-positive integers, then a type error should be raised. 
+'''
+
+
+# from typing import List
+
+# def airQualityMonitor(hours: list[int], threshold: int) -> int:
+#     # Check if there are any non-integer elements
+#     if any(not isinstance(element, int) for element in hours):
+#         raise ValueError("The dataset contains fractional hours!")
+    
+#     # Check if there are any non-positive elements
+#     if any(element < 1 for element in hours):
+#         raise ValueError("The dataset contains negative hours!")
+    
+#     # Check for each possible subarray size
+#     for k in range(1, len(hours) + 1):
+#         for i in range(len(hours) - k + 1):
+#             # Extract the subarray
+#             subarray = hours[i:i+k]
+#             # Check if all elements in the subarray satisfy the condition
+#             if all(hour > threshold / k for hour in subarray):
+#                 return k  # Return the size of the subarray if the condition is satisfied
+#     # Return -1 if no such subarray exists
+#     return -1
+
+# # Commented out function call
+# # Example usage:
+# print(airQualityMonitor([5, 5, 5, 5, 5], 20))
+
+
+
+
+
+
+# import unittest
+
+# class TestAirQualityMonitor(unittest.TestCase):
+#     def test_airQualityMonitor1(self) -> None:
+#         hours = [3, 4, 5, 2, 1, 7, 3]
+#         thresh = 4
+#         expected = 1
+#         actual = airQualityMonitor(hours, thresh)
+#         self.assertTrue(expected == actual)
+
+#     def test_airQualityMonitor2(self) -> None:
+#         hours = []
+#         thresh = 4
+#         expected = -1
+#         actual = airQualityMonitor(hours, thresh)
+#         self.assertTrue(expected == actual)
+
+#     def test_airQualityMonitor3(self) -> None:
+#         hours = [1, 2, 1, 2]
+#         thresh = 10
+#         expected = -1
+#         actual = airQualityMonitor(hours, thresh)
+#         self.assertTrue(expected == actual)
+
+#     def test_airQualityMonitor4(self) -> None:
+#         hours = [1, 2, 1, 2.2]
+#         thresh = 10
+#         with self.assertRaises(ValueError):
+#             airQualityMonitor(hours, thresh)
+        
+#     def test_airQualityMonitor5(self) -> None:
+#         hours1 = [11]
+#         hours2 = [9]
+#         thresh = 10
+#         expected1 = 1
+#         expected2 = -1
+#         actual1 = airQualityMonitor(hours1, thresh)
+#         actual2 = airQualityMonitor(hours2, thresh)
+#         self.assertTrue(expected1 == actual1)
+#         self.assertTrue(expected2 == actual2)
+
+#     def test_airQualityMonitor6(self) -> None:
+#         hours = [1, 2, 1, 2]
+#         thresh = 10
+#         expected = -1
+#         actual = airQualityMonitor(hours, thresh)
+#         self.assertTrue(expected == actual)
+
+#     def test_airQualityMonitor7(self) -> None:
+#         hours = [5, 5, 5, 5, 5]
+#         thresh = 20
+#         expected = 5
+#         actual = airQualityMonitor(hours, thresh)
+#         self.assertTrue(expected == actual)
+
+#     def test_airQualityMonitor8(self) -> None:
+#         hours = [5, 5, 5, 5, -5]
+#         thresh = 20
+#         with self.assertRaises(ValueError):
+#             airQualityMonitor(hours, thresh)
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    190. Reverse Bits
+
+    Reverse bits of a given 32 bits unsigned integer.
+
+    App - I am implementing a communication protocol for UAVs (Unmanned Aerial Vehicles) and was wondering if you could lend a helping hand? The protocol is a very lightweight messaging protocol for communicating with drones (and between onboard drone components). It encodes and decodes messages, ensures data integrity, and optimizes lower-level communication protocols. I could use your assistance with a member function used to perform bit mirroring. The new method "mirrorize" accepts a bit-stream and then reverses or "flips" the bit stream such that the right-most bit becomes the most significant and vice versa. Put simply, the protocol follows a modern hybrid publish-subscribe and point-to-point design pattern: Data streams are sent / published as topics. These topics are transmitted within 32-bit integers that need to be converted into their binary representations and processed. Each byte represents a packet and the extraction of specific packets requires the bit stream to be reversed if the desired packet is on the opposite end of the stream. Therefore, the function must return the mirrorized data stream. If the function recieves anything other than an integer, then a type error should be raised.
+'''
+
+
+
+# class MAVLink:
+#     MAX_BYTES = 255
+
+#     def __init__(self) -> None:
+#         self.sysid = 0      # system id
+#         self.compid = 0     # component id
+#         self.msgid = 0      # message id
+#         self.payload = [0]  # A maximum of 255 payload bytes
+#         self.checksum = 0   # CRC-16/MCRF4XX
+
+#     """Reverses the bits of a 32-bit unsigned integer."""
+#     def mirrorize(self, stream: int) -> int:
+#         if not isinstance(stream, int):
+#             raise TypeError
+        
+#         result = 0
+#         # Since it's a 32-bit integer
+#         for _ in range(32):
+#             # Shift to make space
+#             result <<= 1
+#             # Add the least sig. bit of stream to result
+#             result |= stream & 1
+#             # Shift stream to process the next bit
+#             stream >>= 1
+#         return result
+
+#     """Encodes and sends a message to the UAV."""
+#     def sendMessage(self, message: str) -> None:
+#         # Convert the message to a binary format or apply any encoding
+#         encoded_message = self.encodeMessage(message)
+#         # Placeholder for sending the message through the communication layer
+#         print(f"Sending encoded message: {encoded_message}")
+
+#     """Receives and decodes a message from the UAV."""
+#     def receiveMessage(self, message: int) -> str:
+#         decoded_message = self.decodeMessage(message)
+#         return decoded_message
+
+#     """Encodes a message into a binary format for transmission."""
+#     def encodeMessage(self, message: str) -> int:
+#         # Convert message string to int representation using little-endian format
+#         binary_format = int.from_bytes(message.encode(), 'little')
+#         return self.mirrorize(binary_format)
+
+#     """Decodes a received message from its binary format."""
+#     def decodeMessage(self, data: int) -> str:
+#         # Reverse the bit flipping for decoding
+#         original_format = self.mirrorize(data)
+#         # Convert back to string using little-endian format
+#         message = original_format.to_bytes((original_format.bit_length() + 7) // 8, 'little').decode()
+#         return message
+
+    
+
+# # Example usage
+# mavlink = MAVLink()
+# # Example sending a message
+# bits = 590903                   # 1001 0000 0100 0011 0111
+# print(mavlink.mirrorize(bits))   # 1110 1100 0010 0000 1001 000000000000
+
+
+
+
+# import unittest
+
+# class TestMAVLink(unittest.TestCase):
+#     def setUp(self) -> None:
+#         self.msg = MAVLink()
+
+#     def test_mavlink1(self) -> None: 
+#         bits = 590903
+#         expected = 3961556992
+#         actual = self.msg.mirrorize(bits)
+#         self.assertEqual(expected, actual)
+
+#     def test_mavlink2(self) -> None: 
+#         bits = 4294967295
+#         expected = bits
+#         actual = self.msg.mirrorize(bits)
+#         self.assertEqual(expected, actual)
+
+#     def test_mavlink3(self) -> None: 
+#         bits = 1
+#         expected = 2147483648 
+#         actual = self.msg.mirrorize(bits)
+#         self.assertEqual(expected, actual)
+#         actual = self.msg.mirrorize(expected)
+#         self.assertEqual(bits, actual)
+
+#     def test_mavlink4(self) -> None: 
+#         bits = 2863311530
+#         expected = 1431655765
+#         actual = self.msg.mirrorize(bits)
+#         self.assertEqual(expected, actual)
+
+#     def test_mavlink5(self) -> None: 
+#         bits = 260846064
+#         expected = bits
+#         actual = self.msg.mirrorize(bits)
+#         self.assertEqual(expected, actual)
+
+#     def test_mavlink6(self) -> None: 
+#         bits = 0
+#         expected = bits
+#         actual = self.msg.mirrorize(bits)
+#         self.assertEqual(expected, actual)
+
+#     def test_mavlink7(self) -> None: 
+#         bits = 2147581953
+#         expected = bits
+#         actual = self.msg.mirrorize(bits)
+#         self.assertEqual(expected, actual)
+
+#     def test_mavlink8(self) -> None: 
+#         bits = 49152.5
+#         with self.assertRaises(TypeError):
+#             self.msg.mirrorize(bits)
+        
+
+        
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
