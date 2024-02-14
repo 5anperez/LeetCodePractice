@@ -3729,6 +3729,7 @@ NOTE:
 
 
 '''
+    NOTE: I abandoned this one and did not turn it in. In the unit test specs it says NOT to reverse a string!
     186. Reverse words in a string 2
 
     Given a character array s, reverse the order of the words. A word is defined as a sequence of non-space characters. The words in s will be separated by a single space. Your code must solve the problem in-place, i.e. without allocating extra space.
@@ -3790,8 +3791,6 @@ NOTE:
 
 
 '''
-    NOTE: YOU LEFT OFF @ 2335. Minimum amount of time to fill cups
-
     2332. The latest time to catch bus
 
     You are given a 0-indexed integer array buses of length n, where buses[i] represents the departure time of the ith bus. You are also given a 0-indexed integer array passengers of length m, where passengers[j] represents the arrival time of the jth passenger. All bus departure times are unique. All passenger arrival times are unique. You are given an integer capacity, which represents the maximum number of passengers that can get on each bus. When a passenger arrives, they will wait in line for the next available bus. You can get on a bus that departs at x minutes if you arrive at y minutes where y <= x, and the bus is not full. Passengers with the earliest arrival times get on the bus first. More formally when a bus arrives, either: 1. If capacity or fewer passengers are waiting for a bus, they will all get on the bus, or 2. The capacity passengers with the earliest arrival times will get on the bus. Return the latest time you may arrive at the bus station to catch a bus. You cannot arrive at the same time as another passenger. Note: The arrays buses and passengers are not necessarily sorted.
@@ -3960,60 +3959,60 @@ NOTE:
 
 
 
-class EcologicalModel:
-    def ecoOptimize(self, currentM: list[int], targetM: list[int], budget1: int, budget2: int) -> int:
-        def adjustMeasures(indicator1: int, indicator2: int, budget1: int, budget2: int) -> int:
-            # Calculate the difference and its square
-            diff = indicator1 - indicator2
-            squared_diff = diff ** 2
+# class EcologicalModel:
+#     def ecoOptimize(self, currentM: list[int], targetM: list[int], budget1: int, budget2: int) -> int:
+#         def adjustMeasures(indicator1: int, indicator2: int, budget1: int, budget2: int) -> int:
+#             # Calculate the difference and its square
+#             diff = indicator1 - indicator2
+#             squared_diff = diff ** 2
             
-            # Attempt to adjust indicators if budget available
-            # and it can reduce the squared difference
-            for _ in range(abs(diff)):
-                if diff > 0 and budget2 > 0:
-                    indicator2 += 1
-                    budget2 -= 1
-                elif diff < 0 and budget1 > 0:
-                    indicator1 += 1
-                    budget1 -= 1
-                else:
-                    break  # No more adjustments possible or needed
+#             # Attempt to adjust indicators if budget available
+#             # and it can reduce the squared difference
+#             for _ in range(abs(diff)):
+#                 if diff > 0 and budget2 > 0:
+#                     indicator2 += 1
+#                     budget2 -= 1
+#                 elif diff < 0 and budget1 > 0:
+#                     indicator1 += 1
+#                     budget1 -= 1
+#                 else:
+#                     break  # No more adjustments possible or needed
                 
-                # Recalculate difference after adjustment
-                diff = indicator1 - indicator2
-                squared_diff = min(squared_diff, diff ** 2)
+#                 # Recalculate difference after adjustment
+#                 diff = indicator1 - indicator2
+#                 squared_diff = min(squared_diff, diff ** 2)
             
-            return squared_diff, budget1, budget2
+#             return squared_diff, budget1, budget2
 
-        # Initialize SSD and adjustments left
-        ssd = 0
-        for i in range(len(currentM)):
-            squared_diff, budget1, budget2 = adjustMeasures(currentM[i], targetM[i], budget1, budget2)
-            ssd += squared_diff
+#         # Initialize SSD and adjustments left
+#         ssd = 0
+#         for i in range(len(currentM)):
+#             squared_diff, budget1, budget2 = adjustMeasures(currentM[i], targetM[i], budget1, budget2)
+#             ssd += squared_diff
 
-        return ssd
+#         return ssd
     
-    def generateReport(self, currentM: list[int], targetM: list[int], budget1: int) -> None:
-        adjusted_ssd = self.ecoOptimize(currentM, targetM, budget1, 0)
-        print("Environmental Adjustment Report")
-        print(f"Initial Sum of Squared Differences: {sum((c - t) ** 2 for c, t in zip(currentM, targetM))}")
-        print(f"Adjusted Sum of Squared Differences: {adjusted_ssd}")
-        print(f"Budget Used: {budget1}")
+#     def generateReport(self, currentM: list[int], targetM: list[int], budget1: int) -> None:
+#         adjusted_ssd = self.ecoOptimize(currentM, targetM, budget1, 0)
+#         print("Environmental Adjustment Report")
+#         print(f"Initial Sum of Squared Differences: {sum((c - t) ** 2 for c, t in zip(currentM, targetM))}")
+#         print(f"Adjusted Sum of Squared Differences: {adjusted_ssd}")
+#         print(f"Budget Used: {budget1}")
 
-    def optimizeBudget(self, currentM: list[int], targetM: list[int], desired_reduction: int) -> int:
-        for budget1 in range(1, sum(abs(m1 - m2) for m1, m2 in zip(currentM, targetM)) + 1):
-            if self.ecoOptimize(currentM, targetM, budget1, 0) <= desired_reduction:
-                return budget1
-        return -1  # Indicates that the desired reduction is not achievable within realistic adjustments
+#     def optimizeBudget(self, currentM: list[int], targetM: list[int], desired_reduction: int) -> int:
+#         for budget1 in range(1, sum(abs(m1 - m2) for m1, m2 in zip(currentM, targetM)) + 1):
+#             if self.ecoOptimize(currentM, targetM, budget1, 0) <= desired_reduction:
+#                 return budget1
+#         return -1  # Indicates that the desired reduction is not achievable within realistic adjustments
     
-    def simulateAdjustmentStrategies(self, currentM: list[int], targetM: list[int], budget1: int) -> dict:
-        strategies = {"greedy": 0, "conservative": 0}
-        # Greedy approach
-        strategies["greedy"] = self.ecoOptimize(currentM, targetM, budget1, 0)
-        # Conservative approach 
-        conservative_budget = budget1 // 2  
-        strategies["conservative"] = self.ecoOptimize(currentM, targetM, conservative_budget, 0)
-        return strategies
+#     def simulateAdjustmentStrategies(self, currentM: list[int], targetM: list[int], budget1: int) -> dict:
+#         strategies = {"greedy": 0, "conservative": 0}
+#         # Greedy approach
+#         strategies["greedy"] = self.ecoOptimize(currentM, targetM, budget1, 0)
+#         # Conservative approach 
+#         conservative_budget = budget1 // 2  
+#         strategies["conservative"] = self.ecoOptimize(currentM, targetM, conservative_budget, 0)
+#         return strategies
 
 
    
@@ -4024,63 +4023,63 @@ class EcologicalModel:
 
 
 
-import unittest
+# import unittest
 
-class TestEcologicalModel(unittest.TestCase):
-    def setUp(self) -> None:
-        self.obj = EcologicalModel()
+# class TestEcologicalModel(unittest.TestCase):
+#     def setUp(self) -> None:
+#         self.obj = EcologicalModel()
 
-    def test_ecoModel1(self) -> None:
-        curr = [1,4,10,12]
-        target = [5,8,6,9]
-        b1, b2 = 10, 5
-        expected = 0
-        actual = self.obj.ecoOptimize(curr, target, b1, b2)
-        self.assertTrue(expected == actual)
+#     def test_ecoModel1(self) -> None:
+#         curr = [1,4,10,12]
+#         target = [5,8,6,9]
+#         b1, b2 = 10, 5
+#         expected = 0
+#         actual = self.obj.ecoOptimize(curr, target, b1, b2)
+#         self.assertTrue(expected == actual)
 
-    def test_ecoModel2(self) -> None:
-        curr = [1,4,10,12]
-        target = [5,8,6,9]
-        b1, b2 = 1, 1
-        expected = 43
-        actual = self.obj.ecoOptimize(curr, target, b1, b2)
-        self.assertTrue(expected == actual)
+#     def test_ecoModel2(self) -> None:
+#         curr = [1,4,10,12]
+#         target = [5,8,6,9]
+#         b1, b2 = 1, 1
+#         expected = 43
+#         actual = self.obj.ecoOptimize(curr, target, b1, b2)
+#         self.assertTrue(expected == actual)
 
-    def test_ecoModel3(self) -> None:
-        curr = []
-        target = []
-        b1, b2 = 1, 1
-        expected = 0
-        actual = self.obj.ecoOptimize(curr, target, b1, b2)
-        self.assertTrue(expected == actual)
+#     def test_ecoModel3(self) -> None:
+#         curr = []
+#         target = []
+#         b1, b2 = 1, 1
+#         expected = 0
+#         actual = self.obj.ecoOptimize(curr, target, b1, b2)
+#         self.assertTrue(expected == actual)
 
-    def test_ecoModel4(self) -> None:
-        curr = [1,4,-10,12]
-        target = [-5,8,6,9]
-        b1, b2 = 1, 2
-        expected = 230
-        actual = self.obj.ecoOptimize(curr, target, b1, b2)
-        self.assertTrue(expected == actual)
+#     def test_ecoModel4(self) -> None:
+#         curr = [1,4,-10,12]
+#         target = [-5,8,6,9]
+#         b1, b2 = 1, 2
+#         expected = 230
+#         actual = self.obj.ecoOptimize(curr, target, b1, b2)
+#         self.assertTrue(expected == actual)
 
-    def test_ecoModel5(self) -> None:
-        curr = [1,4,-10,12]
-        target = [1,4,-10,12]
-        b1, b2 = 10, 20
-        expected = 0
-        actual = self.obj.ecoOptimize(curr, target, b1, b2)
-        self.assertTrue(expected == actual)
+#     def test_ecoModel5(self) -> None:
+#         curr = [1,4,-10,12]
+#         target = [1,4,-10,12]
+#         b1, b2 = 10, 20
+#         expected = 0
+#         actual = self.obj.ecoOptimize(curr, target, b1, b2)
+#         self.assertTrue(expected == actual)
 
-    def test_ecoModel6(self) -> None:
-        curr = [12]
-        target = [4]
-        b1, b2 = 3, 2
-        expected = 9
-        actual = self.obj.ecoOptimize(curr, target, b1, b2)
-        self.assertTrue(expected == actual)
+#     def test_ecoModel6(self) -> None:
+#         curr = [12]
+#         target = [4]
+#         b1, b2 = 3, 2
+#         expected = 9
+#         actual = self.obj.ecoOptimize(curr, target, b1, b2)
+#         self.assertTrue(expected == actual)
     
 
-if __name__ == "__main__":
-    unittest.main()
+# if __name__ == "__main__":
+#     unittest.main()
 
 
 
@@ -4351,6 +4350,628 @@ if __name__ == "__main__":
 
 # if __name__ == "__main__":
 #     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+    NOTE: Recycle this one! This is a buggy version
+
+    2335. Minimum amount of time to fill cups
+
+    You have a water dispenser that can dispense cold, warm, and hot water. Every second, you can either fill up 2 cups with different types of water, or 1 cup of any type of water. You are given a 0-indexed integer array amount of length 3 where amount[0], amount[1], and amount[2] denote the number of cold, warm, and hot water cups you need to fill respectively. Return the minimum number of seconds needed to fill up all the cups.
+"""
+
+
+
+# def minimizeTotalProcessingTime(amount: list[int]) -> int:
+#     cpu_bound, io_bound, mixed = amount
+#     total_time = 0
+
+#     # Process mixed tasks independently since they don't pair with others
+#     total_time += mixed
+#     mixed = 0
+
+#     # Pair CPU-bound and I/O-bound tasks to execute simultaneously
+#     paired_tasks = min(cpu_bound, io_bound)
+#     total_time += paired_tasks
+#     cpu_bound -= paired_tasks
+#     io_bound -= paired_tasks
+
+#     # Process the remaining tasks independently
+#     total_time += cpu_bound + io_bound
+
+#     return total_time
+
+
+
+# amount = [1,4,2]
+# print(minimizeTotalProcessingTime(amount)) # expected: 4, actual: 6 (i think)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    2335. Minimum amount of time to fill cups
+
+    You have a water dispenser that can dispense cold, warm, and hot water. Every second, you can either fill up 2 cups with different types of water, or 1 cup of any type of water. You are given a 0-indexed integer array amount of length 3 where amount[0], amount[1], and amount[2] denote the number of cold, warm, and hot water cups you need to fill respectively. Return the minimum number of seconds needed to fill up all the cups.
+
+    App - I need a function to efficiently schedule tasks on a new operating system that I am working on, and I could use some help. I have created a high-level classification of the types of tasks it assigns to the CPU cores, with the first being tasks that can be performed in parallel and the other tasks are those that cannot be performed in parallel. This resulted from certain task dependencies and resource constraints. I have also split specific tasks into their own categories as a lower-level classification scheme, e.g., CPU-bound tasks, I/O-bound tasks, and mixed, which require both CPU and I/O resources. The function needs to minimize the total computation time; it accepts a dictionary of tasks "tasks" where their names, in string format, map to an integer ID, which is used when distributing them according to the following constraints: 1. execute one task at a time, or 2. execute in parallel if, and only if, they are of different types, which avoids resource contention. The function should then return a list and integer pair where the list is the sequence of scheduled tasks that minimizes compute time, and the integer is the actual, minimized compute time of the sequence.
+'''
+
+
+
+
+
+
+# def opt_task_scheduling(tasks: dict[str, int]) -> tuple[list, int]:
+#     # Sort task ids in non-increasing order
+#     sortedIds = sorted(tasks.items(), key=lambda item: item[1], reverse=True)
+#     schedule = []
+#     nanoSecs = 0
+    
+#     # Check if the task that needs to be scheduled the most still has instances 
+#     while sortedIds[0][1] > 0:  
+#         # Attempt to schedule parallel tasks
+#         if sortedIds[1][1] > 0:
+#             schedule.append(sortedIds[0][0])
+#             schedule.append(sortedIds[1][0])
+#             sortedIds[0] = (sortedIds[0][0], sortedIds[0][1] - 1)
+#             sortedIds[1] = (sortedIds[1][0], sortedIds[1][1] - 1)
+#         # Otherwise, schedule one
+#         else:
+#             schedule.append(sortedIds[0][0])
+#             sortedIds[0] = (sortedIds[0][0], sortedIds[0][1] - 1)
+        
+#         # Re-sort to always work with the highest values 
+#         sortedIds = sorted(sortedIds, key=lambda item: item[1], reverse=True)
+#         nanoSecs += 1
+    
+#     return (schedule, nanoSecs)
+
+
+
+# # cold: cpu, warm: io, hot: mixed
+# tasks2 = {'cpu': 1, 'io': 2, 'mixed': 15}
+# print(opt_task_scheduling(tasks2))
+
+
+
+
+
+# import unittest
+
+# class TestOptTaskScheduling(unittest.TestCase):
+#     def test_taskSchedule1(self) -> None:
+#         tasks = {'cpu': 5, 'io': 20, 'mixed': 10}
+#         expected = (['io', 'mixed', 'io', 'mixed', 'io', 'mixed', 'io', 'mixed', 'io', 'mixed', 'io', 'mixed', 'io', 'cpu', 'io', 'cpu', 'io', 'mixed', 'io', 'mixed', 'io', 'cpu', 'io', 'cpu', 'io', 'mixed', 'io', 'mixed', 'io', 'cpu', 'io', 'io', 'io', 'io', 'io'], 20)
+#         actual = opt_task_scheduling(tasks)
+#         self.assertEqual(expected, actual)
+
+#     def test_taskSchedule2(self) -> None:
+#         tasks = {'cpu': 0, 'io': 0, 'mixed': 0}
+#         expected = ([], 0)
+#         actual = opt_task_scheduling(tasks)
+#         self.assertEqual(expected, actual)
+
+#     def test_taskSchedule3(self) -> None:
+#         tasks = {'cpu': 1, 'io': 1, 'mixed': 1}
+#         expected = (['cpu', 'io', 'mixed'], 2)
+#         actual = opt_task_scheduling(tasks)
+#         self.assertEqual(expected, actual)
+
+#     def test_taskSchedule4(self) -> None:
+#         tasks = {'cpu': 5, 'io': 0, 'mixed': 0}
+#         expected = (['cpu', 'cpu', 'cpu', 'cpu', 'cpu'], 5)
+#         actual = opt_task_scheduling(tasks)
+#         self.assertEqual(expected, actual)
+
+#     def test_taskSchedule5(self) -> None:
+#         tasks = {'cpu': 5, 'io': 4, 'mixed': 4}
+#         expected = (['cpu', 'io', 'cpu', 'mixed', 'cpu', 'mixed', 'io', 'cpu', 'io', 'mixed', 'io', 'mixed', 'cpu'], 7)
+#         actual = opt_task_scheduling(tasks)
+#         self.assertEqual(expected, actual)
+
+#     def test_taskSchedule6(self) -> None:
+#         tasks = {'cpu': 20, 'io': 1, 'mixed': 2}
+#         expected = (['cpu', 'mixed', 'cpu', 'mixed', 'cpu', 'io', 'cpu', 'cpu', 'cpu', 'cpu', 'cpu', 'cpu', 'cpu', 'cpu', 'cpu', 'cpu', 'cpu', 'cpu', 'cpu', 'cpu', 'cpu', 'cpu', 'cpu'], 20)
+#         actual = opt_task_scheduling(tasks)
+#         self.assertEqual(expected, actual)
+
+#     def test_taskSchedule7(self) -> None:
+#         tasks = {'cpu': 1, 'io': 2, 'mixed': 15}
+#         expected = (['mixed', 'io', 'mixed', 'io', 'mixed', 'cpu', 'mixed', 'mixed', 'mixed', 'mixed', 'mixed', 'mixed', 'mixed', 'mixed', 'mixed', 'mixed', 'mixed', 'mixed'], 15)
+#         actual = opt_task_scheduling(tasks)
+#         self.assertEqual(expected, actual)
+
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    198. House robber
+
+    You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night. Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
+
+    App - As part of my role in a renewable energy company, I am designing software to optimize the allocation of wind turbines on land partitioned into plots and ready for turbine installation. However, I need assistance with a new method that finds the optimal configuration of wind turbine placement, thereby maximizing the amount of energy generated by the entire wind farm. The function needs to take as arguments a list of floats "plots" where plots[i] is the ith plot of land big enough to house one wind turbine and the element's value represents the wind speed measured and recorded on the plot. Since the higher the wind speed, the more energy produced, the function must return the indices of the plots that get a wind turbine installed and the maximum, cumulative wind speed possible, across the entire installation. Not to mention, the size of the turbines requires that no turbines are adjacent to each other, so the function must also account for that. 
+'''
+
+
+
+
+
+
+
+# def turbine_config(plots: list[float]) -> tuple[list[int], float]:
+#     n = len(plots)
+#     if n == 0:
+#         return ([], 0)
+#     elif n == 1:
+#         return ([0], plots[0])
+    
+#     # Dynamic programming approach
+#     dp = [0] * n
+#     dp[0] = plots[0]
+#     dp[1] = max(plots[0], plots[1])
+    
+#     # Decision array to track whether to use plot i
+#     decisions = [False] * n
+#     decisions[0] = True
+#     decisions[1] = plots[1] > plots[0]
+    
+#     for i in range(2, n):
+#         if plots[i] + dp[i-2] > dp[i-1]:
+#             dp[i] = plots[i] + dp[i-2]
+#             decisions[i] = True
+#         else:
+#             dp[i] = dp[i-1]
+    
+#     # Backtrack to find the chosen indices
+#     chosen_indices = []
+#     i = n - 1
+#     while i > 0:
+#         if decisions[i]:
+#             chosen_indices.append(i)
+#             i -= 2  # Skip the adjacent plots
+#         else:
+#             i -= 1
+#     if i == 0 and (not chosen_indices or chosen_indices[-1] != 1):
+#         chosen_indices.append(0)
+    
+#     chosen_indices.reverse()  # Optional: To have the indices in ascending order
+    
+#     return (chosen_indices, dp[-1])
+
+
+# p = [2, 3]
+# print(turbine_config(p))
+
+
+
+
+
+# import unittest
+
+# class TestTurbineConfig(unittest.TestCase):
+#     def test_turbine_config1(self) -> None:
+#         plots = [1, 2, 3, 1]
+#         expected = ([0, 2], 4)
+#         actual = turbine_config(plots)
+#         self.assertEqual(expected, actual)
+
+#     def test_turbine_config2(self) -> None:
+#         plots = [2, 7, 9, 3, 1]
+#         expected = ([0, 2, 4], 12)
+#         actual = turbine_config(plots)
+#         self.assertEqual(expected, actual)
+
+#     def test_turbine_config3(self) -> None:
+#         plots = [3, 10, 3, 10, 3]
+#         expected = ([1, 3], 20)
+#         actual = turbine_config(plots)
+#         self.assertEqual(expected, actual)
+
+#     def test_turbine_config4(self) -> None:
+#         plots = [0, 0.1, 0.5, 1, 0.5]
+#         expected = ([1, 3], 1.1)
+#         actual = turbine_config(plots)
+#         self.assertEqual(expected, actual)
+
+#     def test_turbine_config5(self) -> None:
+#         plots = [2, 3]
+#         expected = ([1], 3)
+#         actual = turbine_config(plots)
+#         self.assertEqual(expected, actual)
+
+#     def test_turbine_config6(self) -> None:
+#         plots = []
+#         expected = ([], 0)
+#         actual = turbine_config(plots)
+#         self.assertEqual(expected, actual)
+
+#     def test_turbine_config7(self) -> None:
+#         plots = [100]
+#         expected = ([0], 100)
+#         actual = turbine_config(plots)
+#         self.assertEqual(expected, actual)
+
+#     def test_turbine_config8(self) -> None:
+#         plots = [100, 100, 50, 50.1]
+#         expected1 = ([1, 3], 150.1)
+#         expected2 = ([0, 3], 150.1)
+#         actual = turbine_config(plots)
+#         self.assertTrue(actual == expected1 or actual == expected2)
+
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    2337. Move pieces to obtain a string
+
+    You are given two strings start and target, both of length n, and each string consists only of the characters 'L', 'R', and '_' where: 1. The characters 'L' and 'R' represent pieces, where a piece 'L' can move to the left only if there is a blank space directly to its left, and a piece 'R' can move to the right only if there is a blank space directly to its right. 2. The character '_' represents a blank space that can be occupied by any of the 'L' or 'R' pieces. The function then returns true if it is possible to obtain the string target by moving the pieces of the string start any number of times. Otherwise, it returns false.
+
+    App - I am pretty stuck and seek out help debugging a new class member function that helps warehouse fork-lift drivers anticipate future inventory allocation and storage, i.e., it tells them whether they can organize pallets of car parts (e.g., engines, mufflers, etc.) efficiently or not. Before they start moving large, heavy containers with their forklift, I need the function to tell return a truth value representing whether a given allocation configuration is possible or not. The function accepts two strings, "before" and "after", that represent one shelf on the multi-tier, warehouse pallet rack shelving unit. The string "before" represents the shelf's current configuration and "after" is the optimal configuration. The string's characters come in three, and only three, flavors: 1.'<', 2. '>', and 3. '_', which represent pallets that need to be shifted to the left, pallets that need to be shifted to the right, and stationary pallets that are between the ones that need to be shifted, respectively. Pallets that need to be shifted cannot cross paths, but they can cross paths with stationary pallets. If the string contains chars outside of the three types mentioned, then it raises a value error. The function returns True if "before" can be rearranged into "after" and False otherwise. However, the "palletRearrange" method is acting up, i.e., it returns the wrong truth value.
+'''
+    
+
+# class PalletRackAllocator:
+#     # Define the pallet types
+#     _palletTypes = {0:'<', 1:'>', 2:'_'}
+
+#     def error_check(self, shelf: str) -> bool:    
+#         # Check each character in the string
+#         for char in shelf:
+#             if char not in self._palletTypes.values():
+#                 # If a character is not in the allowed set, raise an error
+#                 raise ValueError(f"Invalid pallet rack shelf!")
+
+#     def palletRearrange(self, before: str, after: str) -> bool:
+#         self.error_check(before)
+#         self.error_check(after)
+
+#         # Ensure the pallets can only move to legal slots
+#         # And count stationary pallets '_' for validation
+#         before_leftPallets = [i for i, x in enumerate(before) if x == '<']
+#         before_RightPallets = [i for i, x in enumerate(before) if x == '>']
+#         after_leftPallets = [i for i, x in enumerate(after) if x == '<']
+#         after_rightPallets = [i for i, x in enumerate(after) if x == '>']
+
+#         # Check the pallets' positions validity
+#         if len(before_leftPallets) != len(after_leftPallets) or len(before_RightPallets) != len(after_rightPallets):
+#             return False
+#         for i in range(len(before_leftPallets)):
+#             if before_leftPallets[i] < after_leftPallets[i]:
+#                 return False
+#         for i in range(len(before_RightPallets)):
+#             if before_RightPallets[i] > after_rightPallets[i]:
+#                 return False
+
+#         # If all checks pass, the allocation is possible
+#         return True
+
+
+
+
+
+
+
+# import unittest
+
+# class TestPalletRearrange(unittest.TestCase):
+#     def setUp(self) -> None:
+#         self.obj = PalletRackAllocator()
+
+#     def test_pallet(self) -> None:
+#         before = "_>"
+#         after = ">_-"
+#         with self.assertRaises(ValueError):
+#             self.obj.palletRearrange(before, after)
+
+#     def test_pallet0(self) -> None:
+#         before = "_>."
+#         after = ">_"
+#         with self.assertRaises(ValueError):
+#             self.obj.palletRearrange(before, after)
+
+#     def test_pallet1(self) -> None:
+#         before = "_>"
+#         after = ">_"
+#         self.assertFalse(self.obj.palletRearrange(before, after))
+
+#     def test_pallet2(self) -> None:
+#         before = "<_"
+#         after = "_<"
+#         self.assertFalse(self.obj.palletRearrange(before, after))
+
+#     def test_pallet3(self) -> None:
+#         before = "_<__>__>_"
+#         after = "<______>>"
+#         self.assertTrue(self.obj.palletRearrange(before, after))
+
+#     def test_pallet4(self) -> None:
+#         before = ">_<_"
+#         after = "__<>"
+#         self.assertFalse(self.obj.palletRearrange(before, after))
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    2338. Count the number of ideal arrays
+
+    You are given two integers n and maxValue, which are used to describe an ideal array. A 0-indexed integer array arr of length n is considered ideal if the following conditions hold: 1.Every arr[i] is a value from 1 to maxValue, for 0 <= i < n. And 2. Every arr[i] is divisible by arr[i - 1], for 0 < i < n. Return the number of distinct ideal arrays of length n. Since the answer may be very large, return it modulo 10^9 + 7.
+
+    App - I am building a music robot that simulates a musician and composes rhythmic patterns, with math and ML techniques, but I need assistance with a new function that will be a part of a much bigger feature. The overarching feature serves as a failsafe and ensures the compositions are within specified constraints. The constraints are called "rules" in this context, which are required when composing complex rhythmic patterns. This specific function is invoked before the robot constructs rhythms and sequences within compositional algorithms. It counts the number of possibilities that adhere to the "rule" currently in place, and the current rule choice (i.e., the rule we model the rhythmic pattern after) depends on many factors like genre, for example. With this function, we are focused on the divisibility condition, which is the rule for creating certain patterns I like to hear. The divisibility condition says that each note's duration must be a multiple of the previous note's duration within a certain limit. If we represent the music pattern as a list of integers, then each element would be a note and its value is that specific note's duration. The length of the list would be the rhythmic pattern's length. This is only one rule out of many, but each rule will eventually be its own class method and this is a good place to start. The method accepts two integers, which represent the max number of notes that make up any possible pattern "ryhmePatternLen" and the max duration any possible note can be for the current pattern, "maxNoteDuration". It then calculates and returns the number of possible patterns that employ the divisibility condition rule, which is essentially a type of binomial coefficient.
+'''
+
+
+
+from typing import Optional
+from math import comb
+
+class Musician: 
+    # Max number of notes cant exceed 2^14
+    MAX_RYHMEPATTERN_LENGTH = 15
+
+    def __init__(self, ryhmePatternLen: int, maxNoteDuration: int) -> None:
+        self.ryhmePatternLen = ryhmePatternLen  
+        self.maxNoteDuration = maxNoteDuration  
+
+    def set_parameters(self, newLen: Optional[int] = None, newDuration: Optional[int] = None) -> None:
+        # Allow changing of the primary parameters
+        if newLen is not None:
+            self.ryhmePatternLen = newLen
+        if newDuration is not None:
+            self.maxNoteDuration = newDuration
+
+    def divisibilityRuleCounter(self, ryhmePatternLen: int, maxNoteDuration: int) -> int:
+
+        # Helper to map maxNoteDuration to its divisors
+        def buildMap(maxValue: int) -> dict[int, list[int]]:
+            map_divisors = {i: [] for i in range(1, maxValue + 1)}
+            for i in range(1, maxValue + 1):
+                j = i * 2 
+                while j <= maxValue:
+                    map_divisors[j].append(i)
+                    j += i
+            return map_divisors
+
+        
+        # Use stars-n-bars to create n strictly increasing lists, where 
+        # n = ryhmePatternLen, since pattern must be strictly increase
+        dp = [[0 for _ in range(maxNoteDuration + 1)] for _ in range(self.MAX_RYHMEPATTERN_LENGTH)]
+        map_divisors = buildMap(maxNoteDuration)
+        
+        for i in range(1, maxNoteDuration + 1):
+            dp[1][i] = 1
+
+        for i in range(2, min(ryhmePatternLen, self.MAX_RYHMEPATTERN_LENGTH - 1) + 1):
+            for j in range(1, maxNoteDuration + 1):
+                for k in map_divisors[j]:
+                    dp[i][j] += dp[i - 1][k]
+                    
+        for i in range(1, min(ryhmePatternLen, self.MAX_RYHMEPATTERN_LENGTH - 1) + 1):
+            for j in range(1, maxNoteDuration + 1):
+                dp[i][0] += dp[i][j]
+        
+        # Now we simply apply the binomial coefficient
+        res = 0
+        for i in range(1, min(ryhmePatternLen, self.MAX_RYHMEPATTERN_LENGTH - 1) + 1):
+            res += comb(ryhmePatternLen - 1, i - 1) * dp[i][0]
+            
+        return res
+
+    
+
+# Example usage
+obj = Musician(0,0)
+print(obj.divisibilityRuleCounter(10, 300))
+
+
+
+from math import comb
+import unittest
+
+class TestMusician(unittest.TestCase):
+    def setUp(self) -> None:
+        self.obj = Musician(0, 0)
+
+    def test_counter1(self) -> None:
+        patternLen = 14
+        noteDuration = 14
+        expected = 2913
+        actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+        self.assertEqual(expected, actual)
+
+    def test_counter2(self) -> None:
+        patternLen = 3
+        noteDuration = 14
+        expected = 86
+        actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+        self.assertEqual(expected, actual)
+
+    def test_counter3(self) -> None:
+        patternLen = 13
+        noteDuration = 2
+        expected = 14
+        actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+        self.assertEqual(expected, actual)
+
+    def test_counter4(self) -> None:
+        patternLen = 10
+        noteDuration = 8
+        expected = 416
+        actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+        self.assertEqual(expected, actual)
+
+    def test_counter5(self) -> None:
+        patternLen = 7
+        noteDuration = 7
+        expected = 106
+        actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+        self.assertEqual(expected, actual)
+
+    def test_counter6(self) -> None:
+        patternLen = 100
+        noteDuration = 3
+        expected = 201
+        actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+        self.assertEqual(expected, actual)
+
+    def test_counter7(self) -> None:
+        patternLen = 10
+        noteDuration = 300
+        expected = 921300
+        actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+        self.assertEqual(expected, actual)
+
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
