@@ -1344,68 +1344,6 @@ NOTE:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'''
-        FUTURE PROMPT&TEST THAT YOU CAN ALIGN WITH THE SPELL CHECKER STORY
-
-        126. Word Latter 2
-'''
-
-
-
-                
-                
-                
-                
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 '''
     123. Best Time to Buy and Sell Stocks 3
 
@@ -3320,62 +3258,6 @@ NOTE:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'''
-
-    NOTE: Repurpose the 170. Two sum 3
-
-    You can use the same app as above?
-
-'''
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
 '''
     2327. Number of people aware of a secret
 
@@ -4365,85 +4247,6 @@ NOTE:
 
 
 
-
-
-
-
-
-
-"""
-    NOTE: Recycle this one! This is a buggy version
-
-    2335. Minimum amount of time to fill cups
-
-    You have a water dispenser that can dispense cold, warm, and hot water. Every second, you can either fill up 2 cups with different types of water, or 1 cup of any type of water. You are given a 0-indexed integer array amount of length 3 where amount[0], amount[1], and amount[2] denote the number of cold, warm, and hot water cups you need to fill respectively. Return the minimum number of seconds needed to fill up all the cups.
-"""
-
-
-
-# def minimizeTotalProcessingTime(amount: list[int]) -> int:
-#     cpu_bound, io_bound, mixed = amount
-#     total_time = 0
-
-#     # Process mixed tasks independently since they don't pair with others
-#     total_time += mixed
-#     mixed = 0
-
-#     # Pair CPU-bound and I/O-bound tasks to execute simultaneously
-#     paired_tasks = min(cpu_bound, io_bound)
-#     total_time += paired_tasks
-#     cpu_bound -= paired_tasks
-#     io_bound -= paired_tasks
-
-#     # Process the remaining tasks independently
-#     total_time += cpu_bound + io_bound
-
-#     return total_time
-
-
-
-# amount = [1,4,2]
-# print(minimizeTotalProcessingTime(amount)) # expected: 4, actual: 6 (i think)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 '''
     2335. Minimum amount of time to fill cups
 
@@ -4815,124 +4618,733 @@ NOTE:
 
 
 
-from typing import Optional
-from math import comb
+# from typing import Optional
+# from math import comb
 
-class Musician: 
-    # Max number of notes cant exceed 2^14
-    MAX_RYHMEPATTERN_LENGTH = 15
+# class Musician: 
+#     # Max number of notes cant exceed 2^14
+#     MAX_RYHMEPATTERN_LENGTH = 15
 
-    def __init__(self, ryhmePatternLen: int, maxNoteDuration: int) -> None:
-        self.ryhmePatternLen = ryhmePatternLen  
-        self.maxNoteDuration = maxNoteDuration  
+#     def __init__(self, ryhmePatternLen: int, maxNoteDuration: int) -> None:
+#         self.ryhmePatternLen = ryhmePatternLen  
+#         self.maxNoteDuration = maxNoteDuration  
 
-    def set_parameters(self, newLen: Optional[int] = None, newDuration: Optional[int] = None) -> None:
-        # Allow changing of the primary parameters
-        if newLen is not None:
-            self.ryhmePatternLen = newLen
-        if newDuration is not None:
-            self.maxNoteDuration = newDuration
+#     def set_parameters(self, newLen: Optional[int] = None, newDuration: Optional[int] = None) -> None:
+#         # Allow changing of the primary parameters
+#         if newLen is not None:
+#             self.ryhmePatternLen = newLen
+#         if newDuration is not None:
+#             self.maxNoteDuration = newDuration
 
-    def divisibilityRuleCounter(self, ryhmePatternLen: int, maxNoteDuration: int) -> int:
+#     def divisibilityRuleCounter(self, ryhmePatternLen: int, maxNoteDuration: int) -> int:
 
-        # Helper to map maxNoteDuration to its divisors
-        def buildMap(maxValue: int) -> dict[int, list[int]]:
-            map_divisors = {i: [] for i in range(1, maxValue + 1)}
-            for i in range(1, maxValue + 1):
-                j = i * 2 
-                while j <= maxValue:
-                    map_divisors[j].append(i)
-                    j += i
-            return map_divisors
+#         # Helper to map maxNoteDuration to its divisors
+#         def buildMap(maxValue: int) -> dict[int, list[int]]:
+#             map_divisors = {i: [] for i in range(1, maxValue + 1)}
+#             for i in range(1, maxValue + 1):
+#                 j = i * 2 
+#                 while j <= maxValue:
+#                     map_divisors[j].append(i)
+#                     j += i
+#             return map_divisors
 
         
-        # Use stars-n-bars to create n strictly increasing lists, where 
-        # n = ryhmePatternLen, since pattern must be strictly increase
-        dp = [[0 for _ in range(maxNoteDuration + 1)] for _ in range(self.MAX_RYHMEPATTERN_LENGTH)]
-        map_divisors = buildMap(maxNoteDuration)
+#         # Use stars-n-bars to create n strictly increasing lists, where 
+#         # n = ryhmePatternLen, since pattern must be strictly increase
+#         dp = [[0 for _ in range(maxNoteDuration + 1)] for _ in range(self.MAX_RYHMEPATTERN_LENGTH)]
+#         map_divisors = buildMap(maxNoteDuration)
         
-        for i in range(1, maxNoteDuration + 1):
-            dp[1][i] = 1
+#         for i in range(1, maxNoteDuration + 1):
+#             dp[1][i] = 1
 
-        for i in range(2, min(ryhmePatternLen, self.MAX_RYHMEPATTERN_LENGTH - 1) + 1):
-            for j in range(1, maxNoteDuration + 1):
-                for k in map_divisors[j]:
-                    dp[i][j] += dp[i - 1][k]
+#         for i in range(2, min(ryhmePatternLen, self.MAX_RYHMEPATTERN_LENGTH - 1) + 1):
+#             for j in range(1, maxNoteDuration + 1):
+#                 for k in map_divisors[j]:
+#                     dp[i][j] += dp[i - 1][k]
                     
-        for i in range(1, min(ryhmePatternLen, self.MAX_RYHMEPATTERN_LENGTH - 1) + 1):
-            for j in range(1, maxNoteDuration + 1):
-                dp[i][0] += dp[i][j]
+#         for i in range(1, min(ryhmePatternLen, self.MAX_RYHMEPATTERN_LENGTH - 1) + 1):
+#             for j in range(1, maxNoteDuration + 1):
+#                 dp[i][0] += dp[i][j]
         
-        # Now we simply apply the binomial coefficient
-        res = 0
-        for i in range(1, min(ryhmePatternLen, self.MAX_RYHMEPATTERN_LENGTH - 1) + 1):
-            res += comb(ryhmePatternLen - 1, i - 1) * dp[i][0]
+#         # Now we simply apply the binomial coefficient
+#         res = 0
+#         for i in range(1, min(ryhmePatternLen, self.MAX_RYHMEPATTERN_LENGTH - 1) + 1):
+#             res += comb(ryhmePatternLen - 1, i - 1) * dp[i][0]
             
-        return res
+#         return res
 
     
 
+# # Example usage
+# obj = Musician(0,0)
+# print(obj.divisibilityRuleCounter(10, 300))
+
+
+
+# from math import comb
+# import unittest
+
+# class TestMusician(unittest.TestCase):
+#     def setUp(self) -> None:
+#         self.obj = Musician(0, 0)
+
+#     def test_counter1(self) -> None:
+#         patternLen = 14
+#         noteDuration = 14
+#         expected = 2913
+#         actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+#         self.assertEqual(expected, actual)
+
+#     def test_counter2(self) -> None:
+#         patternLen = 3
+#         noteDuration = 14
+#         expected = 86
+#         actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+#         self.assertEqual(expected, actual)
+
+#     def test_counter3(self) -> None:
+#         patternLen = 13
+#         noteDuration = 2
+#         expected = 14
+#         actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+#         self.assertEqual(expected, actual)
+
+#     def test_counter4(self) -> None:
+#         patternLen = 10
+#         noteDuration = 8
+#         expected = 416
+#         actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+#         self.assertEqual(expected, actual)
+
+#     def test_counter5(self) -> None:
+#         patternLen = 7
+#         noteDuration = 7
+#         expected = 106
+#         actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+#         self.assertEqual(expected, actual)
+
+#     def test_counter6(self) -> None:
+#         patternLen = 100
+#         noteDuration = 3
+#         expected = 201
+#         actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+#         self.assertEqual(expected, actual)
+
+#     def test_counter7(self) -> None:
+#         patternLen = 10
+#         noteDuration = 300
+#         expected = 921300
+#         actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+#         self.assertEqual(expected, actual)
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    199. Binary tree right side view
+
+    Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
+
+    App - Help me create a new function for an action and adventure video game that I am working on to create suspenseful encounters. The function will help reveal secrets and puzzles as the player explores areas in a forest that is densely populated with trees, underbrush, and artifacts. The function is a perspective algorithm within the game's engine and will be invoked to optimize what's rendered based on the player's viewpoint and direction of sight. The forest world that the game is based in is conceptually divided into a binary tree structure based on the positions of players and objects. Therefore, as the player moves and rotates, the function assesses which objects fall into the player's field of view (FOV). The function "field_of_view", which is a class member of "MysticForest", i.e., the game, divides the player's FOV into six quadrants that represent the player's six perspectives or directions. Under the hood, the game's character is represented by a cube, which results in six sides, e.g., up, down, left, right, forward, and backward. The function I need help with, "field_of_view", accepts a quadrant flag that defines the player's perspective, i.e., the side of the cube the player is looking out from. I am currently focused on the right-side renderer, which returns all objects, or more technically, nodes visible to the player from a right-side perspective. All the function needs is the root node argument and a string argument, perspective="right", that tells it the player's vantage point. It then returns a list with all the nodes in the FOV. Also, to construct the binary tree that represents the game, you first call the "build_game" method with two arguments; a dictionary of this format: game = {nodeId : (leftChild:int, rightChild:int)}, and the integer ID of the root node. The key of the game dictionary's node is an integer I.D., and the tuple represents the node's left and right children, respectively. Then the function I need help with gets called with the newly built game.
+'''
+
+
+
+# from typing import Optional
+# from collections import deque
+
+# class MysticForest:
+#     quadrants = ["right", "left", "back", "front", "up", "down"]
+
+#     class TreeNode:
+#         def __init__(self, id: Optional[int]=0, left: Optional[int]=None, right: Optional[int]=None) -> None:
+#             self.id = id
+#             self.left = left
+#             self.right = right
+
+#         def set_position_orientation(self, x: int, y: int, z: int, p: int, yaw: int, r: int) -> None:
+#             self.x = x
+#             self.y = y
+#             self.z = z
+#             self.pitch = p
+#             self.yaw = yaw
+#             self.roll = r
+
+#     def build_game(self, nodesDict: dict[int, tuple], current_id: Optional[int] = None) -> TreeNode: 
+#         if current_id is None or current_id not in nodesDict:
+#             return None
+#         left_id, right_id = nodesDict[current_id]
+#         # Create the current node
+#         node = self.TreeNode(id=current_id)
+#         # Recursively build the left and right children
+#         node.left = self.build_game(nodesDict, left_id)
+#         node.right = self.build_game(nodesDict, right_id)
+#         return node
+
+#     def field_of_view(self, root: Optional[TreeNode], perspective: str) -> list[int]:
+#         if not root:
+#             return []
+        
+#         queue = deque([root])
+#         renderedObjects = []
+
+#         if perspective == self.quadrants[0]:
+            
+#             while queue:
+#                 level_length = len(queue)
+                
+#                 for i in range(level_length):
+#                     node = queue.popleft()
+                    
+#                     # If it's the last node in the current level, 
+#                     # add it to the right_side list
+#                     if i == level_length - 1:
+#                         renderedObjects.append(node.id)
+                    
+#                     # Add child nodes in the queue for the next level
+#                     if node.left:
+#                         queue.append(node.left)
+#                     if node.right:
+#                         queue.append(node.right)
+#         # Under construction
+#         elif perspective == self.quadrants[1]:
+#             pass
+#         elif perspective == self.quadrants[2]:
+#             pass
+#         elif perspective == self.quadrants[3]:
+#             pass
+#         elif perspective == self.quadrants[4]:
+#             pass
+#         elif perspective == self.quadrants[5]:
+#             pass
+        
+#         return renderedObjects
+
+
+
+# obj = MysticForest()
+
+# # Example usage
+# nodes_info = {
+#     204: (56, None),
+#     56: (34, 45),
+#     34: (None, 33), 
+#     45: (None, None),
+#     33: (None, 10000),
+#     10000: (None, None)
+# }
+# root = obj.build_game(nodes_info, 204)
+# print(obj.field_of_view(root, "right"))
+
+
+
+
+# import unittest
+
+# class TestMysticForest(unittest.TestCase):
+#     def setUp(self) -> None:
+#         self.obj = MysticForest()
+#         self.perspective = "right"
+
+#     def test_mystic1(self) -> None:
+#         object_info = {}
+#         expected = []
+#         game = self.obj.build_game(object_info)
+#         actual = self.obj.field_of_view(game, self.perspective)
+#         self.assertEqual(expected, actual)
+
+#     def test_mystic2(self) -> None:
+#         object_info = {
+#             45: (None, 10045),
+#             10045: (None, None)
+#         }
+#         expected = [45, 10045]
+#         game = self.obj.build_game(object_info, 45)
+#         actual = self.obj.field_of_view(game, self.perspective)
+#         self.assertEqual(expected, actual)
+
+#     def test_mystic3(self) -> None:
+#         object_info = {
+#             59: (10045, None)
+#         }
+#         expected = [59]
+#         game = self.obj.build_game(object_info, 59)
+#         actual = self.obj.field_of_view(game, self.perspective)
+#         self.assertEqual(expected, actual)
+
+#     def test_mystic4(self) -> None:
+#         object_info = {
+#             0: (1, 2),
+#             1: (None, 5),
+#             2: (None, 4),
+#             5: (None, None),
+#             4: (None, None)
+#         }
+#         expected = [0, 2, 4]
+#         game = self.obj.build_game(object_info, 0)
+#         actual = self.obj.field_of_view(game, self.perspective)
+#         self.assertEqual(expected, actual)
+
+#     def test_mystic5(self) -> None:
+#         object_info = {
+#             204: (56, 67),
+#             56: (34, 45),
+#             67: (None, 32),
+#             34: (None, 33), 
+#             45: (None, None),
+#             32: (None, 10000),
+#             10000: (None, None)
+#         }
+#         expected = [204, 67, 32, 10000]
+#         game = self.obj.build_game(object_info, 204)
+#         actual = self.obj.field_of_view(game, self.perspective)
+#         self.assertEqual(expected, actual)
+
+#     def test_mystic6(self) -> None:
+#         object_info = {
+#             204: (56, None),
+#             56: (34, 45),
+#             34: (None, 33), 
+#             45: (None, None),
+#             33: (None, 10000),
+#             10000: (None, None)
+#         }
+#         expected = [204, 56, 45, 33, 10000]
+#         game = self.obj.build_game(object_info, 204)
+#         actual = self.obj.field_of_view(game, self.perspective)
+#         self.assertEqual(expected, actual)
+
+#     def test_mystic7(self) -> None:
+#         object_info = {
+#             204: (56, None),
+#             56: (34, None),
+#             34: (333, None), 
+#             333: (23, None),
+#             23: (None, None)
+#         }
+#         expected = [204, 56, 34, 333, 23]
+#         game = self.obj.build_game(object_info, 204)
+#         actual = self.obj.field_of_view(game, self.perspective)
+#         self.assertEqual(expected, actual)
+
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+    NOTE: Recycle this one! This is a buggy version
+
+    2335. Minimum amount of time to fill cups
+
+    You have a water dispenser that can dispense cold, warm, and hot water. Every second, you can either fill up 2 cups with different types of water, or 1 cup of any type of water. You are given a 0-indexed integer array amount of length 3 where amount[0], amount[1], and amount[2] denote the number of cold, warm, and hot water cups you need to fill respectively. Return the minimum number of seconds needed to fill up all the cups.
+
+    App - I need help debugging the function "semi_clean_duration" because it is returning the wrong values. It is for the city's Department of Energy to reduce carbon emissions by supplying the number of days a given energy source schedule (ESS) will last. The city wants to reduce its carbon footprint by utilizing more renewable energy while slowly omitting non-renewables from the ESS. The ESS is a routine that is passed into the function, in the form of a dictionary, that represents the types of energy sources currently available, where an elements key is a string of their name, e.g. "coal" or "solar", and the value is an integer that represents the number of days the resource is available for, i.e., the duration. The types of energy providers available are solar farms, wind farms, coal-powered power plants, and oil-powered power plants. Two providers source green energy, and the other two are fossil-fueled, which emits greenhouse gases. Therefore, since the city requires two energy providers at all times each day, then the idea that this function is based on is to never get energy from both carbon-emitting providers at the same time, more specifically, on the same day. As we keep getting familiar with and building new sources of renewable energy, we will eventually become independent of fossil-fueled energy. The function takes as arguments the ESS, which has this structure: {"energyType" : numberOfDaysAvailable, ..., "oil" : 2}. It then returns an integer, which is the number of days we can provide semi-clean energy. Some days we can produce full clean, but the function is returning incorrect values. Please help!
+"""
+
+
+
+# class SmartGridManager:
+
+#     def __init__(self):
+#         self.energySources = ["solar", "wind", "coal", "oil"]
+
+#     def extract_demands(self, ess: dict[str, int]) -> int:
+#         solarDays = ess.get(self.energySources[0])
+#         windDays = ess.get(self.energySources[1])
+#         coalDays = ess.get(self.energySources[2])
+#         oilDays = ess.get(self.energySources[3])
+
+#         ff = coalDays + oilDays
+#         days = [solarDays, windDays, ff]
+#         return days
+
+#     def semi_clean_duration(self, ess: list[int]) -> int:
+#         solarDays, windDays, fossilFueledDays = self.extract_demands(ess)
+#         totalDays = 0
+
+#         takeSolars = True
+#         while fossilFueledDays:
+#             totalDays += fossilFueledDays
+#             fossilFueledDays -= 1
+#             if (solarDays and solarDays < windDays and takeSolars) or (solarDays and not windDays):
+#                 solarDays -= 1 
+#                 takeSolars = True
+#             elif windDays:
+#                 windDays -= 1
+#                 takeSolars = False
+
+#         # Pair a renewable and fossil fuel to execute simultaneously
+#         pairedSources = min(windDays, solarDays)
+#         totalDays += pairedSources
+#         windDays -= pairedSources
+#         solarDays -= pairedSources
+
+#         # Process the remaining days independently
+#         totalDays += windDays + solarDays
+
+#         return totalDays
+
+
+
+
+# ess = {"coal": 1, "oil": 3, "solar": 2, "wind": 0}
+# obj = SmartGridManager()
+# print(obj.semi_clean_duration(ess)) # expected: 4, actual: 6 (i think)
+
+
+
+
+# import unittest
+
+# class TestSmartGridManager(unittest.TestCase):
+#     def setUp(self) -> None:
+#         self.obj = SmartGridManager()
+
+#     def test_manager1(self) -> None:
+#         ess = {"coal": 0, "oil": 0, "solar": 1, "wind": 1}
+#         expected = 1
+#         actual = self.obj.semi_clean_duration(ess)
+#         self.assertTrue(expected == actual)
+
+#     def test_manager2(self) -> None:
+#         ess = {"coal": 0, "oil": 1, "solar": 0, "wind": 1}
+#         expected = 1
+#         actual = self.obj.semi_clean_duration(ess)
+#         self.assertTrue(expected == actual)
+
+#     def test_manager3(self) -> None:
+#         ess = {"coal": 1, "oil": 0, "solar": 0, "wind": 1}
+#         expected = 1
+#         actual = self.obj.semi_clean_duration(ess)
+#         self.assertTrue(expected == actual)
+
+#     def test_manager4(self) -> None:
+#         ess = {"coal": 1, "oil": 0, "solar": 1, "wind": 0}
+#         expected = 1
+#         actual = self.obj.semi_clean_duration(ess)
+#         self.assertTrue(expected == actual)
+
+#     def test_manager5(self) -> None:
+#         ess = {"coal": 0, "oil": 1, "solar": 1, "wind": 0}
+#         expected = 1
+#         actual = self.obj.semi_clean_duration(ess)
+#         self.assertTrue(expected == actual)
+
+#     def test_manager6(self) -> None:
+#         ess = {"coal": 1, "oil": 1, "solar": 0, "wind": 0}
+#         expected = 2
+#         actual = self.obj.semi_clean_duration(ess)
+#         self.assertTrue(expected == actual)
+
+#     def test_manager7(self) -> None:
+#         ess = {"coal": 1, "oil": 3, "solar": 1, "wind": 1}
+#         expected = 4
+#         actual = self.obj.semi_clean_duration(ess)
+#         self.assertTrue(expected == actual)
+
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    200. Number of islands
+
+    Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+
+    App - I work for this new internet company that operates through a constellation of small satellites in low Earth orbit, which reduces the latency of transmissions. On the ground, users connect to the satellites via a terminal that is similar to a dish provided by a cable company. However, if a user does not adjust the terminal's orientation, then it wont maintain the best possible connection to the overhead satellites and it goes offline. I have a live map of terminals (called TM: terminal map) in this senario and if to many terminals are offline in one location, then its an indicator that something more than a simple terminal adjustment is required and I must investigate. This leads me to ask you for help with a function that I want to integrate into the program that generates the TM I mentioned.  
+'''
+
+
+
+
+
+# def offline_terminals(terminalMap: list[list[str]]) -> int:
+#     if not terminalMap:
+#         return 0
+
+#     def dfs(x: int, y: int):
+#         # Check if current position is out of bounds or is online
+#         if x < 0 or x >= len(terminalMap) or y < 0 or y >= len(terminalMap[0]) or terminalMap[x][y] == '0':
+#             return
+        
+#         # Mark the current terminal as visited
+#         terminalMap[x][y] = '0'
+        
+#         # Visit all adjacent terminals
+#         dfs(x + 1, y)
+#         dfs(x - 1, y)
+#         dfs(x, y + 1)
+#         dfs(x, y - 1)
+
+#     offlineTerminals = 0
+#     for i in range(len(terminalMap)):
+#         for j in range(len(terminalMap[0])):
+#             if terminalMap[i][j] == '1':
+#                 offlineTerminals += 1
+#                 dfs(i, j)
+    
+#     return offlineTerminals
+
+# # Example usage
+# grid = [
+#     ["1", "1", "1", "0", "0"],
+#     ["1", "1", "0", "0", "0"],
+#     ["0", "0", "0", "1", "0"],
+#     ["0", "0", "0", "1", "1"]
+# ]
+
+# print(offline_terminals(grid))  
+
+
+
+
+# import unittest
+
+# class TestOfflineTerminals(unittest.TestCase):
+#     def test_offline1(self) -> None:
+#         cluster = [
+#             ["0", "0", "0", "0", "0"],
+#             ["0", "0", "0", "0", "0"],
+#             ["0", "0", "0", "0", "0"],
+#             ["0", "0", "0", "0", "0"]
+#         ]
+#         expected = 0
+#         actual = offline_terminals(cluster)
+#         self.assertEqual(expected, actual)
+
+#     def test_offline2(self) -> None:
+#         cluster = []
+#         expected = 0
+#         actual = offline_terminals(cluster)
+#         self.assertEqual(expected, actual)
+
+#     def test_offline3(self) -> None:
+#         cluster = [
+#             ["1", "1", "1", "1", "1"],
+#         ]
+#         expected = 1
+#         actual = offline_terminals(cluster)
+#         self.assertEqual(expected, actual)
+    
+#     def test_offline4(self) -> None:
+#         cluster = [
+#             ["0", "0", "0", "0", "0"],
+#             ["0", "0", "0", "0", "0"],
+#             ["0", "0", "0", "0", "0"],
+#             ["0", "0", "0", "0", "1"]
+#         ]
+#         expected = 1
+#         actual = offline_terminals(cluster)
+#         self.assertEqual(expected, actual)
+
+#     def test_offline5(self) -> None:
+#         cluster = [
+#             ["0"],
+#             ["0"],
+#             ["0"],
+#             ["1"]
+#         ]
+#         expected = 1
+#         actual = offline_terminals(cluster)
+#         self.assertEqual(expected, actual)
+
+#     def test_offline6(self) -> None:
+#         cluster = [
+#             ["0", "0", "0", "0", "0", "0", "0"],
+#             ["0", "1", "1", "1", "1", "1", "0"],
+#             ["0", "1", "0", "0", "0", "1", "0"],
+#             ["0", "1", "0", "1", "0", "1", "0"],
+#             ["0", "1", "0", "1", "0", "1", "0"],
+#             ["0", "1", "0", "0", "0", "1", "0"],
+#             ["0", "1", "1", "1", "1", "1", "0"],
+#             ["0", "0", "0", "0", "0", "0", "0"]
+#         ]
+#         expected = 2
+#         actual = offline_terminals(cluster)
+#         self.assertEqual(expected, actual)
+
+#     def test_offline7(self) -> None:
+#         cluster = [
+#             ["1", "0", "1"], 
+#             ["0", "1", "0"], 
+#             ["1", "0", "1"]
+#         ]
+#         expected = 5
+#         actual = offline_terminals(cluster)
+#         self.assertEqual(expected, actual)
+
+#     def test_offline8(self) -> None:
+#         cluster = [
+#             ["1", "1", "1", "1", "0"], 
+#             ["1", "1", "0", "1", "0"],
+#             ["1", "1", "0", "0", "0"],
+#             ["0", "0", "0", "0", "0"],
+#             ["1", "1", "0", "0", "0"],
+#             ["1", "1", "0", "0", "0"],
+#             ["0", "0", "1", "0", "0"],
+#             ["0", "0", "0", "1", "1"]
+#         ]
+#         expected = 4
+#         actual = offline_terminals(cluster)
+#         self.assertEqual(expected, actual)
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+'''
+    201. Bitwise & of numbers range
+
+    Given two integers left and right that represent the range [left, right], return the bitwise AND of all numbers in this range, inclusive.
+
+    App - I am using a Raspberry Pi, sensors, cameras, and other peripherals for my latest robotics project and all these components need to be assigned a static IP address because dynamic IP assignment via DHCP isn't possible in the operating environment. I could really use your help with a function that I am using for subnet mask calculations to determine the optimal subnet mask for the drone fleet. It takes two integers, 'startIP' and 'endIP', which is the inclusive range of IP adresses I will be manually assigning. It takes those two endpoints and extracts the common bits in all the addresses by performing a bitwise AND operation on them. When the function returns this result, i.e., the shared binary prefix, I can configure a specific subnet mask that encompasses all my components while keeping them on the same subnet, which is essential in the remote environment I am working in. Note that the function will raise a value error if larger than 4 bytes.
+'''
+
+
+
+
+def extract_prefix(startIP: int, endIP: int) -> int:
+
+    def check_size(ip: int) -> None:
+        # Convert bits to bytes and check if it exceeds 4 bytes (32 bits)
+        if not -2**31 <= ip <= 2**31 - 1:
+            raise ValueError("Integer size cannot be larger than 4 bytes.")
+    
+    check_size(startIP)
+    check_size(endIP)
+
+    shift = 0
+    # Find the common prefix
+    while startIP < endIP:
+        startIP >>= 1
+        endIP >>= 1
+        shift += 1
+    # Shift back to the original position
+    return startIP << shift
+
 # Example usage
-obj = Musician(0,0)
-print(obj.divisibilityRuleCounter(10, 300))
+print(extract_prefix(5, 7))  # Output: 4
+print(extract_prefix(0, 1))  # Output: 0
 
 
 
-from math import comb
+
 import unittest
 
-class TestMusician(unittest.TestCase):
-    def setUp(self) -> None:
-        self.obj = Musician(0, 0)
 
-    def test_counter1(self) -> None:
-        patternLen = 14
-        noteDuration = 14
-        expected = 2913
-        actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+class TestExtractPrefix(unittest.TestCase):
+    def test_extraction1(self):
+        startIP = 4
+        endIP = 5
+        expected = 4
+        actual = extract_prefix(startIP, endIP)
         self.assertEqual(expected, actual)
 
-    def test_counter2(self) -> None:
-        patternLen = 3
-        noteDuration = 14
-        expected = 86
-        actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+    def test_extraction2(self):
+        startIP = 8
+        endIP = 8
+        expected = 8
+        actual = extract_prefix(startIP, endIP)
         self.assertEqual(expected, actual)
 
-    def test_counter3(self) -> None:
-        patternLen = 13
-        noteDuration = 2
-        expected = 14
-        actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+    def test_extraction3(self):
+        startIP = 8
+        endIP = 15
+        expected = 8
+        actual = extract_prefix(startIP, endIP)
         self.assertEqual(expected, actual)
 
-    def test_counter4(self) -> None:
-        patternLen = 10
-        noteDuration = 8
-        expected = 416
-        actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+    def test_extraction4(self):
+        startIP = 250
+        endIP = 512
+        expected = 0
+        actual = extract_prefix(startIP, endIP)
         self.assertEqual(expected, actual)
 
-    def test_counter5(self) -> None:
-        patternLen = 7
-        noteDuration = 7
-        expected = 106
-        actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+    def test_extraction5(self):
+        startIP = 1023
+        endIP = 1024
+        expected = 0
+        actual = extract_prefix(startIP, endIP)
         self.assertEqual(expected, actual)
 
-    def test_counter6(self) -> None:
-        patternLen = 100
-        noteDuration = 3
-        expected = 201
-        actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+    def test_extraction6(self):
+        startIP = 0
+        endIP = 65535
+        expected = 0
+        actual = extract_prefix(startIP, endIP)
         self.assertEqual(expected, actual)
 
-    def test_counter7(self) -> None:
-        patternLen = 10
-        noteDuration = 300
-        expected = 921300
-        actual = self.obj.divisibilityRuleCounter(patternLen, noteDuration)
+    def test_extraction7(self):
+        startIP = 2147483646
+        endIP = 2147483647
+        expected = 2147483646
+        actual = extract_prefix(startIP, endIP)
         self.assertEqual(expected, actual)
+
+    def test_extraction8(self):
+        startIP = 2147483647
+        endIP = 2147483649
+        with self.assertRaises(ValueError):
+            extract_prefix(startIP, endIP)
+
+
+
 
 
 if __name__ == "__main__":
@@ -4962,6 +5374,60 @@ if __name__ == "__main__":
 
 
 
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+
+    NOTE: Repurpose the 170. Two sum 3
+
+    You can use the same app as above? Amazon black friday sale
+
+'''
+
+'''
+        FUTURE PROMPT&TEST THAT YOU CAN ALIGN WITH THE SPELL CHECKER STORY
+
+        126. Word Latter 2
+'''
 
 
 
