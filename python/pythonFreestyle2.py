@@ -5258,97 +5258,405 @@ NOTE:
 
 
 
-def extract_prefix(startIP: int, endIP: int) -> int:
+# def extract_prefix(startIP: int, endIP: int) -> int:
 
-    def check_size(ip: int) -> None:
-        # Convert bits to bytes and check if it exceeds 4 bytes (32 bits)
-        if not -2**31 <= ip <= 2**31 - 1:
-            raise ValueError("Integer size cannot be larger than 4 bytes.")
+#     def check_size(ip: int) -> None:
+#         # Convert bits to bytes and check if it exceeds 4 bytes (32 bits)
+#         if not -2**31 <= ip <= 2**31 - 1:
+#             raise ValueError("Integer size cannot be larger than 4 bytes.")
     
-    check_size(startIP)
-    check_size(endIP)
+#     check_size(startIP)
+#     check_size(endIP)
 
-    shift = 0
-    # Find the common prefix
-    while startIP < endIP:
-        startIP >>= 1
-        endIP >>= 1
-        shift += 1
-    # Shift back to the original position
-    return startIP << shift
+#     shift = 0
+#     # Find the common prefix
+#     while startIP < endIP:
+#         startIP >>= 1
+#         endIP >>= 1
+#         shift += 1
+#     # Shift back to the original position
+#     return startIP << shift
+
+# # Example usage
+# print(extract_prefix(5, 7))  # Output: 4
+# print(extract_prefix(0, 1))  # Output: 0
+
+
+
+
+# import unittest
+
+
+# class TestExtractPrefix(unittest.TestCase):
+#     def test_extraction1(self):
+#         startIP = 4
+#         endIP = 5
+#         expected = 4
+#         actual = extract_prefix(startIP, endIP)
+#         self.assertEqual(expected, actual)
+
+#     def test_extraction2(self):
+#         startIP = 8
+#         endIP = 8
+#         expected = 8
+#         actual = extract_prefix(startIP, endIP)
+#         self.assertEqual(expected, actual)
+
+#     def test_extraction3(self):
+#         startIP = 8
+#         endIP = 15
+#         expected = 8
+#         actual = extract_prefix(startIP, endIP)
+#         self.assertEqual(expected, actual)
+
+#     def test_extraction4(self):
+#         startIP = 250
+#         endIP = 512
+#         expected = 0
+#         actual = extract_prefix(startIP, endIP)
+#         self.assertEqual(expected, actual)
+
+#     def test_extraction5(self):
+#         startIP = 1023
+#         endIP = 1024
+#         expected = 0
+#         actual = extract_prefix(startIP, endIP)
+#         self.assertEqual(expected, actual)
+
+#     def test_extraction6(self):
+#         startIP = 0
+#         endIP = 65535
+#         expected = 0
+#         actual = extract_prefix(startIP, endIP)
+#         self.assertEqual(expected, actual)
+
+#     def test_extraction7(self):
+#         startIP = 2147483646
+#         endIP = 2147483647
+#         expected = 2147483646
+#         actual = extract_prefix(startIP, endIP)
+#         self.assertEqual(expected, actual)
+
+#     def test_extraction8(self):
+#         startIP = 2147483647
+#         endIP = 2147483649
+#         with self.assertRaises(ValueError):
+#             extract_prefix(startIP, endIP)
+
+
+
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    202. Happy number
+
+    A function that takes an integer 'n', which is then used to determine if 'n' is happy. A happy number is a number defined by the following 3-step process: 1. Starting with any positive integer, replace the number by the sum of the squares of its digits. 2. Repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. And 3. Those numbers for which this process ends in 1 are happy. Are there any real-world applications that could use such a function? Or are there any real-world scenarios that it could model, or even help model?
+
+    App - My team and I have formulated a scoring system that will help patients with mental health and well-being, and we are creating a mobile app that people can use to keep track of the effects that certain thoughts and activities cause. The app works by quantifying aspects of one's lifestyle and mental processes to predict and assess well-being. However, I need help with two new class member functions that need to be integrated into the "HealthAnalytics" class that drives the app. The first function, "is_sat", implements the logic of our new scoring system and generates the scores. It takes the user's score, which is not passed in but accessed, and returns a bool representing the status of the user's well-being. Our scoring system assigns integers (0-10) to unique metrics like recreational activities, physical exercise, nutrition, sleep, etc. From extensive research, we have learned that certain combinations of squared integers will reduce to 1 via an iterative process of summing the squared digits and the result, recursively; these digits are the ones that make up the score. On the contrary, some number combinations take on a cyclic behavior and never reduce, thereby giving us an unsatisfactory user score. Therefore, the function must return the status of a user's integer score. If the score can be reduced, via the iterative process, then the function should return true, otherwise false. A score that is satisfactory denotes a routine or lifestyle that is both fulfilling and promotes well-being, with respect to a tailored set of metrics that model a personal wellness journey. The second function, "set_metrics" simply updates the user's metrics when given a list of integers. It returns nothing because it updates the user's class member dictionary in the same way that "is_sat" does. The dictionary has this structure: {"metric" : score}, where the key is a string denoted by the selected metric and the value is an integer that denotes the corresponding score. This means the class instance must be created with an integer list representing the indexes of the chosen metrics, and then "set_metrics" must be called with another integer list representing the scores before calling "is_sat".
+'''
+
+
+
+
+# class HealthAnalytics:
+#     # Selectable metrics to create a tailored model: 0-9
+#     AVAILABLE_METRICS = [
+#         "recreational activities",
+#         "physical exercise",
+#         "nutrition",
+#         "sleep",
+#         "social interaction",
+#         "nutrition",
+#         "meditation",
+#         "personal growth",
+#         "professional or academic activities",
+#         "emotional well-being",
+#     ]
+
+#     def __init__(self, selectedMetrics: list[int]) -> None:
+#         # Create the tailored 'metric to score' map
+#         self.userTailoredMetrics = {}
+#         for metricIdx in range(len(selectedMetrics)):
+#             self.userTailoredMetrics[
+#                 self.AVAILABLE_METRICS[selectedMetrics[metricIdx]]
+#             ] = 0
+
+#     def set_metrics(self, metricScores: list[int]) -> None:
+#         i = 0
+#         for metric in self.userTailoredMetrics:
+#             self.userTailoredMetrics[metric] = metricScores[i]
+#             i += 1
+
+#     def print_scores(self) -> None:
+#         for metric, score in self.userTailoredMetrics.items():
+#             print(f"Your {metric} score is: {score}")
+
+#     def gen_score(self) -> int:
+#         # Extract values and convert each to string, then concatenate
+#         concatenated_values = "".join(
+#             str(value) for value in self.userTailoredMetrics.values()
+#         )
+#         # Convert the concatenated string back to an integer
+#         result_int = int(concatenated_values)
+#         return result_int
+
+#     def is_satisfactory(self) -> bool:
+#         score = self.gen_score()
+#         seen = set()
+#         while score != 1 and score not in seen:
+#             seen.add(score)
+#             score = self.get_next(score)
+#         return score == 1
+
+#     def get_next(self, number: int) -> int:
+#         # Calculate the sum of the squares of the digits of 'number'.
+#         return sum(int(char) ** 2 for char in str(number))
+
+#     def count_sat_numbers(self, start: int, end: int) -> int:
+#         count = 0
+#         for num in range(start, end + 1):
+#             if self.is_satisfactory(num):
+#                 count += 1
+
+#         return count
+
+
+# # Example usage
+# exampleMetric = [9]
+# exampleScores = [1]
+# obj = HealthAnalytics(exampleMetric)
+# obj.set_metrics(exampleScores)
+# obj.print_scores()
+# print(obj.is_satisfactory())
+# print("We have this many inbetween 1 & 100:")
+# print(obj.count_sat_numbers(1, 100))  # Output: The number of happy numbers between 1 and 100
+
+# print("We have this many inbetween 100 & 500:")
+# print(obj.count_sat_numbers(100, 500))  # Output: The number of happy numbers between 1 and 100
+
 
 # Example usage
-print(extract_prefix(5, 7))  # Output: 4
-print(extract_prefix(0, 1))  # Output: 0
-
-
-
-
-import unittest
-
-
-class TestExtractPrefix(unittest.TestCase):
-    def test_extraction1(self):
-        startIP = 4
-        endIP = 5
-        expected = 4
-        actual = extract_prefix(startIP, endIP)
-        self.assertEqual(expected, actual)
-
-    def test_extraction2(self):
-        startIP = 8
-        endIP = 8
-        expected = 8
-        actual = extract_prefix(startIP, endIP)
-        self.assertEqual(expected, actual)
-
-    def test_extraction3(self):
-        startIP = 8
-        endIP = 15
-        expected = 8
-        actual = extract_prefix(startIP, endIP)
-        self.assertEqual(expected, actual)
-
-    def test_extraction4(self):
-        startIP = 250
-        endIP = 512
-        expected = 0
-        actual = extract_prefix(startIP, endIP)
-        self.assertEqual(expected, actual)
-
-    def test_extraction5(self):
-        startIP = 1023
-        endIP = 1024
-        expected = 0
-        actual = extract_prefix(startIP, endIP)
-        self.assertEqual(expected, actual)
-
-    def test_extraction6(self):
-        startIP = 0
-        endIP = 65535
-        expected = 0
-        actual = extract_prefix(startIP, endIP)
-        self.assertEqual(expected, actual)
-
-    def test_extraction7(self):
-        startIP = 2147483646
-        endIP = 2147483647
-        expected = 2147483646
-        actual = extract_prefix(startIP, endIP)
-        self.assertEqual(expected, actual)
-
-    def test_extraction8(self):
-        startIP = 2147483647
-        endIP = 2147483649
-        with self.assertRaises(ValueError):
-            extract_prefix(startIP, endIP)
+# print("And this is one happy and one unhappy:")
+# print(obj.is_satisfactory(19))  # Output: True, because 1^2 + 9^2 = 82, 8^2 + 2^2 = 68, 6^2 + 8^2 = 100, and 1^2 + 0^2 + 0^2 = 1
+# print(obj.is_satisfactory(2))   # Output: False, because it enters a cycle that does not include 1
 
 
 
 
 
-if __name__ == "__main__":
-    unittest.main()
+
+
+# import unittest
+
+# class TestHealthAnalytics(unittest.TestCase):
+#     def setUp(self) -> None:
+#         tailoredMetrics1 = [1, 5]
+#         scores1 = [1, 9]
+#         self.instance1 = HealthAnalytics(tailoredMetrics1)
+#         self.instance1.set_metrics(scores1)
+
+#         tailoredMetrics2 = [9]
+#         scores2 = [1]
+#         self.instance2 = HealthAnalytics(tailoredMetrics2)
+#         self.instance2.set_metrics(scores2)
+
+#         tailoredMetrics3 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+#         scores3 = [1, 9, 10, 5, 3, 8, 2, 3, 8]
+#         self.instance3 = HealthAnalytics(tailoredMetrics3)
+#         self.instance3.set_metrics(scores3)
+
+#     def test_satScore1(self) -> None:
+#         self.assertTrue(self.instance1.is_satisfactory())
+
+#     def test_satScore2(self) -> None:
+#         self.assertTrue(self.instance2.is_satisfactory())
+
+#     def test_satScore3(self) -> None:
+#         changeMetrics = [2]
+#         self.instance2.set_metrics(changeMetrics)
+#         self.assertFalse(self.instance2.is_satisfactory())
+
+#     def test_satScore4(self) -> None:
+#         self.assertFalse(self.instance3.is_satisfactory())
+
+#     def test_satScore5(self) -> None:
+#         changeMatrics = [9, 99]
+#         self.instance1.set_metrics(changeMatrics)
+#         self.assertFalse(self.instance1.is_satisfactory())
+
+#     def test_satScore6(self) -> None:
+#         changeMatrics = [10, 0]
+#         self.instance1.set_metrics(changeMatrics)
+#         self.assertTrue(self.instance1.is_satisfactory())
+
+#     def test_satScore7(self) -> None:
+#         changeMetrics = [0]
+#         self.instance2.set_metrics(changeMetrics)
+#         self.assertFalse(self.instance2.is_satisfactory())
+
+#     def test_satScore8(self) -> None:
+#         changeMetrics = [4]
+#         self.instance2.set_metrics(changeMetrics)
+#         self.assertFalse(self.instance2.is_satisfactory())
+
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+'''
+    2340. Min adjacent swaps to make a valid array
+
+    You are given a 0-indexed integer array nums. Swaps of adjacent elements are able to be performed on nums. A valid array meets the following two conditions: 1. The largest element (any of the largest elements if there are multiple) is at the rightmost position in the array. And 2. The smallest element (any of the smallest elements if there are multiple) is at the leftmost position in the array. Return the minimum swaps required to make nums a valid array.
+
+    App - I need assistance with a function that is consistently misbehaving, but is required for an efficient workflow in my store. Can you help me debug it? I use it to minimize the number of items I must rearrange to have a product shelf that is organized according to customer behavior insights. I have created a scoring system based on these insights, where I give popular products high scores. My sales strategy says that popular and premium items must be visible from the main walkway in my store. My store has a main walkway that is orthogonal to the aisle with product shelves. To promote the premium and popular products, they need to be visible and accessible from the main walkway, while the basic products can be placed anywhere and the lowest scoring at the very end of the aisle, i.e., furthest from the walkway. I denote the product aisle and its shelves as a single-dimension array that gets passed to the function. This integer array represents the aisle, but the integer elements represent popularity scores. Therefore, the right-most end of the array represents this walkway-aisle intersection, and it suffices to have at least one popular item there, so the function must count the number of items I must rearrange to have one popular item at the rightmost position. It also makes sure that I have the element or product with the lowest score at the leftmost position, which is furthest from the walkway and the beginning of the array. It returns the minimum number of products that must be rearranged such that my sales strategy is in effect. If given an empty list, then it raises a value error.
+'''
+
+
+
+# def num_rearrangements(aisle: int) -> int:
+#     if not aisle:
+#         raise ValueError
+    
+#     numProducts = len(aisle)
+#     minIdx = aisle.index(min(aisle))
+#     maxIdx = aisle.index(max(aisle))
+
+#     if minIdx == 0 and maxIdx == len(aisle) - 1:
+#         return 0
+
+#     # Swaps needed to move the basic element to the start
+#     basicProdSwaps = minIdx 
+    
+#     # Swaps needed to move the popular element to the end
+#     # If the popular element is to the right of the basic element, we subtract one swap
+#     premiumProdSwaps = numProducts - maxIdx - (maxIdx > minIdx)
+
+#     return basicProdSwaps + premiumProdSwaps
+
+
+# def num_rearrangements(nums: list[int]) -> int:
+#     if len(nums) <= 1:
+#         return 0
+#     minidx, maxidx = -1, -1
+#     for idx, val in enumerate(nums):
+#         if minidx < 0 or nums[idx] < nums[minidx]:
+#             minidx = idx
+#         if maxidx < 0 or nums[idx] >= nums[maxidx]:
+#             maxidx = idx
+#     return minidx + (len(nums) - maxidx - 1) - (minidx >= maxidx)
+
+# Example usage
+# print(num_rearrangements([1]))                  # expected: 0
+# print(num_rearrangements([3, 2, 1]))            # expected: 3
+# print(num_rearrangements([1, 2, 3, 4, 5]))      # expected: 0
+# print(num_rearrangements([4, 3, 2, 1]))         # expected: 5
+# print(num_rearrangements([2, 3, 1, 5, 4]))      # expected: 3
+# print(num_rearrangements([3, 4, 5, 5, 3, 1]))   # expected: 6
+
+
+
+
+# import unittest
+
+# class TestNumRearrangements(unittest.TestCase):
+#     def test_num_rearrangements1(self) -> None:
+#         products = [5]
+#         expected = 0
+#         actual = num_rearrangements(products)
+#         self.assertEqual(expected, actual)
+
+#     def test_num_rearrangements2(self) -> None:
+#         products = [1, 2, 3, 4, 5]
+#         expected = 0
+#         actual = num_rearrangements(products)
+#         self.assertEqual(expected, actual)
+
+#     def test_num_rearrangements3(self) -> None:
+#         products = [2, 3, 1, 5, 4]
+#         expected = 3
+#         actual = num_rearrangements(products)
+#         self.assertEqual(expected, actual)
+
+#     def test_num_rearrangements4(self) -> None:
+#         products = []
+#         with self.assertRaises(ValueError):
+#             num_rearrangements(products)
+
+#     def test_num_rearrangements5(self) -> None:
+#         products = [3, 2, 1]
+#         expected = 3
+#         actual = num_rearrangements(products)
+#         self.assertEqual(expected, actual)
+
+#     def test_num_rearrangements6(self) -> None:
+#         products = [4, 3, 2, 1]
+#         expected = 5
+#         actual = num_rearrangements(products)
+#         self.assertEqual(expected, actual)
+
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+
+'''
+    203. Remove Linked List Elements
+
+    Given the head of a linked list and an integer val, remove all the nodes of the linked list that has Node.val == val, and return the new head.
+
+    App - 
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

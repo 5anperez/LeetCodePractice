@@ -928,7 +928,7 @@ NaN clean up here
     VERY WEIRD DATA SET HERE! I NEED A CLEVER WAY OF DOING THIS ONE!
 '''
 
-sales_df = pd.read_csv('./CSVs/Sales-PrintingOffice2023v1-Sheet1.csv')
+# sales_df = pd.read_csv('./CSVs/Sales-PrintingOffice2023v1-Sheet1.csv')
 
 # Assuming the 'Number' column contains the month names and 'TOTAL',
 # we need to find the index of the 'TOTAL' row for October and November
@@ -1146,10 +1146,10 @@ sales_df = pd.read_csv('./CSVs/Sales-PrintingOffice2023v1-Sheet1.csv')
 
 
 # Load the data from the uploaded file
-file_path_accounts = './CSVs/caja-dia-a-dia-no-Pii.csv'
+# file_path_accounts = './CSVs/caja-dia-a-dia-no-Pii.csv'
 
-# Reading the CSV file
-accounts_data = pd.read_csv(file_path_accounts)
+# # Reading the CSV file
+# accounts_data = pd.read_csv(file_path_accounts)
 
 # Display the first few rows to understand its structure and identify the relevant columns
 # accounts_data.head()
