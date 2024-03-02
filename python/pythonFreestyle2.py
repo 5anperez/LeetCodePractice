@@ -926,6 +926,323 @@ NOTE:
 
 
 
+'''
+    Try converting findWords into a trie data structure with the class and function below it, which has a trie node class!
+'''
+# class Solution:
+#     # def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+#     from typing import List
+
+#     def findWords(self, grid: List[List[str]], targets: List[str]) -> List[str]:
+#         m = len(grid)
+#         n = len(grid[0])
+#         directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]  # Right, down, left, up
+
+#         def is_valid_position(x, y):
+#             return 0 <= x < m and 0 <= y < n
+
+#         def dfs(x, y, word, index):
+#             if index == len(word):
+#                 return True
+
+#             for dx, dy in directions:
+#                 nx, ny = x + dx, y + dy
+#                 if is_valid_position(nx, ny) and grid[nx][ny] == word[index]:
+#                     if dfs(nx, ny, word, index + 1):
+#                         return True
+
+#             return False
+
+#         discovered = set()
+#         for target in targets:
+#             for i in range(m):
+#                 for j in range(n):
+#                     if grid[i][j] == target[0] and dfs(i, j, target, 1):
+#                         discovered.add(target)
+#                         break  # Move to next target word once found
+
+#         return discovered
+
+
+
+# obj = Solution()
+# grid = [
+#     ['b', 'b', 'b']
+# ]
+# targets = ["bbbb"]
+# discovered_words = obj.findWords(grid, targets)
+# print(discovered_words)
+
+
+
+
+
+
+
+
+
+
+
+# from typing import List
+
+# class TrieNode:
+#     def __init__(self):
+#         self.children = {}
+#         self.isEndOfWord = False
+
+# def buildTrie(words):
+#     root = TrieNode()
+#     for word in words:
+#         node = root
+#         for char in word:
+#             if char not in node.children:
+#                 node.children[char] = TrieNode()
+#             node = node.children[char]
+#         node.isEndOfWord = True
+#     return root
+
+# class Solution:
+#     def discover(self, grid: List[List[str]], targets: List[str]) -> List[str]:
+#         trieRoot = buildTrie(targets)
+#         m, n = len(grid), len(grid[0])
+#         discovered = set()
+#         visited = set()
+        
+#         def backtrack(x, y, node, word):
+#             if node.isEndOfWord:
+#                 discovered.add(word)
+#             if not (0 <= x < m and 0 <= y < n) or (x, y) in visited or grid[x][y] not in node.children:
+#                 return
+#             visited.add((x, y))
+#             node = node.children[grid[x][y]]
+#             for dx, dy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+#                 nx, ny = x + dx, y + dy
+#                 backtrack(nx, ny, node, word + grid[nx][ny])
+#             visited.remove((x, y))
+        
+#         for i in range(m):
+#             for j in range(n):
+#                 if grid[i][j] in trieRoot.children:
+#                     backtrack(i, j, trieRoot, grid[i][j])
+        
+#         return list(discovered)
+
+# # Example usage
+# solution = Solution()
+# grid = [
+#     ['t', 'h', 'i', 's'],
+#     ['w', 'a', 't', 's'],
+#     ['o', 'a', 'h', 'g'],
+#     ['f', 'g', 'd', 't']
+# ]
+# targets = ["this", "two", "fat", "that"]
+# print(solution.discover(grid, targets))
+
+# grid = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]]
+# targets = ["oath","pea","eat","rain"]
+# print(solution.discover(grid, targets))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class TrieNode:
+#     def __init__(self):
+#         self.children = {}
+#         self.isEndOfWord = False
+
+# class Trie:
+#     def __init__(self):
+#         self.root = TrieNode()
+
+#     def insert(self, word):
+#         node = self.root
+#         for char in word:
+#             if char not in node.children:
+#                 node.children[char] = TrieNode()
+#             node = node.children[char]
+#         node.isEndOfWord = True
+
+#     def search(self, word):
+#         node = self.root
+#         for char in word:
+#             if char not in node.children:
+#                 return False
+#             node = node.children[char]
+#         return node.isEndOfWord
+
+# # Create a new Trie instance
+# trie = Trie()
+
+# # Insert words into the trie
+# words = ["cat", "car", "dog"]
+# for word in words:
+#     trie.insert(word)
+
+# # Search for words in the trie and print the results
+# search_words = ["cat", "car", "dog", "can"]
+# for word in search_words:
+#     print(f"'{word}' found: {trie.search(word)}")
+
+# trie.insert("can")
+# print(f"'{word}' found: {trie.search(word)}")
+
+
+
+
+
+
+# MA
+# class TrieNodeA:
+#     def __init__(self):
+#         self.children = {}  # Dictionary to store child nodes (key: character, value: TrieNode)
+#         self.is_word_end = False
+
+# class TrieA:
+#     def __init__(self):
+#         self.root = TrieNodeA()
+
+#     def insert(self, word):
+#         node = self.root
+#         for char in word:
+#             if char not in node.children:
+#                 node.children[char] = TrieNodeA()
+#             node = node.children[char]
+#         node.is_word_end = True
+
+#     def search(self, word):
+#         node = self.root
+#         for char in word:
+#             if char not in node.children:
+#                 return False
+#             node = node.children[char]
+#         return node.is_word_end
+
+#     def print_words(self):
+#         def dfs(node, prefix):
+#             if node.is_word_end:
+#                 print(prefix)
+#             for char, child in node.children.items():
+#                 dfs(child, prefix + char)
+
+#         dfs(self.root, "")
+
+# # Create a Trie and insert words
+# trie = TrieA()
+# words = ["cat", "car", "dog"]
+# for word in words:
+#     trie.insert(word)
+
+# # Search for words
+# print("Model A's version")
+# print(trie.search("cat"))   # Output: True
+# print(trie.search("cartoon")) # Output: False
+# print(trie.search("ca"))    # Output: False (not a complete word)
+
+# # Print all words in the Trie
+# trie.print_words()
+
+
+
+
+
+# MB
+class TrieNodeB:
+    def __init__(self):
+        self.children = {}  # Dictionary to hold child nodes
+        self.is_end_of_word = False  # Flag to mark word ends
+
+class TrieB:
+    def __init__(self):
+        self.root = TrieNodeB()  # Create the root node
+
+    def insert(self, word):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNodeB()  # Create a new node
+            node = node.children[char]  # Move to the next node
+        node.is_end_of_word = True  # Mark the end of the word
+
+    def search(self, word):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                return False  # Word not found
+            node = node.children[char]
+        return node.is_end_of_word  # Check if it marks a word end
+
+# Create a Trie and insert words
+my_trie = TrieB()
+my_trie.insert("cat")
+my_trie.insert("car")
+my_trie.insert("dog")
+
+# Test searches
+print("Model B's version")
+print("cat:", my_trie.search("cat"))  # Should print True
+print("card:", my_trie.search("card"))  # Should print False
+print("do:", my_trie.search("do"))  # Should print False
+
+my_trie.insert("card")
+print("card:", my_trie.search("card"))  # Should print True
+
+def print_all_words(node, word_so_far=""):
+    if node.is_end_of_word:
+        print(word_so_far)
+
+    for char, child_node in node.children.items():
+        print_all_words(child_node, word_so_far + char)
+
+# Call the helper function starting from the root
+print_all_words(my_trie.root)
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    Imagine you have a node that represents some prefix. If your target words all have that same prefix, say theres 26 of them, then they will all be the node's children and on each grid search, you will be checking all 26 children instead of checking only one word on every grid search.  
+
+    You still have to check every possibility within the grid, but now, instead of having only one target word with you on the search, you have a node that represents some prefix and the words that stem from that node/prefix!
+
+    This way, you are only traversing the grid once... as opposed to once for every word!
+
+    1. Build a Trie of Target Words: Create a Trie and insert all your target words into it.
+
+    2. Search the Grid:
+    For each element in the grid:
+    Start at the root of the Trie.
+    If a corresponding child node exists in the Trie, move to that node.
+    If not, break the loop this grid element cannot match any target word.
+    If you reach a node marked as a word end in the trie, then you've found a match!
+
+    Instead of having a mark ($) denoting the end of a word, just have the actual word be the ending mark. This way, we know what word the branch spells out. Otherwise, you need another mechanism to tell you the word because the trie doesnt know that, it only knows that an arbitrary sequence exists. 
+'''
+
+
+
+
+
+
+
 
 
 
@@ -5735,6 +6052,80 @@ NOTE:
         FUTURE PROMPT&TEST THAT YOU CAN ALIGN WITH THE SPELL CHECKER STORY
 
         126. Word Latter 2
+
+        208. Implement Trie (prefix tree) is a good one
+'''
+
+
+'''
+    Buggy
+
+    210. Coarse schedule 2
+
+    There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai. For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1. Return the ordering of courses you should take to finish all courses. If there are many valid answers, return any of them. If it is impossible to finish all courses, return an empty array.
+'''
+
+# from typing import List
+
+# class Solution:
+#     def prepSchedule(self, numSteps: int, prepNeeded: List[List[int]]) -> List[int]:
+#         # Graph initialization
+#         graph = {i: [] for i in range(numSteps)}
+#         for prep, step in prepNeeded:
+#             graph[prep].append(step)
+        
+#         # Visited states: 0 = unvisited, 1 = visiting, 2 = visited
+#         visited = [0] * numSteps
+#         order = []
+        
+#         def dfs(node):
+#             if visited[node] == 1:  # Cycle detected
+#                 return False
+#             if visited[node] == 2:  # Already visited
+#                 return True
+            
+#             visited[node] = 1  # Mark as visiting
+#             for neighbor in graph[node]:
+#                 if not dfs(neighbor):
+#                     return False
+#             visited[node] = 2  # Mark as visited
+#             order.append(node)  # Add to order
+#             return True
+        
+#         # Perform DFS for each node
+#         for node in range(numSteps):
+#             if visited[node] == 0:
+#                 if not dfs(node):
+#                     return []  # Cycle detected, return empty list
+        
+#         return order[::-1]  # Reverse to get correct order
+
+# # Example usage
+# solution = Solution()
+# numSteps = 2
+# prepNeeded = [[1, 0]] # expected [0, 1]
+# numSteps = 4
+# prepNeeded = [[1, 0], [2, 0], [3, 1], [3, 2]] # expected [0, 2, 1, 3]
+# numSteps = 2
+# prepNeeded = [[1, 0]] # expected [0, 1]
+# print(solution.prepSchedule(numSteps, prepNeeded))
+
+
+
+
+
+
+
+
+
+
+
+'''
+    Buggy
+
+    212. Word search 2
+
+    Given an m x n board of characters and a list of strings words, return all words on the board. Each word must be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once in a word.
 '''
 
 
@@ -5744,12 +6135,46 @@ NOTE:
 
 
 
+# from typing import List
 
+# class Solution:
+#     def discover(self, grid: List[List[str]], targets: List[str]) -> List[str]:
+#         m, n = len(grid), len(grid[0])
+#         discovered = set()
+        
+#         def backtrack(x, y, word, visited):
+#             if word in targets:
+#                 discovered.add(word)
+#             if not (0 <= x < m and 0 <= y < n) or (x, y) in visited:
+#                 return
+#             visited.add((x, y))
+#             directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]  # Right, Down, Left, Up
+#             for dx, dy in directions:
+#                 nx, ny = x + dx, y + dy
+#                 if 0 <= nx < m and 0 <= ny < n:
+#                     backtrack(nx, ny, word + grid[nx][ny], visited.copy())
+        
+#         for i in range(m):
+#             for j in range(n):
+#                 backtrack(i, j, grid[i][j], set())
+        
+#         return list(discovered)
 
-
-
-
-
+# Example usage
+# solution = Solution()
+# grid = [
+#     ['t', 'h', 'i', 's'],
+#     ['w', 'a', 't', 's'],
+#     ['o', 'a', 'h', 'g'],
+#     ['f', 'g', 'd', 't']
+# ]
+# targets = ["this", "two", "fat", "that"]
+# grid = [
+#     ['a', 'a']
+# ]
+# targets = ["aaa"]
+# # expected = [], actual = ["aaa"]
+# print(solution.discover(grid, targets))
 
 
 
