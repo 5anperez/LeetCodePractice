@@ -926,9 +926,41 @@ NOTE:
 
 
 
+
+
+
+
+
+
+'''
+    Imagine you have a node that represents some prefix. If your target words all have that same prefix, say theres 26 of them, then they will all be the node's children and on each grid search, you will be checking all 26 children instead of checking only one word on every grid search.  
+
+    You still have to check every possibility within the grid, but now, instead of having only one target word with you on the search, you have a node that represents some prefix and the words that stem from that node/prefix!
+
+    This way, you are only traversing the grid once... as opposed to once for every word!
+
+    1. Build a Trie of Target Words: Create a Trie and insert all your target words into it.
+
+    2. Search the Grid:
+    For each element in the grid:
+    Start at the root of the Trie.
+    If a corresponding child node exists in the Trie, move to that node.
+    If not, break the loop this grid element cannot match any target word.
+    If you reach a node marked as a word end in the trie, then you've found a match!
+
+    Instead of having a mark ($) denoting the end of a word, just have the actual word be the ending mark. This way, we know what word the branch spells out. Otherwise, you need another mechanism to tell you the word because the trie doesnt know that, it only knows that an arbitrary sequence exists. 
+'''
+
+
+
+
 '''
     Try converting findWords into a trie data structure with the class and function below it, which has a trie node class!
 '''
+
+
+
+
 # class Solution:
 #     # def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
 #     from typing import List
@@ -1157,55 +1189,63 @@ NOTE:
 
 
 # MB
-class TrieNodeB:
-    def __init__(self):
-        self.children = {}  # Dictionary to hold child nodes
-        self.is_end_of_word = False  # Flag to mark word ends
+# class TrieNodeB:
+#     def __init__(self):
+#         self.children = {}  # Dictionary to hold child nodes
+#         self.is_end_of_word = False  # Flag to mark word ends
 
-class TrieB:
-    def __init__(self):
-        self.root = TrieNodeB()  # Create the root node
+# class TrieB:
+#     def __init__(self):
+#         self.root = TrieNodeB()  # Create the root node
 
-    def insert(self, word):
-        node = self.root
-        for char in word:
-            if char not in node.children:
-                node.children[char] = TrieNodeB()  # Create a new node
-            node = node.children[char]  # Move to the next node
-        node.is_end_of_word = True  # Mark the end of the word
+#     def insert(self, word):
+#         node = self.root
+#         for char in word:
+#             if char not in node.children:
+#                 node.children[char] = TrieNodeB()  # Create a new node
+#             node = node.children[char]  # Move to the next node
+#         node.is_end_of_word = True  # Mark the end of the word
 
-    def search(self, word):
-        node = self.root
-        for char in word:
-            if char not in node.children:
-                return False  # Word not found
-            node = node.children[char]
-        return node.is_end_of_word  # Check if it marks a word end
+#     def search(self, word):
+#         node = self.root
+#         for char in word:
+#             if char not in node.children:
+#                 return False  # Word not found
+#             node = node.children[char]
+#         return node.is_end_of_word  # Check if it marks a word end
 
-# Create a Trie and insert words
-my_trie = TrieB()
-my_trie.insert("cat")
-my_trie.insert("car")
-my_trie.insert("dog")
+# # Create a Trie and insert words
+# my_trie = TrieB()
+# my_trie.insert("cat")
+# my_trie.insert("car")
+# my_trie.insert("dog")
 
-# Test searches
-print("Model B's version")
-print("cat:", my_trie.search("cat"))  # Should print True
-print("card:", my_trie.search("card"))  # Should print False
-print("do:", my_trie.search("do"))  # Should print False
+# # Test searches
+# print("Model B's version")
+# print("cat:", my_trie.search("cat"))  # Should print True
+# print("card:", my_trie.search("card"))  # Should print False
+# print("do:", my_trie.search("do"))  # Should print False
 
-my_trie.insert("card")
-print("card:", my_trie.search("card"))  # Should print True
+# my_trie.insert("card")
+# print("card:", my_trie.search("card"))  # Should print True
 
-def print_all_words(node, word_so_far=""):
-    if node.is_end_of_word:
-        print(word_so_far)
+# def print_all_words(node, word_so_far=""):
+#     if node.is_end_of_word:
+#         print(word_so_far)
 
-    for char, child_node in node.children.items():
-        print_all_words(child_node, word_so_far + char)
+#     for char, child_node in node.children.items():
+#         print_all_words(child_node, word_so_far + char)
 
-# Call the helper function starting from the root
-print_all_words(my_trie.root)
+# # Call the helper function starting from the root
+# print_all_words(my_trie.root)
+
+
+
+
+
+
+
+
 
 
 
@@ -1219,23 +1259,115 @@ print_all_words(my_trie.root)
 
 
 '''
-    Imagine you have a node that represents some prefix. If your target words all have that same prefix, say theres 26 of them, then they will all be the node's children and on each grid search, you will be checking all 26 children instead of checking only one word on every grid search.  
-
-    You still have to check every possibility within the grid, but now, instead of having only one target word with you on the search, you have a node that represents some prefix and the words that stem from that node/prefix!
-
-    This way, you are only traversing the grid once... as opposed to once for every word!
-
-    1. Build a Trie of Target Words: Create a Trie and insert all your target words into it.
-
-    2. Search the Grid:
-    For each element in the grid:
-    Start at the root of the Trie.
-    If a corresponding child node exists in the Trie, move to that node.
-    If not, break the loop this grid element cannot match any target word.
-    If you reach a node marked as a word end in the trie, then you've found a match!
-
-    Instead of having a mark ($) denoting the end of a word, just have the actual word be the ending mark. This way, we know what word the branch spells out. Otherwise, you need another mechanism to tell you the word because the trie doesnt know that, it only knows that an arbitrary sequence exists. 
+    NOTE: The following is a basic but effective way to implement a cryptocurrency tracker using Python and the ccxt library, which is a cryptocurrency trading library with support for many cryptocurrency exchange markets and merchant APIs.
 '''
+
+
+
+import ccxt 
+
+exchange = ccxt.binanceus() # The 'us' is required!
+exchange.load_markets()
+
+symbol = 'BTC/USDT' 
+ticker = exchange.fetch_ticker(symbol)
+price = ticker['last']
+
+print(f"The current price of {symbol} is: ${price}")
+
+
+# Using a different exchange:
+# import ccxt
+
+# exchange = ccxt.kraken()  # Use Kraken instead of Binance
+# exchange.load_markets()
+
+# # symbol = 'BTC/USD'  # Ensure the symbol is valid on the new exchange
+# symbol = 'ETH/USD'  # Ensure the symbol is valid on the new exchange
+# ticker = exchange.fetch_ticker(symbol)
+# price = ticker['last']
+
+# print(f"The current price of {symbol} is: ${price}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    NOTE: Why do I keep getting a raised error on this snippet when using binance? On the shorter snippet, it works with the kraken exchange, why????
+'''
+# import ccxt
+# import time
+
+# # Initialize the exchange object (replace with your chosen exchange)
+# # exchange = ccxt.binance({
+# #     'apiKey': 'YOUR_API_KEY',
+# #     'secret': 'YOUR_SECRET_KEY',
+# #     'enableRateLimit': True,  # Important for API rate limits
+# # })
+# # exchange = ccxt.binance()
+# exchange = ccxt.kraken()  # Use Kraken instead of Binance
+
+# # Define the symbols you want to track
+# symbols = ['BTC/USDT', 'ETH/USDT', 'LTC/USDT']
+
+# while True:
+#     for symbol in symbols:
+#         # Fetch ticker data for the current symbol
+#         ticker = exchange.fetch_ticker(symbol)
+        
+#         # Print the current price and additional details if needed
+#         print(f"Current price of {symbol}: {ticker['last']}")
+#         print(ticker) # Use this to see all available ticker data
+
+#     # Delay between API calls to respect exchange rate limits
+#     time.sleep(exchange.rateLimit / 1000)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
