@@ -1403,6 +1403,705 @@ NaN clean up here
 
 
 
+# import pandas as pd
+
+# Load the data
+# file_path = './CSVs/DATA_ECOM_VAS_v1-.xlsx-Grossreport.csv'
+# data = pd.read_csv(file_path)
+
+# # Display the first few rows of the dataframe to understand its structure
+# data.head()
+
+# # Checking unique values for "Payment System Name" and "Status"
+# unique_payment_systems = data['Payment System Name'].unique()
+# unique_statuses = data['Status'].unique()
+
+# (unique_payment_systems, unique_statuses)
+
+# # Filtering data for "Faturado" status to count approved payments
+# approved_payments = data[data['Status'] == 'Faturado']
+
+# # Counting total and approved payments for each payment system
+# total_payments_by_gateway = data['Payment System Name'].value_counts()
+# approved_payments_by_gateway = approved_payments['Payment System Name'].value_counts()
+
+# print(total_payments_by_gateway)
+# print(approved_payments_by_gateway)
+
+# # Calculating approval rate for each payment gateway
+# approval_rate_by_gateway = (approved_payments_by_gateway / total_payments_by_gateway).fillna(0) * 100
+
+# # Sorting the result for better visualization
+# approval_rate_by_gateway.sort_values(ascending=False)
+
+# print(approval_rate_by_gateway)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# Step 1: Load the CSV file into a DataFrame
+# file_path = './CSVs/Bancos-Bodega.xlsxcsv-Global.csv'
+# data = pd.read_csv(file_path)
+
+# Data Cleaning: Clean up the "Monto" column
+# Remove dollar signs, commas, and spaces, then convert to float
+# data['Monto'] = data['Monto'].str.replace('$', '').str.replace(',', '').str.replace('-', '').str.strip().astype(float)
+
+# Step 2: Calculate the total costs and percentages using column names
+# Group by 'Clasificación' and sum up 'Monto' for each category
+# total_costs_by_category = data.groupby('Rubro')['Monto'].sum()
+
+# Calculate the percentage of total for each category
+# total_costs = total_costs_by_category.sum()
+# percentages = (total_costs_by_category / total_costs) * 100
+
+# Step 3: Plot the graph
+# plt.figure(figsize=(10, 8))
+# percentages.plot(kind='bar')
+# plt.title('Costs and Their Percentages by Category')
+# plt.xlabel('Category')
+# plt.ylabel('Percentage of Total Costs')
+# plt.xticks(rotation=45)
+# plt.show()
+
+
+
+# Correcting the issue with the "Monto" column by handling spaces and potential negative signs.
+# Remove spaces, then handle negative values correctly before converting to float.
+# data['Monto'] = data['Monto'].str.replace(' ', '')  # Remove any spaces
+# data['Monto'] = data['Monto'].apply(lambda x: float(x.replace(',', '').replace('$', '')) if isinstance(x, str) else x)
+
+# # Filter the data to include only rows that represent costs based on 'Clasificación' or 'Rubro'.
+# # Assuming 'Costos' in 'Clasificación' or 'Rubro' indicates a cost.
+# cost_data = data[data['Clasificación'].str.contains('Costos') | data['Rubro'].str.contains('Costos')]
+
+# # Calculate the total cost
+# total_cost = cost_data['Monto'].sum()
+
+# # Calculate the percentage of each cost
+# cost_data['Percentage'] = (cost_data['Monto'] / total_cost) * 100
+
+# # Aggregate the data by 'Clasificación' or 'Rubro' to sum costs and percentages for similar items
+# aggregated_data = cost_data.groupby('Clasificación').agg({'Monto': 'sum', 'Percentage': 'sum'}).reset_index()
+
+# # Display the aggregated data
+# print(aggregated_data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Load the dataset
+# nz_data = pd.read_csv('./CSVs/nz.csv')
+
+# # Convert the 'value' column to numeric to correct the TypeError
+# nz_data['value'] = pd.to_numeric(nz_data['value'], errors='coerce')
+
+# # Reattempt filtering for industries with a total income of less than 500 million dollars
+# filtered_industries = nz_data[(nz_data['variable'] == 'Total income') & 
+#                               (nz_data['value'] < 500) & 
+#                               (nz_data['unit'] == 'DOLLARS(millions)')
+# ].copy()
+
+# print(filtered_industries.head())
+# print(filtered_industries)
+
+# Grouping the filtered industries by their names and summing their total income
+# industry_grouped = filtered_industries.groupby('industry_name_ANZSIC')['value'].sum().reset_index()
+
+# # print(industry_grouped)
+
+# # Filtering the grouped data for industries with a total income of less than 500 million dollars
+# industry_grouped_filtered = industry_grouped[industry_grouped['value'] < 500]
+# print(industry_grouped_filtered)
+
+# # Counting the number of unique industries with a total income of less than 500 million dollars
+# unique_industries_count = industry_grouped_filtered.shape[0]
+
+# print('Number of unique industries with a total income of less than 500 million dollars:', unique_industries_count)
+# print(industry_grouped_filtered)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    Here, we deal with a dataset that has a column where the entries are ranges, e.g. 24-34, so we deal with them in a clever way by mapping them onto their respective midpoints. 
+'''
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Correcting the file path and trying again
+# file_path_corrected = './CSVs/Student_Mental_health.csv'  # Correcting the file name case
+# data_corrected = pd.read_csv(file_path_corrected)
+
+# # Normalize the "Your current year of Study" column to ensure consistency
+# data_corrected['Your current year of Study'] = data_corrected['Your current year of Study'].str.lower().str.strip()
+
+# # Convert CGPA ranges to their midpoints for calculation
+# cgpa_mapping = {
+#     '3.00 - 3.49': 3.245,
+#     '3.50 - 4.00': 3.75,
+#     '2.50 - 2.99': 2.745,
+#     '2.00 - 2.49': 2.245,
+#     '0 - 1.99': 0.995
+# }
+# data_corrected['CGPA Midpoint'] = data_corrected['What is your CGPA?'].map(cgpa_mapping)
+
+# # Calculate average CGPA for each year of study
+# avg_cgpa_by_year = data_corrected.groupby('Your current year of Study')['CGPA Midpoint'].mean()
+
+# # Calculate the prevalence of depression for each year of study
+# depression_prevalence_by_year = data_corrected.groupby('Your current year of Study')['Do you have Depression?'].apply(lambda x: (x == 'Yes').mean())
+
+# # Plotting
+# fig, ax = plt.subplots(1, 2, figsize=(14, 6))
+
+# # Bar chart for average CGPA by year of study
+# avg_cgpa_by_year.plot(kind='bar', ax=ax[0], color='skyblue')
+# ax[0].set_title('Average CGPA by Year of Study')
+# ax[0].set_xlabel('Year of Study')
+# ax[0].set_ylabel('Average CGPA')
+# ax[0].set_xticklabels(avg_cgpa_by_year.index, rotation=45)
+
+# # Line chart for prevalence of depression by year of study
+# depression_prevalence_by_year.plot(kind='line', ax=ax[1], marker='o', linestyle='-', color='tomato')
+# ax[1].set_title('Prevalence of Depression by Year of Study')
+# ax[1].set_xlabel('Year of Study')
+# ax[1].set_ylabel('Prevalence of Depression')
+# ax[1].set_xticks(range(len(depression_prevalence_by_year)))
+# ax[1].set_xticklabels(depression_prevalence_by_year.index, rotation=45)
+
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import matplotlib.pyplot as plt
+# import pandas as pd
+
+# pd.set_option('display.max_rows', None)
+# pd.set_option('display.max_columns', None)
+
+# # Read the CSV file into a DataFrame
+# df = pd.read_csv("./CSVs/Netflix_TV_Shows_and_Movies.csv")
+
+# # Create subplots
+# fig, ax = plt.subplots(1, 2, figsize=(12, 6))
+
+# # Plot histogram for TV shows
+# ax[0].hist(df[df['type'] == 'SHOW']['release_year'], bins=20, label='TV Shows')
+# ax[0].set_xlabel('Release Year')
+# ax[0].set_ylabel('Frequency')
+# ax[0].set_title('Release Year Distribution (TV Shows)')
+# ax[0].legend()
+
+# # Plot histogram for movies
+# ax[1].hist(df[df['type'] == 'MOVIE']['release_year'], bins=20, label='Movies')
+# ax[1].set_xlabel('Release Year')
+# ax[1].set_ylabel('Frequency')
+# ax[1].set_title('Release Year Distribution (Movies)')
+# ax[1].legend()
+
+# # Show the plot
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+# import matplotlib.pyplot as plt
+
+# # # Read the CSV file into a DataFrame
+# df = pd.read_csv("./CSVs/Netflix_TV_Shows_and_Movies.csv")
+
+# Drop null values in `imdb_score`
+# df.dropna(subset = ['imdb_score'], inplace=True)
+
+# # Create a scatter plot between `release_year` and `imdb_score`
+# plt.scatter(df['release_year'], df['imdb_score'])
+
+# # Set the title as 'Scatter plot of imdb_score by release_year'
+# plt.title('Scatter plot of imdb_score by release_year')
+
+# # Set the x-axis label as 'Release Year' and y-axis label as 'IMDB Score'
+# plt.xlabel('Release Year')
+# plt.ylabel('IMDB Score')
+
+# # Display the plot using plt.show()
+# plt.show()
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Load the data
+# file_path = './CSVs/Netflix_TV_Shows_and_Movies.csv'
+# data = pd.read_csv(file_path)
+
+# # Grouping the data by 'release_year' and calculating the average 'imdb_score'
+# avg_imdb_score_by_year = data.groupby('release_year')['imdb_score'].mean().reset_index()
+
+# # Plotting
+# plt.figure(figsize=(12, 6))
+# plt.scatter(avg_imdb_score_by_year['release_year'], avg_imdb_score_by_year['imdb_score'], color='blue', alpha=0.5)
+# plt.title('Average IMDb Score by Release Year')
+# plt.xlabel('Year')
+# plt.ylabel('Average IMDb Score')
+# plt.grid(True)
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import matplotlib.pyplot as plt
+# from scipy.stats import linregress
+# import pandas as pd
+
+# file = './CSVs/Spotify_2000.csv'
+# df = pd.read_csv(file)
+
+
+# # Filter the data to only include tracks from the past 10 years
+# df_recent = df[df['Year'] >= 2013]
+
+# # Create the scatter plot with trend line
+# plt.figure(figsize=(12, 6))
+# plt.scatter(df_recent['Beats Per Minute (BPM)'], df_recent['Danceability'])
+
+# # Calculate and add the trend line
+# slope, intercept, r_value, p_value, std_err = linregress(
+#     df_recent['Beats Per Minute (BPM)'], df_recent['Danceability']
+# )
+# trend_line = slope * df_recent['Beats Per Minute (BPM)'] + intercept
+# plt.plot(df_recent['Beats Per Minute (BPM)'], trend_line, 'r--')
+
+# # Add x and y axis labels
+# plt.xlabel('Beats Per Minute (BPM)')
+# plt.ylabel('Danceability')
+
+# # Add title
+# plt.title('Relationship between Beats Per Minute (BPM) and Danceability in Recent Tracks')
+
+# # Display the plot
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    NOTE: using a different encoding
+'''
+
+
+# import pandas as pd
+
+# file_path = './CSVs/hotel_room.csv'
+
+# # Attempt to read the CSV file again using a different encoding
+# try:
+#     df = pd.read_csv(file_path, encoding='ISO-8859-1')
+# except Exception as e:
+#     print(e)
+
+# If successful, display the first few rows to understand its structure
+# df.head()
+
+# # Filter the rows where the property name contains "Samui"
+# samui_rooms = df[df['property name '].str.contains("Samui", case=False, na=False)]
+
+# # Calculate the average number of review counts for these rooms
+# average_reviews = samui_rooms['review_count'].mean()
+
+# print(average_reviews)
+
+
+
+
+'''
+    THIS IS AN EXAMPLE OF THE MODEL USING THE "errors='coerce'" FUNCTIONALITY TO GENEARTE A RESULT INCORRECTLY. THE MODEL IS TRYING TO TAKE A SHORTCUT AND NOT CLEAN UP THE DATA.
+'''
+
+
+
+# import pandas as pd
+
+# Load the dataset
+# df = pd.read_csv('hotel_room.csv', encoding='Windows-1252')
+
+# Convert review_count to numeric, errors='coerce' will set invalid parsing to NaN
+# df['review_count'] = pd.to_numeric(df['review_count'], errors='coerce')
+# print(df['review_count'])
+
+# # Filter rows where 'property name' contains 'Samui'
+# df_samui = df[df['property name '].str.contains('Samui', case=False, na=False)]
+
+# # Calculate the average number of review counts for rooms with 'Samui' in their property name
+# average_reviews_samui = df_samui['review_count'].mean()
+
+# print('Average review count for rooms with "Samui" in property name:', average_reviews_samui)
+
+
+'''
+    HERE, WE CLEAN UP THOSE VALUES. NOTE THAT THERE IS NO NEED TO COERCE!
+'''
+
+
+# Clean the 'review_count' column by removing commas and handling non-numeric values
+# df['review_count'] = df['review_count'].str.replace(',', '')
+# # Remove any non-digit characters from 'review_count'
+# df['review_count'] = df['review_count'].str.extract('(\d+)', expand=False)
+# # Convert 'review_count' to numeric
+# df['review_count'] = pd.to_numeric(df['review_count'])
+# # print(df['review_count'])
+
+# # Filter rows where 'property name' contains 'Samui'
+# df_samui = df[df['property name '].str.contains('Samui', case=False, na=False)]
+
+# # Calculate the average number of review counts for rooms with 'Samui' in their property name
+# average_reviews_samui = df_samui['review_count'].mean()
+
+
+# print('Cleaned average review count for rooms with "Samui" in property name:', average_reviews_samui)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# Load the dataset
+# df_bollywood = pd.read_csv('./CSVs/Top_1000_Bollywood_Movies.csv')
+
+# Filter movies with 'Verdict' of 'All Time Blockbuster' or 'Blockbuster'
+# df_filtered = df_bollywood[df_bollywood['Verdict'].isin(['All Time Blockbuster', 'Blockbuster'])]
+
+# # Sort by 'India Net' in descending order and select top 10
+# df_top10 = df_filtered.sort_values(by='India Gross', ascending=False).head(10)
+
+# # Plotting
+# fig, ax1 = plt.subplots(figsize=(10, 6))
+# fig.patch.set_facecolor('white')
+
+# # Primary y-axis for 'Worldwide'
+# ax1.bar(df_top10['Movie'], df_top10['Worldwide'], color='b', label='Worldwide')
+# ax1.set_xlabel('Movie')
+# ax1.set_ylabel('Worldwide Earnings', color='b')
+
+# # Secondary y-axis for 'India Net'
+# ax2 = ax1.twinx()
+# ax2.plot(df_top10['Movie'], df_top10['India Net'], color='g', marker='o', label='India Net', linestyle='None')
+# ax2.set_ylabel('India Net Earnings', color='g')
+
+# # Third y-axis for 'Budget'
+# ax3 = ax1.twinx()
+# ax3.spines['right'].set_position(('outward', 60))
+# ax3.plot(df_top10['Movie'], df_top10['Budget'], color='r', label='Budget', linestyle='-')
+# ax3.set_ylabel('Budget', color='r')
+
+# # Rotate movie names for better visibility
+# plt.xticks(rotation=45)
+
+# # Title and legend
+# plt.title('Top 10 Highest-Grossing Bollywood Movies: Worldwide vs. India Net Earnings and Budget')
+# fig.legend(loc='upper left', bbox_to_anchor=(0.1, 0.9))
+
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+# import matplotlib.pyplot as plt
+
+# # Filter the data to only high-gross and blockbuster movies, then sort by net income
+# top_10_grossing = df_bollywood.sort_values(by='India Gross', ascending=False).head(10)
+# df_blockbusters = top_10_grossing[top_10_grossing['Verdict'].isin(['All Time Blockbuster', 'Blockbuster'])].sort_values(
+#     by='India Net', ascending=False
+# ).head(10)
+
+# # Set up the plotting area
+# fig, axs = plt.subplots(3, 1, figsize=(15, 10), sharex=True)
+
+# # Plot Worldwide earnings
+# axs[0].scatter(df_blockbusters['Movie'], df_blockbusters['Worldwide'])
+# axs[0].set_title('Worldwide Earnings')
+# axs[0].set_ylabel('Earnings (in crores)')
+
+# # Plot India Net earnings
+# axs[1].scatter(df_blockbusters['Movie'], df_blockbusters['India Net'])
+# axs[1].set_title('India Net Earnings')
+# axs[1].set_ylabel('Earnings (in crores)')
+
+# # Plot Budget
+# axs[2].plot(df_blockbusters['Movie'], df_blockbusters['Budget'])
+# axs[2].set_title('Budget')
+# axs[2].set_ylabel('Budget (in crores)')
+# axs[2].set_xlabel('Movie')
+
+# # Customize the plot
+# plt.xticks(rotation=45)
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+import pandas as pd
+
+# Load the Credit Score Classification dataset
+credit_score_df = pd.read_csv('./CSVs/Credit_score_classification.csv')
+
+# Display the first few rows to understand its structure
+credit_score_df.head()
+
+# Remove rows with non-numeric "Age" values
+# First, ensure that all "Age" values are strings to safely apply regex and conversion operations
+credit_score_df['Age'] = credit_score_df['Age'].astype(str)
+
+# Keep only rows where "Age" consists of digits
+credit_score_df = credit_score_df[credit_score_df['Age'].str.isdigit()]
+
+# Convert "Age" back to integers
+credit_score_df['Age'] = credit_score_df['Age'].astype(int)
+
+# Convert "Annual_Income" to numeric, errors='coerce' will turn invalid parsing into NaN, then drop these NaN values
+credit_score_df['Annual_Income'] = pd.to_numeric(credit_score_df['Annual_Income'], errors='coerce')
+credit_score_df.dropna(subset=['Annual_Income'], inplace=True)
+
+# Group by "Age" and calculate the average annual income
+age_income_group = credit_score_df.groupby('Age')['Annual_Income'].mean().reset_index()
+
+# Rename columns for clarity
+age_income_group.columns = ['Age Group', 'Average Annual Income']
+
+age_income_group
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
