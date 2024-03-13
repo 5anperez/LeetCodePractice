@@ -1958,35 +1958,220 @@ NaN clean up here
 
 
 
-import pandas as pd
+# import pandas as pd
 
-# Load the Credit Score Classification dataset
-credit_score_df = pd.read_csv('./CSVs/Credit_score_classification.csv')
+# # Load the Credit Score Classification dataset
+# credit_score_df = pd.read_csv('./CSVs/Credit_score_classification.csv')
 
-# Display the first few rows to understand its structure
-credit_score_df.head()
+# # Display the first few rows to understand its structure
+# credit_score_df.head()
 
-# Remove rows with non-numeric "Age" values
-# First, ensure that all "Age" values are strings to safely apply regex and conversion operations
-credit_score_df['Age'] = credit_score_df['Age'].astype(str)
+# # Remove rows with non-numeric "Age" values
+# # First, ensure that all "Age" values are strings to safely apply regex and conversion operations
+# credit_score_df['Age'] = credit_score_df['Age'].astype(str)
 
-# Keep only rows where "Age" consists of digits
-credit_score_df = credit_score_df[credit_score_df['Age'].str.isdigit()]
+# # Keep only rows where "Age" consists of digits
+# credit_score_df = credit_score_df[credit_score_df['Age'].str.isdigit()]
 
-# Convert "Age" back to integers
-credit_score_df['Age'] = credit_score_df['Age'].astype(int)
+# # Convert "Age" back to integers
+# credit_score_df['Age'] = credit_score_df['Age'].astype(int)
 
-# Convert "Annual_Income" to numeric, errors='coerce' will turn invalid parsing into NaN, then drop these NaN values
-credit_score_df['Annual_Income'] = pd.to_numeric(credit_score_df['Annual_Income'], errors='coerce')
-credit_score_df.dropna(subset=['Annual_Income'], inplace=True)
+# # Convert "Annual_Income" to numeric, errors='coerce' will turn invalid parsing into NaN, then drop these NaN values
+# credit_score_df['Annual_Income'] = pd.to_numeric(credit_score_df['Annual_Income'], errors='coerce')
+# credit_score_df.dropna(subset=['Annual_Income'], inplace=True)
 
-# Group by "Age" and calculate the average annual income
-age_income_group = credit_score_df.groupby('Age')['Annual_Income'].mean().reset_index()
+# # Group by "Age" and calculate the average annual income
+# age_income_group = credit_score_df.groupby('Age')['Annual_Income'].mean().reset_index()
 
-# Rename columns for clarity
-age_income_group.columns = ['Age Group', 'Average Annual Income']
+# # Rename columns for clarity
+# age_income_group.columns = ['Age Group', 'Average Annual Income']
 
-age_income_group
+# age_income_group
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, WE GENERATE THE STATS THAT ARE INBEDDED WITHIN A EXCEL FOLDER WITH SEVERAL SHEETS AND WE USE A NEW METHOD TO GET THE DATA FROM THE PARTICULAR SHEET WE NEED, WHICH IS THE SOUTH AMERICA DATA SET SHEET.
+'''
+# import pandas as pd
+
+# # Load the South America tab from the Excel file
+# data = pd.read_excel('./CSVs/population_and_age.xlsx', sheet_name='South America')
+
+# # Calculate the average age and population
+# average_age = data['Average Age'].mean()
+# average_population = data['Population'].mean() / 1e6  # Convert to millions
+
+# # Print the results
+# print(f"Average Age in South America: {average_age} years")
+# print(f"Average Population in South America: {average_population} million")
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, TO CLEAN UP THE DATE COLUMN, THE FUNCTION SHOULD CONSIDER THE FIRST CHAR OF EACH ENTRY TO DISTINGUISH THE FORMATS. THE FUNCTION NEEDS TO BE UPDATED TO HANDLE THIS.
+'''
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# from datetime import datetime
+
+# # Load the hoa_transactions.csv data
+# hoa_transactions_data = pd.read_csv("./CSVs/hoa_transactions.csv")
+
+# # Helper function to parse and standardize date formats
+# def standardize_date(date_str):
+#     # Check if the date is empty
+#     if pd.isna(date_str):
+#         return pd.NaT  # Return Not-a-Time for empty dates
+
+#     # Try parsing day-month format first
+#     try:
+#         return datetime.strptime(date_str, '%d-%b').replace(year=2020)
+#     except ValueError:
+#         # If the first format fails, try month-day format
+#         try:
+#             return datetime.strptime(date_str, '%b-%y')
+#         except ValueError:
+#             # Return Not-a-Time if both formats fail
+#             return pd.NaT
+
+# # Apply the standardize_date function to the 'Date' column
+# hoa_transactions_data['Standardized Date'] = hoa_transactions_data['Date'].apply(standardize_date)
+# print(hoa_transactions_data)
+
+# # Drop rows with NaT in 'Standardized Date' if needed
+# cleaned_transactions_data = hoa_transactions_data.dropna(subset=['Standardized Date'])
+# print(cleaned_transactions_data)
+
+# Count the number of transactions by standardized date
+# transactions_by_standardized_date = cleaned_transactions_data['Standardized Date'].value_counts().sort_index()
+
+# # Plot
+# plt.figure(figsize=(14, 7))
+# plt.plot(transactions_by_standardized_date.index, transactions_by_standardized_date.values, marker='o', linestyle='-')
+# plt.title('Number of HOA Transactions by Standardized Date')
+# plt.xlabel('Date')
+# plt.ylabel('Number of Transactions')
+# plt.xticks(rotation=45)
+# plt.grid(True)
+# plt.tight_layout()  # Adjust layout to make room for the rotated x-axis labels
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, WE MAKE A VERY COOL 3D INTERACTIVE GRAPH!
+'''
+# import pandas as pd
+# import plotly.express as px
+
+# # Load the dataset
+# world_population_data = pd.read_csv("./CSVs/world-population-by-country-2020.csv")
+
+# # Data cleaning and type conversion
+# world_population_data['Population 2020'] = world_population_data['Population 2020'].str.replace(',', '').astype(int)
+# world_population_data['Land Area (Km²)'] = world_population_data['Land Area (Km²)'].str.replace(',', '').astype(int)
+# world_population_data['Density  (P/Km²)'] = world_population_data['Density  (P/Km²)'].str.replace(',', '').astype(int)
+# # world_population_data['Med. Age'] = pd.to_numeric(world_population_data['Med. Age'], errors='coerce')
+
+# # Create the 3D scatter plot
+# fig = px.scatter_3d(world_population_data, x='Population 2020', y='Land Area (Km²)', z='Med. Age',
+#                     color='Density  (P/Km²)',
+#                     hover_name='Country (or dependency)',
+#                     hover_data={
+#                         'Population 2020': True,
+#                         'Land Area (Km²)': True,
+#                         'Med. Age': True,
+#                         'Density  (P/Km²)': True,
+#                         'no': False
+#                     },
+#                     title="World Population: Population vs. Land Area vs. Median Age",
+#                     labels={'Population 2020': 'Population', 'Land Area (Km²)': 'Land Area (km²)', 'Med. Age': 'Median Age', 'Density  (P/Km²)': 'Population Density (P/Km²)'})
+
+# # Enhance layout for better readability
+# fig.update_layout(margin=dict(l=0, r=0, b=0, t=30))
+
+# # Show the plot
+# fig.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
