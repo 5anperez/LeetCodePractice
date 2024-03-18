@@ -1,3 +1,81 @@
+
+
+
+
+
+
+
+
+
+
+
+# def finalInstance(collider: int, moveWest: list[int], moveEast: list[int]) -> int:
+#     # Time for west-moving particles to exit through the west end (0)
+#     timeWest = max(moveWest) if moveWest else 0  # Max position since they move left towards 0
+    
+#     # Time for east-moving particles to exit through the east end (collider)
+#     timeEast = collider - min(moveEast) if moveEast else 0  # Collider minus min position since they move right towards collider
+    
+#     # The last particle to exit will take the maximum of these times
+#     return max(timeWest, timeEast)
+
+
+
+
+
+
+
+
+
+
+
+
+def finalInstance(collider: int, moveWest: list[int], moveEast: list[int]) -> int:
+    # Base cases: If all particles move in one direction, no collisions
+    if not moveWest:
+        # Take the leftmost particle's distance
+        return collider - min(moveEast)
+    if not moveEast:
+        # Take the rightmost particle's distance
+        return max(moveWest)  # Distance to the left edge (index 0)
+
+    # General case with collisions
+    return max(max(moveWest), collider - min(moveEast))
+
+
+
+c = 4
+w = [4,3]
+e = [0,1]
+expected = 4
+actual = finalInstance(c, w, e)
+if expected == actual:
+    print(f'Pass!')
+else:
+    print(f'Fail')
+print(f'Expected: {expected}, Actual: {actual}')
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 '''
     GENERATOR EXPRESSION:
     - A COOL WAY OF CHECKING FOR SET MEMBERSHIP WHILE TRAVERSING A 2D ARRAY!
@@ -1264,16 +1342,16 @@ NOTE:
 
 
 
-import ccxt 
+# import ccxt 
 
-exchange = ccxt.binanceus() # The 'us' is required!
-exchange.load_markets()
+# exchange = ccxt.binanceus() # The 'us' is required!
+# exchange.load_markets()
 
-symbol = 'BTC/USDT' 
-ticker = exchange.fetch_ticker(symbol)
-price = ticker['last']
+# symbol = 'BTC/USDT' 
+# ticker = exchange.fetch_ticker(symbol)
+# price = ticker['last']
 
-print(f"The current price of {symbol} is: ${price}")
+# print(f"The current price of {symbol} is: ${price}")
 
 
 # Using a different exchange:
