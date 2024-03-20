@@ -2130,24 +2130,67 @@ NaN clean up here
 
 
 
+'''
+    HERE, WE USE A FUNCTION TO CLEAN UP A MONEY COLUMN! IT ILLUSTRATES HOW TO USE A FUNCTION ON A COLUMN! 
 
+    WE ALSO MODIFY AND EDIT THE DATE COLUMN.
+'''
 
 
 
+# import pandas as pd
 
+# # Load the data
+# sales_memos = pd.read_csv('./CSVs/sales_memos.csv', encoding='utf-8')
 
+# # Function to normalize commission values
+# def normalize_commission(value):
+#     # Remove currency symbols and thousands separator
+#     value = value.replace('Eur', '').replace('u$s', '').replace('$', '').replace('.', '')
+#     # Replace comma with dot for decimal
+#     value = value.replace(',', '.')
+#     return float(value)
 
+# # Apply the normalization function to the 'Commission' column
+# sales_memos['Commission_Clean'] = sales_memos['Commission'].apply(normalize_commission)
 
+# # Display the head of the dataframe to verify the changes
+# # print(sales_memos.head())
 
+# # Convert the 'Date' column to datetime format and extract the month and year
+# sales_memos['Date'] = pd.to_datetime(sales_memos['Date'], dayfirst=True)
+# # print(sales_memos['Date'])
+# sales_memos['Month_Year'] = sales_memos['Date'].dt.to_period('M')
+# # print(sales_memos['Month_Year'])
 
+# # Group by 'Month_Year' and sum the 'Commission_Clean'
+# monthly_sales = sales_memos.groupby('Month_Year')['Commission_Clean'].sum().reset_index()
 
+# # Find the month with the lowest sales
+# lowest_month = monthly_sales.loc[monthly_sales['Commission_Clean'].idxmin()]
 
+# # print(lowest_month)
 
+# # Group by 'Month_Year' and count the number of sales
+# monthly_sales_count = sales_memos.groupby('Month_Year').size().reset_index(name='Sales_Count')
+# # print(monthly_sales_count)
 
+# # Find the month with the fewest recorded sales
+# fewest_sales_month = monthly_sales_count.loc[monthly_sales_count['Sales_Count'].idxmin()]
 
+# # print(fewest_sales_month)
 
+# # Re-checking the data to include all years correctly
+# # Group by month (ignoring the year) and count the number of sales
+# monthly_sales_count_corrected = sales_memos['Date'].dt.month.value_counts().sort_index()
+# print(monthly_sales_count_corrected)
 
+# # Find the month with the fewest recorded sales considering all years correctly
+# fewest_sales_month_corrected = monthly_sales_count_corrected.idxmin()
 
+# # Display the corrected month with the fewest recorded sales and the count
+# print('Month with the fewest recorded sales:', fewest_sales_month_corrected)
+# print('Number of sales in that month:', monthly_sales_count_corrected[fewest_sales_month_corrected])
 
 
 
@@ -2160,11 +2203,27 @@ NaN clean up here
 
 
 
+# import pandas as pd
 
+# # Load the dataset
+# mobile_brands_df = pd.read_csv('./CSVs/mobile-phone-brands-by-country.csv')
 
+# Filter for Asian and South American countries
+# asia_df = mobile_brands_df[mobile_brands_df['Region'] == 'Asia']
+# south_america_df = mobile_brands_df[mobile_brands_df['Region'] == 'South America']
 
+# # Group by country and count the number of brands for each country in those regions
+# asia_brand_counts = asia_df.groupby('Country').size().reset_index(name='Brand_Count')
+# south_america_brand_counts = south_america_df.groupby('Country').size().reset_index(name='Brand_Count')
+# # print(asia_brand_counts)
+# # print(south_america_brand_counts)
 
+# # Calculate the median number of brands for Asian and South American countries
+# median_asia = asia_brand_counts['Brand_Count'].median()
+# median_south_america = south_america_brand_counts['Brand_Count'].median()
 
+# print('Median number of brands for Asian countries:', median_asia)
+# print('Median number of brands for South American countries:', median_south_america)
 
 
 
@@ -2178,38 +2237,93 @@ NaN clean up here
 
 
 
+# import pandas as pd
 
+# # Load the dataset
+# current_accounts_df = pd.read_csv('./CSVs/current_accounts.csv', encoding='utf-8')
 
+# # Attempting a different approach to convert Debit and Credit columns to numeric
+# # First, replace commas with nothing and convert to float
+# current_accounts_df['Debit'] = pd.to_numeric(current_accounts_df['Debit'].str.replace(',', '.'))
+# current_accounts_df['Credit'] = pd.to_numeric(current_accounts_df['Credit'].str.replace(',', '.'))
 
+# # Count the number of unique entries in the 'Supplier' column
+# current_accounts_df['Supplier'] = current_accounts_df['Supplier'].str.strip() # Remove any leading/trailing whitespace
+# unique_suppliers_count = current_accounts_df['Supplier'].nunique()
 
+# # Calculate the average debit and credit amounts for each uniquely named supplier
+# unique_avg_debit_credit = current_accounts_df.groupby('Supplier').agg(
+#     Average_Debit=('Debit', 'mean'),
+#     Average_Credit=('Credit', 'mean')
+# ).reset_index()
 
+# # Check if the number of avg debit/credit predictions equals the number of unique entries
+# predictions_count = unique_avg_debit_credit.shape[0]
 
+# # Format the two average columns to print the monetary values with commas and two decimal points
+# unique_avg_debit_credit['Average_Debit'] = unique_avg_debit_credit['Average_Debit'].apply(lambda x: f'{x:,.2f}' if pd.notnull(x) else x)
+# unique_avg_debit_credit['Average_Credit'] = unique_avg_debit_credit['Average_Credit'].apply(lambda x: f'{x:,.2f}' if pd.notnull(x) else x)
 
 
+# # Display the first few rows of the average debit and credit for each supplier
+# print(unique_avg_debit_credit)
 
 
 
-          
 
 
 
 
 
+'''
+    USING A FUNCTION TO ASSIGN MORNING, AFTERNOON, AND EVENING LABELS TO DIFFERENT TIMES OF THE DAY.
+'''
 
 
 
 
+# import matplotlib.pyplot as plt
+# from datetime import datetime
+# import pandas as pd
 
+# # Load the second dataset
+# file_path_traffic = './CSVs/Legacy_Baton_Rouge_Traffic_Incidents.csv'
+# data_traffic = pd.read_csv(file_path_traffic)
 
+# # Filter for pedestrian incidents
+# pedestrian_data = data_traffic[data_traffic['PEDESTRIAN'] == 'X']
 
+# # Function to categorize time of day
+# def categorize_time_of_day(time_str):
+#     """Categorize time into Morning, Afternoon, and Evening."""
+#     time_obj = datetime.strptime(time_str, '%I:%M %p')
+#     if time_obj.hour < 12:
+#         return 'Morning'
+#     elif 12 <= time_obj.hour < 18:
+#         return 'Afternoon'
+#     else:
+#         return 'Evening'
 
+# # Re-apply the function to categorize 'CRASH TIME'
+# pedestrian_data['Time of Day'] = pedestrian_data['CRASH TIME'].apply(categorize_time_of_day)
+# print(pedestrian_data)
 
+# Regroup by district and time of day, and count incidents
+# grouped_data = pedestrian_data.groupby(['DISTRICT', 'Time of Day']).size().unstack(fill_value=0)
 
 
 
+# # Plotting pie charts for each time of day
+# fig, ax = plt.subplots(1, 3, figsize=(18, 6))
 
+# time_periods = ['Morning', 'Afternoon', 'Evening']
 
+# for i, time_period in enumerate(time_periods):
+#     ax[i].pie(grouped_data[time_period], labels=grouped_data.index, autopct='%1.1f%%', startangle=140)
+#     ax[i].set_title(f'Distribution of Pedestrian Incidents in the {time_period}')
 
+# plt.tight_layout()
+# plt.show()
 
 
 
@@ -2228,6 +2342,187 @@ NaN clean up here
 
 
 
+
+# import pandas as pd
+
+# pd.set_option('display.max_rows', None)
+# pd.set_option('display.max_columns', None)
+
+# # Read the CSV file into a DataFrame
+# df = pd.read_csv('./CSVs/Legacy_Baton_Rouge_Traffic_Incidents.csv')
+
+# # Convert CRASH TIME to datetime
+# df['CRASH TIME'] = pd.to_datetime(df['CRASH TIME']).dt.time
+# print(df['CRASH TIME'])
+
+# # Extract hour from CRASH TIME
+# df['CRASH HOUR'] = df['CRASH TIME'].apply(lambda x: x.hour)
+
+# # Categorize hour into morning, afternoon, and evening
+# def categorize_hour(hour):
+#   if 6 <= hour < 12:
+#     return 'morning'
+#   elif 12 <= hour < 18:
+#     return 'afternoon'
+#   else:
+#     return 'evening'
+
+# df['TIME_CATEGORY'] = df['CRASH HOUR'].apply(categorize_hour)
+# # print(df)
+
+# # Filter rows where PEDESTRIAN is not null
+# df_pedestrian = df[df['PEDESTRIAN'].notnull()]
+
+# # Compute counts by DISTRICT and time category
+# df_grouped = df_pedestrian.groupby(['DISTRICT', 'TIME_CATEGORY']).size().unstack(fill_value=0)
+
+# import matplotlib.pyplot as plt
+
+# # Plot pie charts
+# fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+# fig.suptitle('Pedestrian Accidents by District and Time of Day')
+
+# axes[0].pie(df_grouped['morning'], labels=df_grouped.index, autopct='%1.1f%%')
+# axes[0].set_title('Morning (6am-12pm)')
+
+# axes[1].pie(df_grouped['afternoon'], labels=df_grouped.index, autopct='%1.1f%%')
+# axes[1].set_title('Afternoon (12pm-6pm)')
+
+# axes[2].pie(df_grouped['evening'], labels=df_grouped.index, autopct='%1.1f%%')
+# axes[2].set_title('Evening (6pm-12am)')
+
+# # Equal aspect ratio for all pie charts
+# for ax in axes:
+#   ax.axis('equal')
+
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Convert 'Date Issue' to datetime format and check the conversion
+# import pandas as pd
+
+# # Assuming 'data' is your DataFrame after loading and cleaning
+# file_path = './CSVs/cdlm_purchases.csv'
+# df = pd.read_csv(file_path)
+
+# # Convert 'Date Issue' to datetime format
+# df['Date Issue'] = pd.to_datetime(df['Date Issue'], format='%d/%m/%Y')
+
+# # Clean up 'Total Amount' by replacing commas with dots and converting to float
+# df['Total Amount'] = df['Total Amount'].str.replace(',', '.').astype(float)
+
+# # Now, you can analyze the distribution of payment amounts across dates and business units
+# # For example, to get a summary of total amounts by date and shop:
+# summary = df.groupby(['Date Issue', 'Shop'])['Total Amount'].sum().reset_index()
+
+# # If you want to visualize this distribution, you might consider line plots for each business unit over time, or bar plots for comparing total amounts by business units on specific dates.
+
+# # Example of plotting total amounts by business unit over time
+# import matplotlib.pyplot as plt
+
+# fig, ax = plt.subplots(figsize=(10, 6))
+# for shop in df['Shop'].unique():
+#     shop_data = summary[summary['Shop'] == shop]
+#     ax.plot(shop_data['Date Issue'], shop_data['Total Amount'], label=shop)
+
+# ax.set_xlabel('Date')
+# ax.set_ylabel('Total Amount')
+# ax.set_title('Distribution of Payment Amounts by Business Unit Over Time')
+# ax.legend()
+
+# plt.show()
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Assuming 'data' is your DataFrame after loading and cleaning
+# file_path = './CSVs/cdlm_purchases.csv'
+# data = pd.read_csv(file_path)
+
+# data['Date Issue'] = pd.to_datetime(data['Date Issue'], format='%d/%m/%Y')
+# data['Total Amount'] = data['Total Amount'].str.replace(',', '.').astype(float)
+
+# # Time Series Plot
+# # Aggregate data by 'Date Issue'
+# time_series_data = data.groupby('Date Issue')['Total Amount'].sum().reset_index()
+
+# plt.figure(figsize=(12, 6))
+# plt.plot(time_series_data['Date Issue'], time_series_data['Total Amount'], marker='o', linestyle='-')
+# plt.title('Total Payment Amounts Over Time')
+# plt.xlabel('Date')
+# plt.ylabel('Total Payment Amount')
+# plt.xticks(rotation=45)  # Rotate date labels for better readability
+# plt.tight_layout()  # Adjust layout to make room for the rotated date labels
+# plt.show()
+
+# # Box Plot
+# plt.figure(figsize=(12, 6))
+# plt.boxplot([data.loc[data['Shop'] == shop, 'Total Amount'] for shop in data['Shop'].unique()], labels=data['Shop'].unique())
+# plt.title('Distribution of Payment Amounts Across Business Units')
+# plt.xlabel('Business Unit (Shop)')
+# plt.ylabel('Payment Amount')
+# plt.xticks(rotation=45)  # Rotate shop labels for better readability
+# plt.tight_layout()  # Adjust layout to make room for the rotated shop labels
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import pandas as pd
+
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+
+# Read the CSV file into a DataFrame
+df = pd.read_csv('./CSVs/paid-ads-top-campaigns-table_2023-11-30_2023-12-29.csv')
+
+
+
+# Convert `Last update` to datetime
+df['Last update'] = pd.to_datetime(df['Last update'], format='%Y-%m-%d', errors='coerce')
+
+# Dropping missing `Last update` values
+df.dropna(subset=['Last update'], inplace=True)
+
+
+# Print the column names and their data types
+print(df['Last update'])
 
 
 

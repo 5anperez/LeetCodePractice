@@ -2,7 +2,136 @@
 
 
 
+import math
 
+
+def captured(status: list[int], rate: list[int]) -> int:
+    if not status or not rate or len(status) != len(rate):
+        raise ValueError("Invalid input lists.")
+
+    time_remaining = [math.ceil(status[i] / rate[i]) for i in range(len(status))]
+    time_remaining.sort()
+
+    captured_count = 0
+    for i, time in enumerate(time_remaining):
+        # If the current time (index) is greater than the decay time, a decay has occurred 
+        if i >= time:
+            break
+        captured_count += 1
+
+    return captured_count
+
+
+
+
+s = [1, 1, 2, 3]
+r = [1, 1, 1, 1]
+expected = 1
+actual = captured(s, r)
+if expected == actual:
+  print("PASS!")
+else:
+  print("FAIL!")
+print(f'Expected: {expected}, Actual: {actual}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import heapq
+
+# class Registers:
+#     def __init__(self, capacity: int):
+#         self.capacity = capacity
+#         self.available = []  # Min-heap to store available register addresses
+#         heapq.heapify(self.available)  # Initialize as an empty min-heap
+
+#         # Add all addresses to the heap initially
+#         for address in range(1, capacity + 1):
+#             heapq.heappush(self.available, address)
+
+#     def reserve(self) -> int:
+#         if self.available:
+#             next_register = heapq.heappop(self.available)  # O(log n)
+#             return next_register
+#         else:
+#             return -1  # Indicate no registers available
+
+#     def unreserve(self, address: int) -> None:
+#         if 1 <= address <= self.capacity:
+#             heapq.heappush(self.available, address)  # O(log n)
+
+
+
+# # Test
+# my_registers = Registers(10)
+# # Print: "Reserved: 1, 2"
+# reserved1 = my_registers.reserve()
+# reserved2 = my_registers.reserve()
+# print("Reserved:", reserved1, reserved2)
+
+# my_registers.unreserve(reserved2)
+# # Print: "Available registers: 2,3,...,10"
+# print("Available registers:", my_registers.available)  # Uses heapq to maintain sorted order
+
+
+# Test
+# regs = Registers(10)
+# # Should print 1
+# print(regs.reserve())  
+# # Should print 2
+# print(regs.reserve())
+# regs.reserve()
+# regs.reserve()
+# # Unreserve the register with address 3
+# regs.unreserve(3)  
+# # Should print 3, since it was unreserved and is the minimum available
+# print(regs.reserve())  # Output: 1, 2, 3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    1503. Last moment before all ants fall out of a plank
+'''
 
 
 
@@ -30,30 +159,30 @@
 
 
 
-def finalInstance(collider: int, moveWest: list[int], moveEast: list[int]) -> int:
-    # Base cases: If all particles move in one direction, no collisions
-    if not moveWest:
-        # Take the leftmost particle's distance
-        return collider - min(moveEast)
-    if not moveEast:
-        # Take the rightmost particle's distance
-        return max(moveWest)  # Distance to the left edge (index 0)
+# def finalInstance(collider: int, moveWest: list[int], moveEast: list[int]) -> int:
+#     # Base cases: If all particles move in one direction, no collisions
+#     if not moveWest:
+#         # Take the leftmost particle's distance
+#         return collider - min(moveEast)
+#     if not moveEast:
+#         # Take the rightmost particle's distance
+#         return max(moveWest)  # Distance to the left edge (index 0)
 
-    # General case with collisions
-    return max(max(moveWest), collider - min(moveEast))
+#     # General case with collisions
+#     return max(max(moveWest), collider - min(moveEast))
 
 
 
-c = 4
-w = [4,3]
-e = [0,1]
-expected = 4
-actual = finalInstance(c, w, e)
-if expected == actual:
-    print(f'Pass!')
-else:
-    print(f'Fail')
-print(f'Expected: {expected}, Actual: {actual}')
+# c = 4
+# w = [4,3]
+# e = [0,1]
+# expected = 4
+# actual = finalInstance(c, w, e)
+# if expected == actual:
+#     print(f'Pass!')
+# else:
+#     print(f'Fail')
+# print(f'Expected: {expected}, Actual: {actual}')
     
 
 
