@@ -2497,6 +2497,38 @@ NaN clean up here
 
 
 
+'''
+    HERE, WE ANALYZE AN EXCEL SHEET THAT IS STRUCTURED LIKE A MULTIDIMENSIONAL MATRIX, WHICH IS UNUSUAL. THEREFORE, WE HAVE TO IDENTIFY THE RELEVANT COLUMNS AND THEN CREATE ROW AND COL RANGES SUCH THAT WE CLAMP THE ANALYSIS TO SPAN THE CELLS REGARDING INCOME. THE REST OF THE CELLS ARE EXPENSES, SO WE IGNORE THEM, BUT THE CLAMP/RANGES IS VERY USEFUL.
+'''
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# df = pd.read_excel("./CSVs/outcomes_incomes_fs.xlsx")
+
+# # Aggregate the total monthly income across all categories
+# monthly_income = df.iloc[2:11, 2:13].sum()
+
+# # Create a list of month names for plotting
+# months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November']
+
+# # Plotting
+# plt.figure(figsize=(10, 6), facecolor='white')
+# plt.plot(months, monthly_income, marker='o', linestyle='-', color='blue')
+# plt.title('Total Monthly Income Across All Categories')
+# plt.xlabel('Month')
+# plt.ylabel('Total Income')
+# plt.xticks(rotation=45)
+# plt.tight_layout()
+# plt.savefig('total_monthly_income_chart.png')
+# plt.show()
+# print('Line chart created and saved as total_monthly_income_chart.png.')
+
+
+
+
+
+
 
 
 
@@ -2505,36 +2537,23 @@ NaN clean up here
 
 
 import pandas as pd
+import matplotlib.pyplot as plt
 
-pd.set_option('display.max_rows', None)
-pd.set_option('display.max_columns', None)
+# Load the dataset
+synop_df = pd.read_csv('./CSVs/synop_evento_SAEZ.csv')
 
-# Read the CSV file into a DataFrame
-df = pd.read_csv('./CSVs/paid-ads-top-campaigns-table_2023-11-30_2023-12-29.csv')
+# Check the first few rows to understand the structure
+print(synop_df.head())
 
-
-
-# Convert `Last update` to datetime
-df['Last update'] = pd.to_datetime(df['Last update'], format='%Y-%m-%d', errors='coerce')
-
-# Dropping missing `Last update` values
-df.dropna(subset=['Last update'], inplace=True)
-
-
-# Print the column names and their data types
-print(df['Last update'])
-
-
-
-
-
-
-
-
-
-
-
-
+# Create a scatter plot for the relationship between atmospheric pressure 
+# at sea level (pmar) and the height of the cloud base (plafond)
+plt.figure(figsize=(10, 6), facecolor='white')
+plt.scatter(synop_df['pmar'], synop_df['plafond'], alpha=0.5)
+plt.title('Relationship between Atmospheric Pressure at Sea Level and Height of Cloud Base')
+plt.xlabel('Atmospheric Pressure at Sea Level (pmar)')
+plt.ylabel('Height of Cloud Base (plafond)')
+plt.grid(True)
+plt.show()
 
 
 

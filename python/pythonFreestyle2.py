@@ -2,37 +2,25 @@
 
 
 
-import math
+from typing import Optional
 
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
 
-def captured(status: list[int], rate: list[int]) -> int:
-    if not status or not rate or len(status) != len(rate):
-        raise ValueError("Invalid input lists.")
+def stackReverse(head: Optional[ListNode]) -> Optional[ListNode]:
+    prev = None
+    current = head
+    while current is not None:
+        next_temp = current.next  # Store the next node
+        current.next = prev  # Reverse the current node's pointer
+        prev = current  # Move prev up to the current node
+        current = next_temp  # Move to the next node in the original list
+    head = prev  # Update the head to be the new head of the reversed list
+    return head
 
-    time_remaining = [math.ceil(status[i] / rate[i]) for i in range(len(status))]
-    time_remaining.sort()
-
-    captured_count = 0
-    for i, time in enumerate(time_remaining):
-        # If the current time (index) is greater than the decay time, a decay has occurred 
-        if i >= time:
-            break
-        captured_count += 1
-
-    return captured_count
-
-
-
-
-s = [1, 1, 2, 3]
-r = [1, 1, 1, 1]
-expected = 1
-actual = captured(s, r)
-if expected == actual:
-  print("PASS!")
-else:
-  print("FAIL!")
-print(f'Expected: {expected}, Actual: {actual}')
 
 
 
