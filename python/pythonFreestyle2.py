@@ -1,25 +1,138 @@
+# def possible(route: list[int]) -> bool:
+#     n = len(route)  # Total number of locations
+    
+#     def traverse(index: int) -> bool:
+#         if index == n - 1:  # Check if reached the last location
+#             return True
+#         if index >= n or route[index] == 0:  # Check if out of bounds or cannot move
+#             return False
+        
+#         steps = route[index]
+#         for step in range(1, steps + 1):  # Try all possible steps from 1 to route[index]
+#             if traverse(index + step):  # If any step leads to the end, return True
+#                 return True
+#         return False
+    
+#     return traverse(0)
+
+
+
+def possible(route: list[int]) -> bool:
+    n = len(route)  # Total number of locations
+    memo = {}  # Dictionary to store the results of subproblems
+
+    def traverse(index: int) -> bool:
+        if index == n - 1:  # Check if reached the last location
+            return True
+        if index >= n or route[index] == 0:  # Check if out of bounds or cannot move
+            return False
+        
+        # Check if result is already computed
+        if index in memo:
+            return memo[index]
+        
+        steps = route[index]
+        for step in range(1, steps + 1):  # Try all possible steps from 1 to route[index]
+            if traverse(index + step):  # If any step leads to the end, return True
+                memo[index] = True
+                return True
+        
+        memo[index] = False
+        return False
+    
+    return traverse(0)
 
 
 
 
-from typing import Optional
 
-# Definition for singly-linked list.
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
+# route1 = [2, 3, 1]  
+# route2 = [1, 1, 3]
 
-def stackReverse(head: Optional[ListNode]) -> Optional[ListNode]:
-    prev = None
-    current = head
-    while current is not None:
-        next_temp = current.next  # Store the next node
-        current.next = prev  # Reverse the current node's pointer
-        prev = current  # Move prev up to the current node
-        current = next_temp  # Move to the next node in the original list
-    head = prev  # Update the head to be the new head of the reversed list
-    return head
+route1 = [0]            # IS
+route2 = [2, 0]         # IS
+route3 = [3,2,1,0,4]    # NOT
+route4 = [2,3,1,0,2]    # IS
+route5 = [2,3,1,1,4]    # IS
+
+print("Expected: Route 1 is possible!")
+if possible(route1):
+    print("Actual: Route 1 is possible!")
+else:
+    print("Actual: Route 1 is NOT possible")
+
+print("Expected: Route 2 is possible!")
+if possible(route2):
+    print("Actual: Route 2 is possible!")
+else:
+    print("Actual: Route 2 is NOT possible")
+
+print("Expected: Route 3 is NOT possible")
+if possible(route3):
+    print("Actual: Route 3 is possible!")
+else:
+    print("Actual: Route 3 is NOT possible")
+
+print("Expected: Route 4 is possible!")
+if possible(route4):
+    print("Actual: Route 4 is possible!")
+else:
+    print("Actual: Route 4 is NOT possible")
+
+print("Expected: Route 5 is possible!")
+if possible(route5):
+    print("Actual: Route 5 is possible!")
+else:
+    print("Actual: Route 5 is NOT possible")
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# from typing import Optional
+
+# # Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+# def stackReverse(head: Optional[ListNode]) -> Optional[ListNode]:
+#     prev = None
+#     current = head
+#     while current is not None:
+#         next_temp = current.next  # Store the next node
+#         current.next = prev  # Reverse the current node's pointer
+#         prev = current  # Move prev up to the current node
+#         current = next_temp  # Move to the next node in the original list
+#     head = prev  # Update the head to be the new head of the reversed list
+#     return head
 
 
 

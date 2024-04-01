@@ -2534,68 +2534,456 @@ NaN clean up here
 
 
 
+# import matplotlib.pyplot as plt
+# import pandas as pd
+
+# # Read the CSV file into a DataFrame
+# df = pd.read_csv('./CSVs/compras-wines.csv')
+
+# # Drop null values (Invoiced Amount Loc. (Loc. likely stands for Local))
+# df.dropna(subset=['Ítem - Impte. Fact. Loc.'], inplace=True)
+
+# # Convert `Comp. - F. Emisión` to datetime (Date of Issue)
+# df['Comp. - F. Emisión'] = pd.to_datetime(df['Comp. - F. Emisión'], format='%d/%m/%Y')
+
+# # Group by `Comp. - F. Emisión` and sum `Ítem - Impte. Fact. Loc.`
+# df_grouped = df.groupby('Comp. - F. Emisión')['Ítem - Impte. Fact. Loc.'].sum().reset_index()
+
+# # Sort by `Comp. - F. Emisión` in ascending order
+# df_grouped = df_grouped.sort_values(by='Comp. - F. Emisión')
+
+# # Print the grouped DataFrame
+# # print(df_grouped.to_markdown(index=False, numalign="left", stralign="left"))
+
+# # Plot line graph
+# plt.plot(df_grouped['Comp. - F. Emisión'], df_grouped['Ítem - Impte. Fact. Loc.'])
+
+# # Add labels and title
+# plt.xlabel('Date', fontsize=14)
+# plt.ylabel('Total Invoice Amount', fontsize=14)
+# plt.title('Total Invoice Amount by Date', fontsize=14)
+
+# # Rotate X ticks 45 degrees
+# plt.xticks(rotation=45)
+
+# Display plot
+# plt.show()
 
 
-import pandas as pd
-import matplotlib.pyplot as plt
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, WE CLEAN UP DATES BY EXTRACTING THE YEAR THEN COUNTING THE NUMBER OF NAN VALUES THERE ARE. WE ALSO CAN EXTRACT THEIR ACTUAL ROWS OR ROW INDEXES.
+'''
+
+
+# Let's first load the uploaded CSV file to understand its structure and contents
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Load the dataset
+# file_path = './CSVs/Top5000.csv'
+# data = pd.read_csv(file_path)
+
+# Split the 'rel_date' column by spaces and take the last part, assuming the year is always the last
+# data['year_extracted'] = data['rel_date'].str.split().str[-1]
+# print(f'The years extracted column: {data["year_extracted"]}')
+
+# Count the number of NaNs and display
+# nan_count_year_extracted = data['year_extracted'].isna().sum()
+# print(f'We have {nan_count_year_extracted} NaN values in year extracted!')
+
+# Clean up the num_rat column
+# data['num_rat'] = data['num_rat'].str.replace(',', '').astype(float)
+
+# Count the number of NaNs and display
+# nan_count_rel_date = data['rel_date'].isna().sum()
+# nan_count_rel_year = data['year'].isna().sum()
+# print(f'We have {nan_count_rel_date} NaN values in rel_date!')
+# print(f'We have {nan_count_rel_year} NaN values in year!')
+
+# Create a boolean mask where True indicates NaN entries
+# nan_mask = data['rel_date'].isna()
+
+# Use the mask to filter the DataFrame and extract rows with NaN in 'rel_date'
+# nan_rows = data[nan_mask]
+# print(f'These are the entries: {nan_rows}')
+
+# If you only need the indexes
+# nan_indexes = data.index[nan_mask].tolist()
+# print(f'These are their indexes: {nan_indexes}')
+
+# Analyze the distribution of genres
+# genre_counts = data['gens'].str.split(', ').explode().value_counts().head(10)
+
+# # Analyze the average rating over years
+# rating_over_years = data.groupby('year_extracted')['avg_rat'].mean()
+
+# # Relationship between danceability and energy
+# sns.scatterplot(data=data, x='danceability', y='energy')
+# plt.title('Relationship between Danceability and Energy')
+# plt.xlabel('Danceability')
+# plt.ylabel('Energy')
+# # plt.show()
+
+# print(genre_counts) 
+# # Show the latest 10 years for trend analysis
+# print(rating_over_years.tail(10))  
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, WE CREATE A REALLY COOL ASTHETIC GRAPH THAT COULD BE CALLED A "DARK MODE" GRAPH! ITS ALL BLACK WITH NEON BARS!
+'''
+
+
+# Import required library
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+# import pandas as pd
+
+# pd.set_option('display.max_rows', None)
+# pd.set_option('display.max_columns', None)
+
+# # Read the CSV file into a DataFrame
+# gas_prices_file_path = './CSVs/Gas_Prices.csv'
+
+# # Attempt to load the Gas Prices dataset with a different encoding
+# try:
+#     df = pd.read_csv(gas_prices_file_path, encoding='ISO-8859-1')
+# except Exception as e:
+#     load_error = e
+# else:
+#     load_error = None
+#     # Display the first few rows of the dataset to understand its structure
+#     gas_prices_data_head = df.head()
+
+
+
+# '''
+#     Step 1. First, we get the top 15 countries with the highest oil consumption.
+# '''
+
+
+# # Convert `Daily Oil Consumption (Barrels)` to numeric after removing ','
+# df['Daily Oil Consumption (Barrels)'] = df['Daily Oil Consumption (Barrels)'].astype(str).str.replace(',', '')
+# df['Daily Oil Consumption (Barrels)'] = pd.to_numeric(df['Daily Oil Consumption (Barrels)'])
+
+# # Sort by "Daily Oil Consumption (Barrels)" and select the top 15
+# top_15_daily_oil_consumption = df.sort_values(by='Daily Oil Consumption (Barrels)', ascending=False).head(15)
+
+# # Extract the relevant columns to display
+# top_15_countries_oil_consumption = top_15_daily_oil_consumption[['Country', 'Daily Oil Consumption (Barrels)']]
+
+# print(top_15_countries_oil_consumption)
+
+
+# '''
+#     Step 2. Then, after identifying the top 15 countries based on their daily oil consumption, this column will provide the data needed to plot the annual share of gallons per capita for each of these countries.
+# '''
+
+
+# # Filter the dataset for only the top 15 countries by daily oil consumption
+# top_15_countries_list = top_15_countries_oil_consumption['Country'].tolist()
+# top_15_by_daily_consumption = df[df['Country'].isin(top_15_countries_list)]
+
+# # Ensure the countries are ordered by their daily oil consumption for the chart
+# top_15_by_daily_consumption = top_15_by_daily_consumption.set_index('Country').loc[top_15_countries_list].reset_index()
+
+# # Create the bar chart for the annual share of gallons per capita for these top 15 countries
+# plt.figure(figsize=(14, 8))
+# # Neon-like colors for the bars
+# neon_colors = ["#39FF14", "#DFFF00", "#FF355E", "#FD5B78", "#FF6037", "#FF9966", "#FF9933", "#FFCC33", "#FFFF66", "#CCFF00", "#66FF66", "#AAF0D1", "#50BFE6", "#FF6EFF", "#EE34D2"]
+# sns.barplot(x='Country', y='Yearly Gallons Per Capita', data=top_15_by_daily_consumption, palette=neon_colors)
+
+# # Set the title and labels with white color
+# plt.title('Annual Share of Gallons Per Capita for Top 15 Countries by Daily Oil Consumption', fontsize=16, color='white')
+# plt.xlabel('Country', fontsize=12, color='white')
+# plt.ylabel('Yearly Gallons Per Capita', fontsize=12, color='white')
+
+# # Rotate the x-axis labels and set them to white color
+# plt.xticks(rotation=45, ha='right', color='white')
+# plt.yticks(color='white')
+
+# # Change the color of the axes, ticks and border to black
+# plt.gca().spines['bottom'].set_color('black')
+# plt.gca().spines['left'].set_color('black')
+# plt.gca().spines['right'].set_color('black')
+# plt.gca().spines['top'].set_color('black')
+# plt.tick_params(colors='white', which='both') # changes the color of the ticks
+
+# # Set the background color to black
+# plt.gca().set_facecolor('black')
+# plt.gcf().set_facecolor('black')
+
+# # Version 1
+# # plt.show()
+
+
+# '''
+#     Here, we exclude China
+# '''
+
+
+# # Since China is excluded, select the top 16 to ensure we have 15 countries after excluding China
+# top_16_daily_oil_consumption_excluding_china = df.sort_values(by='Daily Oil Consumption (Barrels)', ascending=False).head(16)
+# top_15_excluding_china_corrected = top_16_daily_oil_consumption_excluding_china[top_16_daily_oil_consumption_excluding_china['Country'] != 'China']
+
+# # Ensure the countries are ordered by their daily oil consumption for the chart
+# top_15_countries_list_corrected = top_15_excluding_china_corrected['Country'].tolist()
+# top_15_by_daily_consumption_corrected = df[df['Country'].isin(top_15_countries_list_corrected)]
+# top_15_by_daily_consumption_corrected = top_15_by_daily_consumption_corrected.set_index('Country').loc[top_15_countries_list_corrected].reset_index()
+
+# # Create the corrected bar chart for the annual share of gallons per capita for the correct top 15 countries excluding China
+# plt.figure(figsize=(14, 8))
+# sns.barplot(x='Country', y='Yearly Gallons Per Capita', data=top_15_by_daily_consumption_corrected, palette=neon_colors)
+
+# # Set the title and labels with white color
+# plt.title('Annual Share of Gallons Per Capita for Top 15 Countries by Daily Oil Consumption (Excluding China)', fontsize=16, color='white')
+# plt.xlabel('Country', fontsize=12, color='white')
+# plt.ylabel('Yearly Gallons Per Capita', fontsize=12, color='white')
+
+# # Rotate the x-axis labels and set them to white color
+# plt.xticks(rotation=45, ha='right', color='white')
+# plt.yticks(color='white')
+
+# # Change the color of the axes, ticks and border to black
+# plt.gca().spines['bottom'].set_color('black')
+# plt.gca().spines['left'].set_color('black')
+# plt.gca().spines['right'].set_color('black')
+# plt.gca().spines['top'].set_color('black')
+# plt.tick_params(colors='white', which='both') # changes the color of the ticks
+
+# # Set the background color to black
+# plt.gca().set_facecolor('black')
+# plt.gcf().set_facecolor('black')
+
+# # Version 2
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, I HAD TO COUNT THE NUMBER OF NANS THAT ALSO HAVE A SPECIFIC ENTRY IN THE VARIABLE COLUMN. THIS WAS TO CONFIRM THAT WE CAN USE THE COERCE OPTION TO CLEAN THE DATA WITHOUT OMITTED USEFUL DATA!
+'''
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# df_nz = pd.read_csv('./CSVs/nz.csv')
+
+# Inspecting the first few rows to understand the structure of the dataset
+# print(df_nz.head())
+
+# Filter the DataFrame for rows where 'variable' column contains 'Activity unit'
+# filtered_df = df_nz[df_nz['variable'] == 'Activity unit']
+
+# # Count the NaN values in the 'value' column of the filtered DataFrame
+# nan_count = filtered_df['value'].isna().sum()
+
+# print(f'Number of NaNs in the "value" column with "Activity unit" in the "variable" column: {nan_count}')
+
+# Converting 'value' column to numeric type
+# df_nz['value'] = pd.to_numeric(df_nz['value'], errors='coerce')
+
+# # Count the number of NaNs and display
+# nan_count = df_nz['value'].isna().sum()
+# print(f'We have {nan_count} NaN values in value!')
+
+# Re-attempting the filtering with the corrected 'value' column type
+# df_activity_units = df_nz[(df_nz['variable'] == 'Activity unit') & (df_nz['value'] > 2000)]
+
+# # Grouping by industry name to sum up the Activity unit values (in case of multiple entries per industry)
+# df_grouped = df_activity_units.groupby('industry_name_ANZSIC')['value'].sum().reset_index()
+
+# # Sorting the values for better visualization
+# df_grouped_sorted = df_grouped.sort_values(by='value', ascending=False)
+
+# # Plotting
+# plt.figure(figsize=(10, 8), facecolor='white')
+# plt.barh(df_grouped_sorted['industry_name_ANZSIC'], df_grouped_sorted['value'], color='skyblue')
+# plt.xlabel('Activity Unit Value')
+# plt.ylabel('Industry Name')
+# plt.title('NZ Industries with Activity Unit Value > 2000')
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+# # Let's first load the uploaded CSV file to understand its structure and content
+# import pandas as pd
+
+# # Load the data
+# df_nz = pd.read_csv('./CSVs/nz.csv')
+
+# # Display the first few rows of the dataframe to understand its structure
+# df_nz.head()
+
+# # Filter the dataset for "Activity unit" variable with values more than 2000
+# activity_units_filter = (df_nz['variable'] == 'Activity unit') & (df_nz['value'] > 2000)
+
+# # Focused dataset
+# activity_units_data = df_nz[activity_units_filter]
+
+# # Summarize data to get total activity units for each industry
+# summary_data = activity_units_data.groupby('industry_name_ANZSIC')['value'].sum().reset_index()
+
+# # Sorting the data for better visualization
+# summary_sorted = summary_data.sort_values(by='value', ascending=False)
+
+# # Importing visualization library
+# import matplotlib.pyplot as plt
+
+# # Plot
+# plt.figure(figsize=(10, 8))
+# plt.barh(summary_sorted['industry_name_ANZSIC'], summary_sorted['value'], color='skyblue')
+# plt.xlabel('Total Activity Units')
+# plt.ylabel('Industry')
+# plt.title('NZ Industries with Activity Unit Value > 2000')
+# plt.gca().invert_yaxis()  # Invert y-axis to have the largest bar on top
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, THERE ARE SOME DIVIDE BY ZERO CALCS GOING ON SO I HAD TO SET A CONDITIONAL THAT ONLY DIVIDES IF THE DENOMINATOR IS NOT ZERO! I FOUND OUT THAT THIS WAS HAPPENING BECAUSE IT WAS SPITTING OUT 'inf' VALUES, SO AFTER I COUNTED THE NUMBER OF inf VALUES AND FOUND THAT THERE WERE NOT TOO MANY, I DECIDED TO SIMPLY SKIP THE ONES THAT WERE NO GOOD!
+'''
+
+
+
+
+# import pandas as pd
+# import numpy as np
+
+# # Loading the dataset
+# monkey_pox_df = pd.read_csv('./CSVs/Monkey_Pox_Cases_Worldwide.csv')
+
+# Count the number of infinity values in the 'Hospitalization_Rate' column
+# num_inf_in_rate = (monkey_pox_df['Hospitalized'] == float('inf')).sum()
+# print(f'We have {num_inf_in_rate} inf values in Hospitalized!')
+
+# # Count the number of infinity values in the 'Hospitalization_Rate' column
+# num_inf_in_rate = (monkey_pox_df['Confirmed_Cases'] == float('inf')).sum()
+# print(f'We have {num_inf_in_rate} inf values in Confirmed_Cases!')
+
+
+# Assuming your DataFrame is named monkey_pox_df
+# monkey_pox_df['Hospitalization_Rate'] = np.where(monkey_pox_df['Confirmed_Cases'] > 0, 
+#                                                  monkey_pox_df['Hospitalized'] / monkey_pox_df['Confirmed_Cases'], 
+                                                #  0)
+
+
+# Calculating hospitalization rate for each country
+# monkey_pox_df['Hospitalization_Rate'] = monkey_pox_df['Hospitalized'] / monkey_pox_df['Confirmed_Cases']
+# print(monkey_pox_df['Hospitalization_Rate'])
+
+# Count the number of NaNs and display
+# nan_count = monkey_pox_df['Hospitalization_Rate'].isna().sum()
+# print(f'We have {nan_count} NaN values in Rate!')
+
+# Count the number of infinity values in the 'Hospitalization_Rate' column
+# num_inf_in_rate = (monkey_pox_df['Hospitalization_Rate'] == float('inf')).sum()
+# print(f'We have {num_inf_in_rate} inf values in Rate!')
+
+
+# Getting the minimum and maximum hospitalization rate values
+# min_hospitalization_rate = monkey_pox_df['Hospitalization_Rate'].min()
+# max_hospitalization_rate = monkey_pox_df['Hospitalization_Rate'].max()
+
+# # Calculating the difference between the maximum and minimum hospitalization rates
+# difference = max_hospitalization_rate - min_hospitalization_rate
+
+# print('Minimum Hospitalization Rate:', min_hospitalization_rate)
+# print('Maximum Hospitalization Rate:', max_hospitalization_rate)
+# print('Difference:', difference)
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import calendar
 
 # Load the dataset
-synop_df = pd.read_csv('./CSVs/synop_evento_SAEZ.csv')
+# df = pd.read_csv('./CSVs/ttc-bus-delay-data-2022.csv')
 
-# Check the first few rows to understand the structure
-print(synop_df.head())
+# We need to find the accident entries
+# unique_incidents = df['Incident'].unique()
 
-# Create a scatter plot for the relationship between atmospheric pressure 
-# at sea level (pmar) and the height of the cloud base (plafond)
-plt.figure(figsize=(10, 6), facecolor='white')
-plt.scatter(synop_df['pmar'], synop_df['plafond'], alpha=0.5)
-plt.title('Relationship between Atmospheric Pressure at Sea Level and Height of Cloud Base')
-plt.xlabel('Atmospheric Pressure at Sea Level (pmar)')
-plt.ylabel('Height of Cloud Base (plafond)')
-plt.grid(True)
-plt.show()
+# Print out all unique entries in the 'Incident' column
+# print(unique_incidents)
 
+# We need to find the months this dataset spans
+# unique_dates = df['Date'].unique()
 
+# Print out all unique entries in the 'Date' column
+# print(unique_dates)
 
+# Focusing on 'Collision - TTC' incidents and generating a table with the accident count per month
+# collision_df = df[df['Incident'] == 'Collision - TTC']
 
+# # Convert the 'Date' column to datetime format
+# collision_df['Date'] = pd.to_datetime(collision_df['Date'])
 
+# # Group by month and count the number of collisions
+# monthly_collisions = collision_df.groupby(collision_df['Date'].dt.strftime('%B')).size().reset_index(name='Accident Count')
 
+# # Sorting by month to ensure chronological order
+# monthly_collisions['Month'] = pd.Categorical(monthly_collisions['Date'], categories=list(calendar.month_name[1:]), ordered=True)
+# monthly_collisions.sort_values('Month', inplace=True)
+# monthly_collisions.drop('Date', axis=1, inplace=True)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# print(monthly_collisions)
 
 
 
