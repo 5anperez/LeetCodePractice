@@ -2991,6 +2991,347 @@ NaN clean up here
 
 
 
+'''
+    HERE WE HAVE TO EXTRACT THE DATE FROM A LONGER STRING THAT DENOTES A RANGE. THE RANGE IS THE DURATION THAT SOMEONE STAYED AT THE AIR BNB.
+'''
+
+# import pandas as pd
+
+# # Load the airbnb_reviews_ruben.csv dataset
+# file_path_airbnb_reviews = './CSVs/airbnb_reviews_ruben.csv'
+# airbnb_reviews_data = pd.read_csv(file_path_airbnb_reviews)
+
+# # Display the first few rows of the dataset to understand its structure
+# # print(airbnb_reviews_data.head())
+
+# # Extract the month from the date column and count the occurrences of each month
+# airbnb_reviews_data['month'] = pd.to_datetime(airbnb_reviews_data['date'].str.extract('([A-Za-z]+)')[0], format='%b').dt.month_name()
+
+# # Count the number of bookings per month
+# bookings_per_month = airbnb_reviews_data['month'].value_counts()
+
+# # Identify the month with the most bookings
+# most_bookings_month = bookings_per_month.idxmax()
+# most_bookings_count = bookings_per_month.max()
+
+# print(f'Most booking month: {most_bookings_month}') 
+# print(f'Most bookings count: {most_bookings_count}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, WE GENERATE A SERIES OF GRAPHS USING A FOR LOOP TO SPIT THEM OUT!
+'''
+
+# import matplotlib.pyplot as plt
+# import pandas as pd
+
+# pd.set_option('display.max_rows', None)
+# pd.set_option('display.max_columns', None)
+
+# # Read the CSV file into a DataFrame
+# df = pd.read_csv('./CSVs/Top_1000_Bollywood_Movies.csv')
+
+# # Convert `Budget` to billions
+# df['Budget'] = df['Budget'] / 1e9
+
+# # Drop rows with null values in `Budget` or `Verdict`
+# df.dropna(subset=['Budget', 'Verdict'], inplace=True)
+
+# # Create subplots with one row and as many columns as there are unique values in `Verdict`
+# fig, axes = plt.subplots(1, len(df['Verdict'].unique()), figsize=(15, 5))
+
+# # Iterate through each unique `Verdict` value and create a histogram of `Budget` for that `Verdict` in the corresponding subplot
+# for i, verdict in enumerate(df['Verdict'].unique()):
+#     df_verdict = df[df['Verdict'] == verdict]
+#     axes[i].hist(df_verdict['Budget'], alpha=0.5, label=verdict)
+#     axes[i].set_title(verdict)
+#     axes[i].set_xlabel('Budget (in billions)')
+#     axes[i].set_ylabel('Frequency')
+
+# # Set the title of the overall figure
+# fig.suptitle('Distribution of Budget by Verdict')
+
+# # Add a legend outside the plot
+# plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+
+# # Show the plot
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, WE GENERATE A COOL LINE GRAPH WITH THREE COLORS WHERE EACH COLOR REPRESENTS A COLUMN, E.G., INCOME, EXPENSES, AND CASH FLOW. WE INVOKE A NEAT STRATEGY TO EXTRACT THE YEAR FROM A SPANISH DATE IN THIS FORMATE: "MAYO 2020". WE OMIT THE MONTH AND GRAB THE YEAR.
+'''
+
+# import matplotlib.pyplot as plt
+# import pandas as pd
+
+# # Load the dataset to understand its structure
+# file_path = './CSVs/business_unit_system_cash_flow.csv'
+# cash_flow_data = pd.read_csv(file_path)
+
+# # Correcting the approach to handle NaN values properly
+# cash_flow_data['Year'] = cash_flow_data['Período'].str.extract('(\d{4})')
+# cash_flow_data.dropna(subset=['Year'], inplace=True)  # Dropping rows where year couldn't be extracted
+# cash_flow_data['Year'] = cash_flow_data['Year'].astype(int)  # Converting years to integers
+
+# # Grouping the data by 'Year' again after cleanup
+# annual_summary_corrected = cash_flow_data.groupby('Year').sum()
+
+# # Plotting the corrected annual trends
+# plt.figure(figsize=(12, 6))
+# plt.plot(annual_summary_corrected.index, annual_summary_corrected['Ingresos'], label='Ingresos (Income)', marker='o')
+# plt.plot(annual_summary_corrected.index, annual_summary_corrected['Egresos'], label='Egresos (Expenses)', marker='x')
+# plt.plot(annual_summary_corrected.index, annual_summary_corrected['Efectivo'], label='Efectivo (Cash Flow)', marker='s')
+
+# plt.title('Corrected Annual Trends of Income, Expenses, and Cash Flow')
+# plt.xlabel('Year')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# Load the dataset to take a look at the first few rows and understand its structure
+# data_path = './CSVs/Top5000.csv'
+# df = pd.read_csv(data_path)
+
+# Extract the year from the 'rel_date' column
+# Split the 'rel_date' column by spaces and take the last part, bc the year is always the last
+# df['release_year'] = df['rel_date'].str.split().str[-1]
+
+
+
+
+
+# Convert 'rel_date' to datetime format 
+# NOTE: THIS APPROACH CAUSES 1658 NaNs! I am comparing the two approaches
+# to see how much of an effect results from omitting all those data
+# df['rel_date'] = pd.to_datetime(df['rel_date'], errors='coerce')
+
+# # Extract the year from the 'rel_date' column
+# df['release_year'] = df['rel_date'].dt.year
+
+# # Drop rows where 'release_year' is NaN after conversion
+# df = df.dropna(subset=['release_year'])
+
+
+
+
+
+
+# Convert 'release_year' to integer
+# df['release_year'] = df['release_year'].astype(int)
+
+# Count the number of NaNs and display
+# nan_count_year_extracted = df['rel_date'].isna().sum()
+# print(f'We have {nan_count_year_extracted} NaN values in year extracted!')
+
+# Plotting the histogram of music releases over time
+# plt.figure(figsize=(14, 7))
+# sns.histplot(df['release_year'], bins=50, kde=False)
+# plt.title('Music Releases Over Time')
+# plt.xlabel('Release Year')
+# plt.ylabel('Number of Releases')
+# plt.xticks(rotation=45)
+# plt.show()
+
+
+
+# Filter the dataframe for the last 10 years
+# df_last_10_years = df[df['release_year'] >= (df['release_year'].max() - 10)]
+
+# # Group by 'release_year' and calculate the average 'avg_rat'
+# avg_rating_per_year = df_last_10_years.groupby('release_year')['avg_rat'].mean().reset_index()
+
+# # Plotting the average album rating over the last ten years
+# plt.figure(figsize=(12, 6))
+# sns.lineplot(data=avg_rating_per_year, x='release_year', y='avg_rat', marker='o')
+# plt.title('Average Album Rating Over the Last Ten Years')
+# plt.xlabel('Release Year')
+# plt.ylabel('Average Rating')
+# plt.xticks(avg_rating_per_year['release_year'])
+# plt.grid(True)
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Load the new dataset
+# df_dates = pd.read_csv('./CSVs/caja-dia-a-dia-no-Pii.csv')
+
+# Inspect the first few rows to understand the structure and identify the date column
+# df_dates.head()
+
+''' HERE WE USE PANDAS TO GENERATE THE HISTOGRAM'''
+# Convert the 'Fecha' column to datetime format
+# df_dates['Fecha'] = pd.to_datetime(df_dates['Fecha'])
+# # Plotting the histogram
+# plt.figure(figsize=(10, 6))
+# df_dates['Fecha'].hist(bins=50, color='skyblue', edgecolor='black')
+# plt.title('Distribution of Dates in Data')
+# plt.xlabel('Date')
+# plt.ylabel('Frequency')
+# plt.xticks(rotation=45)
+# plt.tight_layout()  # Adjust layout to not cut off labels
+# plt.show()
+
+''' HERE WE USE MATPLOTLIB TO GENERATE THE HISTOGRAM'''
+# df_dates["Fecha"] = pd.to_datetime(df_dates["Fecha"], format="%Y-%m-%d")
+# plt.hist(df_dates["Fecha"])
+# plt.xlabel("Date")
+# plt.ylabel("Frequency")
+# plt.xticks(rotation=45)
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+'''
+    HERE, WE INVOKE THE BEST POSSIBLE WAY TO CLEAN UP DATA... USING A REGEX!
+'''
+
+# import pandas as pd
+
+# # Load the new dataset
+# df_spotify = pd.read_csv('./CSVs/Spotify_2000.csv')
+
+# # Convert 'Length (Duration)' to numeric, removing any non-numeric characters first
+# df_spotify['Length (Duration)'] = df_spotify['Length (Duration)'].str.replace('[^\d]', '', regex=True).astype(int)
+
+# # Calculate the standard deviation of song lengths
+# duration_std = df_spotify['Length (Duration)'].std()
+
+# # Find the song with the maximum length
+# max_length_song = df_spotify.loc[df_spotify['Length (Duration)'].idxmax()]
+
+# print(f'Standard deviation of song lengths: {duration_std:.2f}')
+# print('Song with the maximum length:', max_length_song[['Title', 'Artist', 'Length (Duration)']])
+
+
+
+
+
+
+
+
+
+
+
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from datetime import datetime
+
+# First, let's load the 'Data Set #13 report.csv' dataset to understand its structure and identify the relevant columns.
+data_set_13_path = './CSVs/Data Set #13 report.csv'
+data_set_13 = pd.read_csv(data_set_13_path)
+
+# Convert 'LAST REC DATE' to datetime
+# Assuming the format is Month-Year, we need to handle cases where the year might be two digits.
+def convert_date(date_str):
+    try:
+        return datetime.strptime(date_str, '%B-%y')
+    except ValueError:
+        # Handle cases where the year is already in four digits or other anomalies.
+        try:
+            return datetime.strptime(date_str, '%B-%d')
+        except:
+            return None
+
+data_set_13['LAST REC DATE'] = data_set_13['LAST REC DATE'].apply(convert_date)
+
+# To generate a line graph between 'month_year' and 'qty_on_hand units', we first need to prepare 'month_year' from 'LAST REC DATE'.
+# It seems there is no direct 'qty_on_hand units' column in the dataset based on the initial view. We'll assume 'ATS units' is the relevant column for "quantity on hand".
+
+# Create 'month_year' column for plotting
+data_set_13['month_year'] = data_set_13['LAST REC DATE'].dt.to_period('M')
+
+# Group by 'month_year' and calculate the sum of 'qty_on_hand units'
+monthly_qty_on_hand = data_set_13.groupby('month_year')['qty_on_hand units'].sum().reset_index()
+
+# Convert 'month_year' back to datetime for plotting (necessary after grouping by period)
+monthly_qty_on_hand['month_year'] = monthly_qty_on_hand['month_year'].dt.to_timestamp()
+
+# Plotting the line graph
+plt.figure(figsize=(14, 7))
+plt.plot(monthly_qty_on_hand['month_year'], monthly_qty_on_hand['qty_on_hand units'], marker='o', linestyle='-', color='blue')
+plt.title('Monthly Quantity on Hand')
+plt.xlabel('Month-Year')
+plt.ylabel('Quantity on Hand Units')
+plt.xticks(rotation=45)
+plt.grid(True)
+plt.tight_layout()  # Adjust layout to make room for the rotated x-axis labels
+plt.show()
+
+
+
+
+
+
+
+
+                  
+
+
+
+
+
+
 
 
 
