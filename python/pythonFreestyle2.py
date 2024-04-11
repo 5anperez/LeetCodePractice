@@ -1,3 +1,248 @@
+
+# from typing import List
+
+# class Example:
+#     def nutSearch(self, holes: List[int]) -> int:
+#         """
+#         Determines the maximum number of nuts a squirrel can gather from a circular arrangement of holes without setting off the alarm.
+        
+#         Args:
+#             holes: A list of integers representing the number of nuts in each hole.
+        
+#         Returns:
+#             The maximum number of nuts the squirrel can gather.
+#         """
+        
+#         if not holes:
+#             return 0
+        
+#         def rob(holes):
+#             # This sub-function is similar to the house robber problem, adapted for a circular array. 
+#             prev_max, curr_max = 0, 0
+#             for nut in holes:
+#                 prev_max, curr_max = curr_max, max(prev_max + nut, curr_max)
+#             return curr_max
+        
+#         # Since the holes are in a circle, we calculate the maximum nuts considering two scenarios:
+#         # 1. Exclude the first hole (to avoid triggering the alarm with the last hole).
+#         # 2. Exclude the last hole.
+#         return max(rob(holes[1:]), rob(holes[:-1]))
+
+
+# # Example usage:
+# sol = Example()
+# holes = [5]
+# print('Expected: 5')
+# print(f'Actual: {sol.nutSearch(holes)}')  # Output: 5
+# holes = [1, 2, 3, 1]
+# print('Expected: 4')
+# print(f'Actual: {sol.nutSearch(holes)}')  # Output: 4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# from typing import List
+
+# class Solution:
+#     def brighestBox(self, matrix: List[List[str]]) -> int:
+#         if not matrix or not matrix[0]:
+#             return 0
+        
+#         rows, cols = len(matrix), len(matrix[0])
+#         # Convert matrix values to integers for easier comparisons
+#         dp = [[0] * cols for _ in range(rows)]
+#         max_side = 0
+        
+#         for i in range(rows):
+#             for j in range(cols):
+#                 # Only proceed if the current pixel is bright
+#                 if matrix[i][j] == "1":
+#                     if i == 0 or j == 0:
+#                         dp[i][j] = 1  # Edge cells can only form a square of size 1
+#                     else:
+#                         # Find the minimum of the three neighboring cells + 1
+#                         dp[i][j] = min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1
+#                     max_side = max(max_side, dp[i][j])
+        
+#         return max_side ** 2  # Return the area of the largest square
+
+# # Example usage:
+# sol = Solution()
+# image = [
+#     ["1", "0", "1", "1", "1"],
+#     ["1", "0", "1", "1", "1"],
+#     ["1", "1", "1", "1", "1"],
+#     ["1", "0", "0", "1", "0"]
+# ]
+# print(sol.brighestBox(image))  # Output: 9
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class Example:
+#     def brightestBox(self, image: list[list[str]]) -> int:
+#         if not image:
+#             return 0
+            
+#         rows = len(image)
+#         cols = len(image[0])
+#         dp = [[0] * cols for _ in range(rows)]
+#         max_size = 0
+
+#         # Initialize the dp table for the first row and column
+#         for i in range(rows):
+#             dp[i][0] = 1 if image[i][0] == "1" else 0
+#             max_size = max(max_size, dp[i][0])
+#         for j in range(cols):
+#             dp[0][j] = 1 if image[0][j] == "1" else 0
+#             max_size = max(max_size, dp[0][j])
+
+#         # Build the dp table in bottom-up manner
+#         for i in range(1, rows):
+#             for j in range(1, cols):
+#                 if image[i][j] == "1":
+#                     dp[i][j] = min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1
+#                     max_size = max(max_size, dp[i][j])
+#                 else:
+#                     dp[i][j] = 0
+
+#         return max_size * max_size
+
+
+
+
+
+# # Example usage:  (Modify as needed) 
+# sol = Example()
+# image = [["1","0","1","0","0"],
+#          ["1","0","1","1","1"],
+#          ["1","1","1","1","1"],
+#          ["1","0","0","1","0"]]
+# print('Expected: 4')
+# print(f'Actual: {sol.brightestBox(image)}')  
+# image = [["0","1"],
+#          ["1","0"]]
+# print('Expected: 1')
+# print(f'Actual: {sol.brightestBox(image)}')  
+# image = [["0"]]
+# print('Expected: 0')
+# print(f'Actual: {sol.brightestBox(image)}')  
+
+
+
+
+
+
+
+
+
+
+
+
+
+from fractions import Fraction
+from decimal import Decimal
+
+def repeat_to_frac(decimal):
+    if '(' not in decimal:
+        return str(Fraction(Decimal(decimal)))
+
+    non_repeating, repeating = decimal.split('(')
+    repeating = repeating[:-1]  # Remove the trailing ')'
+
+    decimal_index = non_repeating.index('.')
+    non_repeating_length = len(non_repeating) - decimal_index - 1  # Adjust for decimal point
+    
+    # Calculate the fraction without the repeating part
+    fraction_part = Fraction(Decimal(non_repeating))
+
+    # Calculate the repeating part as a fraction and account for its position
+    repeating_fraction = Fraction(int(repeating) / (10**len(repeating) - 1)) / 10**non_repeating_length
+
+    # Combine the fractions and simplify
+    result = fraction_part + repeating_fraction
+    return str(result.limit_denominator())
+
+
+
+# Example usage
+print('Expected: 2/3')
+print(f'Actual: {repeat_to_frac("0.(6)")}')  # Output: 2/3
+print('Expected: 123/100')
+print(f'Actual: {repeat_to_frac("1.23")}')  # Output: 123/100
+print('Expected: 5')
+print(f'Actual: {repeat_to_frac("5")}')     # Output: 5   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # def possible(route: list[int]) -> bool:
 #     n = len(route)  # Total number of locations
     
@@ -17,30 +262,30 @@
 
 
 
-def possible(route: list[int]) -> bool:
-    n = len(route)  # Total number of locations
-    memo = {}  # Dictionary to store the results of subproblems
+# def possible(route: list[int]) -> bool:
+#     n = len(route)  # Total number of locations
+#     memo = {}  # Dictionary to store the results of subproblems
 
-    def traverse(index: int) -> bool:
-        if index == n - 1:  # Check if reached the last location
-            return True
-        if index >= n or route[index] == 0:  # Check if out of bounds or cannot move
-            return False
+#     def traverse(index: int) -> bool:
+#         if index == n - 1:  # Check if reached the last location
+#             return True
+#         if index >= n or route[index] == 0:  # Check if out of bounds or cannot move
+#             return False
         
-        # Check if result is already computed
-        if index in memo:
-            return memo[index]
+#         # Check if result is already computed
+#         if index in memo:
+#             return memo[index]
         
-        steps = route[index]
-        for step in range(1, steps + 1):  # Try all possible steps from 1 to route[index]
-            if traverse(index + step):  # If any step leads to the end, return True
-                memo[index] = True
-                return True
+#         steps = route[index]
+#         for step in range(1, steps + 1):  # Try all possible steps from 1 to route[index]
+#             if traverse(index + step):  # If any step leads to the end, return True
+#                 memo[index] = True
+#                 return True
         
-        memo[index] = False
-        return False
+#         memo[index] = False
+#         return False
     
-    return traverse(0)
+#     return traverse(0)
 
 
 
@@ -49,41 +294,41 @@ def possible(route: list[int]) -> bool:
 # route1 = [2, 3, 1]  
 # route2 = [1, 1, 3]
 
-route1 = [0]            # IS
-route2 = [2, 0]         # IS
-route3 = [3,2,1,0,4]    # NOT
-route4 = [2,3,1,0,2]    # IS
-route5 = [2,3,1,1,4]    # IS
+# route1 = [0]            # IS
+# route2 = [2, 0]         # IS
+# route3 = [3,2,1,0,4]    # NOT
+# route4 = [2,3,1,0,2]    # IS
+# route5 = [2,3,1,1,4]    # IS
 
-print("Expected: Route 1 is possible!")
-if possible(route1):
-    print("Actual: Route 1 is possible!")
-else:
-    print("Actual: Route 1 is NOT possible")
+# print("Expected: Route 1 is possible!")
+# if possible(route1):
+#     print("Actual: Route 1 is possible!")
+# else:
+#     print("Actual: Route 1 is NOT possible")
 
-print("Expected: Route 2 is possible!")
-if possible(route2):
-    print("Actual: Route 2 is possible!")
-else:
-    print("Actual: Route 2 is NOT possible")
+# print("Expected: Route 2 is possible!")
+# if possible(route2):
+#     print("Actual: Route 2 is possible!")
+# else:
+#     print("Actual: Route 2 is NOT possible")
 
-print("Expected: Route 3 is NOT possible")
-if possible(route3):
-    print("Actual: Route 3 is possible!")
-else:
-    print("Actual: Route 3 is NOT possible")
+# print("Expected: Route 3 is NOT possible")
+# if possible(route3):
+#     print("Actual: Route 3 is possible!")
+# else:
+#     print("Actual: Route 3 is NOT possible")
 
-print("Expected: Route 4 is possible!")
-if possible(route4):
-    print("Actual: Route 4 is possible!")
-else:
-    print("Actual: Route 4 is NOT possible")
+# print("Expected: Route 4 is possible!")
+# if possible(route4):
+#     print("Actual: Route 4 is possible!")
+# else:
+#     print("Actual: Route 4 is NOT possible")
 
-print("Expected: Route 5 is possible!")
-if possible(route5):
-    print("Actual: Route 5 is possible!")
-else:
-    print("Actual: Route 5 is NOT possible")
+# print("Expected: Route 5 is possible!")
+# if possible(route5):
+#     print("Actual: Route 5 is possible!")
+# else:
+#     print("Actual: Route 5 is NOT possible")
     
     
 
