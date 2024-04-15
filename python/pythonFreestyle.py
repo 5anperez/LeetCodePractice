@@ -3273,50 +3273,89 @@ NaN clean up here
 
 
 
-import pandas as pd
-import matplotlib.pyplot as plt
-from datetime import datetime
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# from datetime import datetime
 
-# First, let's load the 'Data Set #13 report.csv' dataset to understand its structure and identify the relevant columns.
-data_set_13_path = './CSVs/Data Set #13 report.csv'
-data_set_13 = pd.read_csv(data_set_13_path)
+# # First, let's load the 'Data Set #13 report.csv' dataset to understand its structure and identify the relevant columns.
+# data_set_13_path = './CSVs/Data Set #13 report.csv'
+# data_set_13 = pd.read_csv(data_set_13_path)
 
-# Convert 'LAST REC DATE' to datetime
-# Assuming the format is Month-Year, we need to handle cases where the year might be two digits.
-def convert_date(date_str):
-    try:
-        return datetime.strptime(date_str, '%B-%y')
-    except ValueError:
-        # Handle cases where the year is already in four digits or other anomalies.
-        try:
-            return datetime.strptime(date_str, '%B-%d')
-        except:
-            return None
+# # Convert 'LAST REC DATE' to datetime
+# # Assuming the format is Month-Year, we need to handle cases where the year might be two digits.
+# def convert_date(date_str):
+#     try:
+#         return datetime.strptime(date_str, '%B-%y')
+#     except ValueError:
+#         # Handle cases where the year is already in four digits or other anomalies.
+#         try:
+#             return datetime.strptime(date_str, '%B-%d')
+#         except:
+#             return None
 
-data_set_13['LAST REC DATE'] = data_set_13['LAST REC DATE'].apply(convert_date)
+# data_set_13['LAST REC DATE'] = data_set_13['LAST REC DATE'].apply(convert_date)
 
-# To generate a line graph between 'month_year' and 'qty_on_hand units', we first need to prepare 'month_year' from 'LAST REC DATE'.
-# It seems there is no direct 'qty_on_hand units' column in the dataset based on the initial view. We'll assume 'ATS units' is the relevant column for "quantity on hand".
+# # To generate a line graph between 'month_year' and 'qty_on_hand units', we first need to prepare 'month_year' from 'LAST REC DATE'.
+# # It seems there is no direct 'qty_on_hand units' column in the dataset based on the initial view. We'll assume 'ATS units' is the relevant column for "quantity on hand".
 
-# Create 'month_year' column for plotting
-data_set_13['month_year'] = data_set_13['LAST REC DATE'].dt.to_period('M')
+# # Create 'month_year' column for plotting
+# data_set_13['month_year'] = data_set_13['LAST REC DATE'].dt.to_period('M')
 
-# Group by 'month_year' and calculate the sum of 'qty_on_hand units'
-monthly_qty_on_hand = data_set_13.groupby('month_year')['qty_on_hand units'].sum().reset_index()
+# # Group by 'month_year' and calculate the sum of 'qty_on_hand units'
+# monthly_qty_on_hand = data_set_13.groupby('month_year')['qty_on_hand units'].sum().reset_index()
 
-# Convert 'month_year' back to datetime for plotting (necessary after grouping by period)
-monthly_qty_on_hand['month_year'] = monthly_qty_on_hand['month_year'].dt.to_timestamp()
+# # Convert 'month_year' back to datetime for plotting (necessary after grouping by period)
+# monthly_qty_on_hand['month_year'] = monthly_qty_on_hand['month_year'].dt.to_timestamp()
 
-# Plotting the line graph
-plt.figure(figsize=(14, 7))
-plt.plot(monthly_qty_on_hand['month_year'], monthly_qty_on_hand['qty_on_hand units'], marker='o', linestyle='-', color='blue')
-plt.title('Monthly Quantity on Hand')
-plt.xlabel('Month-Year')
-plt.ylabel('Quantity on Hand Units')
-plt.xticks(rotation=45)
-plt.grid(True)
-plt.tight_layout()  # Adjust layout to make room for the rotated x-axis labels
-plt.show()
+# # Plotting the line graph
+# plt.figure(figsize=(14, 7))
+# plt.plot(monthly_qty_on_hand['month_year'], monthly_qty_on_hand['qty_on_hand units'], marker='o', linestyle='-', color='blue')
+# plt.title('Monthly Quantity on Hand')
+# plt.xlabel('Month-Year')
+# plt.ylabel('Quantity on Hand Units')
+# plt.xticks(rotation=45)
+# plt.grid(True)
+# plt.tight_layout()  # Adjust layout to make room for the rotated x-axis labels
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
