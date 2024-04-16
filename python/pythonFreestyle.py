@@ -3328,6 +3328,110 @@ NaN clean up here
 
 
 
+'''
+    HERE, WE COMBINE TWO EXCEL SHEETS WITH A FOR-LOOP, WHICH IS THE AUTOMATIC WAY, AS OPPOSED TO THE MANUAL WAY, WHICH REQUIRES YOU TO KNOW THE SHEET NAMES IN ADVANCED!
+'''
+
+
+# import pandas as pd
+
+# # Load the Excel file
+# bar_sales_path = './CSVs/bar_sales.xlsx'
+# bar_sales_data = pd.read_excel(bar_sales_path)
+
+# # Load the Excel file and list all sheets
+# xls = pd.ExcelFile(bar_sales_path)
+# sheet_names = xls.sheet_names
+
+# # Load all sheets into a dictionary of dataframes
+# all_sheets_data = {sheet: pd.read_excel(xls, sheet_name=sheet) for sheet in sheet_names}
+
+# # Display sheet names and the first few rows of each sheet to verify
+# sheet_names, {name: df.head(1) for name, df in all_sheets_data.items()}
+
+# # Concatenate data from both sheets into a single DataFrame
+# combined_data = pd.concat([all_sheets_data[sheet] for sheet in sheet_names]).reset_index(drop=True)
+
+# # Filtering out rows where 'Menu Group' is NaN
+# combined_filtered_data = combined_data.dropna(subset=['Menu Group'])
+
+# # Calculating average sales quantity per menu group
+# combined_avg_sales_quantity = combined_filtered_data.groupby('Menu Group')['Item Qty'].mean().sort_values(ascending=False).head(5)
+
+# # Calculating average net amount per menu group
+# combined_avg_net_amount = combined_filtered_data.groupby('Menu Group')['Net Amount'].mean().sort_values(ascending=False).head(5)
+
+# print(combined_avg_sales_quantity)
+# print(combined_avg_net_amount)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the dataset
+df_customers = pd.read_csv('./CSVs/simulated_customers.csv')
+
+# Count the frequency of each degree status
+degree_counts = df_customers['degree'].value_counts()
+
+# Create a bar plot
+plt.figure(facecolor='white')
+degree_counts.plot(kind='bar', color='skyblue')
+plt.title('Distribution of Customers by Degree')
+plt.xlabel('Degree')
+plt.ylabel('Number of Customers')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
