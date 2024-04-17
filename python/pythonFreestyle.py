@@ -3380,27 +3380,172 @@ NaN clean up here
 
 
 
+'''
+    HERE IS A VERY SIMPLE SCRIPT THAT GENERATES THE DISTRIBUTION OF THE DIFFERENT TYPES OF DEGREEES AMONGST SOME POPULATION.
+'''
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Load the dataset
+# df_customers = pd.read_csv('./CSVs/simulated_customers.csv')
+
+# # Count the frequency of each degree status
+# degree_counts = df_customers['degree'].value_counts()
+
+# # Create a bar plot
+# plt.figure(facecolor='white')
+# degree_counts.plot(kind='bar', color='skyblue')
+# plt.title('Distribution of Customers by Degree')
+# plt.xlabel('Degree')
+# plt.ylabel('Number of Customers')
+# plt.xticks(rotation=45)
+# plt.tight_layout()
+# plt.show()
 
 
 
-import pandas as pd
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, WE NEEDED TO USE A DIFFERENT ENCODING AND THEN WE SEARCHED FOR SPECIFIC SUB-STRINGS WITHIN THE STRING ENTRIES OF A SPECIFIC COLUMN.
+'''
+
+
+# import pandas as pd
+
+# # Load the hotel_room.csv file to examine its structure
+# hotel_data_path = './CSVs/hotel_room.csv'
+
+# # Attempting to read the CSV with a different encoding ('ISO-8859-1')
+# hotel_data = pd.read_csv(hotel_data_path, encoding='ISO-8859-1')
+
+# # Display the first few rows of the dataframe and its columns to understand its structure
+# # hotel_data.head(), hotel_data.columns
+
+# # Clean up the column names by stripping whitespace
+# hotel_data.columns = hotel_data.columns.str.strip()
+
+# # Display the cleaned column names
+# # print(hotel_data.columns)
+
+# # Filter the data for "Hilton Pattaya"
+# hilton_pattaya_review_count = hotel_data[hotel_data['property name'].str.contains("Hilton Pattaya", case=False, na=False)]
+
+# print(hilton_pattaya_review_count[['property name', 'review_count']])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import matplotlib.pyplot as plt
+import pandas as pd
 
-# Load the dataset
-df_customers = pd.read_csv('./CSVs/simulated_customers.csv')
+# Load the data from the Excel file
+payroll_data_path = './CSVs/PAYROLL_MAY.xlsx'
+payroll_data = pd.read_excel(payroll_data_path)
 
-# Count the frequency of each degree status
-degree_counts = df_customers['degree'].value_counts()
+# Display the first few rows of the dataframe and its column names to understand its structure
+payroll_data.head(), payroll_data.columns
 
-# Create a bar plot
-plt.figure(facecolor='white')
-degree_counts.plot(kind='bar', color='skyblue')
-plt.title('Distribution of Customers by Degree')
-plt.xlabel('Degree')
-plt.ylabel('Number of Customers')
-plt.xticks(rotation=45)
-plt.tight_layout()
+# Calculate the maximum value in the "PLA_A_SCTR PENSIONS" column
+max_pension = payroll_data['PLA_A_SCTR PENSIONS'].max()
+
+# Define thresholds for the tiers
+tier_1_threshold = 0.30 * max_pension
+tier_2_threshold = 0.60 * max_pension
+
+# Function to determine the tier based on the pension value
+def assign_tier(pension):
+    if pension < tier_1_threshold:
+        return 'Tier 1'
+    elif pension < tier_2_threshold:
+        return 'Tier 2'
+    else:
+        return 'Tier 3'
+
+# Apply the function to create a new 'Tier' column
+payroll_data['Tier'] = payroll_data['PLA_A_SCTR PENSIONS'].apply(assign_tier)
+
+# Select relevant columns including the new 'Tier' column
+tiered_payroll_data = payroll_data[['Cod- unif', 'Employee', 'JOB', 'PLA_A_SCTR PENSIONS', 'GRAND TOTAL', 'YEAR', 'Tier']]
+
+# Display the first few rows of the modified dataframe
+tiered_payroll_data.head(), tiered_payroll_data['Tier'].value_counts()
+
+
+
+# Group the data by 'YEAR' and 'Tier', and sum the 'GRAND TOTAL' for each group
+grouped_data = tiered_payroll_data.groupby(['YEAR', 'Tier'])['GRAND TOTAL'].sum().unstack(fill_value=0)
+
+# Create a stacked bar chart
+fig, ax = plt.subplots(figsize=(12, 8))
+grouped_data.plot(kind='bar', stacked=True, ax=ax, color=['#1f77b4', '#ff7f0e', '#2ca02c'])  # colors for Tier 1, Tier 2, Tier 3
+
+ax.set_title('Grand Total Contributions by Tier per Year', fontsize=15)
+ax.set_xlabel('Year', fontsize=12)
+ax.set_ylabel('Grand Total', fontsize=12)
+ax.legend(title='Tier', title_fontsize='13', fontsize='11')
+
 plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
