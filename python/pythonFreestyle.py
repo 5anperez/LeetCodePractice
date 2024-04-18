@@ -3456,56 +3456,108 @@ NaN clean up here
 
 
 
-import matplotlib.pyplot as plt
+
+
+
+
+'''
+    HERE WE CREAT A PRETTY COOL GRAPH WHERE EACH BAR IS SEGMENTED INTO THREE TIERS!
+'''
+
+
+
+# import matplotlib.pyplot as plt
+# import pandas as pd
+
+# # Load the data from the Excel file
+# payroll_data_path = './CSVs/PAYROLL_MAY.xlsx'
+# payroll_data = pd.read_excel(payroll_data_path)
+
+# # Display the first few rows of the dataframe and its column names to understand its structure
+# payroll_data.head(), payroll_data.columns
+
+# # Calculate the maximum value in the "PLA_A_SCTR PENSIONS" column
+# max_pension = payroll_data['PLA_A_SCTR PENSIONS'].max()
+
+# # Define thresholds for the tiers
+# tier_1_threshold = 0.30 * max_pension
+# tier_2_threshold = 0.60 * max_pension
+
+# # Function to determine the tier based on the pension value
+# def assign_tier(pension):
+#     if pension < tier_1_threshold:
+#         return 'Tier 1'
+#     elif pension < tier_2_threshold:
+#         return 'Tier 2'
+#     else:
+#         return 'Tier 3'
+
+# # Apply the function to create a new 'Tier' column
+# payroll_data['Tier'] = payroll_data['PLA_A_SCTR PENSIONS'].apply(assign_tier)
+
+# # Select relevant columns including the new 'Tier' column
+# tiered_payroll_data = payroll_data[['Cod- unif', 'Employee', 'JOB', 'PLA_A_SCTR PENSIONS', 'GRAND TOTAL', 'YEAR', 'Tier']]
+
+# # Display the first few rows of the modified dataframe
+# tiered_payroll_data.head(), tiered_payroll_data['Tier'].value_counts()
+
+# # Group the data by 'YEAR' and 'Tier', and sum the 'GRAND TOTAL' for each group
+# grouped_data = tiered_payroll_data.groupby(['YEAR', 'Tier'])['GRAND TOTAL'].sum().unstack(fill_value=0)
+
+# # Create a stacked bar chart
+# fig, ax = plt.subplots(figsize=(12, 8))
+# grouped_data.plot(kind='bar', stacked=True, ax=ax, color=['#1f77b4', '#ff7f0e', '#2ca02c'])  # colors for Tier 1, Tier 2, Tier 3
+
+# ax.set_title('Grand Total Contributions by Tier per Year', fontsize=15)
+# ax.set_xlabel('Year', fontsize=12)
+# ax.set_ylabel('Grand Total', fontsize=12)
+# ax.legend(title='Tier', title_fontsize='13', fontsize='11')
+
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import pandas as pd
 
-# Load the data from the Excel file
-payroll_data_path = './CSVs/PAYROLL_MAY.xlsx'
-payroll_data = pd.read_excel(payroll_data_path)
+# Load the dataset
+file_path = './CSVs/Invoices Dic - Facturas.tsv'
+invoices_data = pd.read_csv(file_path, delimiter='\t')
 
-# Display the first few rows of the dataframe and its column names to understand its structure
-payroll_data.head(), payroll_data.columns
+# Combine 'Payment Status' and 'Invoice Status' into a single column
+invoices_data['Payment - Invoice Status'] = invoices_data['Payment Status'] + ' - ' + invoices_data['Invoice Status']
 
-# Calculate the maximum value in the "PLA_A_SCTR PENSIONS" column
-max_pension = payroll_data['PLA_A_SCTR PENSIONS'].max()
-
-# Define thresholds for the tiers
-tier_1_threshold = 0.30 * max_pension
-tier_2_threshold = 0.60 * max_pension
-
-# Function to determine the tier based on the pension value
-def assign_tier(pension):
-    if pension < tier_1_threshold:
-        return 'Tier 1'
-    elif pension < tier_2_threshold:
-        return 'Tier 2'
-    else:
-        return 'Tier 3'
-
-# Apply the function to create a new 'Tier' column
-payroll_data['Tier'] = payroll_data['PLA_A_SCTR PENSIONS'].apply(assign_tier)
-
-# Select relevant columns including the new 'Tier' column
-tiered_payroll_data = payroll_data[['Cod- unif', 'Employee', 'JOB', 'PLA_A_SCTR PENSIONS', 'GRAND TOTAL', 'YEAR', 'Tier']]
-
-# Display the first few rows of the modified dataframe
-tiered_payroll_data.head(), tiered_payroll_data['Tier'].value_counts()
+# Display the first few rows to confirm the changes
+print(invoices_data.head(n=15))
 
 
 
-# Group the data by 'YEAR' and 'Tier', and sum the 'GRAND TOTAL' for each group
-grouped_data = tiered_payroll_data.groupby(['YEAR', 'Tier'])['GRAND TOTAL'].sum().unstack(fill_value=0)
 
-# Create a stacked bar chart
-fig, ax = plt.subplots(figsize=(12, 8))
-grouped_data.plot(kind='bar', stacked=True, ax=ax, color=['#1f77b4', '#ff7f0e', '#2ca02c'])  # colors for Tier 1, Tier 2, Tier 3
 
-ax.set_title('Grand Total Contributions by Tier per Year', fontsize=15)
-ax.set_xlabel('Year', fontsize=12)
-ax.set_ylabel('Grand Total', fontsize=12)
-ax.legend(title='Tier', title_fontsize='13', fontsize='11')
 
-plt.show()
+# Combine `Payment Status` and `Invoice Status`
+df['Payment - Invoice Status'] = df['Payment Status'] + ' - ' + df['Invoice Status']
+
+# Print the first 5 rows
+print(df.head().to_markdown(index=False, numalign="left", stralign="left"))
+
+
+
+
+
 
 
 

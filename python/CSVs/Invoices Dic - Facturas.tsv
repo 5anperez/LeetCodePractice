@@ -1,0 +1,455 @@
+reference	Date	Amount Untaxed	Sales Team	Payment Status	Fee	Origin	Invoice Status	Total Amount	Acounting Account
+INV1/2023/00933	2023-12-29	347.29	Office	Payed	0.02	S16685	Published	379.41	Acounting 2
+INV1/2023/00932	2023-12-29	39.22	Office	Payed	0.02	S16680	Published	42.85	Acounting 2
+INV1/2023/00931	2023-12-29	388.60	Office	Payed	0.02	S16698	Published	424.55	Acounting 2
+INV/2023/06739	2023-12-29	2,834.39	Salesman 1	Payed	0.04	S16360	Published	3,096.57	Accounting 1
+INV/2023/06738	2023-12-29	74,099.75	Office	Not Payed	0.02	S16712	Published	80,953.98	Accounting 1
+INV/2023/06737	2023-12-29	41,547.41	Salesman 2	Not Payed	0.02	S16710	Published	45,390.54	Accounting 1
+INV/2023/06736	2023-12-29	47,085.05	Goverment	Payed	0.02	S16707	Published	51,440.42	Accounting 1
+INV/2023/06735	2023-12-29	7,822.02	Office	Payed	0.04	S16702	Published	8,545.56	Accounting 1
+INV/2023/06734	2023-12-29	15,334.41	Office	Payed	0.04	S16679	Published	16,752.85	Accounting 1
+INV/2023/06733	2023-12-29	1,094.27	Goverment	Payed	0.02	S16489	Published	1,195.49	Accounting 1
+INV1/2023/00930	2023-12-28	177.12	Office	Payed	0.04	S16706	Published	193.51	Acounting 2
+INV1/2023/00929	2023-12-28	266.76	Office	Payed	0.04	S16673	Published	291.44	Acounting 2
+INV/2023/06732	2023-12-28	6,396.02	Office	Not Payed	0.02	S16705	Published	6,987.65	Accounting 1
+INV/2023/06731	2023-12-28	845.27	Salesman 2	Not Payed	0.04	S16703	Published	923.45	Accounting 1
+INV/2023/06730	2023-12-28	8,169.62	Salesman 2	Not Payed	0.02	S16691	Published	8,925.31	Accounting 1
+INV/2023/06729	2023-12-28	1,702.77	Office	Payed	0.06	S16681	Published	1,860.27	Accounting 1
+INV/2023/06728	2023-12-28	12,018.01	Office	Payed	0.04	S16624	Published	13,129.67	Accounting 1
+INV/2023/06727	2023-12-28	2,801.95	Office	Payed	0.02	S16684	Published	3,061.14	Accounting 1
+INV/2023/06726	2023-12-28	9,976.19	Office	Payed	0.02	S16696	Published	10,898.99	Accounting 1
+INV/2023/06725	2023-12-28	11,606.70	Office	Not Payed	0.02	S16695	Published	12,680.32	Accounting 1
+INV/2023/06724	2023-12-28	1,752.88	Office	Not Payed	0.04	S16694	Published	1,915.02	Accounting 1
+INV/2023/06723	2023-12-28	13,625.97	Office	Not Payed	0.04	S16693	Published	14,886.37	Accounting 1
+INV/2023/06722	2023-12-28	646.48	Office	Payed	0.04	S16682	Published	706.28	Accounting 1
+INV/2023/06721	2023-12-28	715.40	Office	Not Payed	0.04	S16690	Published	781.57	Accounting 1
+INV/2023/06720	2023-12-28	1,155.33	Office	Not Payed	0.04	S16689	Published	1,262.20	Accounting 1
+INV/2023/06719	2023-12-28	1,045.75	Office	Not Payed	0.02	S16688	Published	1,142.48	Accounting 1
+INV/2023/06718	2023-12-28	4,562.61	Office	Payed	0.02	S16608	Published	4,984.65	Accounting 1
+INV/2023/06717	2023-12-28	5,965.32	Office	Payed	0.02	S16447	Published	6,517.12	Accounting 1
+INV1/2023/00928	2023-12-27	8,423.77	Office	Payed	0.02	S16662	Published	9,202.97	Acounting 2
+INV1/2023/00927	2023-12-27	1,681.68	Office	Payed	0.04	S16671	Published	1,837.23	Acounting 2
+INV1/2023/00926	2023-12-27	2,827.23	Office	Payed	0.04	S16532	Published	3,088.75	Acounting 2
+INV1/2023/00925	2023-12-27	6,459.20	Office	Payed	0.04	S16633	Published	7,056.67	Acounting 2
+INV1/2023/00924	2023-12-27	2,376.37	Office	Payed	0.02	S16657	Published	2,596.19	Acounting 2
+INV/2023/06716	2023-12-27	736.72	Office	Not Payed	0.06	S16669	Published	804.86	Accounting 1
+INV/2023/06715	2023-12-27	845.01	Office	Not Payed	0.02	S16668	Published	923.18	Accounting 1
+INV/2023/06714	2023-12-27	146,547.37	Office	Not Payed	0.04	S16667	Published	160,103.01	Accounting 1
+INV/2023/06713	2023-12-27	2,945.72	Office	Payed	0.04	S16666	Published	3,218.20	Accounting 1
+INV/2023/06712	2023-12-27	1,454.75	Office	Not Payed	0.04	S16664	Published	1,589.31	Accounting 1
+INV/2023/06711	2023-12-27	400.92	Office	Not Payed	0.04	S16663	Published	438.01	Accounting 1
+INV/2023/06710	2023-12-27	5,672.91	Office	Payed	0.02	S16265	Published	6,197.66	Accounting 1
+INV/2023/06709	2023-12-27	133.29	Office	Payed	0.02	S16653	Published	145.62	Accounting 1
+INV/2023/06708	2023-12-27	15,032.43	Office	Payed	0.04	S16654	Published	16,422.93	Accounting 1
+INV/2023/06707	2023-12-27	36,537.39	Office	Not Payed	0.04	S16659	Published	39,917.09	Accounting 1
+INV/2023/06706	2023-12-27	25,018.53	Office	Payed	0.02	S16623	Published	27,332.74	Accounting 1
+INV/2023/06705	2023-12-27	6,854.74	Goverment	Payed	0.04	S16564	Published	7,488.81	Accounting 1
+INV/2023/06704	2023-12-27	11,222.34	Office	Payed	0.02	S16299	Published	12,260.41	Accounting 1
+INV1/2023/00923	2023-12-26	177.85	Office	Payed	0.02	S16656	Published	194.30	Acounting 2
+INV/2023/06703	2023-12-26	4,718.31	Office	Payed	0.02	S16641	Published	5,154.75	Accounting 1
+INV/2023/06702	2023-12-26	8,542.78	Office	Payed	0.02	S16159	Published	9,332.99	Accounting 1
+INV/2023/06701	2023-12-26	702.51	Salesman 2	Not Payed	0.02	S16652	Published	767.49	Accounting 1
+INV/2023/06700	2023-12-26	860.96	Salesman 2	Not Payed	0.04	S16651	Published	940.60	Accounting 1
+INV/2023/06699	2023-12-26	64.40	Salesman 2	Not Payed	0.04	S16650	Published	70.36	Accounting 1
+INV/2023/06698	2023-12-26	1,007.40	Salesman 2	Not Payed	0.02	S16649	Published	1,100.58	Accounting 1
+INV/2023/06697	2023-12-26	1,471.17	Salesman 2	Not Payed	0.04	S16648	Published	1,607.25	Accounting 1
+INV/2023/06696	2023-12-26	721.48	Salesman 2	Not Payed	0.04	S16647	Published	788.21	Accounting 1
+INV/2023/06695	2023-12-26	1,435.90	Salesman 2	Not Payed	0.06	S16646	Published	1,568.72	Accounting 1
+INV/2023/06694	2023-12-26	708.40	Salesman 2	Not Payed	0.02	S16645	Published	773.92	Accounting 1
+INV1/2023/00922	2023-12-22	6,376.58	Office	Payed	0.02	S16592	Published	6,966.41	Acounting 2
+INV1/2023/00921	2023-12-22	35.30	Office	Payed	0.04	S16635	Published	38.56	Acounting 2
+INV1/2023/00920	2023-12-22	111.09	Office	Payed	0.02	S16634	Published	121.37	Acounting 2
+INV/2023/06693	2023-12-22	1,422.95	Office	Payed	0.02	S16627	Published	1,554.57	Accounting 1
+INV/2023/06692	2023-12-22	47,906.28	Salesman 2	Payed	0.02	S15822	Published	52,337.61	Accounting 1
+INV/2023/06691	2023-12-22	13,936.94	Office	Not Payed	0.04	S16637	Published	15,226.11	Accounting 1
+INV/2023/06690	2023-12-22	2,100.94	Salesman 2	Payed	0.02	S16630	Published	2,295.27	Accounting 1
+INV/2023/06689	2023-12-22	322.66	Salesman 2	Not Payed	0.02	S16629	Published	352.51	Accounting 1
+INV/2023/06688	2023-12-22	1,701.95	Salesman 2	Not Payed	0.02	S16628	Published	1,859.38	Accounting 1
+INV/2023/06687	2023-12-22	706.52	Office	Not Payed	0.02	S16625	Published	771.87	Accounting 1
+INV1/2023/00919	2023-12-21	3,282.97	Office	Payed	0.04	S16524	Published	3,586.65	Acounting 2
+INV1/2023/00918	2023-12-21	14,322.79	Office	Payed	0.04	S16584	Published	15,647.65	Acounting 2
+INV1/2023/00917	2023-12-21	0.00	Office	Payed	0.04	S16615	Published		Acounting 2
+INV/2023/06686	2023-12-21	19,094.61	Goverment	Payed	0.02	S16397	Published	122,621.84	Accounting 1
+INV/2023/06685	2023-12-21	924.08	Office	Not Payed	0.04	S16622	Published	24,170.00	Accounting 1
+INV/2023/06684	2023-12-21	8,417.88	Salesman 1	Payed	0.04	S16621	Published	33,543.80	Accounting 1
+INV/2023/06683	2023-12-21	9,349.22	Office	Not Payed	0.04	S16620	Published	22,207.40	Accounting 1
+INV/2023/06682	2023-12-21	21,744.66	Salesman 2	Payed	0.04	S16590	Published	43,622.80	Accounting 1
+INV/2023/06681	2023-12-21	1,151.71	Office	Payed	0.04	S16613	Published	2,318.42	Accounting 1
+INV/2023/06680	2023-12-21	11,807.58	Office	Payed	0.02	S16606	Published	16,557.82	Accounting 1
+INV/2023/06679	2023-12-21	5,670.77	Salesman 2	Payed	0.02	S15964	Published	14,479.23	Accounting 1
+INV/2023/06677	2023-12-21	6,783.86	Office	Not Payed	0.02	S16583	Published	34,133.06	Accounting 1
+INV/2023/06676	2023-12-21	19,600.75	Office	Not Payed	0.04	S16582	Published	62,654.69	Accounting 1
+INV/2023/06675	2023-12-21	8,402.89	Office	Not Payed	0.04	S16581	Published	20,645.15	Accounting 1
+INV/2023/06674	2023-12-21	57,827.68	Salesman 2	Payed	0.04	S16571	Published	93,982.62	Accounting 1
+INV/2023/06673	2023-12-21	27,742.36	Office	Not Payed	0.02	S16619	Published	35,260.53	Accounting 1
+INV/2023/06672	2023-12-21	750.68	Office	Payed	0.04	S16616	Published	939.08	Accounting 1
+INV1/2023/00916	2023-12-20	4,269.15	Office	Payed	0.02	S16498	Published	8,926.08	Acounting 2
+INV1/2023/00915	2023-12-20	4,361.08	Office	Payed	0.04	S16612	Published	8,174.61	Acounting 2
+INV1/2023/00914	2023-12-20	2,981.75	Office	Payed	0.04	S16543	Published	4,020.46	Acounting 2
+INV1/2023/00913	2023-12-20	169.91	Office	Payed	0.02	S16605	Published	344.91	Acounting 2
+INV1/2023/00912	2023-12-20	74.85	Office	Payed	0.02	S16599	Published	96.33	Acounting 2
+INV1/2023/00911	2023-12-20	0.00	Office	Payed	0.04	S16600	Published		Acounting 2
+INV/2023/06671	2023-12-20	4,965.89	Office	Payed	0.04	S16598	Published	11,184.38	Accounting 1
+INV/2023/06670	2023-12-20	3,167.96	Salesman 2	Not Payed	0.06	S16603	Published	5,005.07	Accounting 1
+INV/2023/06669	2023-12-20	15,428.88	Office	Not Payed	0.02	S16602	Published	19,423.50	Accounting 1
+INV/2023/06668	2023-12-20	14,704.68	Salesman 2	Not Payed	0.04	S16601	Published	20,785.77	Accounting 1
+INV/2023/06667	2023-12-20	274.94	Salesman 2	Not Payed	0.04	S16597	Published	1,405.94	Accounting 1
+INV/2023/06666	2023-12-20	151.42	Salesman 2	Not Payed	0.02	S16595	Canceled	1,203.70	Accounting 1
+INV/2023/06665	2023-12-20	4,449.51	Salesman 2	Not Payed	0.04	S16594	Published	5,221.37	Accounting 1
+INV/2023/06664	2023-12-20	14,394.79	Office	Payed	0.04	S16563	Published	127,938.53	Accounting 1
+INV/2023/06663	2023-12-20	7,395.17	Office	Payed	0.04	S16495	Published	26,405.56	Accounting 1
+INV/2023/06662	2023-12-20	3,963.28	Office	Payed	0.04	S16483	Published	5,228.54	Accounting 1
+INV/2023/06661	2023-12-20	8,967.31	Office	Payed	0.04	S16484	Published	11,695.00	Accounting 1
+INV/2023/06660	2023-12-20	342.94	Office	Not Payed	0.02	S16609	Published	15,657.54	Accounting 1
+INV/2023/06659	2023-12-20	2,340.61	Office	Payed	0.04	S16526	Published	4,745.84	Accounting 1
+INV/2023/06658	2023-12-20	2,714.50	Goverment	Payed	0.02	S16446	Published	30,655.46	Accounting 1
+INV/2023/06657	2023-12-20	8,737.95	Office	Payed	0.02	S16567	Canceled	46,744.28	Accounting 1
+INV/2023/06656	2023-12-20	1,752.91	Office	Not Payed	0.04	S16579	Published	16,741.72	Accounting 1
+INV/2023/06655	2023-12-20	575.80	Office	Not Payed	0.02	S15931	Published	1,249.76	Accounting 1
+INV/2023/06654	2023-12-20	4,349.03	Salesman 2	Not Payed	0.04	S16575	Published	10,401.95	Accounting 1
+INV/2023/06653	2023-12-20	569.22	Salesman 2	Not Payed	0.04	S16574	Published	4,382.02	Accounting 1
+INV/2023/06652	2023-12-20	480.47	Salesman 2	Not Payed	0.04	S16573	Published	3,900.73	Accounting 1
+INV/2023/06651	2023-12-20	244,003.47	Salesman 2	Payed	0.02	S16544	Published	638,035.95	Accounting 1
+INV/2023/06650	2023-12-20	18,299.10	Office	Payed	0.02	S16527	Published	21,375.90	Accounting 1
+INV1/2023/00910	2023-12-19	9,258.30	Office	Payed	0.04	S16577	Published	13,515.72	Acounting 2
+INV1/2023/00909	2023-12-19	761.18	Office	Payed	0.04	S16525	Published	6,658.50	Acounting 2
+INV1/2023/00908	2023-12-19	1,326.89	Office	Payed	0.02	S16557	Published	2,065.82	Acounting 2
+INV1/2023/00907	2023-12-19	0.00	Office	Payed	0.04	S16570	Published		Acounting 2
+INV1/2023/00906	2023-12-19	0.00	Office	Payed	0.02	S16569	Published		Acounting 2
+INV/2023/06649	2023-12-19	19,865.95	Office	Not Payed	0.04	S16588	Published	49,237.12	Accounting 1
+INV/2023/06648	2023-12-19	989.40	Office	Not Payed	0.02	S16578	Published	22,939.27	Accounting 1
+INV/2023/06647	2023-12-19	4,187.63	Office	Payed	0.02	S16576	Published	5,706.04	Accounting 1
+INV/2023/06646	2023-12-19	42,170.28	Office	Not Payed	0.02	S16572	Published	51,040.69	Accounting 1
+INV/2023/06645	2023-12-19	19,451.28	Office	Partially Payed	0.04	S16566	Published	27,276.32	Accounting 1
+INV/2023/06644	2023-12-19	17,177.00	Office	Payed	0.04	S16516	Published	23,740.31	Accounting 1
+INV/2023/06643	2023-12-19	8,384.11	Office	Payed	0.04	S16542	Published	92,857.24	Accounting 1
+INV/2023/06642	2023-12-19	5,630.42	Office	Payed	0.04	S16514	Published	86,713.80	Accounting 1
+INV/2023/06641	2023-12-19	39,395.32	Office	Payed	0.04	S16513	Published	50,426.68	Accounting 1
+INV/2023/06640	2023-12-19	1,214.65	Office	Payed	0.04	S16530	Published	1,572.90	Accounting 1
+INV/2023/06639	2023-12-19	5,967.15	Goverment	Payed	0.02	S16106	Published	8,809.04	Accounting 1
+INV/2023/06638	2023-12-19	49.84	Office	Payed	0.06	S16589	Published	413.84	Accounting 1
+INV/2023/06637	2023-12-19	404.00	Goverment	Payed	0.04	S16488	Published	713.75	Accounting 1
+INV/2023/06636	2023-12-19	1,589.38	Office	Payed	0.02	S16587	Published	2,547.36	Accounting 1
+INV/2023/06635	2023-12-19	301.72	Office	Payed	0.02	S16558	Published	828.01	Accounting 1
+INV/2023/06634	2023-12-19	18,526.62	Goverment	Payed	0.02	S16331	Published	40,417.30	Accounting 1
+INV1/2023/00905	2023-12-18	0.00	Office	Payed	0.02	S16565	Published		Acounting 2
+INV/2023/06633	2023-12-18	147,466.49	Salesman 2	Not Payed	0.04	S16547	Published	285,881.02	Accounting 1
+INV/2023/06632	2023-12-18	575.50	Salesman 2	Not Payed	0.04	S16562	Published	760.73	Accounting 1
+INV/2023/06631	2023-12-18	1,676.30	Salesman 2	Payed	0.04	S16561	Published	2,535.76	Accounting 1
+INV/2023/06630	2023-12-18	3,411.83	Salesman 2	Not Payed	0.04	S16560	Published	7,589.93	Accounting 1
+INV/2023/06629	2023-12-18	959.71	Salesman 2	Not Payed	0.04	S16092	Published	1,249.76	Accounting 1
+INV/2023/06628	2023-12-18	427.58	Salesman 2	Not Payed	0.02	S16559	Published	839.47	Accounting 1
+INV/2023/06627	2023-12-18	12,488.09	Office	Not Payed	0.04	S16548	Published	22,130.35	Accounting 1
+INV/2023/06626	2023-12-18	2,751.11	Salesman 2	Not Payed	0.02	S16554	Published	3,655.97	Accounting 1
+INV/2023/06625	2023-12-18	22,775.06	Office	Not Payed	0.04	S16553	Published	27,230.53	Accounting 1
+INV/2023/06624	2023-12-18	1,736.24	Salesman 2	Not Payed	0.04	S16550	Published	4,386.60	Accounting 1
+INV/2023/06623	2023-12-18	675.61	Office	Not Payed	0.04	S16549	Published	1,867.51	Accounting 1
+INV/2023/06622	2023-12-18	103.64	Salesman 2	Payed	0.04	S16546	Published	7,991.13	Accounting 1
+INV/2023/06621	2023-12-18	4,727.57	Salesman 2	Not Payed	0.04	S16545	Published	7,149.48	Accounting 1
+INV/2023/06620	2023-12-18	566.11	Salesman 2	Not Payed	0.02	S16541	Published	1,557.09	Accounting 1
+INV/2023/06619	2023-12-18	1,936.41	Salesman 2	Not Payed	0.04	S16540	Published	3,054.28	Accounting 1
+INV/2023/06618	2023-12-18	713.15	Salesman 2	Not Payed	0.04	S16539	Published	5,097.68	Accounting 1
+INV/2023/06617	2023-12-18	3,687.16	Salesman 2	Not Payed	0.02	S16538	Published	4,601.88	Accounting 1
+INV/2023/06616	2023-12-18	1,809.14	Salesman 2	Not Payed	0.02	S16537	Published	4,670.95	Accounting 1
+INV/2023/06615	2023-12-18	598.13	Salesman 2	Not Payed	0.04	S16536	Published	6,501.22	Accounting 1
+INV/2023/06614	2023-12-18	5,942.52	Salesman 1	Payed	0.04	S16468	Published	24,825.48	Accounting 1
+INV/2023/06613	2023-12-18	1,711.47	Salesman 2	Not Payed	0.04	S16535	Published	3,040.20	Accounting 1
+INV/2023/06612	2023-12-18	1,840.44	Salesman 2	Not Payed	0.02	S16534	Published	4,188.24	Accounting 1
+INV/2023/06611	2023-12-18	7,178.94	Salesman 2	Not Payed	0.02	S16533	Published	8,999.40	Accounting 1
+INV/2023/06610	2023-12-18	261.15	Office	Payed	0.02	S16519	Published	3,936.16	Accounting 1
+INV/2023/06609	2023-12-18	5,208.91	Office	Payed	0.02	S16511	Published	8,705.01	Accounting 1
+INV/2023/06608	2023-12-18	2,440.72	Office	Payed	0.04	S16485	Published	5,877.76	Accounting 1
+INV/2023/06607	2023-12-18	6,678.46	Office	Payed	0.04	S16401	Published	14,510.44	Accounting 1
+INV/2023/06606	2023-12-18	577.63	Office	Payed	0.04	S16508	Published	736.95	Accounting 1
+INV1/2023/00904	2023-12-15	6,996.39	Office	Payed	0.02	S16482	Published	9,668.68	Acounting 2
+INV/2023/06605	2023-12-15	56,479.53	Goverment	Not Payed	0.02	S16518	Published	150,500.72	Accounting 1
+INV/2023/06604	2023-12-15	67,363.79	Office	Payed	0.02	S16500	Published	165,848.97	Accounting 1
+INV/2023/06603	2023-12-15	39,841.73	Salesman 1	Not Payed	0.04	S16512	Published	53,744.70	Accounting 1
+INV/2023/06602	2023-12-15	1,410.06	Salesman 1	Not Payed	0.04	S16505	Published	5,820.81	Accounting 1
+INV/2023/06601	2023-12-15	37.79	Salesman 2	Not Payed	0.04	S16517	Published	6,290.68	Accounting 1
+INV/2023/06600	2023-12-15	5,219.79	Salesman 2	Not Payed	0.04	S16515	Published	6,085.18	Accounting 1
+INV/2023/06599	2023-12-15	5,881.70	Office	Payed	0.04	S16430	Published	9,104.20	Accounting 1
+INV/2023/06598	2023-12-15	1,456.69	Office	Not Payed	0.04	S16510	Published	5,617.79	Accounting 1
+INV/2023/06597	2023-12-15	5.31	Office	Payed	0.04	S16321	Published	125.63	Accounting 1
+INV/2023/06596	2023-12-15	2,732.98	Office	Payed	0.04	S16509	Published	15,228.72	Accounting 1
+INV/2023/06595	2023-12-15	4,394.61	Office	Payed	0.04	S16507	Published	5,112.08	Accounting 1
+INV/2023/06594	2023-12-15	1,808.82	Office	Payed	0.02	S16506	Published	8,110.02	Accounting 1
+INV/2023/06593	2023-12-15	3,688.97	Office	Payed	0.02	S16493	Published	5,873.66	Accounting 1
+INV/2023/06592	2023-12-15	575.49	Salesman 2	Not Payed	0.04	S16504	Published	3,905.94	Accounting 1
+INV/2023/06591	2023-12-15	2,366.81	Salesman 2	Not Payed	0.04	S16503	Published	6,255.69	Accounting 1
+INV/2023/06590	2023-12-15	3,828.78	Salesman 2	Not Payed	0.04	S16502	Published	5,200.98	Accounting 1
+INV/2023/06589	2023-12-15	4,847.15	Salesman 2	Not Payed	0.04	S16501	Published	6,501.22	Accounting 1
+INV/2023/06588	2023-12-15	3,082.98	Office	Payed	0.04	S16342	Published	9,365.73	Accounting 1
+INV/2023/06587	2023-12-15	5,877.87	Salesman 2	Payed	0.04	S16366	Published	15,754.10	Accounting 1
+INV/2023/06586	2023-12-15	10,374.78	Salesman 2	Payed	0.06	S16486	Published	20,968.07	Accounting 1
+INV/2023/06585	2023-12-15	547.74	Goverment	Payed	0.02	S16165	Published	4,925.01	Accounting 1
+INV/2023/06584	2023-12-15	227.33	Office	Payed	0.02	S16400	Published	357.57	Accounting 1
+INV/2023/06583	2023-12-15	700.01	Office	Payed	0.02	S16399	Published	1,470.24	Accounting 1
+INV/2023/06582	2023-12-15	26,575.41	Goverment	Payed	0.04	S16406	Published	32,504.57	Accounting 1
+INV/2023/06581	2023-12-15	11,968.18	Goverment	Payed	0.04	S16082	Published	37,144.48	Accounting 1
+INV1/2023/00903	2023-12-14	2,158.88	Office	Payed	0.04	S16463	Published	2,951.84	Acounting 2
+INV1/2023/00902	2023-12-14	275.09	Office	Payed	0.04	S16481	Canceled	277.62	Acounting 2
+INV1/2023/00901	2023-12-14	158.99	Office	Payed	0.04	S16459	Published	222.93	Acounting 2
+INV/2023/06580	2023-12-14	11,213.27	Goverment	Payed	0.04	S16480	Published	21,069.31	Accounting 1
+INV/2023/06579	2023-12-14	181,039.90	Salesman 2	Payed	0.04	S16476	Published	263,272.44	Accounting 1
+INV/2023/06578	2023-12-14	541.98	Goverment	Payed	0.02	S16075	Published	704.72	Accounting 1
+INV/2023/06577	2023-12-14	3,917.22	Goverment	Payed	0.02	S16140	Published	7,387.52	Accounting 1
+INV/2023/06576	2023-12-14	698.68	Office	Payed	0.04	S16415	Published	932.22	Accounting 1
+INV/2023/06575	2023-12-14	14,446.40	Salesman 2	Not Payed	0.04	S16479	Published	23,830.49	Accounting 1
+INV/2023/06574	2023-12-14	3,874.64	Salesman 2	Not Payed	0.04	S15817	Published	4,586.17	Accounting 1
+INV/2023/06573	2023-12-14	1,623.81	Salesman 2	Not Payed	0.02	S16147	Published	4,737.67	Accounting 1
+INV/2023/06572	2023-12-14	1,873.10	Salesman 2	Not Payed	0.04	S16478	Published	2,754.77	Accounting 1
+INV/2023/06571	2023-12-14	1,445.42	Office	Payed	0.02	S16472	Published	6,177.14	Accounting 1
+INV/2023/06570	2023-12-14	16,388.49	Office	Payed	0.04	S16362	Published	22,311.03	Accounting 1
+INV/2023/06569	2023-12-14	489.79	Office	Payed	0.04	S16469	Published	14,360.42	Accounting 1
+INV/2023/06568	2023-12-14	7,449.03	Office	Not Payed	0.02	S16474	Published	22,143.35	Accounting 1
+INV/2023/06567	2023-12-14	26,575.31	Office	Not Payed	0.04	S16473	Published	35,936.73	Accounting 1
+INV/2023/06566	2023-12-14	11,793.40	Office	Payed	0.04	S16451	Published	14,431.91	Accounting 1
+INV/2023/06565	2023-12-14	1,083.92	Goverment	Payed	0.04	S16051	Published	12,943.95	Accounting 1
+INV/2023/06564	2023-12-14	7,371.52	Office	Payed	0.02	S16461	Published	13,541.35	Accounting 1
+INV/2023/06563	2023-12-14	2,570.11	Office	Payed	0.04	S16457	Published	3,163.69	Accounting 1
+INV/2023/06562	2023-12-14	416.10	Office	Not Payed	0.04	S16466	Published	1,820.91	Accounting 1
+INV/2023/06561	2023-12-14	100.56	Office	Not Payed	0.04	S16465	Published	1,820.91	Accounting 1
+INV/2023/06560	2023-12-14	385.38	Office	Not Payed	0.04	S16464	Published	572.29	Accounting 1
+INV1/2023/00900	2023-12-13	2,156.63	Office	Payed	0.04	S16394	Published	2,381.44	Acounting 2
+INV/2023/06559	2023-12-13	45,297.77	Office	Payed	0.04	S16422	Published	67,759.78	Accounting 1
+INV/2023/06558	2023-12-13	71,751.81	Salesman 2	Not Payed	0.02	S16455	Published	147,647.32	Accounting 1
+INV/2023/06557	2023-12-13	2,812.09	Salesman 2	Not Payed	0.02	S16454	Published	16,592.12	Accounting 1
+INV/2023/06556	2023-12-13	50,713.28	Salesman 2	Partially Payed	0.02	S16452	Published	125,268.24	Accounting 1
+INV/2023/06555	2023-12-13	7,112.07	Office	Not Payed	0.02	S16450	Published	8,301.65	Accounting 1
+INV/2023/06554	2023-12-13	1,508.02	Office	Not Payed	0.04	S16408	Published	7,403.77	Accounting 1
+INV/2023/06553	2023-12-13	775.34	Salesman 2	Not Payed	0.04	S16448	Published	3,968.87	Accounting 1
+INV/2023/06552	2023-12-13	825.25	Goverment	Payed	0.02	S15980	Published	5,039.25	Accounting 1
+INV/2023/06551	2023-12-13	2,130.55	Salesman 2	Not Payed	0.02	S16445	Published	4,050.14	Accounting 1
+INV/2023/06550	2023-12-13	1,925.10	Salesman 2	Not Payed	0.04	S16443	Published	13,476.86	Accounting 1
+INV/2023/06549	2023-12-13	1,108.80	Salesman 2	Not Payed	0.04	S16442	Published	5,200.98	Accounting 1
+INV/2023/06548	2023-12-13	2,039.82	Salesman 2	Not Payed	0.04	S16441	Published	5,200.98	Accounting 1
+INV/2023/06547	2023-12-13	659.58	Salesman 2	Not Payed	0.06	S16440	Published	3,900.73	Accounting 1
+INV/2023/06546	2023-12-13	1,577.70	Salesman 2	Not Payed	0.04	S16439	Published	2,730.51	Accounting 1
+INV/2023/06545	2023-12-13	2,881.07	Salesman 2	Not Payed	0.02	S16438	Published	9,474.79	Accounting 1
+INV/2023/06544	2023-12-13	1,047.81	Salesman 2	Not Payed	0.02	S16437	Published	1,935.39	Accounting 1
+INV/2023/06543	2023-12-13	1,401.73	Salesman 2	Not Payed	0.04	S16436	Published	3,036.70	Accounting 1
+INV/2023/06542	2023-12-13	1,136.22	Salesman 2	Not Payed	0.02	S16434	Published	2,013.02	Accounting 1
+INV/2023/06541	2023-12-13	3,531.83	Salesman 2	Not Payed	0.02	S16433	Published	8,407.13	Accounting 1
+INV/2023/06540	2023-12-13	932.62	Salesman 2	Not Payed	0.02	S16432	Published	2,262.01	Accounting 1
+INV/2023/06539	2023-12-13	1,680.29	Salesman 2	Not Payed	0.04	S16431	Published	2,100.53	Accounting 1
+INV/2023/06538	2023-12-13	55.31	Salesman 2	Not Payed	0.02	S16429	Published	1,607.89	Accounting 1
+INV/2023/06537	2023-12-13	1,402.16	Salesman 2	Not Payed	0.04	S16428	Published	4,405.12	Accounting 1
+INV/2023/06536	2023-12-13	159.37	Salesman 2	Not Payed	0.04	S16427	Published	2,683.56	Accounting 1
+INV/2023/06535	2023-12-13	15,509.34	Office	Payed	0.02	S16369	Published	25,135.76	Accounting 1
+INV/2023/06534	2023-12-13	5,730.35	Office	Payed	0.04	S16416	Published	11,576.82	Accounting 1
+INV/2023/06533	2023-12-13	17,574.17	Goverment	Payed	0.04	S16419	Published	41,578.67	Accounting 1
+INV/2023/06532	2023-12-13	15,735.38	Salesman 2	Payed	0.02	S15981	Published	46,295.14	Accounting 1
+INV/2023/06531	2023-12-13	183.65	Office	Payed	0.04	S16420	Published	310.74	Accounting 1
+INV/2023/06530	2023-12-13	358.20	Office	Payed	0.02	S16391	Published	424.91	Accounting 1
+INV1/2023/00899	2023-12-12	0.00	Office	Payed	0.04	S16418	Published		Acounting 2
+INV1/2023/00898	2023-12-12	666.13	Office	Payed	0.04	S16414	Published	2,301.60	Acounting 2
+INV/2023/06529	2023-12-12	3,068.59	Office	Payed	0.02	S16318	Published	6,089.35	Accounting 1
+INV/2023/06528	2023-12-12	5,543.19	Office	Payed	0.02	S16320	Published	18,596.91	Accounting 1
+INV/2023/06527	2023-12-12	40,914.63	Office	Not Payed	0.02	S16411	Published	55,442.88	Accounting 1
+INV/2023/06526	2023-12-12	4,229.00	Office	Not Payed	0.02	S16413	Published	15,112.31	Accounting 1
+INV/2023/06525	2023-12-12	3,782.98	Office	Payed	0.02	S16376	Published	10,459.02	Accounting 1
+INV/2023/06524	2023-12-12	679.36	Salesman 1	Payed	0.02	S16328	Published	1,867.51	Accounting 1
+INV/2023/06523	2023-12-12	354.57	Office	Not Payed	0.02	S16412	Published	17,106.92	Accounting 1
+INV/2023/06522	2023-12-12	615.60	Office	Not Payed	0.02	S16206	Published	1,494.45	Accounting 1
+INV/2023/06521	2023-12-12	1,611.20	Salesman 2	Not Payed	0.02	S16236	Published	2,801.26	Accounting 1
+INV/2023/06520	2023-12-12	1,409.59	Salesman 2	Not Payed	0.04	S16243	Published	1,867.51	Accounting 1
+INV/2023/06519	2023-12-12	5,555.02	Office	Not Payed	0.04	S16245	Published	7,931.05	Accounting 1
+INV/2023/06518	2023-12-12	785.64	Office	Not Payed	0.04	S16065	Published	7,470.03	Accounting 1
+INV/2023/06517	2023-12-12	531.68	Salesman 2	Not Payed	0.04	S16314	Published	1,867.51	Accounting 1
+INV/2023/06516	2023-12-12	2,163.14	Salesman 2	Not Payed	0.02	S16353	Published	4,668.42	Accounting 1
+INV/2023/06515	2023-12-12	6,563.33	Office	Payed	0.02	S16193	Published	10,015.79	Accounting 1
+INV/2023/06514	2023-12-12	4,046.64	Salesman 1	Not Payed	0.04	S16409	Published	12,861.28	Accounting 1
+INV/2023/06513	2023-12-12	5,149.11	Office	Payed	0.04	S16266	Published	9,907.33	Accounting 1
+INV/2023/06512	2023-12-12	365.23	Office	Payed	0.04	S16167	Canceled	621.95	Accounting 1
+INV/2023/06511	2023-12-12	147.49	Salesman 2	Payed	0.06	S16371	Published	870.47	Accounting 1
+INV/2023/06510	2023-12-12	626.79	Office	Payed	0.02	S16367	Published	1,346.64	Accounting 1
+INV/2023/06509	2023-12-12	4,607.19	Office	Not Payed	0.02	S16404	Published	8,660.67	Accounting 1
+INV/2023/06508	2023-12-12	6,081.88	Office	Payed	0.02	S16403	Published	9,437.43	Accounting 1
+INV/2023/06507	2023-12-12	34,899.82	Office	Payed	0.02	S16387	Published	44,330.20	Accounting 1
+INV/2023/06506	2023-12-12	2,887.55	Office	Payed	0.04	S16373	Published	19,055.67	Accounting 1
+INV/2023/06505	2023-12-12	3,344.23	Office	Payed	0.04	S16375	Canceled	28,341.24	Accounting 1
+INV/2023/06504	2023-12-12	3,921.66	Office	Payed	0.02	S16363	Published	8,469.17	Accounting 1
+INV/2023/06503	2023-12-12	2,450.23	Office	Payed	0.04	S16304	Published	3,772.51	Accounting 1
+INV1/2023/00897	2023-12-11	0.00	Office	Payed	0.02	S16389	Published		Acounting 2
+INV1/2023/00896	2023-12-11	7,459.44	Office	Payed	0.04	S16293	Published	8,851.36	Acounting 2
+INV1/2023/00895	2023-12-11	19,414.12	Office	Payed	0.04	S16262	Published	22,987.60	Acounting 2
+INV1/2023/00894	2023-12-11	675.96	Office	Payed	0.04	S16271	Published	14,333.76	Acounting 2
+INV/2023/06502	2023-12-11	6,211.21	Office	Payed	0.02	S16384	Published	28,377.73	Accounting 1
+INV/2023/06501	2023-12-11	77.27	Office	Not Payed	0.04	S16291	Published	661.20	Accounting 1
+INV/2023/06500	2023-12-11	3,118.80	Office	Not Payed	0.02	S16383	Published	15,398.39	Accounting 1
+INV/2023/06499	2023-12-11	2,670.45	Office	Not Payed	0.04	S16382	Canceled	16,706.09	Accounting 1
+INV/2023/06498	2023-12-11	10,079.28	Office	Not Payed	0.02	S16381	Published	51,449.94	Accounting 1
+INV/2023/06497	2023-12-11	26,439.84	Office	Payed	0.02	S16334	Published	31,674.75	Accounting 1
+INV/2023/06496	2023-12-11	6,348.36	Office	Payed	0.02	S16357	Published	10,037.51	Accounting 1
+INV/2023/06495	2023-12-11	10,964.29	Office	Payed	0.02	S16256	Published	15,007.77	Accounting 1
+INV/2023/06494	2023-12-11	1,429.98	Salesman 2	Payed	0.02	S16250	Published	1,696.85	Accounting 1
+INV/2023/06493	2023-12-11	473.22	Goverment	Payed	0.04	S16338	Published	15,803.26	Accounting 1
+INV/2023/06492	2023-12-11	4,869.96	Office	Payed	0.02	S16188	Published	5,712.77	Accounting 1
+INV/2023/06491	2023-12-11	458.15	Office	Payed	0.02	S16194	Published	6,387.19	Accounting 1
+INV/2023/06490	2023-12-11	1,151.63	Office	Not Payed	0.04	S15942	Published	2,856.38	Accounting 1
+INV/2023/06489	2023-12-11	1,522.29	Salesman 2	Payed	0.02	S16352	Published	8,652.39	Accounting 1
+INV/2023/06488	2023-12-11	1,104.11	Office	Not Payed	0.04	S16269	Published	2,768.23	Accounting 1
+INV/2023/06487	2023-12-11	520.41	Salesman 2	Not Payed	0.04	S16123	Published	31,807.59	Accounting 1
+INV/2023/06486	2023-12-11	953.09	Office	Payed	0.04	S15864	Published	3,917.09	Accounting 1
+INV/2023/06485	2023-12-11	1,380.02	Office	Payed	0.02	S16270	Published	1,847.46	Accounting 1
+INV/2023/06484	2023-12-11	12,428.87	Office	Payed	0.02	S16365	Published	18,634.27	Accounting 1
+INV/2023/06483	2023-12-11	306,117.07	Office	Payed	0.02	S16364	Published	459,158.51	Accounting 1
+INV/2023/06482	2023-12-11	35.24	Office	Payed	0.02	S16359	Published	497.04	Accounting 1
+INV1/2023/00893	2023-12-08	0.00	Office	Payed	0.04	S16361	Published		Acounting 2
+INV1/2023/00892	2023-12-08	0.00	Office	Payed	0.02	S16368	Published		Acounting 2
+INV1/2023/00891	2023-12-08	4,635.74	Office	Payed	0.04	S16322	Published	6,500.00	Acounting 2
+INV1/2023/00890	2023-12-08	775.25	Office	Payed	0.04	S16344	Published	3,555.80	Acounting 2
+INV1/2023/00889	2023-12-08	167.27	Office	Payed	0.04	S16297	Published	500.08	Acounting 2
+INV/2023/06481	2023-12-08	1,288.92	Office	Payed	0.02	S15743	Published	7,955.28	Accounting 1
+INV/2023/06480	2023-12-08	1,810.55	Office	Payed	0.04	S16359	Published	16,142.20	Accounting 1
+INV/2023/06479	2023-12-08	10,561.06	Office	Not Payed	0.04	S16349	Published	40,310.08	Accounting 1
+INV/2023/06478	2023-12-08	398.36	Office	Payed	0.06	S16295	Published	2,207.25	Accounting 1
+INV/2023/06477	2023-12-08	29,678.25	Salesman 1	Payed	0.04	S16347	Published	43,542.32	Accounting 1
+INV/2023/06476	2023-12-08	525.21	Salesman 2	Not Payed	0.04	S16346	Published	3,695.76	Accounting 1
+INV/2023/06475	2023-12-08	17,381.64	Office	Payed	0.04	S16345	Published	26,454.54	Accounting 1
+INV/2023/06474	2023-12-08	544.52	Office	Payed	0.02	S16302	Published	9,175.70	Accounting 1
+INV/2023/06473	2023-12-08	48,372.54	Office	Not Payed	0.04	S16341	Published	89,159.12	Accounting 1
+INV/2023/06472	2023-12-08	36,628.96	Office	Payed	0.04	S16284	Published	52,253.60	Accounting 1
+INV/2023/06471	2023-12-08	20,506.23	Office	Payed	0.02	S16310	Published	50,354.76	Accounting 1
+INV/2023/06470	2023-12-08	1,877.78	Goverment	Payed	0.04	S16335	Published	3,208.56	Accounting 1
+INV/2023/06469	2023-12-08	2,616.39	Office	Payed	0.02	S16261	Published	19,193.12	Accounting 1
+INV/2023/06468	2023-12-08	200,101.04	Office	Payed	0.04	S16319	Published	276,140.51	Accounting 1
+INV/2023/06467	2023-12-08	17,255.64	Office	Not Payed	0.02	S16317	Published	38,092.87	Accounting 1
+INV/2023/06466	2023-12-08	30.40	Office	Payed	0.04	S16333	Published	524.97	Accounting 1
+INV1/2023/00888	2023-12-07	94.95	Office	Payed	0.02	S16157	Published	2,311.84	Acounting 2
+INV1/2023/00887	2023-12-07	15,162.55	Office	Payed	0.04	S16277	Published	18,589.56	Acounting 2
+INV1/2023/00886	2023-12-07	8,109.29	Office	Payed	0.04	S16263	Published	20,796.00	Acounting 2
+INV1/2023/00885	2023-12-07	870.42	Office	Payed	0.02	S16264	Published	27,996.40	Acounting 2
+INV1/2023/00884	2023-12-07	73.46	Office	Payed	0.04	S16311	Published	76.63	Acounting 2
+INV1/2023/00883	2023-12-07	1,624.39	Office	Payed	0.02	S16309	Published	1,706.70	Acounting 2
+INV/2023/06465	2023-12-07	241.64	Office	Payed	0.04	S16325	Published	2,225.81	Accounting 1
+INV/2023/06464	2023-12-07	4,755.59	Office	Payed	0.04	S16307	Published	5,548.16	Accounting 1
+INV/2023/06463	2023-12-07	575.58	Salesman 1	Not Payed	0.04	S16327	Published	12,968.57	Accounting 1
+INV/2023/06462	2023-12-07	13,599.55	Office	Payed	0.04	S16326	Published	27,245.62	Accounting 1
+INV/2023/06461	2023-12-07	2,847.00	Office	Payed	0.02	S16118	Published	7,219.19	Accounting 1
+INV/2023/06460	2023-12-07	4,229.88	Office	Payed	0.04	S16187	Published	10,852.08	Accounting 1
+INV/2023/06459	2023-12-07	35,966.85	Office	Payed	0.04	S16174	Published	54,904.79	Accounting 1
+INV/2023/06458	2023-12-07	764.62	Salesman 2	Payed	0.02	S16259	Published	2,395.57	Accounting 1
+INV/2023/06457	2023-12-07	2,174.84	Office	Payed	0.02	S16011	Published	3,167.30	Accounting 1
+INV/2023/06456	2023-12-07	2,890.44	Salesman 2	Payed	0.02	S16255	Canceled	24,489.36	Accounting 1
+INV/2023/06455	2023-12-07	19,034.30	Goverment	Not Payed	0.04	S16330	Published	26,595.06	Accounting 1
+INV/2023/06454	2023-12-07	5,094.94	Office	Payed	0.04	S16315	Published	11,148.12	Accounting 1
+INV/2023/06453	2023-12-07	979.99	Salesman 2	Not Payed	0.02	S16313	Canceled	6,661.65	Accounting 1
+INV/2023/06452	2023-12-07	36,604.47	Office	Payed	0.04	S16303	Canceled	127,197.62	Accounting 1
+INV/2023/06451	2023-12-07	4,507.23	Office	Payed	0.02	S16292	Published	9,057.90	Accounting 1
+INV/2023/06450	2023-12-07	16,451.04	Goverment	Payed	0.04	S15937	Published	25,722.40	Accounting 1
+INV/2023/06449	2023-12-07	4,669.83	Goverment	Payed	0.02	S16267	Published	24,580.86	Accounting 1
+INV/2023/06448	2023-12-07	1,347.98	Office	Payed	0.02	S16305	Published	1,726.27	Accounting 1
+INV/2023/06447	2023-12-07	26,703.56	Goverment	Payed	0.04	S15876	Published	82,100.25	Accounting 1
+INV/2023/06446	2023-12-07	632.66	Office	Payed	0.02	S16308	Published	1,125.29	Accounting 1
+INV1/2023/00882	2023-12-06	2,049.35	Office	Payed	0.02	S16249	Published	16,826.22	Acounting 2
+INV1/2023/00881	2023-12-06	23.04	Office	Payed	0.04	S16286	Published	27.11	Acounting 2
+INV/2023/06445	2023-12-06	9,600.58	Salesman 2	Payed	0.04	S16272	Published	139,523.64	Accounting 1
+INV/2023/06443	2023-12-06	1,919.75	Office	Payed	0.04	S16087	Published	4,006.64	Accounting 1
+INV/2023/06442	2023-12-06	16,558.56	Office	Payed	0.04	S16254	Published	28,899.46	Accounting 1
+INV/2023/06441	2023-12-06	131.78	Office	Payed	0.02	S16238	Published	388.52	Accounting 1
+INV/2023/06440	2023-12-06	1,099.12	Office	Payed	0.04	S16237	Published	3,861.29	Accounting 1
+INV/2023/06439	2023-12-06	662.73	Office	Not Payed	0.02	S16289	Published	18,399.02	Accounting 1
+INV/2023/06438	2023-12-06	7,690.87	Office	Payed	0.02	S16285	Published	9,510.14	Accounting 1
+INV/2023/06437	2023-12-06	352.91	Salesman 2	Not Payed	0.04	S16281	Published	1,688.93	Accounting 1
+INV/2023/06436	2023-12-06	2,156.16	Salesman 2	Not Payed	0.02	S16279	Published	18,992.68	Accounting 1
+INV/2023/06435	2023-12-06	10,511.27	Salesman 2	Not Payed	0.04	S16278	Published	28,764.87	Accounting 1
+INV/2023/06434	2023-12-06	1,346.63	Salesman 2	Payed	0.02	S16276	Published	21,476.40	Accounting 1
+INV/2023/06433	2023-12-06	19,197.19	Office	Not Payed	0.04	S16273	Published	22,855.68	Accounting 1
+INV/2023/06432	2023-12-06	1,998.49	Office	Payed	0.04	S16248	Published	4,817.46	Accounting 1
+INV/2023/06431	2023-12-06	39,669.90	Office	Not Payed	0.04	S16268	Published	56,167.20	Accounting 1
+INV/2023/06430	2023-12-06	24,032.92	Office	Payed	0.04	S16257	Published	28,887.58	Accounting 1
+INV/2023/06429	2023-12-06	1,179.33	Goverment	Payed	0.04	S15816	Published	2,569.03	Accounting 1
+INV/2023/06428	2023-12-06	5,346.88	Salesman 2	Payed	0.04	S16171	Published	29,309.89	Accounting 1
+INV/2023/06427	2023-12-06	196.68	Office	Payed	0.02	S16234	Published	3,254.98	Accounting 1
+INV/2023/06426	2023-12-06	16,972.85	Office	Payed	0.04	S16232	Published	27,902.89	Accounting 1
+INV/2023/06425	2023-12-06	8,713.03	Goverment	Payed	0.04	S15945	Published	26,102.56	Accounting 1
+INV/2023/06424	2023-12-06	5,834.00	Office	Payed	0.04	S16214	Published	7,581.67	Accounting 1
+INV/2023/06423	2023-12-06	17,712.83	Office	Payed	0.04	S16210	Published	24,956.56	Accounting 1
+INV/2023/06422	2023-12-06	6,631.04	Office	Payed	0.02	S16201	Published	16,336.36	Accounting 1
+INV1/2023/00880	2023-12-05	0.00	Office	Payed	0.02	S16258	Published		Acounting 2
+INV1/2023/00879	2023-12-05	938.74	Office	Payed	0.02	S16168	Published	3,572.16	Acounting 2
+INV1/2023/00878	2023-12-05	0.00	Office	Payed	0.04	S16208	Published		Acounting 2
+INV1/2023/00877	2023-12-05	0.00	Office	Payed	0.04	S16207	Published		Acounting 2
+INV1/2023/00876	2023-12-05	41.61	Office	Payed	0.04	S16251	Published	53.56	Acounting 2
+INV1/2023/00875	2023-12-05	518.23	Office	Payed	0.04	S16224	Published	1,651.85	Acounting 2
+INV1/2023/00874	2023-12-05	0.00	Office	Payed	0.04	S16218	Published		Acounting 2
+INV1/2023/00873	2023-12-05	328.38	Office	Payed	0.02	S15785	Published	380.72	Acounting 2
+INV/2023/06421	2023-12-05	72,245.93	Office	Not Payed	0.06	S16244	Published	99,371.23	Accounting 1
+INV/2023/06420	2023-12-05	5,435.51	Office	Payed	0.04	S16178	Published	6,834.53	Accounting 1
+INV/2023/06419	2023-12-05	17,878.86	Office	Payed	0.04	S16199	Published	49,701.15	Accounting 1
+INV/2023/06418	2023-12-05	3,087.95	Office	Payed	0.04	S16212	Published	13,281.88	Accounting 1
+INV/2023/06417	2023-12-05	123.87	Office	Not Payed	0.04	S16253	Published	945.45	Accounting 1
+INV/2023/06416	2023-12-05	1,036.19	Salesman 2	Not Payed	0.02	S16242	Published	5,018.92	Accounting 1
+INV/2023/06415	2023-12-05	873.57	Office	Not Payed	0.04	S16241	Published	1,409.45	Accounting 1
+INV/2023/06414	2023-12-05	3,054.53	Salesman 2	Not Payed	0.02	S16233	Published	4,143.40	Accounting 1
+INV/2023/06413	2023-12-05	8,340.26	Office	Not Payed	0.04	S16230	Published	30,468.74	Accounting 1
+INV/2023/06412	2023-12-05	282.55	Salesman 1	Not Payed	0.02	S16229	Published	3,165.90	Accounting 1
+INV/2023/06411	2023-12-05	7,906.62	Office	Payed	0.02	S16228	Published	10,706.34	Accounting 1
+INV/2023/06410	2023-12-05	1,455.24	Office	Payed	0.02	S16191	Published	2,142.52	Accounting 1
+INV/2023/06409	2023-12-05	4,599.97	Goverment	Payed	0.04	S15897	Published	16,558.95	Accounting 1
+INV/2023/06408	2023-12-05	460.47	Office	Payed	0.04	S16223	Published	43,314.40	Accounting 1
+INV/2023/06407	2023-12-05	7,662.13	Goverment	Payed	0.04	S15661	Published	15,710.60	Accounting 1
+INV/2023/06406	2023-12-05	3,244.75	Goverment	Payed	0.02	S15999	Published	8,104.32	Accounting 1
+INV/2023/06405	2023-12-05	7,034.69	Goverment	Payed	0.02	S16084	Published	19,027.53	Accounting 1
+INV/2023/06404	2023-12-05	3,410.91	Goverment	Payed	0.02	S15760	Published	10,568.90	Accounting 1
+INV/2023/06403	2023-12-05	15,888.52	Goverment	Payed	0.02	S15619	Published	31,923.20	Accounting 1
+INV/2023/06402	2023-12-05	263.30	Salesman 2	In process	0.02	S16190	Published	778.36	Accounting 1
+INV/2023/06401	2023-12-05	878.01	Salesman 2	Not Payed	0.02	S16204	Published	1,761.81	Accounting 1
+INV/2023/06400	2023-12-05	6,553.84	Salesman 2	Payed	0.04	S16202	Published	20,286.08	Accounting 1
+INV/2023/06399	2023-12-05	1,111.68	Office	Payed	0.02	S16226	Published	1,709.98	Accounting 1
+INV/2023/06398	2023-12-05	1,155.98	Office	Not Payed	0.04	S16222	Published	26,179.11	Accounting 1
+INV/2023/06397	2023-12-05	2,878.37	Office	Payed	0.04	S16221	Published	13,123.97	Accounting 1
+INV/2023/06396	2023-12-05	1,004.87	Salesman 1	Not Payed	0.02	S16220	Published	6,323.76	Accounting 1
+INV/2023/06395	2023-12-05	1,085.84	Office	Not Payed	0.04	S16219	Published	4,701.15	Accounting 1
+INV/2023/06394	2023-12-05	14,738.82	Office	Payed	0.02	S16169	Published	23,832.78	Accounting 1
+INV/2023/06393	2023-12-05	27,095.00	Office	Payed	0.02	S16192	Published	40,644.55	Accounting 1
+INV/2023/06392	2023-12-05	19,065.00	Office	Payed	0.02	S16205	Published	32,747.35	Accounting 1
+INV/2023/06391	2023-12-05	11,789.38	Office	Payed	0.04	S16189	Published	14,937.94	Accounting 1
+INV/2023/06390	2023-12-05	2,499.05	Office	Payed	0.02	S16213	Published	3,051.26	Accounting 1
+INV/2023/06389	2023-12-05	18.18	Goverment	Payed	0.04	S16200	Canceled	713.75	Accounting 1
+INV/2023/06388	2023-12-05	76.38	Office	Payed	0.02	S16113	Published	250.21	Accounting 1
+INV/2023/06387	2023-12-05	1,615.87	Salesman 2	Not Payed	0.04	S16181	Published	5,007.66	Accounting 1
+INV1/2023/00872	2023-12-04	2,595.08	Office	Payed	0.02	S16122	Published	6,565.32	Acounting 2
+INV1/2023/00871	2023-12-04	11,027.77	Office	Payed	0.02	S16150	Published	11,801.68	Acounting 2
+INV1/2023/00870	2023-12-04	980.38	Office	Payed	0.04	S16138	Published	3,406.42	Acounting 2
+INV1/2023/00869	2023-12-04	149.43	Office	Payed	0.02	S16164	Published	279.72	Acounting 2
+INV1/2023/00868	2023-12-04	393.62	Office	Payed	0.02	S16163	Published	497.15	Acounting 2
+INV/2023/06386	2023-12-04	6,727.86	Office	Payed	0.02	S16170	Canceled	9,583.92	Accounting 1
+INV/2023/06385	2023-12-04	366.05	Office	Not Payed	0.02	S16053	Published	3,692.28	Accounting 1
+INV/2023/06384	2023-12-04	668.42	Office	Payed	0.02	S16055	Published	3,581.96	Accounting 1
+INV/2023/06383	2023-12-04	658.83	Salesman 2	Payed	0.04	S15984	Published	1,846.14	Accounting 1
+INV/2023/06382	2023-12-04	2,099.12	Office	Payed	0.02	S15991	Published	16,439.75	Accounting 1
+INV/2023/06381	2023-12-04	990.15	Office	Payed	0.04	S15861	Published	9,762.70	Accounting 1
+INV/2023/06380	2023-12-04	123.03	Salesman 1	Payed	0.02	S15818	Published	596.99	Accounting 1
+INV/2023/06379	2023-12-04	3,507.22	Salesman 2	Payed	0.02	S16040	Published	4,924.20	Accounting 1
+INV/2023/06378	2023-12-04	483.61	Salesman 2	Payed	0.02	S15820	Published	8,207.00	Accounting 1
+INV/2023/06377	2023-12-04	7,493.89	Office	Payed	0.04	S16166	Published	16,666.50	Accounting 1
+INV/2023/06376	2023-12-04	121.35	Salesman 2	Not Payed	0.04	S16186	Published	5,200.98	Accounting 1
+INV/2023/06375	2023-12-04	1,956.50	Salesman 2	Not Payed	0.04	S16184	Published	3,900.73	Accounting 1
+INV/2023/06374	2023-12-04	671.01	Salesman 2	Not Payed	0.04	S16183	Published	2,693.90	Accounting 1
+INV/2023/06373	2023-12-04	899.43	Salesman 2	Not Payed	0.02	S16182	Published	2,193.20	Accounting 1
+INV/2023/06372	2023-12-04	1,761.45	Salesman 2	Not Payed	0.02	S16180	Published	2,457.25	Accounting 1
+INV/2023/06371	2023-12-04	5,014.72	Goverment	Payed	0.02	S14532	Published	6,342.51	Accounting 1
+INV/2023/06370	2023-12-04	16,555.71	Goverment	Payed	0.04	S14459	Published	20,113.24	Accounting 1
+INV/2023/06369	2023-12-04	773.05	Goverment	Payed	0.02	S16142	Published	2,379.16	Accounting 1
+INV/2023/06368	2023-12-04	8,657.85	Office	Payed	0.04	S16078	Published	12,259.08	Accounting 1
+INV/2023/06367	2023-12-04	13,266.39	Office	Payed	0.04	S16148	Published	18,746.01	Accounting 1
+INV/2023/06366	2023-12-04	4,632.67	Office	Payed	0.02	S16112	Published	34,208.68	Accounting 1
+INV/2023/06365	2023-12-04	9,297.06	Office	Payed	0.02	S16116	Canceled	10,858.90	Accounting 1
+INV/2023/06364	2023-12-04	5,851.85	Office	Payed	0.04	S15993	Canceled	14,977.94	Accounting 1
+INV/2023/06363	2023-12-04	443.81	Office	Payed	0.02	S16161	Published	538.66	Accounting 1
+INV/2023/06362	2023-12-04	293.01	Office	Payed	0.02	S16153	Published	1,071.43	Accounting 1
+INV1/2023/00867	2023-12-01	1,550.94	Office	Payed	0.04	S16129	Published	3,877.96	Acounting 2
+INV1/2023/00866	2023-12-01	5,574.03	Office	Payed	0.02	S16081	Published	6,879.20	Acounting 2
+INV1/2023/00865	2023-12-01	1,291.47	Office	Payed	0.04	S16114	Published	7,000.26	Acounting 2
+INV1/2023/00864	2023-12-01	140.82	Office	Payed	0.02	S16105	Published	2,635.20	Acounting 2
+INV/2023/06361	2023-12-01	23,417.37	Salesman 2	Not Payed	0.02	S16145	Published	40,032.71	Accounting 1
+INV/2023/06360	2023-12-01	3,591.67	Salesman 2	Not Payed	0.02	S16144	Published	17,599.46	Accounting 1
+INV/2023/06359	2023-12-01	3,424.62	Goverment	Payed	0.04	S15813	Published	4,580.70	Accounting 1
+INV/2023/06358	2023-12-01	2,549.46	Office	Not Payed	0.04	S16137	Published	3,761.24	Accounting 1
+INV/2023/06357	2023-12-01	1,035.62	Salesman 2	Not Payed	0.02	S16136	Published	3,793.78	Accounting 1
+INV/2023/06356	2023-12-01	522.37	Salesman 2	Not Payed	0.04	S16135	Published	3,305.72	Accounting 1
+INV/2023/06355	2023-12-01	32.57	Office	Payed	0.02	S16072	Published	318.49	Accounting 1
+INV/2023/06354	2023-12-01	76.40	Office	Payed	0.04	S16131	Published	1,319.27	Accounting 1
