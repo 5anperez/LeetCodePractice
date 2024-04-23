@@ -3527,32 +3527,493 @@ NaN clean up here
 
 
 
+'''
+    HERE, WE SIMPLY COMBINE TWO COLUMNS TO MAKE ONE AND THE ENTRIES ARE STRINGS.
+'''
+
+
+
+# import pandas as pd
+
+# # Load the dataset
+# file_path = './CSVs/Invoices Dic - Facturas.tsv'
+# invoices_data = pd.read_csv(file_path, delimiter='\t')
+
+# # Combine 'Payment Status' and 'Invoice Status' into a single column
+# invoices_data['Payment - Invoice Status'] = invoices_data['Payment Status'] + ' - ' + invoices_data['Invoice Status']
+
+# # Display the first few rows to confirm the changes
+# print(invoices_data.head(n=15))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, WE EXPLORE AN EXCEL SHEET WITH MULTIPLE SHEETS. THIS IS THE PROPER WAY TO OPEN IT AND GET THE SHEET NAMES! WE EXPLORE SEVERAL OF THESE SHEETS AND DEMO HOW TO STORE THEM INDIVIDUALLY AND OPERATE ON THEM.
+'''
+
+
+# import pandas as pd
+
+# # Load the Excel file
+# file_path = './CSVs/grades.xlsx'
+# xl = pd.ExcelFile(file_path)
+
+# # Check the sheet names to understand the structure
+# sheet_names = xl.sheet_names
+# print(sheet_names)
+
+# # Load the "Period 2" sheet data
+# period_2_data = pd.read_excel(file_path, sheet_name='Period 2')
+
+# # Display the first few rows of the dataframe to inspect it and count the columns
+# print(period_2_data.head())
+# print(period_2_data.shape[1])
+
+# # Load the "Period 4" sheet data
+# period_4_data = pd.read_excel(file_path, sheet_name='Period 4')
+
+# # Find student A's midterm score
+# student_a_midterm_score = period_4_data.loc[period_4_data['Student'] == 'A', 'Midterm'].iloc[0]
+# print(student_a_midterm_score)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE IS SOME INTERESTING FUNCTION THAT YOU SHOULD LEARN HOW TO USE! THERE IS TWO DIFF ATTEMPTS BELOW
+'''
+
+'''ATTEMPT1'''
+# import pandas as pd
+
+# pd.set_option('display.max_rows', None)
+# pd.set_option('display.max_columns', None)
+
+# # Read the CSV file into a DataFrame
+# df = pd.read_csv('./CSVs/blizzard_games.csv')
+
+
+
+# def get_top_people(df: pd.DataFrame, col_name: str) -> pd.DataFrame:
+#   """
+#   Splits the strings in the specified column by commas and spaces, explodes the list to have one row per name,
+#   groups by name, counts the occurrences, and sorts by frequency in descending order.
+
+#   Args:
+#       df (pd.DataFrame): The DataFrame containing the data.
+#       col_name (str): The name of the column to process.
+
+#   Returns:
+#       pd.DataFrame: A DataFrame with the top people and their frequencies.
+#   """
+
+#   return (
+#       df[col_name]
+#       .astype(str)
+#       .str.split(r",\s*|\s+")
+#       .explode()
+#       .groupby(level=0)
+#       .size()
+#       .sort_values(ascending=False)
+#   )
+
+
+# columns_to_analyze = [
+#     "Developer(s)",
+#     "Publisher(s)",
+#     "Producer(s)",
+#     "Programmer(s)",
+#     "Artist(s)",
+#     "Composer(s)",
+#     "Designer(s)",
+#     "Writer(s)",
+#     "Director(s)",
+# ]
+
+# for col in columns_to_analyze:
+#   print(f"\n### Top 5 {col.replace('(s)', '')}\n")
+#   print(get_top_people(df, col).head())
+
+
+
+
+
+
+'''ATTEMPT2'''
+# from collections import Counter
+
+# # Helper function to clean and split the entries which are lists in string form
+# def clean_and_count(column_data):
+#     # Join all non-null data, split by ',' to handle lists, strip extra characters and count occurrences
+#     all_entries = column_data.dropna().apply(lambda x: x.strip("[]'").split("', '")).explode()
+#     return Counter(all_entries).most_common(5)
+
+# # Top 5 contributors for each role
+# top_developers = clean_and_count(df['Developer(s)'])
+# top_publishers = clean_and_count(df['Publisher(s)'])
+# top_producers = clean_and_count(df['Producer(s)'])
+# top_programmers = clean_and_count(df['Programmer(s)'])
+# top_artists = clean_and_count(df['Artist(s)'])
+# top_composers = clean_and_count(df['Composer(s)'])
+# top_designers = clean_and_count(df['Designer(s)'])
+# top_writers = clean_and_count(df['Writer(s)'])
+# top_directors = clean_and_count(df['Director(s)'])
+
+# # Converting to DataFrames for easy display
+# df_top_developers = pd.DataFrame(top_developers, columns=['Developer', 'Count'])
+# df_top_publishers = pd.DataFrame(top_publishers, columns=['Publisher', 'Count'])
+# df_top_producers = pd.DataFrame(top_producers, columns=['Producer', 'Count'])
+# df_top_programmers = pd.DataFrame(top_programmers, columns=['Programmer', 'Count'])
+# df_top_artists = pd.DataFrame(top_artists, columns=['Artist', 'Count'])
+# df_top_composers = pd.DataFrame(top_composers, columns=['Composer', 'Count'])
+# df_top_designers = pd.DataFrame(top_designers, columns=['Designer', 'Count'])
+# df_top_writers = pd.DataFrame(top_writers, columns=['Writer', 'Count'])
+# df_top_directors = pd.DataFrame(top_directors, columns=['Director', 'Count'])
+
+# print(f"\n{df_top_developers}\n {df_top_publishers}\n {df_top_producers}\n {df_top_programmers}\n {df_top_artists}\n {df_top_composers}\n {df_top_designers}\n {df_top_writers}\n {df_top_directors}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE IS A COOL WAY OF SPLITTING STRINGS WITHIN ENTRIES. WE TAKE AN ENTRY, WHICH IS A STRING, AND SPLIT IT INTO TWO STRINGS EFFECTIVELY MAKING TWO DISTINCT COLUMNS OUT OF ONE.
+'''
+
+
+# import pandas as pd
+
+# # Load the Excel file
+# file_path = './CSVs/SOLDFOOD2023 - Fall.xlsx'
+# data = pd.read_excel(file_path)
+
+# # Display the first few rows of the dataframe and the column names to understand its structure
+# data.head(), data.columns
+
+# # It appears that the actual headers may be in the third row of the dataset (index 2 in zero-indexed Python)
+# # We'll reload the data with the correct header row.
+
+# data_corrected = pd.read_excel(file_path, header=2)
+# data_corrected.head(), data_corrected.columns
+
+
+# # Renaming columns based on the data in the first row
+# new_headers = data_corrected.iloc[0]
+# data_clean = data_corrected[1:]
+# data_clean.columns = new_headers
+
+# # Resetting the index for cleanliness
+# data_clean.reset_index(drop=True, inplace=True)
+
+# # Display the updated data
+# data_clean.head(), data_clean.columns
+
+
+# # Convert all entries in 'DESCRIPTION' to strings and perform the split operation
+# data_clean['DESCRIPTION'] = data_clean['DESCRIPTION'].astype(str)
+# data_clean['Style'] = data_clean['DESCRIPTION'].apply(lambda x: ' '.join(x.split()[:-1]))
+# data_clean['Product Category'] = data_clean['DESCRIPTION'].apply(lambda x: x.split()[-1])
+
+# # Display the updated DataFrame to verify the new columns
+# print(data_clean[['DESCRIPTION', 'Style', 'Product Category']].head())
+
+
+
+
+
+'''ATTEMPT2: (PROPER WAY)'''
+# import pandas as pd
+
+# # Load the Excel file
+# file_path = './CSVs/SOLDFOOD2023 - Fall.xlsx'
+
+# # Attempt to load the Excel file again with a more precise header row adjustment
+# df_adjusted = pd.read_excel(file_path, header=3)
+
+# # Adjust the split_description function to handle non-string values safely
+# def split_description_safe(desc):
+#     if pd.isna(desc):
+#         return '', ''  # Handle NaN values
+#     desc_str = str(desc)  # Ensure the description is treated as a string
+#     parts = desc_str.split()
+#     if len(parts) > 1:
+#         return " ".join(parts[:-1]), parts[-1]
+#     else:
+#         return desc_str, ''
+
+# # Apply the function to split 'DESCRIPTION' into 'Style' and 'Product Category' with the correct DataFrame
+# df_adjusted['Style'], df_adjusted['Product Category'] = zip(*df_adjusted['DESCRIPTION'].apply(split_description_safe))
+
+# # Show the updated DataFrame to verify the changes
+# print(df_adjusted[['DESCRIPTION', 'Style', 'Product Category']].head())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, WE CREATE A COOL VISUALIZATION WITH PLENTY OF CONSTRAINTS!
+
+    1. Split the 'income' column to income classes from 0-2500, 2501-5000 and so on as a new column named as 'income classes'. 
+
+    2.1. Generate a heatmap to display the correlation between the 'relationship' column, the 'gender' column, the 'children' column and the newly calculated  'income classes' column.
+
+    2.2. The plot has to be of size 15x15. The title should be Correlation Heatmap of Customers. Enough padding and spacing should be present to have legible x-axis and y-axis labels. This should be plotted using the matplotlib library and the code for both the pandas manipulation and the final plot result should be provided.
+'''
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Read the CSV file into a DataFrame
+# df = pd.read_csv('./CSVs/simulated_customers.csv')
+
+# # Display the first 5 rows
+# print(df.head().to_string(index=False))
+
+# # Print the column names and their data types
+# print(df.info())
+
+# # Function to categorize income
+# def income_group(income):
+#   if income <= 2500:
+#     return '0-2500'
+#   elif income <= 5000:
+#     return '2501-5000'
+#   elif income <= 7500:
+#     return '5001-7500'
+#   elif income <= 10000:
+#     return '7501-10000'
+#   elif income <= 12500:
+#     return '10001-12500'
+#   else:
+#     return '12501+'
+
+# # Create a new column by applying the income_group function to the income column
+# df['income_classes'] = df['income'].apply(income_group)
+
+# # Drop the `income` column
+# df = df.drop('income', axis=1)
+
+# # Select columns of interest
+# columns_to_select = ['relationship', 'gender', 'children', 'income_classes']
+# df_selected = df[columns_to_select]
+
+# # Create dummy variables
+# df_dummies = pd.get_dummies(df_selected)
+
+# # Calculate the correlation matrix
+# corr = df_dummies.corr()
+
+# # Create the heatmap
+# plt.figure(figsize=(15, 15))
+# sns.heatmap(corr, annot=True, fmt='.2f', cmap='coolwarm')
+# plt.title('Correlation Heatmap of Customers', fontsize=14)
+# plt.xticks(rotation=45, ha='right', fontsize=12)
+# plt.yticks(fontsize=12)
+# plt.tight_layout()
+
+# # Show the plot
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE IS A CLEVER TYPE OF VISUALIZATION THAT FINDDS AND COUNTS THE NUMBER OF UNIQUE COMBINATIONS OF THREE VARIABLES AND PLOTS THEM IN A HEATMAP.
+'''
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Read the CSV file into a DataFrame
+# df = pd.read_csv('./CSVs/patient_list-_patient_list.csv')
+
+# # Create age groups
+# bins = [0, 30, 40, 100]
+# labels = ['Under 30', '30 to 40', 'Over 40']
+# df['age_group'] = pd.cut(df['age'], bins=bins, labels=labels, right=False)
+# # print(df['age_group'])
+
+# # Group data by age group, severity score, and frequency, then count the occurrences
+# session_counts = df.groupby(['age_group', 'severity_score', 'frequency']).size().reset_index(name='Count')
+# print(session_counts)
+
+# # Calculate the total number of sessions
+# total_sessions = session_counts['Count'].sum()
+
+# # Calculate the proportion of each combination
+# session_counts['Proportion'] = session_counts['Count'] / total_sessions
+
+# # Aggregate data by `age_group`, `severity_score`, summing up the `Count` and `Proportion`
+# session_counts_agg = session_counts.groupby(['age_group', 'severity_score'])[['Count', 'Proportion']].sum().reset_index()
+
+# # Pivot the data to create a heatmap-friendly format
+# heatmap_data = session_counts_agg.pivot(index='age_group', columns='severity_score', values='Proportion').fillna(0)
+
+# # Create the heatmap using Seaborn
+# plt.figure(figsize=(10, 8))
+# sns.heatmap(heatmap_data, annot=True, fmt=".2%", cmap="YlGnBu", cbar_kws={'label': 'Proportion of Sessions'})
+# plt.title('Distribution of Session Frequency by Age Group and Severity Score')
+# plt.ylabel('Age Group')
+# plt.xlabel('Severity Score')
+# plt.show()
+
+# Print the pivot table
+# print(heatmap_data)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 import pandas as pd
 
-# Load the dataset
-file_path = './CSVs/Invoices Dic - Facturas.tsv'
-invoices_data = pd.read_csv(file_path, delimiter='\t')
+# Load the data from the Excel file
+# hospital_survey_data = pd.read_excel('./CSVs/Hospital_Survey_Data_Alcohol_Drug_Abuse.xlsx', header=1)
 
-# Combine 'Payment Status' and 'Invoice Status' into a single column
-invoices_data['Payment - Invoice Status'] = invoices_data['Payment Status'] + ' - ' + invoices_data['Invoice Status']
+# # Display the first few rows and the columns to understand the structure of the data
+# print(hospital_survey_data.head())
+# print(hospital_survey_data.columns)
 
-# Display the first few rows to confirm the changes
-print(invoices_data.head(n=15))
+# # Define a function to categorize the DRG Definition
+# def categorize_drg(description):
+#     if 'W/O REHABILITATION THERAPY' in description:
+#         return 'Without Rehabilitation Therapy'
+#     elif 'W REHABILITATION THERAPY' in description:
+#         return 'With Rehabilitation Therapy'
+#     elif 'LEFT AMA' in description:
+#         return 'Left AMA'
+#     else:
+#         return 'Other'
+
+# # Apply the function to create a new column for the categorization
+# hospital_survey_data['Therapy Status'] = hospital_survey_data['DRG Definition'].apply(categorize_drg)
+
+# # Display the updated DataFrame to verify the new column
+# print(hospital_survey_data[['DRG Definition', 'Therapy Status']].head())
 
 
 
 
 
 
-# Combine `Payment Status` and `Invoice Status`
-df['Payment - Invoice Status'] = df['Payment Status'] + ' - ' + df['Invoice Status']
 
-# Print the first 5 rows
-print(df.head().to_markdown(index=False, numalign="left", stralign="left"))
+
+# Load the data from the Excel file
+hospital_survey_data = pd.read_excel('./CSVs/Hospital_Survey_Data_Alcohol_Drug_Abuse.xlsx', header=1)
+
+# Create new column `Category` and set the default value to "Other"
+hospital_survey_data['Category'] = 'Other'
+
+# Set `Category` based on values in `DRG Definition`
+hospital_survey_data.loc[hospital_survey_data['DRG Definition'].str.contains('W REHABILITATION THERAPY'), 'Category'] = 'Alcohol/Drug Abuse with Rehabilitation Therapy'
+hospital_survey_data.loc[hospital_survey_data['DRG Definition'].str.contains('W/O REHABILITATION THERAPY'), 'Category'] = 'Alcohol/Drug Abuse without Rehabilitation Therapy'
+hospital_survey_data.loc[hospital_survey_data['DRG Definition'].str.contains('LEFT AMA'), 'Category'] = 'Alcohol/Drug Abuse, Left AMA'
+
+print(hospital_survey_data['Category'])
+
+
+# Group data by `Category` and sum the `Total Discharges`
+category_counts = hospital_survey_data.groupby('Category')['Total Discharges'].sum().reset_index()
+
+# Rename `Total Discharges` to `Total Cases`
+category_counts.rename(columns={'Total Discharges': 'Total Cases'}, inplace=True)
+
+# Print results
+# print(category_counts.to_string(index=False))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

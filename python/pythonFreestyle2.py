@@ -1,4 +1,311 @@
 
+def paintCombos(numHouses: int, numColors: int) -> int:
+    if numHouses == 1:
+        return numColors
+    
+    # dp[i][c1][c2] means the number of ways to paint up to i houses with the i-th house color c1 and (i-1)-th house color c2
+    dp = [[[0] * numColors for _ in range(numColors)] for _ in range(numHouses)]
+    
+    # Initialize for 1 house (base case)
+    for c in range(numColors):
+        dp[0][c][c] = 1  # First house being any color, fake second last color the same
+    
+    # Initialize for 2 houses
+    for c1 in range(numColors):
+        for c2 in range(numColors):
+            dp[1][c1][c2] = 1  # First two houses can be any color
+    
+    # Fill the dp table for houses from 3 to numHouses
+    for i in range(2, numHouses):
+        for c1 in range(numColors):  # Current last house color
+            for c2 in range(numColors):  # Current second-last house color
+                # Summing up possibilities where the third-last house isn't the same as second-last
+                for c3 in range(numColors):  # Previous second-last house color, becomes third-last now
+                    if c2 != c1 or c3 != c1:  # Ensure no three same colors consecutively
+                        dp[i][c1][c2] += dp[i-1][c2][c3]
+    
+    # Result is the sum of all configurations for the last house
+    total_ways = 0
+    for c1 in range(numColors):
+        for c2 in range(numColors):
+            total_ways += dp[numHouses-1][c1][c2]
+    
+    return total_ways
+
+
+
+
+
+# model A
+
+
+
+
+
+
+# Example usage
+numHouses1 = 3
+numColors1 = 2
+# Expected 6 ways
+print(f'\nExpected: 6\nActual: {paintCombos(numHouses1, numColors1)}') 
+numHouses2 = 4
+numColors2 = 3
+# Expected: 66
+print(f'\nExpected: 66\nActual: {paintCombos(numHouses2, numColors2)}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def minQuote(costs: list[list[int]]) -> int:
+#     # Number of panels to install
+#     n = len(costs)
+    
+#     # There are always 3 types of panels
+#     num_types = 3
+    
+#     # dp[i][j] will hold the minimum cost to install up to the i-th panel with the j-th type
+#     dp = [[0] * num_types for _ in range(n)]
+    
+#     # Initialize the dp for the first panel
+#     for j in range(num_types):
+#         dp[0][j] = costs[0][j]
+    
+#     # Fill the dp table
+#     for i in range(1, n):
+#         for j in range(num_types):
+#             # Find the minimum cost of installing the previous panel with a different type
+#             # NOTE: this k for-loop can be done as a specific kind of list comprehension as well, called generator expression... see below
+#             min_cost = float('inf')
+#             for k in range(num_types):
+#                 if k != j:
+#                     min_cost = min(min_cost, dp[i-1][k])
+            
+#             # Update the dp table with the minimum cost found plus the cost of installing the current type
+#             dp[i][j] = min_cost + costs[i][j]
+    
+#     # The answer is the minimum cost to install all panels with any of the types
+#     return min(dp[n-1][j] for j in range(num_types))
+
+
+
+
+
+# def minQuote(costs: list[list[int]]) -> int:
+#     """
+#     Calculates the minimum cost of installing solar panels while avoiding
+#     adjacent panels of the same type.
+
+#     Args:
+#         costs: A 2D list where costs[i][j] represents the cost of installing
+#                the j-th type of panel at the i-th position.
+
+#     Returns:
+#         The minimum total installation cost.
+#     """
+
+#     num_panels = len(costs)
+#     dp = [[0] * 3 for _ in range(num_panels)]  # Create the dynamic programming table
+
+#     # Base Case: The first panel
+#     for j in range(3):
+#         dp[0][j] = costs[0][j]
+
+#     # Iterate through the remaining panels
+#     for i in range(1, num_panels):
+#         for j in range(3):
+#             # Find the minimum cost, excluding the same panel type from the previous position
+#             # NOTE: the 'if' in the min calc executes first (list comprehension)
+#             dp[i][j] = costs[i][j] + min(dp[i - 1][k] for k in range(3) if k != j)
+
+#     return min(dp[num_panels - 1])
+
+
+
+# # Example usage:
+# costs1 = [[4, 5, 6],    # 1st panel 
+#           [7, 8, 9]]    # 2nd panel
+# costs2 = [[12, 2, 12],  # 1st panel
+#           [11, 11, 5],  # 2nd panel
+#           [13, 4, 15]]  # 3rd panel
+# print(f'\nExpected Cost: 12\nActual Cost: {minQuote(costs1)}')
+# print(f'\nExpected Cost: 11\nActual Cost: {minQuote(costs2)}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# from typing import List
+
+# def possResults(stream: str) -> List[int]:
+#     # Helper function to generate and evaluate all possible parenthesized expressions
+#     def parenthesize(substream: str) -> List[int]:
+#         if substream.isdigit():  # Base case: if the substream is just a number
+#             return [int(substream)]
+        
+#         results = []
+#         # Recursive case: try every operator as a central point for partitioning
+#         for i in range(1, len(substream)):
+#             if substream[i] in '+-*':
+#                 # Recursively solve for the left and right parts
+#                 left = parenthesize(substream[:i])
+#                 right = parenthesize(substream[i+1:])
+#                 operator = substream[i]
+                
+#                 # Combine results from left and right parts using the operator
+#                 for l in left:
+#                     for r in right:
+#                         if operator == '+':
+#                             results.append(l + r)
+#                         elif operator == '-':
+#                             results.append(l - r)
+#                         elif operator == '*':
+#                             results.append(l * r)
+        
+#         return results
+    
+#     # Remove any whitespace from the stream
+#     clean_stream = stream.replace(" ", "")
+
+#     # Generate all possible valid equations with their results
+#     return parenthesize(clean_stream)
+
+
+# # Example usage:
+# stream1 = "11"
+# stream2 = "10+5"
+# stream3 = "2*3-4*5"
+# print(f'Expected: [11], Actual: {possResults(stream1)}')
+# print(f'Expected: [15], Actual: {possResults(stream2)}')
+# print(f'Expected: [-34,-14,-10,-10,10], Actual: {possResults(stream3)}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # from typing import List
 
 # class Example:
@@ -161,38 +468,38 @@
 
 
 
-from fractions import Fraction
-from decimal import Decimal
+# from fractions import Fraction
+# from decimal import Decimal
 
-def repeat_to_frac(decimal):
-    if '(' not in decimal:
-        return str(Fraction(Decimal(decimal)))
+# def repeat_to_frac(decimal):
+#     if '(' not in decimal:
+#         return str(Fraction(Decimal(decimal)))
 
-    non_repeating, repeating = decimal.split('(')
-    repeating = repeating[:-1]  # Remove the trailing ')'
+#     non_repeating, repeating = decimal.split('(')
+#     repeating = repeating[:-1]  # Remove the trailing ')'
 
-    decimal_index = non_repeating.index('.')
-    non_repeating_length = len(non_repeating) - decimal_index - 1  # Adjust for decimal point
+#     decimal_index = non_repeating.index('.')
+#     non_repeating_length = len(non_repeating) - decimal_index - 1  # Adjust for decimal point
     
-    # Calculate the fraction without the repeating part
-    fraction_part = Fraction(Decimal(non_repeating))
+#     # Calculate the fraction without the repeating part
+#     fraction_part = Fraction(Decimal(non_repeating))
 
-    # Calculate the repeating part as a fraction and account for its position
-    repeating_fraction = Fraction(int(repeating) / (10**len(repeating) - 1)) / 10**non_repeating_length
+#     # Calculate the repeating part as a fraction and account for its position
+#     repeating_fraction = Fraction(int(repeating) / (10**len(repeating) - 1)) / 10**non_repeating_length
 
-    # Combine the fractions and simplify
-    result = fraction_part + repeating_fraction
-    return str(result.limit_denominator())
+#     # Combine the fractions and simplify
+#     result = fraction_part + repeating_fraction
+#     return str(result.limit_denominator())
 
 
 
-# Example usage
-print('Expected: 2/3')
-print(f'Actual: {repeat_to_frac("0.(6)")}')  # Output: 2/3
-print('Expected: 123/100')
-print(f'Actual: {repeat_to_frac("1.23")}')  # Output: 123/100
-print('Expected: 5')
-print(f'Actual: {repeat_to_frac("5")}')     # Output: 5   
+# # Example usage
+# print('Expected: 2/3')
+# print(f'Actual: {repeat_to_frac("0.(6)")}')  # Output: 2/3
+# print('Expected: 123/100')
+# print(f'Actual: {repeat_to_frac("1.23")}')  # Output: 123/100
+# print('Expected: 5')
+# print(f'Actual: {repeat_to_frac("5")}')     # Output: 5   
 
 
 
