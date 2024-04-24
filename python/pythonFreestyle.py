@@ -3939,7 +3939,7 @@ NaN clean up here
 
 
 
-import pandas as pd
+# import pandas as pd
 
 # Load the data from the Excel file
 # hospital_survey_data = pd.read_excel('./CSVs/Hospital_Survey_Data_Alcohol_Drug_Abuse.xlsx', header=1)
@@ -3972,41 +3972,49 @@ import pandas as pd
 
 
 
-# Load the data from the Excel file
-hospital_survey_data = pd.read_excel('./CSVs/Hospital_Survey_Data_Alcohol_Drug_Abuse.xlsx', header=1)
 
-# Create new column `Category` and set the default value to "Other"
-hospital_survey_data['Category'] = 'Other'
 
-# Set `Category` based on values in `DRG Definition`
-hospital_survey_data.loc[hospital_survey_data['DRG Definition'].str.contains('W REHABILITATION THERAPY'), 'Category'] = 'Alcohol/Drug Abuse with Rehabilitation Therapy'
-hospital_survey_data.loc[hospital_survey_data['DRG Definition'].str.contains('W/O REHABILITATION THERAPY'), 'Category'] = 'Alcohol/Drug Abuse without Rehabilitation Therapy'
-hospital_survey_data.loc[hospital_survey_data['DRG Definition'].str.contains('LEFT AMA'), 'Category'] = 'Alcohol/Drug Abuse, Left AMA'
 
-print(hospital_survey_data['Category'])
 
 
-# Group data by `Category` and sum the `Total Discharges`
-category_counts = hospital_survey_data.groupby('Category')['Total Discharges'].sum().reset_index()
 
-# Rename `Total Discharges` to `Total Cases`
-category_counts.rename(columns={'Total Discharges': 'Total Cases'}, inplace=True)
 
-# Print results
-# print(category_counts.to_string(index=False))
 
 
 
 
+'''
+    HERE WE CREATE A NEW DATASET WITH NEW COLUMNS AND SAVE THE NEW SET TO A TSV FILE.
+'''
 
 
+# import pandas as pd
 
+# # Load the dataset
+# file_path = './CSVs/last60.csv'
+# data = pd.read_csv(file_path)
 
+# # Display the first few rows of the dataset to understand its structure
+# print(data.head())
 
+# # Calculate required values
+# grouped_data = data.groupby('Brand').agg(
+#     Total_Cost = pd.NamedAgg(column = 'Cost', aggfunc = 'sum'),
+#     Average_SuggestedRetail = pd.NamedAgg(column = 'SuggestedRetail', aggfunc = 'mean')
+# )
 
+# # Create a combined dimension column
+# data['Dimension'] = data['Length'].astype(str) + "x" + data['Width'].astype(str) + "x" + data['Height'].astype(str)
 
+# # Get the most common dimension for each brand
+# most_common_dimension = data.groupby('Brand')['Dimension'].agg(lambda x: x.mode().iloc[0])
+# grouped_data = grouped_data.join(most_common_dimension)
 
+# Save to a TSV file
+# output_file_path = './CSVs/Totals.csv'
+# grouped_data.to_csv(output_file_path, sep='\t', index=True)
 
+# print(grouped_data.head())
 
 
 
@@ -4024,15 +4032,40 @@ category_counts.rename(columns={'Total Discharges': 'Total Cases'}, inplace=True
 
 
 
+'''
+    HERE WE CREATE A COOL HEAT MAP BUT WE USE A NEW METHOD TO SPLIT UP AND CATEGORIZE THE AGE GROUPS AUTOMATICALLY.
+'''
 
 
 
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
 
+# # Load the Excel file to examine its contents
+# excel_path = './CSVs/LIFE INS ISSUE AGE AUDIT.xlsx'
+# life_ins_data = pd.read_excel(excel_path)
 
+# # Display the first few rows and the column names
+# print(life_ins_data.head())
+# print(life_ins_data.columns)
 
+# # Create `Age Category` column using quantile-based discretization
+# life_ins_data['Age Category'] = pd.qcut(life_ins_data['Issue Age'], 3, labels=['Young', 'Middle', 'Old'])
 
+# # Group the data by 'Issue Age' and 'Additional Insurance with Company' and calculate the mean 'Mode Premium'
+# grouped_data = life_ins_data.groupby(['Age Category', 'Additional Insurance with Company']).agg({'Mode Premium': 'mean'}).reset_index()
 
+# # Pivot the table to create a heatmap format
+# heatmap_data = grouped_data.pivot(index='Age Category', columns='Additional Insurance with Company', values='Mode Premium')
 
+# # Create the heatmap
+# plt.figure(figsize=(10, 8))
+# sns.heatmap(heatmap_data, annot=True, fmt=".2f", cmap='YlGnBu', linewidths=.5)
+# plt.title('Heatmap of Average Mode Premium by Issue Age and Additional Insurance')
+# plt.xlabel('Additional Insurance with Company')
+# plt.ylabel('Issue Age')
+# plt.show()
 
 
 
@@ -4046,14 +4079,36 @@ category_counts.rename(columns={'Total Discharges': 'Total Cases'}, inplace=True
 
 
 
+'''
+    HERE WE USE A NEW METHOD TO SELECT THE LARGEST 'n' VALUES IN AN ARBITRARY COLUMN.
+'''
 
+# import pandas as pd
 
+# # Load the data from the uploaded CSV file
+# file_path = './CSVs/business_unit_system_cash_flow.csv'
+# cash_flow_data = pd.read_csv(file_path)
 
+# # Display the first few rows of the dataset to understand its structure
+# print(cash_flow_data.head())
 
+# # Aggregate total income, expenses, and net cash flow by business unit
+# business_unit_summary = cash_flow_data.groupby('Unidad de Negocio').agg(
+#     Total_Ingresos=pd.NamedAgg(column='Ingresos', aggfunc='sum'),
+#     Total_Egresos=pd.NamedAgg(column='Egresos', aggfunc='sum'),
+#     Total_Neto=pd.NamedAgg(column='Total', aggfunc='sum')
+# ).reset_index()
 
+# business_unit_summary.sort_values(by='Total_Neto', ascending=False)
 
+# # Finding the business units with the highest income
+# top_income_units = business_unit_summary.nlargest(3, 'Total_Ingresos')
 
+# # Finding the business units with the highest expenses
+# top_expense_units = business_unit_summary.nlargest(3, 'Total_Egresos')
 
+# print(top_income_units) 
+# print(top_expense_units)
 
 
 
@@ -4075,18 +4130,51 @@ category_counts.rename(columns={'Total Discharges': 'Total Cases'}, inplace=True
 
 
 
+'''
+    HERE WE CLEAN UP A UNIQUE DATASET WITH ENTRIES DELIMITED BY PIPES WHICH MEANS THAT THE EXCEL SHEET WAS A SINGLE COLUMN, I.E., THE DATA SET IS ORIGINALLY A NX1 MATRIX. THIS MEANT WE HAD TO GO IN AND EXCTRACT EACH ENTRY AND CREATE NEW COLUMNS FOR THEM. WE ALSO HAD TO SKIP AN ARBITRARY ROW.
+'''
 
 
+# import pandas as pd
+# import matplotlib.pyplot as plt
 
+# # Load the data from the uploaded XLSX file
+# xlsx_file_path = './CSVs/DynamicBiz_insight.xlsx'
 
+# # Load the Excel file without attempting to split columns initially
+# insight_data_raw = pd.read_excel(xlsx_file_path, header=None)
 
+# # Split the single column into multiple columns by '|'
+# split_data = insight_data_raw[0].str.split('|', expand=True)
 
+# # Use the first row as header
+# split_data.columns = split_data.iloc[0].apply(lambda x: x.strip())
+# split_data = split_data[2:]  # Remove the header row from the data
 
+# # Clean up the data by trimming whitespace
+# split_data = split_data.map(lambda x: x.strip() if isinstance(x, str) else x)
 
+# print(split_data.head(n=20))
 
+# # Re-examine the data types and ensure correct conversion and filtering
+# split_data['Units Sold'] = pd.to_numeric(split_data['Units Sold']) 
 
+# # Drop rows with NaN values in 'Units Sold' which result from coercion
+# split_data = split_data.dropna(subset=['Units Sold'])
 
+# # Aggregate total 'Units Sold' by 'Region' again
+# units_per_region = split_data.groupby('Region')['Units Sold'].sum()
 
+# # Plotting the bar chart
+# plt.figure(figsize=(10, 6))
+# units_per_region.plot(kind='bar', color='skyblue')
+# plt.title('Total Units Sold Per Region')
+# plt.xlabel('Region')
+# plt.ylabel('Units Sold')
+# plt.xticks(rotation=45)
+# plt.grid(axis='y', linestyle='--', alpha=0.7)
+# plt.tight_layout()
+# plt.show()
 
 
 
@@ -4102,6 +4190,335 @@ category_counts.rename(columns={'Total Discharges': 'Total Cases'}, inplace=True
 
 
 
+
+
+
+
+
+'''
+    HERE... WE HAVE A MUTI-SHEET EXCEL FILE WHERE WE HAD TO COMBINE ALL SHEETS THEN EXTRACT STATS BASED ON THE ENTIRE DATASET. THE COLOMN NAMES REPRESENT THE SAME THING BUT THEY WERE NAMED SLIGHTLY DIFFERENT SO WE HAD TO STANDARDIZE THE NAMES AS WELL.
+'''
+# import pandas as pd
+
+# # Path to your Excel file
+# file_path = './CSVs/population_and_age_1.xlsx'
+
+# # Load the Excel file
+# xls = pd.ExcelFile(file_path)
+# all_data = []
+
+# # Function to find and standardize column names
+# def standardize_col_names(df):
+#     for col in df.columns:
+#         if 'age' in col.lower():
+#             df.rename(columns={col: 'Age'}, inplace=True)
+#         elif 'population' in col.lower():
+#             df.rename(columns={col: 'Population'}, inplace=True)
+#         elif 'country' in col.lower():
+#             df.rename(columns={col: 'Country'}, inplace=True)
+#     return df
+
+# # Process each sheet
+# for sheet_name in xls.sheet_names:
+#     data = pd.read_excel(xls, sheet_name=sheet_name)
+    
+#     # Standardize column names
+#     data = standardize_col_names(data)
+    
+#     # Append the DataFrame to the list
+#     all_data.append(data)
+
+# # Concatenate all DataFrames into one
+# combined_data = pd.concat(all_data)
+
+# # Calculate the average age and total population
+# average_age = combined_data['Age'].mean()
+# total_population = combined_data['Population'].mean()
+
+# print(f"Average Age: {average_age}, Average Population: {total_population}")
+
+
+                  
+
+
+                  
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE HAVE THREE DIFFERENT WAYS OF GETTING THE DISTRIBUTION OF A COLUMN AND WE HAVE TWO DIFFERENT WAYS OF PLOTTING IT.
+'''
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Loading the CSV file
+# ma_population_df = pd.read_csv('./CSVs/population_ma.csv')
+# ma_population_df['Population'] = ma_population_df['Population'].str.replace(',', '').astype(int)
+# ma_population_df['City'] = ma_population_df['City'].astype(str)
+
+# # Displaying the first few rows of the dataframe to understand its structure
+# print(ma_population_df.head())
+
+# # Calculate the population distribution for each city
+# ma_population_df['Distribution'] = ma_population_df['Population']/ma_population_df['Population'].sum() * 100
+
+# Display the distribution in descending order
+# print(ma_population_df[['City', 'Distribution']].sort_values(by='Distribution', ascending=False))
+                 
+
+# Plotting the population distribution for cities in Massachusetts
+# plt.figure(figsize=(20, 6), facecolor='white')
+# plt.bar(ma_population_df['City'], ma_population_df['Population'], color='blue')
+# plt.xlabel('City')
+# plt.ylabel('Population')
+# plt.title('Population Distribution in Massachusetts Cities')
+# plt.xticks(rotation=90)
+# plt.tight_layout()
+# plt.show()
+
+
+# # Assuming the columns are named 'City' and 'Population'
+# population_distribution = ma_population_df.groupby('City')['Population'].sum()
+
+# # Plotting the population distribution
+# plt.figure(figsize=(30, 8))
+# population_distribution.sort_values(ascending=False).plot(kind='bar')
+# plt.title('Population Distribution for Cities in Massachusetts')
+# plt.xlabel('City')
+# plt.ylabel('Population')
+# plt.xticks(rotation=45)
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE SHOW HOW TO LOOP OVER COLUMNS AND PRINT THEIR ENTRIES
+'''
+# import pandas as pd
+
+# # Load the data
+# data_path = './CSVs/car_price_prediction.csv'
+# car_price_data = pd.read_csv(data_path)
+# most_expensive_category = car_price_data.groupby('Category')['Price'].mean().idxmax()
+
+# # This creates a subset with two columns: category and the avg price
+# average_prices_by_category = car_price_data.groupby('Category')['Price'].mean()
+# print(average_prices_by_category.head(n=15))
+
+# # Sort the averages in descending order and get the top 3
+# top_three_categories = average_prices_by_category.sort_values(ascending=False).head(3)
+
+# print("Top 3 most expensive car categories and their average prices:")
+# for category, avg_price in top_three_categories.items():
+#     print(f"{category}: ${avg_price:,.2f}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, WE USE THE CONCAT METHOD TO COMBINE TWO SHEETS OF A MULTI-SHEET EXCELL FILE.
+'''
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Loading both sheets from the Excel file
+# sheet1_df = pd.read_excel('./CSVs/bar_sales.xlsx', sheet_name=0)
+# sheet2_df = pd.read_excel('./CSVs/bar_sales.xlsx', sheet_name=1)
+
+# # Combining both sheets into one DataFrame
+# combined_sales_df = pd.concat([sheet1_df, sheet2_df], ignore_index=True)
+
+# # Plotting the spread of quantities sold per menu group
+# plt.figure(figsize=(12, 6), facecolor='white')
+# sns.boxplot(x='Menu Group', y='Item Qty', data=combined_sales_df)
+# plt.title('Spread of Quantities Sold Per Menu Group')
+# plt.xlabel('Menu Group')
+# plt.ylabel('Quantity Sold')
+# plt.xticks(rotation=45)
+# plt.tight_layout()
+# plt.show()
+
+# # Calculating range, standard deviation, and mean for each menu group
+# stats_df = combined_sales_df.groupby('Menu Group')['Item Qty'].agg(['min', 'max', 'std', 'mean'])
+# stats_df['range'] = stats_df['max'] - stats_df['min']
+
+# # Sorting by mean
+# sorted_stats_df = stats_df.sort_values(by='mean', ascending=False)
+
+# # Displaying the sorted statistics
+# print(sorted_stats_df)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# Read the CSV file into a DataFrame
+# df = pd.read_csv('./CSVs/Top_1000_Bollywood_Movies.csv')
+
+# # Filter data by verdict
+# df_filtered = df[df['Verdict'].isin(['All Time Blockbuster', 'Blockbuster'])]
+
+# # Select top 10 movies by `India Net`
+# df_top_10 = df_filtered.nlargest(10, 'India Net')
+
+# # Create figure and axes objects
+# fig, ax1 = plt.subplots(figsize=(12, 8))
+# ax2 = ax1.twinx()
+
+# # Create scatter plot for WorldWide Gross
+# scatter = ax1.scatter(df_top_10['India Net'], df_top_10['Worldwide'], color='blue', label='Worldwide')
+
+# # Add labels to scatter plot points
+# for i, txt in enumerate(df_top_10['Movie']):
+#     ax1.annotate(txt, (df_top_10['India Net'][i], df_top_10['Worldwide'][i]), xytext=(5, 5), textcoords='offset points')
+
+# # Create line plot for Budget
+# line, = ax2.plot(df_top_10['India Net'], df_top_10['Budget'], color='red', label='Budget')
+
+# # Set axis labels and title
+# ax1.set_xlabel('India Net', fontsize=12)
+# ax1.set_ylabel('WorldWide', fontsize=12)
+# ax2.set_ylabel('Budget', fontsize=12)
+# plt.title('India Net vs WorldWide and Budget for Top 10 Grossing Movies (Verdict: ATB or Blockbuster)', fontsize=14)
+
+# # Add a legend
+# lines = [scatter, line]
+# labels = [l.get_label() for l in lines]
+# ax1.legend(lines, labels, loc='upper left')
+
+# # Show plot
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the dataset
+file_path = './CSVs/Top_1000_Bollywood_Movies.csv'
+bollywood_data = pd.read_csv(file_path)
+print(bollywood_data.head())
+print(bollywood_data.info())
+
+# Filter data for 'All Time Blockbuster' or 'Blockbuster' verdicts
+filtered_data = bollywood_data[bollywood_data['Verdict'].isin(['All Time Blockbuster', 'Blockbuster'])]
+
+# Sort the filtered data by 'India Net' earnings in descending order
+sorted_filtered_data = filtered_data.sort_values(by='India Net', ascending=False)
+
+# Select the top 10 highest-grossing movies
+top_10_movies = sorted_filtered_data.head(10)
+
+top_10_movies[['Movie', 'Worldwide', 'India Net', 'Budget', 'Verdict']]
+
+
+
+# Recreate the plot with corrected legend handling and x-tick labels
+fig, ax1 = plt.subplots(figsize=(12, 8))
+
+# Names of the movies
+movies = top_10_movies['Movie']
+
+# First axis for 'Worldwide' earnings
+color = 'tab:red'
+ax1.set_xlabel('Movie')
+ax1.set_ylabel('Worldwide Earnings (Billion INR)', color=color)
+lns1 = ax1.bar(movies, top_10_movies['Worldwide']/1e9, color=color, label='Worldwide Earnings', alpha=0.6)
+ax1.tick_params(axis='y', labelcolor=color)
+ax1.set_xticks(movies.index)
+ax1.set_xticklabels(movies, rotation=45, ha='right')
+
+# Second axis for 'India Net' earnings
+ax2 = ax1.twinx()
+color = 'tab:blue'
+ax2.set_ylabel('India Net Earnings (Billion INR)', color=color)
+lns2 = ax2.plot(movies, top_10_movies['India Net']/1e9, color=color, label='India Net Earnings', marker='x')
+ax2.tick_params(axis='y', labelcolor=color)
+
+# Third axis for 'Budget'
+ax3 = ax1.twinx()
+color = 'tab:green'
+ax3.set_ylabel('Budget (Billion INR)', color=color)
+lns3 = ax3.plot(movies, top_10_movies['Budget']/1e9, color=color, label='Budget', marker='o')
+ax3.tick_params(axis='y', labelcolor=color)
+ax3.spines['right'].set_position(('outward', 60))
+
+# Convert plot handles to a list for the legend
+lns = list(lns1) + list(lns2) + list(lns3)
+labs = [l.get_label() for l in lns]
+ax1.legend(lns, labs, loc=0)
+
+plt.title('Top 10 Highest-Grossing Bollywood Movies (Sorted by India Net Earnings)')
+plt.show()
 
 
 

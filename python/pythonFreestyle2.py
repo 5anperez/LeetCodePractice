@@ -1,57 +1,47 @@
 
-def paintCombos(numHouses: int, numColors: int) -> int:
-    if numHouses == 1:
-        return numColors
+# def paintCombos(numHouses: int, numColors: int) -> int:
+#     if numHouses == 1:
+#         return numColors
     
-    # dp[i][c1][c2] means the number of ways to paint up to i houses with the i-th house color c1 and (i-1)-th house color c2
-    dp = [[[0] * numColors for _ in range(numColors)] for _ in range(numHouses)]
+#     # dp[i][c1][c2] means the number of ways to paint up to i houses with the i-th house color c1 and (i-1)-th house color c2
+#     dp = [[[0] * numColors for _ in range(numColors)] for _ in range(numHouses)]
     
-    # Initialize for 1 house (base case)
-    for c in range(numColors):
-        dp[0][c][c] = 1  # First house being any color, fake second last color the same
+#     # Initialize for 1 house (base case)
+#     for c in range(numColors):
+#         dp[0][c][c] = 1  # First house being any color, fake second last color the same
     
-    # Initialize for 2 houses
-    for c1 in range(numColors):
-        for c2 in range(numColors):
-            dp[1][c1][c2] = 1  # First two houses can be any color
+#     # Initialize for 2 houses
+#     for c1 in range(numColors):
+#         for c2 in range(numColors):
+#             dp[1][c1][c2] = 1  # First two houses can be any color
     
-    # Fill the dp table for houses from 3 to numHouses
-    for i in range(2, numHouses):
-        for c1 in range(numColors):  # Current last house color
-            for c2 in range(numColors):  # Current second-last house color
-                # Summing up possibilities where the third-last house isn't the same as second-last
-                for c3 in range(numColors):  # Previous second-last house color, becomes third-last now
-                    if c2 != c1 or c3 != c1:  # Ensure no three same colors consecutively
-                        dp[i][c1][c2] += dp[i-1][c2][c3]
+#     # Fill the dp table for houses from 3 to numHouses
+#     for i in range(2, numHouses):
+#         for c1 in range(numColors):  # Current last house color
+#             for c2 in range(numColors):  # Current second-last house color
+#                 # Summing up possibilities where the third-last house isn't the same as second-last
+#                 for c3 in range(numColors):  # Previous second-last house color, becomes third-last now
+#                     if c2 != c1 or c3 != c1:  # Ensure no three same colors consecutively
+#                         dp[i][c1][c2] += dp[i-1][c2][c3]
     
-    # Result is the sum of all configurations for the last house
-    total_ways = 0
-    for c1 in range(numColors):
-        for c2 in range(numColors):
-            total_ways += dp[numHouses-1][c1][c2]
+#     # Result is the sum of all configurations for the last house
+#     total_ways = 0
+#     for c1 in range(numColors):
+#         for c2 in range(numColors):
+#             total_ways += dp[numHouses-1][c1][c2]
     
-    return total_ways
+#     return total_ways
 
 
-
-
-
-# model A
-
-
-
-
-
-
-# Example usage
-numHouses1 = 3
-numColors1 = 2
-# Expected 6 ways
-print(f'\nExpected: 6\nActual: {paintCombos(numHouses1, numColors1)}') 
-numHouses2 = 4
-numColors2 = 3
-# Expected: 66
-print(f'\nExpected: 66\nActual: {paintCombos(numHouses2, numColors2)}')
+# # Example usage
+# numHouses1 = 3
+# numColors1 = 2
+# # Expected 6 ways
+# print(f'\nExpected: 6\nActual: {paintCombos(numHouses1, numColors1)}') 
+# numHouses2 = 4
+# numColors2 = 3
+# # Expected: 66
+# print(f'\nExpected: 66\nActual: {paintCombos(numHouses2, numColors2)}')
 
 
 
