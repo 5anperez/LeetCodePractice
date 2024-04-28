@@ -5050,29 +5050,574 @@ NaN clean up here
 
 
 
+'''
+    THIS IS A SIMPLE EXAMPLE ILLUSTRATING THE USE OF COMMON STAT METHODS LIKE CORR AND COV. ALSO, IT USES THE LOC METHOD
+'''
+# import pandas as pd
+
+# df_hospital = pd.read_csv('./CSVs/Hospital_Survey_Data_Speticemia.csv', skiprows=1)
+# # print(df_hospital.head())
+# print(df_hospital.info(verbose=True))
+
+# mean_hospital_rating = df_hospital['Hospital Rating'].mean()
+# mean_total_payments = df_hospital['Average Total Payments ($)'].mean()
+
+# # Calculate covariance and correlation between hospital rating and average total payments
+# covariance = df_hospital[['Hospital Rating', 'Average Total Payments ($)']].cov().iloc[0,1]
+# std_dev_rating = df_hospital['Hospital Rating'].std()
+# std_dev_payments = df_hospital['Average Total Payments ($)'].std()
+# correlation = df_hospital[['Hospital Rating', 'Average Total Payments ($)']].corr().iloc[0,1]
+
+# # Display the results
+# print('Mean Hospital Rating:', mean_hospital_rating)
+# print('Mean Total Payments:', mean_total_payments)
+# print('Covariance between Hospital Rating and Total Payments:', covariance)
+# print('Standard Deviation of Hospital Rating:', std_dev_rating)
+# print('Standard Deviation of Total Payments:', std_dev_payments)
+# print('Correlation Coefficient between Hospital Rating and Total Payments:', correlation)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE REPORT STATS THAT HAVE THE MOST FREQUENCY IN THE DATA SET. WE GET THE ENTRIES WITH THE MOST INSTANCES.
+'''
+# import pandas as pd
+
+# df_dataset = pd.read_excel('./CSVs/dataset.xls')
+# print(df_dataset.head())
+# print(df_dataset.info(verbose=True))
+
+# # Filter the DataFrame based on your conditions
+# filtered_df = df_dataset[(df_dataset['Recommended Spares'] > 0) & (df_dataset['Storeroom Quantity'] == 0)]
+
+# # Print the number of instances
+# print(f'Number of instances: {len(filtered_df)}')
+# print(f'\nInstances: {filtered_df}')
+
+# # Get the frequency of each unique value in the 'Lifecycle Status' column
+# value_counts = filtered_df['Lifecycle Status'].value_counts()
+
+# # Find the most frequent value and its frequency
+# most_frequent_status = value_counts.idxmax()
+# most_frequent_status_count = value_counts.max()
+
+# # Print the most frequent 'Lifecycle Status' and its frequency
+# print(f"The most frequent value in 'Lifecycle Status' is: {most_frequent_status} with a frequency of {most_frequent_status_count}")
+
+# avg_installed_qnt = filtered_df['Installed Quantity'].mean()
+# print(f'Avg installed quantity: {avg_installed_qnt}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+For each city (y-axis) and month (x-axis), draw a bubble where the size of the bubble depends on the average closing price for that city during that month.
+
+    HERE, WE MAKE A COOL SCATTER PLOT USING BUBBLES AND THEIR SIZES TO PLOT A DISTRIBUTION OF PRICES 
+'''
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# from matplotlib.cm import viridis
+# from matplotlib.colors import to_hex
+# import numpy as np
+
+# df_buncombe = pd.read_csv('./CSVs/Buncombe_-_Closed_SFR_-_11_30_23_-_12_30_23_-_Sheet1.csv', header=1)
+# print(df_buncombe.head())
+# print(df_buncombe.columns)
+# print(df_buncombe.info(verbose=True))
+
+# # Clean up and formalize the dates and prices
+# df_buncombe['Close Date'] = pd.to_datetime(df_buncombe['Close Date'])
+# df_buncombe['Close Price'] = df_buncombe['Close Price'].replace('[\$,]', '', regex=True).astype(float)
+
+# # Extract the months and their names
+# df_buncombe['Month'] = df_buncombe['Close Date'].dt.month_name()
+
+# # Group by City and Month
+# bubble_data = df_buncombe.groupby(['City', 'Month'])['Close Price'].mean().reset_index()
+
+# # Create the bubble chart
+# plt.figure(figsize=(8, 8))
+# for i, row in bubble_data.iterrows():
+#     plt.scatter(
+#         row['Month'], 
+#         row['City'], 
+#         s=row['Close Price']/1000, 
+#         color=to_hex(viridis(np.random.rand())), 
+#         alpha=0.5)
+
+# plt.title('Average Closing Price by City and Month', fontsize=17)
+# plt.xlabel('Month', fontsize=17)
+# plt.ylabel('City', fontsize=17)
+# plt.xticks(rotation=45)
+# plt.grid(True)
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Load the dataset
+# data = pd.read_csv('./CSVs/uk_universities.csv')
+# print(data.head())
+# print(data.info(verbose=True))
+
+# # Remove percentage signs and convert to float
+# data['Student_satisfaction'] = data['Student_satisfaction'].str.replace('%', '').astype(float)
+
+# # Calculate the median of the CWUR_score
+# median_cwur = data['CWUR_score'].median()
+
+# # Calculate average satisfaction for universities above and below the median CWUR score
+# avg_satisfaction_above_median = data[data['CWUR_score'] > median_cwur]['Student_satisfaction'].mean()
+# avg_satisfaction_below_median = data[data['CWUR_score'] <= median_cwur]['Student_satisfaction'].mean()
+
+# print('\nmedian of the CWUR_score:')
+# print(median_cwur)
+# print('\nAverage satisfaction for universities above')
+# print(avg_satisfaction_above_median)
+# print('\nAverage satisfaction for universities belo')
+# print(avg_satisfaction_below_median)
+
+# # Calculate the percentage difference in average satisfaction
+# percentage_difference = ((avg_satisfaction_above_median - avg_satisfaction_below_median) / avg_satisfaction_below_median) * 100
+# print('\nThe percentage difference between the two:')
+# print(percentage_difference)
+
+# # Calculate the correlation coefficient between 'Student_satisfaction' and 'CWUR_score'
+# overall_correlation = data[['Student_satisfaction', 'CWUR_score']].corr()
+# print(overall_correlation)
+
+# # Group data by region and calculate average 'Student_satisfaction' and 'CWUR_score'
+# regional_averages = data.groupby('Region')[['Student_satisfaction', 'CWUR_score']].mean()
+
+# # Calculate correlation for each region
+# regional_correlations = data.groupby('Region').apply(lambda x: x[['Student_satisfaction', 'CWUR_score']].corr().iloc[0,1])
+
+# # Combine results into one dataframe
+# regional_insights = pd.concat([regional_averages, regional_correlations.rename('Correlation')], axis=1)
+# print(regional_insights)
+
+# # Create a single scatter plot with different colors for each region
+# plt.figure(figsize=(12, 8))
+# sns.scatterplot(data=data, x='CWUR_score', y='Student_satisfaction', hue='Region', palette='viridis', s=100)
+# plt.title('Scatter Plot of Student Satisfaction vs CWUR Score Across All Regions')
+# plt.xlabel('CWUR Score')
+# plt.ylabel('Student Satisfaction (%)')
+# plt.legend(title='Region', bbox_to_anchor=(1.05, 1), loc='upper left')
+# plt.grid(True)
+# plt.show()
+
+# print(regional_averages)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE PERFORM A COHORT ANALYSIS AND SPLIT THE DATA INTO THE BINS INITIALIZED BELOW.
+'''
+
+# import pandas as pd
+
+# # Load the data from the CSV file
+# file_path = './CSVs/uk_universities.csv'
+# uk_universities = pd.read_csv(file_path)
+
+# # Display the first few rows and summary of the data
+# print(uk_universities.head()) 
+# print(uk_universities.info(verbose=True)) 
+# print(uk_universities.describe())
+
+# # Creating cohorts based on founded year
+# bins = [0, 1900, 1950, 2000, 2025]  # Year bins
+# labels = ['Pre-1900', '1900-1950', '1951-2000', 'Post-2000']
+# uk_universities['Cohort'] = pd.cut(uk_universities['Founded_year'], bins=bins, labels=labels, right=False)
+
+# # Calculating average CWUR scores per cohort
+# cohort_cwur_scores = uk_universities.groupby('Cohort')['CWUR_score'].mean().reset_index()
+
+# print(cohort_cwur_scores)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE HAVE THE STRAWBERRY QUERY
+'''
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+
+# # Load the data from the TSV file
+# strawberry_sales_path = './CSVs/STRAWBERRY SALES 2023 - Sheet1.tsv'
+# strawberry_sales_data = pd.read_csv(strawberry_sales_path, sep='\t', skiprows=2)
+
+# # Display the first few rows and recheck the data summary
+# print(strawberry_sales_data.head()) 
+# print(strawberry_sales_data.info(verbose=True)) 
+# print(strawberry_sales_data.describe())
+
+# # Convert price fields from string to float and clean them
+# strawberry_sales_data['BOX'] = strawberry_sales_data['$/BOX   '].replace('[\$,]', '', regex=True).astype(float)
+# strawberry_sales_data['TOTAL'] = strawberry_sales_data['TOTAL       '].replace('[\$,]', '', regex=True).astype(float)
+# strawberry_sales_data['DATE'] = pd.to_datetime(strawberry_sales_data['DATE                         '], format='mixed')
+# strawberry_sales_data['BOXES'] = pd.to_numeric(strawberry_sales_data['#BOXES '])
+
+# # Setting up the figure
+# plt.figure(figsize=(18, 6))
+
+# # Plotting price per box vs. number of boxes
+# plt.subplot(1, 2, 1)
+# sns.scatterplot(data=strawberry_sales_data, x='#BOXES ', y='BOX')
+# plt.title('Price per Box vs. Number of Boxes Sold')
+# plt.xlabel('Number of Boxes Sold')
+# plt.ylabel('Price per Box ($)')
+
+# # Plotting price per box vs. type of product
+# plt.subplot(1, 2, 2)
+# sns.boxplot(data=strawberry_sales_data, x='TYPE OF PRODUCT', y='BOX')
+# plt.title('Price per Box by Type of Product')
+# plt.xlabel('Type of Product')
+# plt.ylabel('Price per Box ($)')
+
+# plt.tight_layout()
+# plt.show()
+
+# Ensure we use the exact column name for 'Price per Box' from the dataframe
+# correct_price_column = [col for col in strawberry_sales_data.columns if "BOX" in col][0]  # Selecting the right column name
+
+# # Group by date to calculate average price and total boxes sold per day
+# daily_data = strawberry_sales_data.groupby('DATE').agg(
+#     Average_Price_per_Box=('BOX', 'mean'),
+#     Total_Boxes_Sold=('BOXES', 'sum')
+# ).reset_index()
+
+# # Calculate percent changes for average price and total boxes sold
+# daily_data['Price_Percent_Change'] = daily_data['Average_Price_per_Box'].pct_change() * 100
+# daily_data['Boxes_Percent_Change'] = daily_data['Total_Boxes_Sold'].pct_change() * 100
+
+# # Displaying the processed data
+# print(daily_data.head())
+
+# # Scatter plot for average price and total boxes sold, colored by percent change in price
+# plt.figure(figsize=(14, 7))
+# plt.scatter(daily_data['DATE'], daily_data['Average_Price_per_Box'],
+#             s=daily_data['Total_Boxes_Sold']*10,  # Scale size of points to represent total boxes sold
+#             c=daily_data['Price_Percent_Change'], cmap='coolwarm', alpha=0.6)
+# plt.colorbar(label='Price Percent Change (%)')
+# plt.title('Daily Average Price vs. Total Boxes Sold')
+# plt.xlabel('Date')
+# plt.ylabel('Average Price per Box ($)')
+# plt.grid(True)
+
+# # Show the plot
+# plt.show()
+
+
+
+# # Scatter plot for percent change in price vs. percent change in boxes sold
+# plt.figure(figsize=(10, 6))
+# plt.scatter(daily_data['Boxes_Percent_Change'], daily_data['Price_Percent_Change'],
+#             color='blue', alpha=0.5)
+# plt.title('Percent Change in Price vs. Percent Change in Boxes Sold')
+# plt.xlabel('Percent Change in Boxes Sold (%)')
+# plt.ylabel('Percent Change in Price (%)')
+# plt.grid(True)
+
+# # Show the plot
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''THIS WAS MODEL A'S RESPONSE'''
+
+# # Extract month and year from `DATE`
+# strawberry_sales_data['MONTH'] = strawberry_sales_data['DATE'].dt.month
+# strawberry_sales_data['YEAR'] = strawberry_sales_data['DATE'].dt.year
+
+# # Group by `MONTH`, `YEAR` and calculate mean of `$/BOX` and sum of `#BOXES`
+# df_agg = strawberry_sales_data.groupby(['MONTH', 'YEAR']).agg(
+#     AVG_PRICE=('BOX', 'mean'),
+#     TOTAL_BOXES=('BOXES', 'sum')
+# ).reset_index()
+
+# # Sort by `YEAR` and `MONTH`
+# df_agg = df_agg.sort_values(['YEAR', 'MONTH'])
+
+# # Calculate percent change in price from previous month
+# df_agg['PRICE_CHANGE_PCT'] = df_agg['AVG_PRICE'].pct_change() * 100
+
+# # Calculate percent change in boxes sold from previous month
+# df_agg['BOXES_CHANGE_PCT'] = df_agg['TOTAL_BOXES'].pct_change() * 100
+
+# # Print the first 5 rows
+# print(df_agg.head())
+
+# # Create a scatter plot with `BOXES_CHANGE_PCT` on the x-axis and `PRICE_CHANGE_PCT` on the y-axis
+# plt.figure(figsize=(10, 6))
+# plt.scatter(df_agg['BOXES_CHANGE_PCT'], df_agg['PRICE_CHANGE_PCT'])
+
+# # Label the axes and add a title
+# plt.xlabel('Percent Change in Boxes Sold', fontsize=12)
+# plt.ylabel('Percent Change in Price', fontsize=12)
+# plt.title('Relationship between Change in Boxes Sold and Change in Price', fontsize=14)
+
+# # Show the plot
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, WE PERFORM A IQR ANALYSIS TO TRY AND FIND OUTLIERS.
+'''
+# import pandas as pd
+
+# # Load the data from the CSV file
+# engagement_df = pd.read_csv('./CSVs/RAP_Journal_Engagement.csv')
+
+# # Display the first few rows of the dataframe to understand its structure
+# print(engagement_df.head())
+# print(engagement_df.columns)
+
+# # Calculate the interquartile range (IQR) to identify outliers in the 'Engagement rate'
+# Q1 = engagement_df['Engagement rate'].quantile(0.25)
+# Q3 = engagement_df['Engagement rate'].quantile(0.75)
+# IQR = Q3 - Q1
+
+# # Define outliers as those beyond 1.5 times the IQR from the Q1 and Q3
+# lower_bound = Q1 - 1.5 * IQR
+# upper_bound = Q3 + 1.5 * IQR
+
+# # Filter the data to find outliers
+# outliers = engagement_df[(engagement_df['Engagement rate'] < lower_bound) | (engagement_df['Engagement rate'] > upper_bound)]
+
+# # Display the outliers
+# print('Lower bound:', lower_bound, '\nUpper bound:', upper_bound)
+# print('Outliers in Engagement Rate:')
+# print(outliers[['Region', 'Engagement rate']])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 import pandas as pd
 
-df_hospital = pd.read_csv('./CSVs/Hospital_Survey_Data_Speticemia.csv', skiprows=1)
-# print(df_hospital.head())
-print(df_hospital.info(verbose=True))
+# Load the data from the CSV file
+top_youtubers_df = pd.read_csv('./CSVs/top_200_youtubers.csv')
 
-mean_hospital_rating = df_hospital['Hospital Rating'].mean()
-mean_total_payments = df_hospital['Average Total Payments ($)'].mean()
+# Display the first few rows of the dataframe to understand its structure
+print(top_youtubers_df.head())
+print(top_youtubers_df.columns)
+print(top_youtubers_df.info(verbose=True))
 
-# Calculate covariance and correlation between hospital rating and average total payments
-covariance = df_hospital[['Hospital Rating', 'Average Total Payments ($)']].cov().iloc[0,1]
-std_dev_rating = df_hospital['Hospital Rating'].std()
-std_dev_payments = df_hospital['Average Total Payments ($)'].std()
-correlation = df_hospital[['Hospital Rating', 'Average Total Payments ($)']].corr().iloc[0,1]
+# Filter the data for Indian YouTubers
+top_youtubers_df = top_youtubers_df[top_youtubers_df['Country'] == 'IN']
+
+# Group by the 'Main Video Category' and calculate the average number of followers
+avg_followers_per_category = top_youtubers_df.groupby('Main Video Category')['followers'].mean().reset_index()
 
 # Display the results
-print('Mean Hospital Rating:', mean_hospital_rating)
-print('Mean Total Payments:', mean_total_payments)
-print('Covariance between Hospital Rating and Total Payments:', covariance)
-print('Standard Deviation of Hospital Rating:', std_dev_rating)
-print('Standard Deviation of Total Payments:', std_dev_payments)
-print('Correlation Coefficient between Hospital Rating and Total Payments:', correlation)
+print('Average Number of Followers per YouTube Video Category for Indian YouTubers:')
+print(avg_followers_per_category)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
