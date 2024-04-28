@@ -33,7 +33,7 @@
 #     return total_ways
 
 
-# # Example usage
+# # # Example usage
 # numHouses1 = 3
 # numColors1 = 2
 # # Expected 6 ways

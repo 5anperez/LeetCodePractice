@@ -4412,44 +4412,189 @@ NaN clean up here
 
 
 
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE CREATE A PLOT WITH THREE DIFFERENT Y-AXIS VARIABLES SUPERIMPOSED ONTO ONE ANOTHER TO CREATE A REALLY COOL GRAPH THATS VERY INFORMATIVE.
+'''
+
+
 # import pandas as pd
 # import matplotlib.pyplot as plt
 
-# Read the CSV file into a DataFrame
-# df = pd.read_csv('./CSVs/Top_1000_Bollywood_Movies.csv')
+# # Load the dataset
+# file_path = './CSVs/Top_1000_Bollywood_Movies.csv'
+# bollywood_data = pd.read_csv(file_path)
+# print(bollywood_data.head())
+# print(bollywood_data.info())
 
-# # Filter data by verdict
-# df_filtered = df[df['Verdict'].isin(['All Time Blockbuster', 'Blockbuster'])]
+# # Filter data for 'All Time Blockbuster' or 'Blockbuster' verdicts
+# filtered_data = bollywood_data[bollywood_data['Verdict'].isin(['All Time Blockbuster', 'Blockbuster'])]
 
-# # Select top 10 movies by `India Net`
-# df_top_10 = df_filtered.nlargest(10, 'India Net')
+# # Sort the filtered data by 'India Net' earnings in descending order
+# sorted_filtered_data = filtered_data.sort_values(by='India Net', ascending=False)
 
-# # Create figure and axes objects
+# # Select the top 10 highest-grossing movies
+# top_10_movies = sorted_filtered_data.head(10)
+
+# # NOTE: is this line needed here? What is it doing?
+# top_10_movies[['Movie', 'Worldwide', 'India Net', 'Budget', 'Verdict']]
+
+# # Recreate the plot with corrected legend handling and x-tick labels
 # fig, ax1 = plt.subplots(figsize=(12, 8))
+
+# # Names of the movies
+# movies = top_10_movies['Movie']
+
+# # First axis for 'Worldwide' earnings
+# color = 'tab:red'
+# ax1.set_xlabel('Movie')
+# ax1.set_ylabel('Worldwide Earnings (Billion INR)', color=color)
+# lns1 = ax1.bar(movies, top_10_movies['Worldwide']/1e9, color=color, label='Worldwide Earnings', alpha=0.6)
+# ax1.tick_params(axis='y', labelcolor=color)
+# ax1.set_xticks(movies.index)
+# ax1.set_xticklabels(movies, rotation=45, ha='right')
+
+# # Second axis for 'India Net' earnings
 # ax2 = ax1.twinx()
+# color = 'tab:blue'
+# ax2.set_ylabel('India Net Earnings (Billion INR)', color=color)
+# lns2 = ax2.plot(movies, top_10_movies['India Net']/1e9, color=color, label='India Net Earnings', marker='x')
+# ax2.tick_params(axis='y', labelcolor=color)
 
-# # Create scatter plot for WorldWide Gross
-# scatter = ax1.scatter(df_top_10['India Net'], df_top_10['Worldwide'], color='blue', label='Worldwide')
+# # Third axis for 'Budget'
+# ax3 = ax1.twinx()
+# color = 'tab:green'
+# ax3.set_ylabel('Budget (Billion INR)', color=color)
+# lns3 = ax3.plot(movies, top_10_movies['Budget']/1e9, color=color, label='Budget', marker='o')
+# ax3.tick_params(axis='y', labelcolor=color)
+# ax3.spines['right'].set_position(('outward', 60))
 
-# # Add labels to scatter plot points
-# for i, txt in enumerate(df_top_10['Movie']):
-#     ax1.annotate(txt, (df_top_10['India Net'][i], df_top_10['Worldwide'][i]), xytext=(5, 5), textcoords='offset points')
+# # Convert plot handles to a list for the legend
+# lns = list(lns1) + list(lns2) + list(lns3)
+# labs = [l.get_label() for l in lns]
+# ax1.legend(lns, labs, loc=0)
 
-# # Create line plot for Budget
-# line, = ax2.plot(df_top_10['India Net'], df_top_10['Budget'], color='red', label='Budget')
+# plt.title('Top 10 Highest-Grossing Bollywood Movies (Sorted by India Net Earnings)')
+# plt.show()
 
-# # Set axis labels and title
-# ax1.set_xlabel('India Net', fontsize=12)
-# ax1.set_ylabel('WorldWide', fontsize=12)
-# ax2.set_ylabel('Budget', fontsize=12)
-# plt.title('India Net vs WorldWide and Budget for Top 10 Grossing Movies (Verdict: ATB or Blockbuster)', fontsize=14)
 
-# # Add a legend
-# lines = [scatter, line]
-# labels = [l.get_label() for l in lines]
-# ax1.legend(lines, labels, loc='upper left')
 
-# # Show plot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE GET THE MAX AND MIN DATES, THEN DISPLAY EVERY ENTRY THAT HAS A TRANSACTION ON THOSE DATES.
+'''
+# import pandas as pd
+
+# # Load the Excel file
+# file_path = './CSVs/FAL Projects NY - office NY - FAL Proyectos.xlsx'
+
+# # Reload the data starting from row 9 (indexing starts from 0, so we use header=9)
+# # The 1st 10 rows are not useful data!
+# data = pd.read_excel(file_path, header=9)
+# # print(data.head(n=15))
+# # print(data.info(verbose=True))
+
+# # Convert date column to datetime type and find the earliest and latest dates
+# data['Create Date:'] = pd.to_datetime(data['Create Date:'])
+# first_date = data['Create Date:'].min()
+# last_date = data['Create Date:'].max()
+
+# # Filter the transactions that occurred on the first and last date
+# first_date_transactions = data[data['Create Date:'] == first_date]
+# last_date_transactions = data[data['Create Date:'] == last_date]
+
+# print(first_date) 
+# print(last_date) 
+# print(first_date_transactions) 
+# print(last_date_transactions)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Load the TSV file
+# inventory_data = pd.read_csv("./CSVs/inventory-snapshot-table_2024-01-15_ 01 - sheet1.tsv", sep='\t')
+
+# Display the first few rows and the data structure to identify relevant columns
+# inventory_data_head = inventory_data.head()
+# inventory_data_info = inventory_data.info()
+# print("\nThese are the first few rows:\n")
+# print(f'Head:\n{inventory_data_head}') 
+# print(f'Info:\n{inventory_data_info}')
+
+# # Filter data for the 'Earrings' product category
+# earrings_inventory = inventory_data[inventory_data['Product category'].str.contains('Earrings')]
+
+# # Correcting the column names to remove any extra spaces
+# earrings_inventory.columns = earrings_inventory.columns.str.strip()
+
+# # Cleaning and converting 'Total value' to numerical for further analysis
+# # NOTE: find out why this throws a warning...
+# earrings_inventory['Total value'] = earrings_inventory['Total value'].str.replace(' €', '').astype(float)
+
+# # Summary statistics and a glimpse of 'Earrings' inventory data
+# earrings_inventory_describe = earrings_inventory.describe()
+# earrings_inventory_head = earrings_inventory.head()
+# print("\n\nSummary stats:\n")
+# print(earrings_inventory_describe) 
+# print(earrings_inventory_head)
+
+# Setting up the visualizations
+# plt.figure(figsize=(14, 6))
+
+# plt.subplot(1, 2, 1)
+# sns.histplot(earrings_inventory['Inventory'], bins=10, kde=True)
+# plt.title('Distribution of Inventory Levels')
+# plt.xlabel('Inventory')
+# plt.ylabel('Frequency')
+
+# plt.subplot(1, 2, 2)
+# sns.histplot(earrings_inventory['Total value'], bins=10, kde=True)
+# plt.title('Distribution of Total Value of Inventory')
+# plt.xlabel('Total Value (in €)')
+# plt.ylabel('Frequency')
+
 # plt.tight_layout()
 # plt.show()
 
@@ -4460,68 +4605,474 @@ NaN clean up here
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE HAVE TO PARSE ENTRIES INTO THREE DISTINCT CATEGORIES SUCH EACH CATEGORY GETS TRANSFORMED INTO ITS OWN COLUMN.
+'''
+
+'''
+    APPROACH 0: CONDITIONAL EXTRACTION
+'''
+# import pandas as pd
+
+# # Reload the data with the correct header
+# hospital_data = pd.read_excel('./CSVs/Hospital_Survey_Data_Alcohol_Drug_Abuse.xlsx', header=1)
+
+# # Display the corrected column headers and the first few rows to verify
+# print(hospital_data.columns)
+# print(hospital_data.head())
+# print(hospital_data.info(verbose=True))
+
+# NOTE: FIND OUT WHY THIS SPLITTING APPROACH DIDNT WORK......
+# # Split the 'DRG Definition' column into new categories
+# hospital_data[
+#     ['Alcohol/Drug abuse with rehab', 'Alcohol/Drug abuse without rehab', 'Left AMA']
+#     ] = hospital_data['DRG Definition'].str.extract(
+#         '(.*REHABILITATION THERAPY.*)|(.*W/O REHABILITATION THERAPY.*)|(.*LEFT AMA.*)'
+#         )
+
+# # Display the first 10 rows to confirm the split
+# print(hospital_data[['Alcohol/Drug abuse with rehab', 'Alcohol/Drug abuse without rehab', 'Left AMA']].head(10))
+
+
+
+
+
+# import pandas as pd
+
+# pd.set_option('display.max_rows', None)
+# pd.set_option('display.max_columns', None)
+
+# # Reload the data with the correct header
+# df_alcohol_drug_abuse = pd.read_excel('./CSVs/Hospital_Survey_Data_Alcohol_Drug_Abuse.xlsx', header=1)
+
+'''
+    HERE IS A COOL WAY OF GETTING A COLUMN'S UNIQUE VALUES.
+'''
+# Inspect the unique values in the "DRG Definition" column to understand how to split the data
+# print(df_alcohol_drug_abuse['DRG Definition'].unique())
+
+# Display the first 5 rows
+# print(df_alcohol_drug_abuse.head())
+
+# Print the column names and their data types
+# print(df_alcohol_drug_abuse.info())
+                  
+'''
+    APPROACH 1: MANUALLY
+'''
+# # Create new columns and initialize with 0
+# new_columns = ['Alcohol/Drug Abuse with Rehabilitation Therapy', 
+#                'Alcohol/Drug Abuse without Rehabilitation Therapy', 
+#                'Alcohol/Drug Abuse, Left AMA']
+# df_alcohol_drug_abuse[new_columns] = 0
+
+# # Populate the new columns based on 'DRG Definition'
+# df_alcohol_drug_abuse['Alcohol/Drug Abuse with Rehabilitation Therapy'] = df_alcohol_drug_abuse['DRG Definition'].str.contains('W REHABILITATION THERAPY').astype(int)
+# df_alcohol_drug_abuse['Alcohol/Drug Abuse without Rehabilitation Therapy'] = df_alcohol_drug_abuse['DRG Definition'].str.contains('W/O REHABILITATION THERAPY').astype(int)
+# df_alcohol_drug_abuse['Alcohol/Drug Abuse, Left AMA'] = df_alcohol_drug_abuse['DRG Definition'].str.contains('LEFT AMA').astype(int)
+
+# # print(df_alcohol_drug_abuse.head(n=20))
+
+# # Aggregate the data at the provider level
+# df_agg = df_alcohol_drug_abuse.groupby('Provider Name')[new_columns].sum().reset_index()
+
+# # Sort the aggregated data
+# df_agg['Total'] = df_agg[new_columns].sum(axis=1)
+# df_agg_sorted = df_agg.sort_values('Total', ascending=False)
+
+# # Print the aggregated and sorted data
+# print(df_agg_sorted.head(10).to_markdown(index=False))
+
+'''
+    APPROACH 2: LAMBDA λ
+'''
+# Create three new columns based on the categories in the DRG Definition
+# df_alcohol_drug_abuse['Without Rehab Therapy'] = df_alcohol_drug_abuse['DRG Definition'].apply(lambda x: 'Yes' if 'W/O REHABILITATION THERAPY' in x else 'No')
+# df_alcohol_drug_abuse['Left AMA'] = df_alcohol_drug_abuse['DRG Definition'].apply(lambda x: 'Yes' if 'LEFT AMA' in x else 'No')
+# df_alcohol_drug_abuse['With Rehab Therapy'] = df_alcohol_drug_abuse['DRG Definition'].apply(lambda x: 'Yes' if 'W REHABILITATION THERAPY' in x else 'No')
+
+# # Display the first 10 rows with the new columns
+# print(df_alcohol_drug_abuse[
+#     ['DRG Definition', 'Without Rehab Therapy', 'Left AMA', 'With Rehab Therapy']
+#     ].head(10))
+
+
+
+
+
+
+
+
+
+
+                  
+
+
+
+
+
+
+
+
+
+
+
+                  
+
+
+
+
+'''
+    HERE WE CREATE COOL SCATTER PLOT USING FOUR VARIABLES! THE AXES ARE X = DAYS AND Y = PRICE WHILE EACH BUBBLE IS A TYPE OF INVENTORY AND THE BUBBLE'S SIZE IS HOW MUCH OF THAT INVENTORY IS CURRENTLY ON HAND, I.E., AVAILABLE. THE MORE UNITS ON HAND, THEN THE BIGGER THE BUBBLE. WE TAKE TWO DIFFERENT APPROACHES WHICH SIMPLY USE TWO DIFFERENT MODULES.
+'''
+
+
+
+
+'''
+    APPROACH 1: MATPLOTLIB PLOT 
+'''
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import numpy as np
+
+# # Load the dataset from the provided CSV file
+# inventory_data = pd.read_csv('./CSVs/Data Set #14 report .csv')
+
+# # Remove '$' and ',' from the sell_price, AGE OF INVENTORY DAYS, and the qty_on_hand units column
+# inventory_data['sell_price'] = inventory_data['sell_price'].replace('[\$,]', '', regex=True).astype(float)
+# inventory_data['AGE OF INVENTORY DAYS'] = inventory_data['AGE OF INVENTORY DAYS'].str.replace(',', '').astype(int)
+# inventory_data['qty_on_hand units'] = inventory_data['qty_on_hand units'].str.replace(',', '').astype(int)
+
+# # Get unique inventory types
+# inventory_types = inventory_data['inventory_type'].unique()
+
+# # Generate random colors
+# colors = np.random.rand(len(inventory_types), 3)
+
+# # Create color dictionary
+# color_dict = dict(zip(inventory_types, colors))
+
+# # Create the scatter plot
+# fig, ax = plt.subplots(figsize=(12, 8))
+# for inventory_type in inventory_types:
+#     type_data = inventory_data[inventory_data['inventory_type'] == inventory_type]
+#     ax.scatter(type_data['AGE OF INVENTORY DAYS'], 
+#                type_data['sell_price'], 
+#                s = (type_data['qty_on_hand units'] * 0.5), 
+#                label = inventory_type, 
+#                alpha = 0.7, 
+#                color = color_dict[inventory_type])
+
+# # Add labels and title
+# ax.set_xlabel('AGE OF INVENTORY DAYS', fontsize=17)
+# ax.set_ylabel('Sell Price', fontsize=17)
+# ax.set_title('Bubble Chart of Inventory by Age, Price, and Quantity', fontsize=17)
+
+# # Add legend
+# ax.legend(title='Inventory Type', fontsize=17)
+
+# # Show the plot
+# plt.show()
+
+
+
+
+'''
+    APPROACH 2: SEABORN PLOT 
+'''
+
+# import pandas as pd
+# import numpy as np
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Load the data from the CSV file
+# file_path = './CSVs/Data Set #14 report .csv'
+# data = pd.read_csv(file_path)
+
+# # Cleaning data by removing commas and currency symbols, and converting to appropriate numeric types
+# data['AGE OF INVENTORY DAYS'] = data['AGE OF INVENTORY DAYS'].str.replace(',', '').astype(int)
+# data['sell_price'] = data['sell_price'].replace('[\$,]', '', regex=True).astype(float)
+# data['qty_on_hand units'] = data['qty_on_hand units'].str.replace(',', '').astype(int)
+
+# # Verify the changes
+# print(data[['AGE OF INVENTORY DAYS', 'sell_price', 'qty_on_hand units']].head())
+# print(data.dtypes)
+
+# # Set the color palette for the different inventory types
+# palette = sns.color_palette("hsv", len(data['inventory_type'].unique()))
+
+# # Create the bubble chart
+# plt.figure(figsize=(10, 8))
+# bubble_chart = sns.scatterplot(data = data, 
+#                                x = 'AGE OF INVENTORY DAYS', 
+#                                y = 'sell_price', 
+#                                size = 'qty_on_hand units', 
+#                                hue = 'inventory_type', 
+#                                sizes = (20, 1000), 
+#                                palette = palette, 
+#                                alpha = 0.6)
+
+# plt.title('Bubble Chart: Age of Inventory Days vs Sell Price')
+# plt.xlabel('Age of Inventory Days')
+# plt.ylabel('Sell Price ($)')
+# plt.grid(True)
+# plt.legend(title='Inventory Type', loc='upper right', bbox_to_anchor=(1.25, 1))
+# plt.show()
+
+
+# # Find the proportion of inventory days that span a specific interval
+# aged_inventory = data[(data['AGE OF INVENTORY DAYS'] >= 650) & (data['AGE OF INVENTORY DAYS'] <= 750)]
+# count_in_range = aged_inventory.shape[0]
+# total_count = data.shape[0]
+# percentage = (count_in_range / total_count) * 100
+# print(f"Count in Range (650-750 days): {count_in_range}")
+# print(f"Percentage of Total: {percentage:.2f}%")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+
+
+# # Load the dataset
+# caja_data = pd.read_csv('./CSVs/caja-dia-a-dia-no-Pii.csv')
+
+# # Display the first few rows and the columns to understand its structure
+# print(caja_data.head())
+# print(caja_data.columns)
+# print(caja_data.info(verbose=True))
+
+# # Convert 'Fecha' to datetime and filter for the year 2022
+# df_2022 = caja_data.copy()
+# df_2022['Fecha'] = pd.to_datetime(df_2022['Fecha'])
+# df_2022 = df_2022[df_2022['Fecha'].dt.year == 2022]
+
+# # Count the occurrences of each 'Tipo Comp DEBE' type for 2022
+# type_counts_D_2022 = df_2022['Tipo Comp DEBE'].value_counts()
+# print(type_counts_D_2022)
+
+# # Count the occurrences of each 'Tipo Comp h' type for 2022
+# type_counts_H_2022 = df_2022['Tipo Comp HABER'].value_counts()
+# print(type_counts_H_2022) 
+
+# # Count the occurrences of each 'Nombre cuenta HABER' type for 2022
+# type_counts_NH_2022 = df_2022['Nombre cuenta HABER'].value_counts()
+# print(type_counts_NH_2022) 
+
+# # Count the occurrences of each 'Nombre cliente DEBE' type for 2022
+# type_counts_ND_2022 = df_2022['Nombre de la cuenta DEBE'].value_counts()
+# print(type_counts_ND_2022)
+
+# # Plot the results
+# plt.figure(figsize=(10, 6))
+# type_counts_H_2022.plot(kind='bar', color='limegreen')
+# plt.title('Number of Records by Type for 2022')
+# plt.xlabel('Type')
+# plt.ylabel('Number of Records')
+# plt.xticks(rotation=45)
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE PRINT OUT PLENTY OF STATS. HOWEVER, THERE MIGHT BE A METHOD THAT DOES THE SAME THING AS THE BIG PRINT BLOCK AT THE BOTTOM OF THIS SCRIPT. IT'S CALLED THE .describe() METHOD... CHECK IT OUT AND SEE IF IT PRINTS THE SAME THING.
+'''
+
+# import pandas as pd
+
+# # Load the dataset
+# file_path = './CSVs/synop_evento_SAEZ.csv'
+# data = pd.read_csv(file_path)
+
+# # Display the first few rows of the dataset to understand its structure
+# # print(data.head(n=15))
+
+# # Calculate the average pressure at sea level
+# average_pmar = data['pmar'].mean()
+
+# # Filter data based on conditions
+# filtered_data = data[(data['pmar'] > average_pmar) & (data['niebla'] == 'si') & (data['evento'] == 'si')]
+
+# # Display the filtered data
+# # print(filtered_data)
+
+
+# # 1. Date range and the mean atmospheric pressure at sea level (pmar)
+# date_range = (filtered_data['valid'].min(), filtered_data['valid'].max())
+# mean_pmar = filtered_data['pmar'].mean()
+
+# # 2. Mean year, range of atmospheric pressure at sea level
+# mean_year = filtered_data['año'].mean()
+# pmar_range = (filtered_data['pmar'].min(), filtered_data['pmar'].max())
+
+# # 3. Visibility (plafond) and temperature (t) ranges and averages
+# visibility_range = (filtered_data['vis'].min(), filtered_data['vis'].max())
+# mean_visibility = filtered_data['vis'].mean()
+# temperature_range = (filtered_data['t'].min(), filtered_data['t'].max())
+# mean_temperature = filtered_data['t'].mean()
+
+'''Should we use the .describe() method here?'''
+# print(f'\nDates:{date_range}')
+# print(f'\nAvg pmar: {mean_pmar}')
+# print(f'\nAvg year:{mean_year}')
+# print(f'\nRange of pmar:{pmar_range}')
+# print(f'\nAvg. vis:{mean_visibility}')
+# print(f'\nAvg. of vis:{visibility_range}')
+# print(f'\nAvg. temp:{mean_temperature}')
+# print(f'\nRange of temps:{temperature_range}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+
+# df_account_balance = pd.read_csv('./CSVs/Account Balance Base - Hoja1.tsv', sep='\t')
+
+# # Display the first few rows to understand the structure of the data
+# print(df_account_balance.head())
+
+# # Clean the ' Balance' column while preserving negative values
+# # THERE HAS TO BE A BETTER WAY!
+# df_account_balance[' Balance'] = df_account_balance[' Balance'].str.strip()  # Trim spaces
+# df_account_balance[' Balance'] = df_account_balance[' Balance'].replace({'\$': '', ',': ''}, regex=True)  # Remove dollar signs and commas
+# df_account_balance[' Balance'] = df_account_balance[' Balance'].replace({'- ': '-'}, regex=True) 
+
+
+
+# # NOTE: TEST THIS BLOCK OUT!!! YOU NEED AN ELEGANT WAY TO DELA WITH NEGATIVES!
+# # Assuming df is your DataFrame and 'Balance' is the column in question
+# df['Balance'] = df['Balance'].replace(r'[^\d.-]', '', regex=True)  # Remove everything except digits, decimal points, and minus sign
+# df['Balance'] = pd.to_numeric(df['Balance'], errors='coerce')  # Convert to numeric, coercing errors
+# df['Balance'].fillna(0, inplace=True)  # Replace NaN values with 0 (if any NaNs were generated)
+
+
+# # Convert to numeric, ensuring negative values are handled correctly
+# df_account_balance[' Balance'] = pd.to_numeric(df_account_balance[' Balance'], errors='coerce')
+# # df_account_balance[' Balance'].fillna(0, inplace=True) 
+
+# # Create a bar chart for the distribution of balances
+# plt.figure(figsize=(10, 6), facecolor='white')
+# sns.histplot(df_account_balance[' Balance'], bins=100, kde=False, color='purple')
+# plt.title('Distribution of Account Balances')
+# plt.xlabel('Balance')
+# plt.ylabel('Frequency')
+# plt.grid(True)
+# plt.show()
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import pandas as pd
-import matplotlib.pyplot as plt
 
-# Load the dataset
-file_path = './CSVs/Top_1000_Bollywood_Movies.csv'
-bollywood_data = pd.read_csv(file_path)
-print(bollywood_data.head())
-print(bollywood_data.info())
+df_hospital = pd.read_csv('./CSVs/Hospital_Survey_Data_Speticemia.csv', skiprows=1)
+# print(df_hospital.head())
+print(df_hospital.info(verbose=True))
 
-# Filter data for 'All Time Blockbuster' or 'Blockbuster' verdicts
-filtered_data = bollywood_data[bollywood_data['Verdict'].isin(['All Time Blockbuster', 'Blockbuster'])]
+mean_hospital_rating = df_hospital['Hospital Rating'].mean()
+mean_total_payments = df_hospital['Average Total Payments ($)'].mean()
 
-# Sort the filtered data by 'India Net' earnings in descending order
-sorted_filtered_data = filtered_data.sort_values(by='India Net', ascending=False)
+# Calculate covariance and correlation between hospital rating and average total payments
+covariance = df_hospital[['Hospital Rating', 'Average Total Payments ($)']].cov().iloc[0,1]
+std_dev_rating = df_hospital['Hospital Rating'].std()
+std_dev_payments = df_hospital['Average Total Payments ($)'].std()
+correlation = df_hospital[['Hospital Rating', 'Average Total Payments ($)']].corr().iloc[0,1]
 
-# Select the top 10 highest-grossing movies
-top_10_movies = sorted_filtered_data.head(10)
-
-top_10_movies[['Movie', 'Worldwide', 'India Net', 'Budget', 'Verdict']]
-
-
-
-# Recreate the plot with corrected legend handling and x-tick labels
-fig, ax1 = plt.subplots(figsize=(12, 8))
-
-# Names of the movies
-movies = top_10_movies['Movie']
-
-# First axis for 'Worldwide' earnings
-color = 'tab:red'
-ax1.set_xlabel('Movie')
-ax1.set_ylabel('Worldwide Earnings (Billion INR)', color=color)
-lns1 = ax1.bar(movies, top_10_movies['Worldwide']/1e9, color=color, label='Worldwide Earnings', alpha=0.6)
-ax1.tick_params(axis='y', labelcolor=color)
-ax1.set_xticks(movies.index)
-ax1.set_xticklabels(movies, rotation=45, ha='right')
-
-# Second axis for 'India Net' earnings
-ax2 = ax1.twinx()
-color = 'tab:blue'
-ax2.set_ylabel('India Net Earnings (Billion INR)', color=color)
-lns2 = ax2.plot(movies, top_10_movies['India Net']/1e9, color=color, label='India Net Earnings', marker='x')
-ax2.tick_params(axis='y', labelcolor=color)
-
-# Third axis for 'Budget'
-ax3 = ax1.twinx()
-color = 'tab:green'
-ax3.set_ylabel('Budget (Billion INR)', color=color)
-lns3 = ax3.plot(movies, top_10_movies['Budget']/1e9, color=color, label='Budget', marker='o')
-ax3.tick_params(axis='y', labelcolor=color)
-ax3.spines['right'].set_position(('outward', 60))
-
-# Convert plot handles to a list for the legend
-lns = list(lns1) + list(lns2) + list(lns3)
-labs = [l.get_label() for l in lns]
-ax1.legend(lns, labs, loc=0)
-
-plt.title('Top 10 Highest-Grossing Bollywood Movies (Sorted by India Net Earnings)')
-plt.show()
-
-
-
+# Display the results
+print('Mean Hospital Rating:', mean_hospital_rating)
+print('Mean Total Payments:', mean_total_payments)
+print('Covariance between Hospital Rating and Total Payments:', covariance)
+print('Standard Deviation of Hospital Rating:', std_dev_rating)
+print('Standard Deviation of Total Payments:', std_dev_payments)
+print('Correlation Coefficient between Hospital Rating and Total Payments:', correlation)
 
 
 
@@ -4544,7 +5095,6 @@ plt.show()
 
 
                   
-
 
 
 
