@@ -5513,40 +5513,795 @@ For each city (y-axis) and month (x-axis), draw a bubble where the size of the b
 
 
 
+'''
+    UNIQUE CODE HERE, FIGURE OUT WHAT IT DOES SPECIFICALLY!!!
+'''
+# import pandas as pd
+
+# FILEPATH = './CSVs/outcomes_incomes_fs.xlsx'
+# df = pd.read_excel(FILEPATH, header=1)
+
+# print(df.info(verbose=True))
+
+# # Print each column name
+# print("Columns: " + ", ".join(df.keys()))
+
+# # Print each column's entries
+# for k, v in df.items():
+#     # Strip whitespace where possible from column names 
+#     # Need to check if isinstance(x, str) because some column names are numbers
+#     try:
+#         v = v.rename(columns=lambda x: x.strip() if isinstance(x, str) else x)
+#     except:
+#         pass
+
+#     # Strip whitespace where possible from cells
+#     try:
+#         v = v.apply(lambda col: col.str.strip() if col.dtype == "object" else col)
+#     except:
+#         pass
+
+#     df[k] = v
+#     print('dataframe: '+ k)
+#     print(v.head(15))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, WE CREATE A COOL 3D GRAPH AND USE A NEW MODULE!
+'''
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# from mpl_toolkits.mplot3d import Axes3D
+
+# # Load the dataset to see the first few rows and understand its structure
+# file_path = './CSVs/EQUIP-CHEMICALS.csv'
+# chemicals_data = pd.read_csv(file_path)
+# print(chemicals_data.head())
+# print(chemicals_data.info(verbose=True))
+
+# # Check the unique values and their frequency in the 'Concentration' column
+# print('\nTypes of concentration:\n')
+# print(chemicals_data['Concentration'].value_counts())
+# print(f'There are {chemicals_data["Concentration"].value_counts().sum()} types\n')
+
+# # Function to categorize, group, and handle non-string concentration values
+# def categorize_concentration(conc):
+#     conc = str(conc)
+#     # Physical 
+#     if any(x in conc.lower() for x in ['crystal', 'powder', 'solid', 'liquid', 'pellets']):
+#         return 1  
+#     # Percentage
+#     elif conc.endswith('%'):
+#         try:
+#             return float(conc.strip('%'))  
+#         # Miscellaneous 1
+#         except ValueError:
+#             return 3
+#     # Molar  
+#     elif 'n' in conc.lower() or 'm' in conc.lower():
+#         return 2  
+#     # Miscellaneous 2
+#     else:
+#         return 3  
+
+# # Apply categorization
+# chemicals_data['Concentration_Cat'] = chemicals_data['Concentration'].apply(categorize_concentration)
+# # Check the unique values and their frequency in the 'Concentration' column
+# print('\nTypes of concentration:\n')
+# print(chemicals_data['Concentration_Cat'].value_counts())
+# print(f'There are {chemicals_data["Concentration_Cat"].value_counts().sum()} types\n')
+
+# # Initialize the 3D scatter plot with the categorization
+# fig = plt.figure(figsize=(10, 8))
+# ax = fig.add_subplot(111, projection='3d')
+
+# # Define the scatter plot
+# sc = ax.scatter(chemicals_data['Qty'], 
+#                 chemicals_data['Price'], 
+#                 chemicals_data['Concentration_Cat'],
+#                 c=chemicals_data['Concentration_Cat'], 
+#                 cmap='viridis', 
+#                 label='Concentration Categories', 
+#                 s=50)
+
+# # Labels and title
+# ax.set_xlabel('Quantity')
+# ax.set_ylabel('Price')
+# ax.set_zlabel('Concentration Category')
+# ax.set_title('3D Scatter Plot of Chemical Reagents')
+
+# # Legend with colorbar
+# cbar = plt.colorbar(sc, ax=ax)
+# cbar.set_label('Concentration Category')
+
+# plt.show()
+
+'''2ND APPROACH: COMPARE AND CONTRAST THE TWO TYPES OF 3D GRAPHS'''
+
+# # Plotting
+# fig = plt.figure(figsize=(10, 7))
+# ax = fig.add_subplot(111, projection='3d')
+
+# x = df_plot['Qty']
+# y = df_plot['Price']
+# z = df_plot['Concentration_Num']
+
+# ax.scatter(x, y, z, c='b', marker='o')
+
+# ax.set_xlabel('Quantity')
+# ax.set_ylabel('Price')
+# ax.set_zlabel('Concentration')
+
+# plt.title('3D Scatter Plot of Chemical Reagents')
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    USE THIS WHEN YOU CANT READ A FILE "i cant read a file" to get its real name! NOTE THE EXAMPLE BELOW AND THE FILE NAME. THE FILE NAME HAS A SPACE IN IT AND IT IS ENCODED DIFFERENTLY.
+'''
+# # Print current working directory
+# import os
+# print("Current Working Directory:", os.getcwd())
+
+# # List files in the specific directory
+# print("Files in './CSVs/':", os.listdir('./CSVs/'))
+
+
+
+
+
+'''
+    HERE WE COUNT THE FEMALE DOMINANCE ACCROSS A NUMBER OF COLUMNS WITH A CLEVER FUNCTION
+'''
+
+
+# import pandas as pd
+
+# file_path = "./CSVs/Chainmaille_by_Yael_–\xa0Customer_Data_(2023).csv"
+# df = pd.read_csv(file_path)
+
+# # Display the head of the dataframe to understand its structure
+# print(df.head())
+
+# # Display column names and data types
+# print('Column names and data types:')
+# print(df.dtypes)
+
+# # Display number of records
+# print('Number of records:')
+# print(len(df))
+
+# # Check for any null values
+# print('Null values in each column:')
+# print(df.isnull().sum())
+
+# # Check for any obvious outliers or inconsistencies in numeric data
+# print('Descriptive statistics for numeric columns:')
+# print(df.describe())
+
+
+# # Calculate and print the number of missing values in each column
+# print("\nMissing Values:")
+# print(df.isnull().sum())
+
+# # Calculate and print the number of unique values in each column
+# print("\nUnique Values:")
+# print(df.nunique())
+
+# # Calculate and print descriptive statistics for numeric columns
+# print("\nDescriptive Statistics for Numeric Columns:")
+# print(df.describe())
+
+# # Calculate and print descriptive statistics for object columns
+# print("\nDescriptive Statistics for Object Columns:")
+# print(df.describe(include=object))
+
+# # Remove quotation marks from column names
+# df.columns = [col.replace('"', '') for col in df.columns]
+
+# # Retry grouping data by various categories and find the most common gender in each group, count occurrences where 'F' is most common
+# gender_mode_by_category = df.groupby(['Purchase Site', 'Age of Buyer', 'Product Purchased', 
+#                                         'Price', 'How often do you purchase jewelry?', 
+#                                         'How often are your jewelry purchases from independent businesses?', 
+#                                         'How often do you wear jewelry?', 
+#                                         'How much do you usually spend on jewelry per year?'])['Sex of Buyer'].agg(lambda x: x.mode()[0])
+
+# # Count how many times 'F' is the most common gender across all categories
+# female_dominance_count = (gender_mode_by_category == 'F').sum()
+# print(female_dominance_count)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE ARE SOME COOL PLOTS LIKE A LINE PLOT AND WE SHOW HOW TO GET THE SKEWNESS
+'''
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import numpy as np
+
+# # Load the TSV data from the uploaded file
+# file_path_tsv = './CSVs/Sales_BAME_DATABASE.xlsx - Sales.tsv'
+# sales_data = pd.read_csv(file_path_tsv, sep='\t')
+
+# # # Display the first few rows of the dataset to understand its structure
+# # print(sales_data.head())
+# # print(sales_data.info(verbose=True))
+# num_subs = sales_data['Subtotal'].value_counts().sum()
+# print(f'Number of subtotal entries: {num_subs}')
+
+# # Convert 'Subtotal' to a float after removing commas
+# sales_data['Subtotal'] = sales_data['Subtotal'].str.replace(',', '').astype(float)
+# # num_subs2 = sales_data['Subtotal'].value_counts().sum()
+# # print(f'Number of subtotal entries (after conversion): {num_subs2}')
+
+# # Provide summary statistics for the 'Subtotal' column
+# subtotal_stats = sales_data['Subtotal'].describe()
+# # print(subtotal_stats)
+
+# # Plotting the distribution of the 'Subtotal' values
+# plt.figure(figsize=(10, 6))
+# plt.hist(sales_data['Subtotal'], bins=20, color='skyblue', edgecolor='black')
+# plt.title('Distribution of Subtotal Values')
+# plt.xlabel('Subtotal ($)')
+# plt.ylabel('Frequency')
+# plt.grid(True)
+# # plt.show()
+
+# # Calculate the skewness of the 'Subtotal' column
+# subtotal_skewness = sales_data['Subtotal'].skew()
+# print(subtotal_skewness)
+
+
+
+
+
+
+'''
+    (SAME ANALYSIS) USE A REGEX TO CLEAN UP AND THEN GENERATE A LINE PLOT.
+'''
+
+# # Remove commas from the `Subtotal` column
+# sales_data['Subtotal'] = sales_data['Subtotal'].astype(str).str.replace(r'[,]', '', regex=True)
+
+# # Convert the `Subtotal` column to numeric
+# sales_data['Subtotal'] = pd.to_numeric(sales_data['Subtotal'])
+# num_subs = sales_data['Subtotal'].value_counts().sum()
+# print(f'Number of subtotal entries (after numeric): {num_subs}')
+
+# # Convert the `Emition` column to datetime
+# sales_data['Emition'] = pd.to_datetime(sales_data['Emition'])
+
+# # Sort the dataframe by `Emition` in ascending order
+# df = sales_data.sort_values(by='Emition')
+
+# # Describe the `Subtotal` column
+# print(df['Subtotal'].describe().round(2))
+
+# # Calculate and print the correlation coefficient between `Subtotal` and `Emition` (converted to ordinal)
+# correlation = np.corrcoef(df['Subtotal'], df['Emition'].map(lambda x : x.toordinal()))[0, 1]
+# print(f'\nThe correlation coefficient between Subtotal and Emition is: {correlation:.3f}')
+
+# # Plot a histogram of `Subtotal`
+# plt.figure(figsize=(10, 6))
+# plt.hist(df['Subtotal'], bins=20, edgecolor='k')
+# plt.title('Distribution of Subtotal')
+# plt.xlabel('Subtotal')
+# plt.ylabel('Frequency')
+
+# # Plot a line graph of `Subtotal` over time using `Emition`
+# plt.figure(figsize=(10, 6))
+# plt.plot(df['Emition'], df['Subtotal'], marker='o', linestyle='-')
+# plt.title('Subtotal Over Time')
+# plt.xlabel('Emition Date')
+# plt.ylabel('Subtotal')
+# plt.xticks(rotation=45)
+
+# # Show the plots
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, YOU CAN SEE THE DIFFERENCE BETWEEN OVERLAPPING LABELS AND HOW TO FIX BY MODIFYING THE TICKS ROTATION DEGREES
+
+    NOTE: FIND OUT HOW TO CHANGE COLORS WITH THE THIRD INSTANCE BELOW
+'''
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Read the CSV file into a DataFrame
+# df = pd.read_csv('./CSVs/Student_Mental_health.csv')
+
+# # Display the first 5 rows
+# print(df.head())
+
+# # Print the column names and their data types
+# print(df.info(verbose=True))
+
+# # Create subplots with 1 row and 2 columns
+# fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(15, 6))
+
+# # Filter data for male and female students
+# df_male = df[df['Choose your gender'] == 'Male'].dropna()
+# df_female = df[df['Choose your gender'] == 'Female'].dropna()
+
+# # Create boxplot for male students
+# sns.boxplot(x='What is your course?', y='Age', data=df_male, ax=axes[0])
+# axes[0].set_title('Male Students')
+# axes[0].tick_params(axis='x', rotation=90)
+
+# # Create boxplot for female students
+# sns.boxplot(x='What is your course?', y='Age', data=df_female, ax=axes[1])
+# axes[1].set_title('Female Students')
+# axes[1].tick_params(axis='x', rotation=90)
+
+# # Display all plots
+# plt.show()
+
+''''
+    OVERLAPPING BELOW
+'''
+
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+
+# # Read the CSV file into a DataFrame
+# df = pd.read_csv('./CSVs/Student_Mental_health.csv')
+
+# # Display the first 5 rows
+# print(df.head())
+
+# # Print the column names and their data types
+# print(df.info(verbose=True))
+
+# # Creating separate plots for each gender with different colors for each course
+# sns.set_theme(style='whitegrid')
+
+# # Filter data for Male students
+# male_df = df[df['Choose your gender'] == 'Male']
+# plt.figure(figsize=(14, 8))
+# ax1 = sns.boxplot(x='What is your course?', y='Age', data=male_df, palette='Set2')
+# plt.title('Age Distribution by Course for Male Students')
+# plt.xlabel('Course')
+# plt.ylabel('Age')
+# plt.xticks(rotation=45)
+# plt.show()
+
+# # Filter data for Female students
+# female_df = df[df['Choose your gender'] == 'Female']
+# plt.figure(figsize=(14, 8))
+# ax2 = sns.boxplot(x='What is your course?', y='Age', data=female_df, palette='Set1')
+# plt.title('Age Distribution by Course for Female Students')
+# plt.xlabel('Course')
+# plt.ylabel('Age')
+# plt.xticks(rotation=45)
+# plt.show()
+
+'''3RD'''
+
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+
+# df = pd.read_csv('./CSVs/Student_Mental_health.csv')
+
+# # Creating separate plots for each gender with different colors for each course
+# sns.set(style='whitegrid')
+
+# # Filter data for Male students
+# male_df = df[df['Choose your gender'] == 'Male']
+# plt.figure(figsize=(14, 8))
+# ax1 = sns.boxplot(x='What is your course?', y='Age', data=male_df, palette='Set2')
+# plt.title('Age Distribution by Course for Male Students')
+# plt.xlabel('Course')
+# plt.ylabel('Age')
+# plt.xticks(rotation=90)
+# plt.show()
+
+# # Filter data for Female students
+# female_df = df[df['Choose your gender'] == 'Female']
+# plt.figure(figsize=(14, 8))
+# ax2 = sns.boxplot(x='What is your course?', y='Age', data=female_df, palette='Set1')
+# plt.title('Age Distribution by Course for Female Students')
+# plt.xlabel('Course')
+# plt.ylabel('Age')
+# plt.xticks(rotation=90)
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE HAVE A GRAPH WITH ANNOTATED POINTS. WE ILLUSTRATE THIS USING THE .annotate METHOD! ALTHOUGH THIS MIGHT NOT BE THE RIGHT GRAPH TO ANNOTATE BECAUSE SINCE THERE ARE A LLOT OF SAMPLE DATA POINTS, A LOT OF THE ANNOTATED LABLES ARE OVERLAPPING AND ITS HARD TO READ. 
+    
+    NOTE: HOW WOULD WE MAKE IT INTERACTIVE (I.E., ONLY SHOW ANNOTATIONS WHEN WE HOVER WITH MOUSE)? ALSO, FIND OUT WHAT THAT '+' SIGN IS DOING IN THE REPLACE METHOD.
+    
+    WE ALSO DEMONSTRATE HOW TO CLEAN UP COLUMN NAMES IN THE EVENT WHERE THEY HAVE HIDDEN WHITE SPACES.
+'''
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Load the data from the CSV file
+# file_path = './CSVs/produccion_acero.csv'
+# steel_production_data = pd.read_csv(file_path)
+
+# # Display the first few rows of the dataset
+# print(steel_production_data.head())
+# print(steel_production_data.info(verbose=True))
+
+# # The columns need to be cleaned
+# steel_production_data.columns = steel_production_data.columns.str.strip().str.replace(' +', ' ', regex=True)
+
+# # Convert column names to lowercase for easier handling
+# steel_production_data.columns = steel_production_data.columns.str.lower()
+
+# # Prepare the plot
+# fig, ax = plt.subplots(figsize=(10, 6))
+
+# # Group data by cost center and sum up the relevant columns
+# grouped_data = steel_production_data.groupby('c.costo').agg({
+#     'total producido': 'sum',   # total produced
+#     'merma rec.': 'sum'         # recovered waste
+# }).reset_index()
+
+# # Scatter plot to show the relationship
+# scatter = ax.scatter(grouped_data['total producido'], grouped_data['merma rec.'], alpha=0.6)
+
+# # Labeling
+# ax.set_xlabel('Total Produced')
+# ax.set_ylabel('Loss Recovered')
+# ax.set_title('Relationship between Total Produced and Loss Recovered by Cost Center')
+
+# # Adding cost center labels to points
+# for i, txt in enumerate(grouped_data['c.costo']):
+#     ax.annotate(txt, (grouped_data['total producido'][i], grouped_data['merma rec.'][i]))
+
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    GET THE TOTAL BY CLEANING UP THE COLUMN AND SUMMING. THEN, CROSS REFRENCING WITH OTHER TOTALS TO SEE IF THEY ALIGN.
+'''
+# import pandas as pd
+
+# df = pd.read_csv('./CSVs/EMERGENCIA_2023_YAKU.xlsx_M.P.H-MATUCANA-Sheet1.csv')
+
+# # Display the head of the dataframe to understand its structure
+# # print(df.head())
+# # print(df.columns)
+# # print(df.info(verbose=True))
+
+# count = df['TOTAL'].value_counts()
+# uniques = df['TOTAL'].value_counts().sum()
+# print(f'\n\nTotal before: {count}, and num of uniques: {uniques}')
+
+# # Cleaning the 'TOTAL' column to ensure it's numeric
+# df['TOTAL'] = df['TOTAL'].str.replace('.', '')
+# df['TOTAL'] = df['TOTAL'].str.replace('S/', '').str.replace(',', '.').str.replace(' ', '').str.replace('-', '0').astype(float)
+
+# count2 = df['TOTAL'].value_counts()
+# uniques2 = df['TOTAL'].value_counts().sum()
+# print(f'\nTotal after: {count2}, and num of uniques: {uniques2}\n\n')
+
+# # Calculating the total sales amount for each driver and finding the driver with the highest total sales
+# total_sales_by_driver = df.groupby('NOMBRE DEL DESPACHADOR')['TOTAL'].sum()
+
+# # Finding the driver with the highest total sales
+# max_sales_driver = total_sales_by_driver.idxmax()
+# max_sales_amount = total_sales_by_driver.max()
+
+# print('Driver with the most purchases:', max_sales_driver)
+# print('Total sales amount:', max_sales_amount)
+
+
+
+# # Replace ',' by '.' in `GALONES`
+# df['GALONES'] = df['GALONES'].str.extract('([0-9,.]+)').replace(',', '', regex=True).astype(float)
+
+# # Calculating the total sales amount for each driver and finding the driver with the highest total sales
+# total_gals_by_driver = df.groupby('NOMBRE DEL DESPACHADOR')['GALONES'].sum()
+
+# # Finding the driver with the highest total sales
+# max_gals_driver = total_sales_by_driver.idxmax()
+# max_gals_amount = total_sales_by_driver.max()
+
+# print('Driver with the most gallons:', max_sales_driver)
+# print('Total gallonss amount:', max_sales_amount)
+
+
+
+# # Group the data by 'RAZON SOCIAL' (assuming it represents the driver) and sum the 'TOTAL_CLEAN' column
+# grouped_data = df.groupby('RAZON SOCIAL')['TOTAL'].sum().reset_index()
+
+# # Find the entry with the maximum total
+# max_purchase = grouped_data.loc[grouped_data['TOTAL'].idxmax()]
+
+# print(max_purchase)
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    READ IN A MULTI-SHEET EXCEL FILE AND COMBINE ALL SHEETS INTO ONE. THEN GET THE AVERAGES FOR THE INDIVIDUAL SHEETS AND GET THE AVGS FOR THE COMBINED SHEET.
+'''
+
+
+# import pandas as pd
+
+# # Load the Excel file
+# file_path = './CSVs/population_and_age_1.xlsx'
+# xlsx = pd.ExcelFile(file_path)
+
+# # Get the names of all sheets in the Excel file
+# sheet_names = xlsx.sheet_names
+
+# # Dictionary to store results
+# averages = {}
+# combined = []
+
+# # Process each sheet
+# for idx, sheet_name in enumerate(sheet_names):
+
+#     # Load the sheet into a DataFrame
+#     df = pd.read_excel(xlsx, sheet_name=sheet_name)
+    
+#     # Dynamically identify the 'Age' and 'Population' columns
+#     age_col = [col for col in df.columns if 'Age' in col]
+#     population_col = [col for col in df.columns if 'Population' in col]
+    
+#     # Ensure there is exactly one match per category (i.e. one age col)
+#     # otherwise, handle errors or ambiguity
+#     if len(age_col) == 1 and len(population_col) == 1:
+#         average_age = df[age_col[0]].mean()
+#         average_population = df[population_col[0]].mean()
+        
+#         # Store the results
+#         averages[sheet_name] = {
+#             'Average Age': average_age,
+#             'Average Population': average_population
+#         }
+
+#         # Subset the DataFrame to include only the relevant columns
+#         df = df[[age_col[0], population_col[0]]]
+#         df.columns = ['Age', 'Population']  # Normalize column names for concatenation
+#         if idx == 0:
+#             df['Population'] *= 1000000
+#         combined.append(df)
+#     else:
+#         print(f"Error: Ambiguous or missing columns in '{sheet_name}'. Check the data.")
+        
+# # Convert results to a DataFrame for better visualization
+# results_df = pd.DataFrame.from_dict(averages, orient='index')
+
+# # Combine all data into a single DataFrame
+# combined_df = pd.concat(combined, ignore_index=True)
+
+# # Calculate the overall averages
+# overall_average_age = combined_df['Age'].mean()
+# overall_average_population = combined_df['Population'].mean()
+
+# print('Overall Average Age:', overall_average_age)
+# print('Overall Average Population:', overall_average_population)
+
+# # Display the results
+# print('Combined data:', results_df)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    PERCENT CHANGE
+'''
+# import pandas as pd
+
+# file_path = "./CSVs/LIFE INS ISSUE AGE AUDIT.xlsx"
+# life_ins_data = pd.read_excel(file_path)
+
+# print(life_ins_data.info(verbose=True))
+
+# # Get unique values in the "Issue Age" column
+# unique_ages = life_ins_data['Issue Age'].unique()
+
+# # Sort the ages to ensure proper ordering
+# sorted_ages = sorted(unique_ages)
+# print(sorted_ages)
+
+# # Group the data by "Issue Age" and calculate the average "Mode Premium"
+# average_premiums_per_age = life_ins_data.groupby('Issue Age')['Mode Premium'].mean().reset_index()
+
+# # Rename columns for clarity
+# average_premiums_per_age.columns = ['Issue Age', 'Average Premium']
+
+# # Calculate the percentage change in average premiums between each consecutive age group
+# average_premiums_per_age['Percentage Change'] = average_premiums_per_age['Average Premium'].pct_change() * 100
+
+# # Display the table with the percentage changes
+# print(average_premiums_per_age)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 import pandas as pd
 
-# Load the data from the CSV file
-top_youtubers_df = pd.read_csv('./CSVs/top_200_youtubers.csv')
+# Load the Excel file
+file_path = './CSVs/SOLDFOOD2023 - Fall.xlsx'
+xls = pd.ExcelFile(file_path)
 
-# Display the first few rows of the dataframe to understand its structure
-print(top_youtubers_df.head())
-print(top_youtubers_df.columns)
-print(top_youtubers_df.info(verbose=True))
+# Sheet names
+sheet_names = xls.sheet_names
 
-# Filter the data for Indian YouTubers
-top_youtubers_df = top_youtubers_df[top_youtubers_df['Country'] == 'IN']
+# Load and combine data from all sheets, skip the first three rows and the last footer row
+combined_data = pd.concat(
+    [xls.parse(sheet_name, skiprows=3, skipfooter=1) for sheet_name in sheet_names],
+    ignore_index=True
+)
 
-# Group by the 'Main Video Category' and calculate the average number of followers
-avg_followers_per_category = top_youtubers_df.groupby('Main Video Category')['followers'].mean().reset_index()
+# Convert necessary columns to appropriate data types for the 'QUANTITY' and 'TOTAL SALE' columns
+combined_data['QUANTITY'] = pd.to_numeric(combined_data['QUANTITY'])
+combined_data['TOTAL SALE'] = pd.to_numeric(combined_data['TOTAL SALE'])
 
-# Display the results
-print('Average Number of Followers per YouTube Video Category for Indian YouTubers:')
-print(avg_followers_per_category)
+# Clean up NaN values that may have occurred due to conversion
+combined_data.dropna(subset=['QUANTITY', 'TOTAL SALE'], inplace=True)
 
+# Summarize total sales by product group for all months combined
+combined_sales_summary = combined_data.groupby('GROUP').agg({'TOTAL SALE': 'sum', 'QUANTITY': 'sum'})
 
-
-
-
-
-
-
-
-
+# Display the combined sales summary
+print(combined_sales_summary)
 
 
 
 
+        
 
 
 
