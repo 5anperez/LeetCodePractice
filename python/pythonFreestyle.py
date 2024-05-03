@@ -6267,41 +6267,1175 @@ For each city (y-axis) and month (x-axis), draw a bubble where the size of the b
 
 
 
+'''
+    HERE WE HAVE A MULTI-SHEET EXCEL, WITH 3 ROWS OF HEADER AND 1 ROW OF FOOTER, AND WE COMBINE THEM INTO ONE. WE THEN AGGREGATE TWO DISTINCT COLUMNS.
+'''
+
+
+# import pandas as pd
+
+# # Load the Excel file
+# file_path = './CSVs/SOLDFOOD2023 - Fall.xlsx'
+# xls = pd.ExcelFile(file_path)
+
+# # Sheet names
+# sheet_names = xls.sheet_names
+
+# # Load and combine data from all sheets, skip the first three rows and the last footer row
+# combined_data = pd.concat(
+#     [xls.parse(sheet_name, skiprows=3, skipfooter=1) for sheet_name in sheet_names],
+#     ignore_index=True
+# )
+
+# # Convert necessary columns to appropriate data types for the 'QUANTITY' and 'TOTAL SALE' columns
+# combined_data['QUANTITY'] = pd.to_numeric(combined_data['QUANTITY'])
+# combined_data['TOTAL SALE'] = pd.to_numeric(combined_data['TOTAL SALE'])
+
+# # Clean up NaN values that may have occurred due to conversion
+# combined_data.dropna(subset=['QUANTITY', 'TOTAL SALE'], inplace=True)
+
+# # Summarize total sales by product group for all months combined
+# combined_sales_summary = combined_data.groupby('GROUP').agg({'TOTAL SALE': 'sum', 'QUANTITY': 'sum'})
+
+# # Display the combined sales summary
+# print(combined_sales_summary)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    THINGS WE DID: CONVERT TIME
+
+    1. Convert using pd.to_timedelta: This function is designed to convert strings into timedeltas, which are suitable for arithmetic operations and can be easily analyzed.
+
+    ~ Built-in Pandas Functionality: .to_timedelta is a built-in method in pandas designed to convert scalar, array, list, or series from a recognized timedelta format/strings into a Timedelta type.
+    
+    ~ Return Type: It returns a Timedelta object, which represents durations, the difference between two dates or times.
+    
+    ~ Usage: It is extremely useful and straightforward for converting well-formatted time duration strings (e.g., '1 days 00:00:00', '1:00:00') into Timedelta objects. It can handle multiple formats naturally supported by pandas.
+'''
+
+# import pandas as pd
+
+# # Load the dataset to review it
+# file_path = './CSVs/website_traffic_by_language_2020-2021.csv'
+# df = pd.read_csv(file_path)
+
+# # Display the first few rows of the dataset and some general information
+# print(df.info(verbose=True))
+# print(df.head())
+
+# bounRateUniq = df['Bounce Rate'].unique()
+# print(f'Unique values in the bounce rate column:\n{bounRateUniq}')
+
+# avgSesseUniq = df['Avg. Session Duration'].unique()
+# print(f'Unique values in the avg. session duration column:\n{avgSesseUniq}')
+
+# totalUsersUniq = df['Total Users '].unique()
+# print(f'Unique values in the total users column:\n{totalUsersUniq}')
+
+# # Convert `Bounce Rate` to numeric after removing the '%' character
+# df['Bounce Rate'] = df['Bounce Rate'].astype(str).str.replace('%', '', regex = False)
+# df['Bounce Rate'] = pd.to_numeric(df['Bounce Rate'])
+
+# # Convert `Avg. Session Duration` to timedelta type and extract total seconds
+# df['Avg. Session Duration'] = pd.to_timedelta(df['Avg. Session Duration'])
+# df['Avg. Session Duration'] = df['Avg. Session Duration'].dt.total_seconds()
+
+# # Check for negative values in specified columns
+# columns_to_check = ['Total Users ', 'Total New Users', 'Sessions', 'Pages / Session', 'Bounce Rate', 'Avg. Session Duration']
+# negative_check = (df[columns_to_check] < 0).any().any()
+
+# # Check if `Total New Users` ever exceeds `Total Users `
+# new_users_exceed_total_users = (df['Total New Users'] > df['Total Users ']).any()
+
+# # Check if `Sessions` is ever 0
+# zero_sessions = (df['Sessions'] == 0).any()
+
+# # Print results
+# print(f"Any negative values in {', '.join(columns_to_check)}: {negative_check}\n")
+# print(f"`Total New Users` ever exceeds `Total Users `: {new_users_exceed_total_users}\n")
+# print(f"`Sessions` is ever 0: {zero_sessions}\n")
+
+
+'''
+    * ANOTHER WAY TO CONVERT THE TIME DURATION COLUMN:
+
+    Custom Functionality: This function was specifically created to address a particular format in your dataset, including handling errors or irregularities (like '0.03:02').
+    
+    ~ Flexibility: Because it's a custom function, it can be tailored to handle specific, non-standard formats that .to_timedelta might not parse directly without pre-processing.
+    
+    ~ Return Type: This function was designed to return the total duration in seconds as an integer, making it immediately useful for numerical calculations and comparisons.
+
+    
+    * COMPARISON AND SUITABILITY
+
+    ~ Ease of Use: .to_timedelta is generally easier and more robust for standard timedelta formats. It's part of pandas, so it integrates well with DataFrame operations.
+    
+    ~ Flexibility and Error Handling: The custom convert_to_seconds() function can be adjusted to handle specific cases that aren't directly supported by .to_timedelta, such as fixing formatting errors on the fly.
+    
+    ~ Performance: Using built-in pandas methods like .to_timedelta is typically more efficient and can handle arrays of data more effectively than iterating with a custom function.
+    
+    ~ Output Format: If you need output directly in seconds as integers, a custom function might be more straightforward, while .to_timedelta requires an additional step to convert the Timedelta object to seconds.
+
+
+    * WHEN TO USE:
+
+    ~ If the time data is well-formatted and you benefit from using Timedelta objects within pandas (e.g., for time-based computations), .to_timedelta is preferable.
+    
+    ~ If you need to handle non-standard formats or want a direct calculation in seconds (or another unit), a custom function might be necessary.
+'''
+
+# # Convert 'Bounce Rate' to a numeric value after removing the '%' character
+# df['Bounce Rate'] = df['Bounce Rate'].str.replace('%', '').astype(float) / 100
+
+# # Function to convert 'Avg. Session Duration' to seconds
+# def convert_to_seconds(time_str):
+#     try:
+#         if ':' in time_str:
+#             # Correct format for time string
+#             h, m, s = time_str.split(':')
+#             return int(h) * 3600 + int(m) * 60 + int(s)
+#         else:
+#             # Handling cases like '0.03:02' which are incorrect
+#             h, m, s = time_str.replace('.', ':').split(':')
+#             return int(h) * 3600 + int(m) * 60 + int(s)
+#     except:
+#         # If there's an error, return NaN to flag this entry
+#         return pd.NA
+
+# # Apply conversion on 'Avg. Session Duration'
+# df['Avg. Session Duration'] = df['Avg. Session Duration'].apply(convert_to_seconds)
+
+# # Check for negative values in all numeric columns
+# negative_values = df.select_dtypes(include=['int64', 'float']).lt(0).any()
+
+# # Check if 'Total New Users' is greater than 'Total Users'
+# new_greater_than_total = (df['Total New Users'] > df['Total Users ']).any()
+
+# # Check for sessions equal to zero
+# sessions_zero = (df['Sessions'] == 0).any()
+
+# # Output the results
+# print(negative_values) 
+# print(new_greater_than_total) 
+# print(sessions_zero) 
+# print(df.head())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE IS A COOL WAY OF SPLITTING ENTRIES LIKE 17/90 AND 21-30 TO GET THE FIRST NUMBER AND OMMIT THE REST!
+'''
+
+
+# import pandas as pd
+# import numpy as np
+
+# # Load the newly uploaded dataset to review it
+# file_path_caja = './CSVs/caja-dia-a-dia-no-Pii.csv'
+# data_caja = pd.read_csv(file_path_caja)
+
+# Display the first few rows of the dataset and some general information
+# print(data_caja.info(verbose=True)) 
+# print(data_caja.head())
+
+# Print some stats
+# quotaUniqs = data_caja['Cuota HABER'].unique()
+# print(f'Unique values in the credit quota column:\n{quotaUniqs}')
+# numQuotaUniqs = data_caja['Cuota HABER'].value_counts().sum()
+# print(f'Total Uniq counts in credit quota (before numeric):\n{numQuotaUniqs}')
+# dateUniqs = data_caja['Fecha'].value_counts()
+# print(f'Unique values in the date column:\n{dateUniqs}')
+
+# # Define the transformation function
+# def extract_first_number(value):
+#     if pd.isna(value):
+#         return np.nan
+#     else:
+#         # Check and split based on '-' or '/'
+#         if '-' in value:
+#             # print(f'Made it in the function! Looking at {value} now')     # For testing
+#             first_number = value.split('-')[0]
+#             # print(f'This is what im returning: {first_number} \n')        # For testing
+#         elif '/' in value:
+#             # print(f'Made it in the function! Looking at {value} now')     # For testing
+#             first_number = value.split('/')[0]
+#             # print(f'This is what im returning: {first_number} \n')        # For testing
+#         else:
+#             first_number = value  # If no delimiter, assume the whole string is a number
+        
+#         return pd.to_numeric(first_number, errors='coerce')
+
+# # Apply the transformation
+# data_caja['Cuota HABER'] = data_caja['Cuota HABER'].astype(str).apply(extract_first_number)
+
+# # Convert the 'Fecha' column to datetime
+# data_caja['Fecha'] = pd.to_datetime(data_caja['Fecha']) 
+
+# # Convert the 'Cuota HABER' column to numeric
+# data_caja['Cuota HABER'] = data_caja['Cuota HABER'].astype(str).str.replace(r'[-/ ]', '', regex=True)
+# data_caja['Cuota HABER'] = pd.to_numeric(data_caja['Cuota HABER'], errors='coerce')
+
+# numQuotaUniqs2 = data_caja['Cuota HABER'].value_counts().sum()
+# # print(f'Total Uniq counts in credit quota (after numeric):\n{numQuotaUniqs2}')        # For testing
+# quotaUniqs2 = data_caja['Cuota HABER'].unique()
+# # print(f'Unique values in the credit quota column (after numeric):\n{quotaUniqs2}')    # For testing
+
+# # Filter for the first semester of 2022
+# filtered_df = data_caja[(data_caja['Fecha'] >= '2022-01-01') & (data_caja['Fecha'] <= '2022-06-30')]  
+
+# # Calculate the average of the 'Cuota HABER' column
+# average_quota = filtered_df['Cuota HABER'].mean()  
+
+# print("Average Quota for the first semester of 2022:", average_quota)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE PERFORM A IN-DEPTH PATTERN RECOGNITION ANALYSIS TO LOOK FOR TRENDS 
+'''
+# import pandas as pd
+
+# # Load the data from the CSV file
+# file_path = './CSVs/Larkin_Audio_SMB_Data_Set.csv'
+# data = pd.read_csv(file_path)
+
+# # Display the first few rows of the dataset and summary information
+# print(data.head())
+# print(data.info(verbose=True))
+# print(data.describe())
+
+# # Print the unique values in the "On a scale of 1-10" column
+# scale_uniques = data['On a scale of 1-10'].unique()
+# print(f'Scale column uniques:\n{scale_uniques}')
+
+# # Print the unique values in the "On a scale of 1-10" column
+# total_cost_uniques = data[' Total Cost '].unique()
+# print(f'Total Cost column uniques (BEFORE):\n{total_cost_uniques}')
+# total_cost_count = data[' Total Cost '].value_counts().sum()
+# print(f'Unique count:\n{total_cost_count}')
+
+
+# # Convert ` Total Cost ` to numeric after removing '$' and ','
+# data[' Total Cost '] = data[' Total Cost '].astype(str).str.replace(r'[$,]', '', regex=True)
+# data[' Total Cost '] = pd.to_numeric(data[' Total Cost '])
+
+# # Print the unique values in the "On a scale of 1-10" column
+# total_cost_uniques2 = data[' Total Cost '].unique()
+# print(f'Total Cost column uniques (AFTER):\n{total_cost_uniques2}')
+
+# # Drop the column `On a scale of 1-10`
+# data.drop(columns=['On a scale of 1-10'], inplace=True)
+
+# # Get all survey questions
+# survey_questions = data.columns[37:]
+
+# print(f'Survey Questions unique values:\n{survey_questions.value_counts()}')
+
+# # Calculate the average ratings for each survey question
+# avg_ratings = data[survey_questions].mean()
+
+# # Calculate the standard deviation for each survey question
+# std_ratings = data[survey_questions].std()
+
+# # Print the average ratings and standard deviations for the survey questions
+# print("\nAverage Ratings:")
+# print(avg_ratings)
+# print("\nStandard Deviations:")
+# print(std_ratings)
+
+# # Get all `Studio Equipment` columns
+# studio_equipment_columns = data.columns[11:37]
+
+# # Print the count of `True` values for each `Studio Equipment` column
+# print("\nStudio Equipment Counts:")
+# print(data[studio_equipment_columns].sum())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    PICK SPECIFIC VALUES OR ENTRIES FROM SPECIFIC COLUMNS AND ROWS.
+'''
+# import pandas as pd
+
+# # Load the TSV data
+# file_path_tsv = './CSVs/WELLNESS_COST_2022_CW_V2  - Sheet1.tsv'
+# tsv_data = pd.read_csv(file_path_tsv, sep='\t')
+
+# # Display the first few rows to understand the structure and columns
+# print(tsv_data.head())
+# print(tsv_data.info(verbose=True))
+
+# # Find the employee with a TOTAL value of 410
+# employee_with_total_410 = tsv_data[tsv_data['TOTAL'] == 410]
+
+# print(employee_with_total_410)
+
+# # Filter the data for entries with "MATERNITY SUBSIDY" in the CONCEPT column
+# maternity_subsidy_data = tsv_data[tsv_data['CONCEPT'] == 'MATERNITY SUBSIDY']
+
+# # Get unique job descriptions and the number of unique employees for each job description
+# unique_job_desc = maternity_subsidy_data['JOB DESC'].value_counts()
+
+# # Number of unique employees who received a maternity subsidy
+# unique_employees = maternity_subsidy_data['EMPLOYEE'].nunique()
+
+# print(f'Unique job descriptions:\n{unique_job_desc}')
+# print(f'Unique employees:\n{unique_employees}')
+
+# # Filter data to only include rows with 'MATERNITY SUBSIDY' in CONCEPT
+# maternity_only_data = tsv_data[tsv_data['CONCEPT'] == 'MATERNITY SUBSIDY']
+
+# # Find unique values of JOB DESC and EMPLOYEE within this filtered data
+# unique_job_desc_maternity = maternity_only_data['JOB DESC'].unique()
+# unique_employees_maternity = maternity_only_data['EMPLOYEE'].unique()
+
+# print(f'Unique job descriptions (MAT):\n{unique_job_desc_maternity}')
+# print(f'Unique employees (MAT):\n{unique_employees_maternity}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE FIND STATS OF ELEMENTS WITHIN A VERY SPECIFIC TIME FRAME. THERE ARE TWO WAYS TO DO IT AND THE 1ST USES BUILT IN FUNCTIONS TO EXTRACT THE HOUR WHILE THE LATTER USES THE DATETIME MODULE!
+'''
+
+'''1ST APPROACH'''
+# import pandas as pd
+
+# # Load the CSV data
+# file_path_paris = './CSVs//Paris_-_Paris.csv'
+# paris_data = pd.read_csv(file_path_paris)
+
+# # Display the first few rows to understand the structure and columns
+# print(paris_data.head()) 
+# print(paris_data.info(verbose=True))
+
+# uniqueTimeCounts = paris_data['datetime'].value_counts()
+# print(f'Unique times:\n{uniqueTimeCounts}')
+# print(f'Total sum:\n{uniqueTimeCounts.sum()}')
+
+# # Convert 'datetime' to datetime format and extract hour for filtering
+# paris_data['datetime'] = pd.to_datetime(paris_data['datetime'])
+# paris_data['hour'] = paris_data['datetime'].dt.hour
+
+# uniqueTimeCounts2 = paris_data['hour'].value_counts()
+# print(f'Unique times (AFTER):\n{uniqueTimeCounts2}')
+# print(f'Total sum:\n{uniqueTimeCounts2.sum()}')
+
+# # Filter data for morning (7 AM to 9 AM) and evening (5 PM to 7 PM) rush hours
+# morning_rush = paris_data[(paris_data['hour'] >= 7) & (paris_data['hour'] <= 9)]
+# evening_rush = paris_data[(paris_data['hour'] >= 17) & (paris_data['hour'] <= 19)]
+
+# # Calculate average and standard deviation for morning and evening rush hours
+# morning_stats = {
+#     'Average Travel Time': morning_rush['TravelTimeLive'].mean(),
+#     'Standard Deviation': morning_rush['TravelTimeLive'].std()
+# }
+# evening_stats = {
+#     'Average Travel Time': evening_rush['TravelTimeLive'].mean(),
+#     'Standard Deviation': evening_rush['TravelTimeLive'].std()
+# }
+
+# print(morning_stats)
+# print(evening_stats)
+
+
+'''2ND APPROACH'''
+# from datetime import time
+
+# # Convert `datetime` column to datetime
+# paris_data['datetime'] = pd.to_datetime(paris_data['datetime'])
+
+# # Calculate the mean `TravelTimeLive` for morning rush hours (7AM-9AM)
+# morning_rush = paris_data[(paris_data['datetime'].dt.time >= time(7, 0)) & (paris_data['datetime'].dt.time <= time(9, 0))]
+# mean_morning_travel_time = morning_rush['TravelTimeLive'].mean()
+# std_morning_tt = morning_rush['TravelTimeLive'].std()
+
+# # Calculate the mean `TravelTimeLive` for evening rush hours (5PM-7PM)
+# evening_rush = paris_data[(paris_data['datetime'].dt.time >= time(17, 0)) & (paris_data['datetime'].dt.time <= time(19, 0))]
+# mean_evening_travel_time = evening_rush['TravelTimeLive'].mean()
+# std_evening_tt = evening_rush['TravelTimeLive'].std()
+
+# # Calculate average and standard deviation for morning and evening rush hours
+# morning_stats = {
+#     'Average Travel Time': mean_morning_travel_time,
+#     'Standard Deviation': std_morning_tt
+# }
+# evening_stats = {
+#     'Average Travel Time': mean_evening_travel_time,
+#     'Standard Deviation': std_evening_tt
+# }
+
+# print(morning_stats)
+# print(evening_stats)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE DO A SCATTER PLOT AND A BOX PLOT TO DEMONSTRATE THE NEED FOR A LOG SCALE WHEN THE RANGE OF VALUES SPAN SEVERAL ORDERS OF MAGNITUDE. THIS IS REGARDING THE BOX PLOT, SO PLAY AROUND WITH OTHER TYPES OF GRAPHS TO SEE IF YOU CAN USE THE LOG SCALE WITH THOSE AS WELL! WE ALSO DEMO THE QCUT METHOD TO SPLIT UP THE DATA ACCORDING TO THE QUARTILES. WE SHOW IT USING THE METHOD AND WE ALSO SHOW HOW TO GROUP A COLUMN INTO CATEGORIES THE MANUAL WAY.
+'''
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+# import numpy as np
+
+# # Load the data from the CSV file with a specific encoding
+# file_path = './CSVs/Real Estate Mumbai Database - Rgdcvvvh.csv'
+# data = pd.read_csv(file_path, encoding='latin-1')
+
+# # Display the first few rows of the dataset and its column names
+# print(data.head())
+# print(data.columns)
+# print(data.info(verbose=True))
+
+# Convert 'AMOUNT IN (INR)' to numeric to ensure proper plotting
+# NOTE: THIS COL IS ALREADY NUMERIC SO THIS IS REDUNDANT!
+# data['AMOUNT IN (INR)'] = pd.to_numeric(data['AMOUNT IN (INR)'])
+
+# Drop rows with NaN values in 'CLIENT AGE' or 'AMOUNT IN (INR)' to ensure clean data for analysis
+# NOTE: THERE ARE 53/53 NON-NULLS SO THIS IS REDUNDANT!
+# NOTE: This line, while redundant in this specific case, could protect against future scenarios 
+#       where data might have missing values, without requiring additional modifications to your script.
+# cleaned_data = data.dropna(subset=['CLIENT AGE', 'AMOUNT IN (INR)'])
+
+# # Make a subset without using dropna()
+# cleaned_data = data[['CLIENT AGE', 'AMOUNT IN (INR)']]
+
+# Plotting a scatter viz.
+# plt.figure(figsize=(10, 6))
+# sns.scatterplot(data = cleaned_data, 
+#                 x = 'CLIENT AGE', 
+#                 y = 'AMOUNT IN (INR)', 
+#                 hue = 'TRANSACTION TYPE', 
+#                 style = 'TRANSACTION TYPE', 
+#                 palette = 'deep')
+# plt.title('Trends between Client Age and Transaction Amount')
+# plt.xlabel('Client Age')
+# plt.ylabel('Transaction Amount (INR)')
+# plt.yscale('log')  # Using log scale due to wide range in transaction amounts
+# plt.grid(True)
+# plt.show()
+
+
+'''1ST APPROACH: NO LOG SCALE AND QCUT'''
+# # Create age groups based on quantiles
+# data['age_group'] = pd.qcut(cleaned_data['CLIENT AGE'], q=3, labels=['Young', 'Middle-Aged', 'Older'])
+
+# # Calculate mean and median transaction amount by age group
+# grouped_data = data.groupby('age_group')['AMOUNT IN (INR)'].agg(['mean', 'median']).round(2)
+
+# # Sort by mean transaction amount
+# grouped_data = grouped_data.sort_values(by='mean')
+
+# # Print the results
+# print(grouped_data)
+
+# # Create boxplot
+# plt.figure(figsize=(10, 6))
+# data.boxplot(column='AMOUNT IN (INR)', by='age_group')
+
+# # Add labels and title
+# plt.xlabel('Age Group')
+# plt.ylabel('Transaction Amount (INR)')
+# plt.title('Transaction Amount Distribution by Age Group')
+# #plt.yscale('log')  # NOTE: SHOULD BE USING log scale due to wide range in transaction amounts! (like below)
+# # Show the plot
+# plt.xticks(rotation=45)
+# plt.show()
+
+
+
+'''2ND APPROACH: LOG SCALE AND QCUT'''
+# # Using qcut to categorize ages into quantiles
+# cleaned_data['Age Group Qcut'] = pd.qcut(cleaned_data['CLIENT AGE'], q=3, labels=['Young', 'Middle-Aged', 'Older'])
+
+# # Calculate the average and median transaction amounts for each age group defined by qcut
+# group_stats_qcut = cleaned_data.groupby('Age Group Qcut')['AMOUNT IN (INR)'].agg(['mean', 'median']).round(2).reset_index()
+
+# # Sort by mean transaction amount
+# group_stats_qcut = group_stats_qcut.sort_values(by='mean')
+
+# # Plotting boxplot for transaction amounts by age group using qcut
+# plt.figure(figsize=(10, 6))
+# sns.boxplot(data=cleaned_data, x='Age Group Qcut', y='AMOUNT IN (INR)', palette='coolwarm', hue='Age Group Qcut', legend=False)
+# plt.title('Distribution of Transaction Amounts by Age Group (Qcut)')
+# plt.xlabel('Age Group (Qcut)')
+# plt.ylabel('Transaction Amount (INR)')
+# plt.yscale('log')  # Using log scale due to wide range in transaction amounts
+# plt.grid(True)
+# plt.show() 
+# print(group_stats_qcut)
+
+
+
+'''3RD APPROACH: LOG SCALE AND MANUAL QUANTILE'''
+# # Calculate the 33rd and 66th percentiles to define the age groups
+# quantiles = cleaned_data['CLIENT AGE'].quantile([0.33, 0.66])
+
+# # Define the age categories based on quantiles
+# bins = [0, quantiles[0.33], quantiles[0.66], float('inf')]
+# labels = ['Young', 'Middle-Aged', 'Older']
+# cleaned_data['Age Group Quantiles'] = pd.cut(cleaned_data['CLIENT AGE'], bins=bins, labels=labels, right=False)
+
+# # Calculate the average and median transaction amounts for each age group
+# group_stats_quantiles = cleaned_data.groupby('Age Group Quantiles')['AMOUNT IN (INR)'].agg(['mean', 'median']).reset_index()
+
+# # Plotting boxplot for transaction amounts by age group using quantiles
+# plt.figure(figsize=(10, 6))
+# sns.boxplot(data=cleaned_data, x='Age Group Quantiles', y='AMOUNT IN (INR)', palette='light:#5A9')
+# plt.title('Distribution of Transaction Amounts by Age Group (Quantiles)')
+# plt.xlabel('Age Group (Quantiles)')
+# plt.ylabel('Transaction Amount (INR)')
+# plt.yscale('log')  # Using log scale due to wide range in transaction amounts
+# plt.grid(True)
+# plt.show(), group_stats_quantiles
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE DEMO THE DIFFERENCE BETWEEN USING DROPNA AND NOT. WE ALSO DEMO THE MARKDOWN METHOD WITH PRINT.
+'''
+# import pandas as pd
+
+# # Load the data from the 'last60.csv' file
+# last60_data = pd.read_csv('./CSVs/last60.csv')
+
+# # Display the first few rows of the dataset and its column names to understand its structure
+# print(last60_data.head())
+# print(last60_data.columns)
+# print(last60_data.info(verbose=True))
+
+# uniqueBrands = last60_data['Brand'].unique()
+# print(f'Brand names:\n{uniqueBrands}')
+# valCounts = last60_data['Brand'].value_counts()
+# print(f'And we have this many of each:\n{valCounts}')
+# print(f'Overall, there are {valCounts.sum()} of them')
+
+# # Group by 'Brand' and calculate the required metrics
+# brand_metrics = last60_data.groupby('Brand').agg(
+#     Total_Cost = ('Cost', 'sum'),
+#     Average_Length = ('Length', 'mean'),
+#     Average_Height = ('Height', 'mean')
+# )
+
+# # Sort the results by `Total Cost` in descending order
+# brand_metrics = brand_metrics.sort_values(by='Total_Cost', ascending=False)
+
+# # Format the columns
+# brand_metrics['Total Cost'] = brand_metrics['Total Cost'].apply(lambda x: f'${x:.2f}')
+# brand_metrics['Average Length'] = brand_metrics['Average Length'].apply(lambda x: f'{x:.3f}')
+# brand_metrics['Average Height'] = brand_metrics['Average Height'].apply(lambda x: f'{x:.3f}')
+
+# # Print the resulting table
+# print(brand_metrics.to_markdown(index=False, numalign="left", stralign="left"))
+
+
+
+'''2ND APPROACH: DROPNA'''
+# # Drop null values in `Length` and `Height` columns
+# df_filtered = last60_data.dropna(subset=['Length', 'Height'])
+
+# # Group by `Brand` and calculate the sum of `Cost`, mean of `Length`, and mean of `Height`
+# df_agg = df_filtered.groupby('Brand').agg(
+#     Total_Cost=('Cost', 'sum'),
+#     Average_Length=('Length', 'mean'),
+#     Average_Height=('Height', 'mean')
+# ).reset_index()
+
+# # Rename the columns
+# df_agg = df_agg.rename(columns={'Total_Cost': 'Total Cost', 'Average_Length': 'Average Length', 'Average_Height': 'Average Height'})
+
+# # Sort the results by `Total Cost` in descending order
+# df_agg = df_agg.sort_values(by='Total Cost', ascending=False)
+
+# # Format the columns
+# df_agg['Total Cost'] = df_agg['Total Cost'].apply(lambda x: f'${x:.2f}')
+# df_agg['Average Length'] = df_agg['Average Length'].apply(lambda x: f'{x:.3f}')
+# df_agg['Average Height'] = df_agg['Average Height'].apply(lambda x: f'{x:.3f}')
+
+# # Print the resulting table
+# print(df_agg.to_markdown(index=False, numalign="left", stralign="left"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE HAVE A COMPLEX SCATTER PLOT WITH MANY CONSTRAINTS. WE PRESENT 3 APPROACHES THAT INVOKE DIFFERENT STRATEGY, LOGIC, AND SYNTAX.
+'''
+
+'''APPROACH 1: SPLIT INTO TWO TYPES OF DATA POINTS SO THAT THE LEGEND IS AUTOMATICALLY GENERATED'''
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Load the dataset to inspect its contents
+# file_path = './CSVs/used_cars.csv'
+# data = pd.read_csv(file_path)
+
+# # Explore the data set
+# print(data.head())
+# print(data.info(verbose=True))
+
+'''
+Generate a scatter plot from "used_cars.csv" data with mileage (miles: int64) on the x-axis and sedan prices (price: int64) on the y-axis. 
+
+Plot sedans with over 150 horsepower (horsepower: int64) and 130 torque (torque: int64) in red, the rest in blue. 
+
+Include only sedans (type: object) with a 10 or less difference in city and highway mileage (city_mileage: int64, highway_mileage: int64), and show the legend. 
+
+Please provide the Python code.
+'''
+
+# # Consider only sedans with a 10 or less difference in city and highway mileage
+# df_sedans = data[data['type'] == 'sedan']
+# df_sedans = df_sedans[(df_sedans['highway_mileage'] - df_sedans['city_mileage']).abs() <= 10]
+
+# plt.figure(figsize=(10, 6))
+
+# # Sedans with over 150 horsepower and 130 torque in red, the rest in blue
+# # Do them seperate so that plt knows what each color represents regarding the legend
+# df_high_perf = df_sedans[(df_sedans['horsepower'] > 150) & (df_sedans['torque'] > 130)]
+# df_low_perf = df_sedans[~((df_sedans['horsepower'] > 150) & (df_sedans['torque'] > 130))]
+# plt.scatter(df_low_perf['miles'], df_low_perf['price'], color='blue', label='Low Performance Sedans')
+# plt.scatter(df_high_perf['miles'], df_high_perf['price'], color='red', label='High Performance Sedans')
+
+# # Mileage on the x-axis and sedan prices on the y-axis
+# plt.xlabel('Mileage')
+# plt.ylabel('Price')
+# plt.title('Sedan Prices vs. Mileage Based on Performance')
+
+# # Show the legend
+# plt.legend()
+# plt.show()
+
+
+'''APPROACH 2: THE LEGEND IS MANUALLY GENERATED BY EXPLICITLY INITIALIZING PATCHES'''
+# # Filter for sedans with mileage difference <= 10
+# df_filtered = data[(data['type'] == 'sedan') & (abs(data['city_mileage'] - data['highway_mileage']) <= 10)].copy()
+
+# # Create the color column
+# df_filtered['color'] = ['red' if (hp > 150) & (tq > 130) else 'blue' for hp, tq in zip(df_filtered['horsepower'], df_filtered['torque'])]
+
+# # Create the scatter plot
+# plt.figure(figsize=(10, 6))
+# scatter = plt.scatter(df_filtered['miles'], df_filtered['price'], c=df_filtered['color'], alpha=0.7)
+
+# # Add labels and title
+# plt.xlabel('Mileage')
+# plt.ylabel('Price ($)')
+# plt.title('Price vs. Mileage for Sedans with Mileage Difference <= 10')
+
+# # Create custom legends
+# legend_labels = ['High Performance Sedans', 'Low Performance Sedans']
+# legend_colors = ['red', 'blue']
+# patches = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=color, markersize=10) for color in legend_colors]
+# plt.legend(patches, legend_labels)
+
+# # Show the plot
+# plt.show()
+
+
+'''APPROACH 3: USE THE PATCHES METHOD'''
+# # Create the scatter plot
+# plt.figure(figsize=(10, 6))
+# scatter = plt.scatter(df_filtered['miles'], df_filtered['price'], c=df_filtered['color'], alpha=0.7)
+
+# # Create custom legend
+# red_patch = mpatches.Patch(color='red', label='High Performance (>150 HP & >130 Torque)')
+# blue_patch = mpatches.Patch(color='blue', label='Standard Performance')
+# plt.legend(handles=[red_patch, blue_patch], loc="lower right", title="Car Type")
+
+# # Add labels and title
+# plt.xlabel('Mileage')
+# plt.ylabel('Price ($)')
+# plt.title('Price vs. Mileage for Sedans with Mileage Difference <= 10')
+
+# # Show the plot
+# plt.show()
+
+
+'''APPROACH 1: STREAMLINED'''
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Filter for sedans with mileage difference <= 10
+# df_filtered = data[(data['type'] == 'sedan') & (abs(data['city_mileage'] - data['highway_mileage']) <= 10)].copy()
+
+# # Create a boolean column for high power sedans
+# df_filtered['high_power'] = (df_filtered['horsepower'] > 150) & (df_filtered['torque'] > 130)
+
+# # Create the scatter plot
+# plt.figure(figsize=(10, 6))
+# plt.scatter(df_filtered[df_filtered['high_power']]['miles'], 
+#             df_filtered[df_filtered['high_power']]['price'], 
+#             color='red', 
+#             label='High Power')
+
+# plt.scatter(df_filtered[~df_filtered['high_power']]['miles'], 
+#             df_filtered[~df_filtered['high_power']]['price'], 
+#             color='blue', 
+#             label='Other')
+
+# # Add labels and title
+# plt.xlabel('Miles')
+# plt.ylabel('Price')
+# plt.title('Price vs. Miles for Sedans (Mileage Difference <= 10)')
+
+# # Add legend
+# plt.legend()
+
+# # Show the plot
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    CREATE A NEW DATAFRAME AND SAVE IT TO A OUTPUT CSV
+'''
+
+# import pandas as pd
+
+# # Load the dataset
+# file_path = './CSVs/Real Estate Mumbai Database - Rgdcvvvh.csv'
+# data = pd.read_csv(file_path, encoding='ISO-8859-1')
+
+# # Check the dataframe structure again
+# print(data.head()) 
+# print(data.columns)
+# print(data.info(verbose=True))
+
+# # Calculate overall averages for the dataset
+# average_values = pd.DataFrame({
+#     'Overall Average Bedrooms': [data['NUMBER OF BEDROOMS'].mean()],
+#     'Overall Average Amount INR': [data['AMOUNT IN (INR)'].mean()]
+# })
+
+# avg_rooms = data['NUMBER OF BEDROOMS'].mean()
+# avg_amount = data['AMOUNT IN (INR)'].mean()
+
+# # Save to CSV (idx=F to prevent pandas from writing the  
+# # DataFrame's index as a separate column in the CSV file)
+# output_file_path = './OutCSVs/bedrooms_to_amount.csv'
+# average_values.to_csv(output_file_path, index=False)
+
+# print(f'Average number of bedrooms:\n{avg_rooms}')
+# print(f'Average values:\n{avg_amount}')
+# print(f'The file is saved to this:\n{output_file_path}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    A BAR GRAPH WHERE THE BARS ARE DIFFERENT COLORS
+'''
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Load the newly uploaded CSV file to examine its contents and structure
+# file_path_caja = './CSVs/caja-dia-a-dia-no-Pii.csv'
+# caja_data = pd.read_csv(file_path_caja)
+
+# # Explore the structure
+# print(caja_data.head())
+# print(caja_data.columns)
+# print(caja_data.info(verbose=True))
+
+# # Convert the 'Fecha' column to datetime format for easier date manipulation
+# caja_data['Fecha'] = pd.to_datetime(caja_data['Fecha'])
+
+# # Filter the data for the year 2022
+# caja_2022 = caja_data[caja_data['Fecha'].dt.year == 2022]
+
+# # Count records by 'Tipo Comp HABER' and 'Tipo Comp DEBE'
+# haber_counts = caja_2022['Monto HABER'].value_counts().sum()
+# debe_counts = caja_2022['Monto DEBE'].value_counts().sum()
+
+# print(f'Credit:\n{haber_counts}')
+# print(f'Debit:\n{debe_counts}')
+
+# # Create two dataframes: one for HABER and one for DEBE transactions
+# df_haber = caja_2022[caja_2022['Monto HABER'].notnull()].copy()
+# df_debe = caja_2022[caja_2022['Monto DEBE'].notnull()].copy()
+
+# # Aggregate the dataframes by counting the number of rows
+# transactions_haber = df_haber.shape[0]
+# transactions_debe = df_debe.shape[0]
+
+# # Create a new dataframe for plotting
+# df_plot = pd.DataFrame({'Tipo': ['DEBE', 'HABER'], 
+#                         'Transactions': [transactions_debe, transactions_haber]})
+
+# # Create and display a bar plot
+# plt.figure(figsize=(10, 6))
+# plt.bar(df_plot['Tipo'], df_plot['Transactions'], color=['skyblue', 'lightcoral'])
+# plt.xlabel('Transaction Type', fontsize=12)
+# plt.ylabel('Number of Transactions', fontsize=12)
+# plt.title('Number of Transactions by Type in 2022', fontsize=14)
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    METHOD TO TRY MULTIPLE ENCODINGS
+'''
+# encodings = ['cp1252', 'utf-16', 'ascii', 'latin-1']
+# for enc in encodings:
+#     try:
+#         split_data = pd.read_csv(xlsx_file_path, sep='|', skiprows=[1], encoding=enc)
+#         print(f"Success with encoding: {enc}")
+#         break
+#     except UnicodeDecodeError:
+#         print(f"Failed with encoding: {enc}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    CALCULATING PROFIT MARGIN FOR EACH REGION AND FINDING OUTLIERS
+'''
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Load the data from the uploaded XLSX file
+# xlsx_file_path = './CSVs/DynamicBiz_insight.xlsx'
+
+# # Load the Excel file without attempting to split columns initially
+# insight_data_raw = pd.read_excel(xlsx_file_path, header=None)
+
+# # Split the single column into multiple columns by '|'
+# split_data = insight_data_raw[0].str.split('|', expand=True)
+
+# # Use the first row as header
+# split_data.columns = split_data.iloc[0].apply(lambda x: x.strip())
+# split_data = split_data[2:]  # Remove the header row from the data
+
+# # Clean up the data by trimming whitespace
+# split_data = split_data.map(lambda x: x.strip() if isinstance(x, str) else x)
+
+# print(split_data.head(n=20))
+# print(split_data.info(verbose=True))
+# print(split_data.columns)
+
+# # Remove unwanted characters and convert data types
+# split_data['Profit Margin'] = split_data['Profit Margin'].str.replace('%', '').astype(float)
+
+# # Calculate the mean profit margin for each region
+# region_profit_margin_avg = split_data.groupby('Region')['Profit Margin'].mean().rename('Profit Margin_avg')
+
+# # Merge the average profit margin back into the original dataframe
+# data = split_data.merge(region_profit_margin_avg, on='Region')
+
+# # Calculate the deviation of each product's profit margin from the region's average
+# data['Profit Margin Deviation'] = data['Profit Margin'] - data['Profit Margin_avg']
+
+# # For each region, find the product with the highest absolute deviation
+# def get_max_deviation_product(group):
+#     return group.loc[group['Profit Margin Deviation'].abs().idxmax()]
+
+# max_deviation_products = data.groupby('Region').apply(get_max_deviation_product)
+
+# # Display the products with the highest absolute deviation for each region
+# print(max_deviation_products[['Product', 'Region', 'Profit Margin', 'Profit Margin_avg', 'Profit Margin Deviation']])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    NEED TO REVISIT AND FINISH THIS: NEED A STRATEGY TO PLOT MOONPHASE AGAINST TIME!
+'''
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Load the data
+# file_path = '/mnt/data/Indian Summers.csv'
+# data = pd.read_csv(file_path)
+# data['Date'] = pd.to_datetime(data['Date'])  # Convert 'Date' to datetime type
+# data['Year'] = data['Date'].dt.year
+# data['Month'] = data['Date'].dt.month
+
+# # Filter data to include only April to June from 2007 to 2011
+# filtered_data = data[(data['Year'].between(2007, 2011)) & (data['Month'].between(4, 6))]
+
+# # Group by Year and Month, computing the average moon phase
+# monthly_avg_data = filtered_data.groupby(['Year', 'Month']).agg({'moonphase': 'mean'}).reset_index()
+
+# # Pivot to create a suitable structure for the heatmap
+# heatmap_data_structured = monthly_avg_data.pivot("Month", "Year", "moonphase")
+
+# # Create the heatmap
+# plt.figure(figsize=(15, 8))
+# ax = sns.heatmap(heatmap_data_structured, cmap="viridis", annot=True, fmt=".2f", cbar_kws={'label': 'Average Moon Phase (Decimal)'})
+# ax.set_title('Monthly Moon Phase Averages Over Years (2007-2011)')
+# ax.set_xlabel('Year')
+# ax.set_ylabel('Month')
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 import pandas as pd
+from pandas.api.types import is_numeric_dtype
 
-# Load the Excel file
-file_path = './CSVs/SOLDFOOD2023 - Fall.xlsx'
-xls = pd.ExcelFile(file_path)
+# Read the CSV file into a DataFrame
+df = pd.read_excel('./CSVs/PAYROLL_MAY.xlsx')
 
-# Sheet names
-sheet_names = xls.sheet_names
+# Display the first 5 rows
+print(df.head())
 
-# Load and combine data from all sheets, skip the first three rows and the last footer row
-combined_data = pd.concat(
-    [xls.parse(sheet_name, skiprows=3, skipfooter=1) for sheet_name in sheet_names],
-    ignore_index=True
-)
+# Print the column names and their data types
+print(df.info(verbose=True))
 
-# Convert necessary columns to appropriate data types for the 'QUANTITY' and 'TOTAL SALE' columns
-combined_data['QUANTITY'] = pd.to_numeric(combined_data['QUANTITY'])
-combined_data['TOTAL SALE'] = pd.to_numeric(combined_data['TOTAL SALE'])
+for column_name in ['YEAR']:
+  if not is_numeric_dtype(df[column_name]):
+    # Assume CSV columns can only be numeric or string.
+    df[column_name] = pd.to_numeric(
+        df[column_name].str.replace(',', 
+                                    repl='', 
+                                    regex=True),
+                                    ).fillna(0)
 
-# Clean up NaN values that may have occurred due to conversion
-combined_data.dropna(subset=['QUANTITY', 'TOTAL SALE'], inplace=True)
+# print(df['YEAR'].value_counts())
+# print(df['YEAR'].describe(percentiles=[.1, .25, .5, .75, .9]))
 
-# Summarize total sales by product group for all months combined
-combined_sales_summary = combined_data.groupby('GROUP').agg({'TOTAL SALE': 'sum', 'QUANTITY': 'sum'})
+# # Combine `YEAR` and `MONTH` to create datetime column `Date`
+# df['Date'] = pd.to_datetime(df[['YEAR', 'MONTH']].assign(DAY=1))
 
-# Display the combined sales summary
-print(combined_sales_summary)
+# # Print the value counts of `Date`
+# print(df['Date'].value_counts())
 
+# # Print descriptive statistics of `Date`
+# print(df['Date'].describe())
 
+# Combine the month and year into a single datetime column
+df['Date'] = pd.to_datetime(df.YEAR.astype(str) + '-' + df.MONTH.astype(str), format='%Y-%m')
 
+# Show the first few rows to confirm the new column
+print(df[['MONTH', 'YEAR', 'Date']].head())
 
-        
 
 
 
@@ -6394,7 +7528,16 @@ print(combined_sales_summary)
 
 
 
-                  
+
+
+
+
+
+
+
+
+
+
 
 
 
