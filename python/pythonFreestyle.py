@@ -5669,7 +5669,9 @@ For each city (y-axis) and month (x-axis), draw a bubble where the size of the b
 
 
 '''
-    USE THIS WHEN YOU CANT READ A FILE "i cant read a file" to get its real name! NOTE THE EXAMPLE BELOW AND THE FILE NAME. THE FILE NAME HAS A SPACE IN IT AND IT IS ENCODED DIFFERENTLY.
+    USE THIS WHEN YOU CANT READ A FILE "i cant read a file" to get its real name! 
+    
+    NOTE THE EXAMPLE BELOW AND THE FILE NAME. THE FILE NAME HAS A SPACE IN IT AND IT IS ENCODED DIFFERENTLY.
 '''
 # # Print current working directory
 # import os
@@ -7396,27 +7398,29 @@ Please provide the Python code.
 
 
 
+'''
+    HERE WE HAVE AN INTERESTING FOR-LOOP. FIGURE OUT WHAT ITS DOING!
+'''
+# import pandas as pd
+# from pandas.api.types import is_numeric_dtype
 
-import pandas as pd
-from pandas.api.types import is_numeric_dtype
+# # Read the CSV file into a DataFrame
+# df = pd.read_excel('./CSVs/PAYROLL_MAY.xlsx')
 
-# Read the CSV file into a DataFrame
-df = pd.read_excel('./CSVs/PAYROLL_MAY.xlsx')
+# # Display the first 5 rows
+# print(df.head())
 
-# Display the first 5 rows
-print(df.head())
+# # Print the column names and their data types
+# print(df.info(verbose=True))
 
-# Print the column names and their data types
-print(df.info(verbose=True))
-
-for column_name in ['YEAR']:
-  if not is_numeric_dtype(df[column_name]):
-    # Assume CSV columns can only be numeric or string.
-    df[column_name] = pd.to_numeric(
-        df[column_name].str.replace(',', 
-                                    repl='', 
-                                    regex=True),
-                                    ).fillna(0)
+# for column_name in ['YEAR']:
+#   if not is_numeric_dtype(df[column_name]):
+#     # Assume CSV columns can only be numeric or string.
+#     df[column_name] = pd.to_numeric(
+#         df[column_name].str.replace(',', 
+#                                     repl='', 
+#                                     regex=True),
+#                                     ).fillna(0)
 
 # print(df['YEAR'].value_counts())
 # print(df['YEAR'].describe(percentiles=[.1, .25, .5, .75, .9]))
@@ -7430,11 +7434,11 @@ for column_name in ['YEAR']:
 # # Print descriptive statistics of `Date`
 # print(df['Date'].describe())
 
-# Combine the month and year into a single datetime column
-df['Date'] = pd.to_datetime(df.YEAR.astype(str) + '-' + df.MONTH.astype(str), format='%Y-%m')
+# # Combine the month and year into a single datetime column
+# df['Date'] = pd.to_datetime(df.YEAR.astype(str) + '-' + df.MONTH.astype(str), format='%Y-%m')
 
-# Show the first few rows to confirm the new column
-print(df[['MONTH', 'YEAR', 'Date']].head())
+# # Show the first few rows to confirm the new column
+# print(df[['MONTH', 'YEAR', 'Date']].head())
 
 
 
@@ -7452,33 +7456,103 @@ print(df[['MONTH', 'YEAR', 'Date']].head())
 
 
 
+'''
+    HERE WE RENAME COLUMNS TO ADDRESS TYPOS AND WE EMPHASIZE THE DATE FORMAT WHEN CONVERTING COLUMNS TO DATETIME FORMAT.
+'''
 
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib.pyplot as plt
 
+# # Load the data from the provided CSV file
+# patient_file_path = './CSVs/patient_list-_patient_list.csv'
+# patient_data = pd.read_csv(patient_file_path)
 
+# # Display the first few rows of the dataframe and its columns to understand its structure
+# print(patient_data.head()) 
+# print(patient_data.columns)
+# print(patient_data.info(verbose=True))
 
+# # Convert the '% reimbursement' column to a format that can be compared numerically
+# patient_data['% reimbursement'] = patient_data['% reimbursement'].str.rstrip('%').astype('float') / 100
 
+# # Filter the data for patients with 15% reimbursement
+# patients_15_reimbursement = patient_data[patient_data['% reimbursement'] == 0.15]
 
+# # Summary of these patients
+# patients_15_reimbursement_summary = patients_15_reimbursement.describe(include='all')
+# print('15 Patients:\n')
+# print(patients_15_reimbursement_summary)
 
+# # Check the uniqueness and counts of the 'release_date' column to understand its composition
+# release_date_counts = patient_data['release_date'].value_counts().sum()
+# print(f'Release date uniques and their counts:\n{release_date_counts}')
 
+# # Correct the spelling mistake in column names for easier reference
+# patient_data.rename(columns={'beginning_of_traetment': 'beginning_of_treatment'}, inplace=True)
 
+# # Check for side effects
+# begin_treatment_counts = patient_data['beginning_of_treatment'].value_counts().sum()
+# print(f'Begin treatment (BEFORE):\n{begin_treatment_counts}')
 
+# # Convert date columns to datetime
+# patient_data['beginning_of_treatment'] = pd.to_datetime(patient_data['beginning_of_treatment'], dayfirst=True)
+# patient_data['release_date'] = pd.to_datetime(patient_data['release_date'], format='%d/%m/%Y', errors='coerce')
 
+# # Check for side effects
+# release_date_counts = patient_data['release_date'].value_counts().sum()
+# print(f'Release date uniques and their counts (AFTER):\n{release_date_counts}')
+# begin_treatment_counts2 = patient_data['beginning_of_treatment'].value_counts().sum()
+# print(f'Begin treatment (AFTER):\n{begin_treatment_counts2}')
 
 
 
 
+# # Calculate treatment length in months where possible
+# patient_data['treatment_length_months'] = (
+#     (patient_data['release_date'] - patient_data['beginning_of_treatment']).dt.days / 30.44
+#     ).round()
 
 
 
 
+# # Calculate treatment length in days where possible
+# patient_data['treatment_length_days'] = (patient_data['release_date'] - patient_data['beginning_of_treatment']).dt.days
 
 
 
+# # Display the data with new treatment length column
+# # print(patient_data[['name', 'age', '% reimbursement', 'beginning_of_treatment', 'release_date', 'treatment_length_months']].head())
+# print(patient_data[['name', 'age', '% reimbursement', 'beginning_of_treatment', 'release_date', 'treatment_length_days']].head())
 
+# # Scatter plot for Age vs. % Reimbursement
+# plt.figure(figsize=(10, 6))
+# sns.scatterplot(x=patient_data['age'], y=patient_data['% reimbursement'])
+# plt.title('Age vs. % Reimbursement')
+# plt.xlabel('Age')
+# plt.ylabel('% Reimbursement')
+# plt.grid(True)
+# plt.show()
 
+# # Calculate the Pearson correlation coefficient for age and % reimbursement
+# age_reimbursement_corr = patient_data['age'].corr(patient_data['% reimbursement'])
+# print(age_reimbursement_corr)
 
+# # Filter out rows where treatment length is NaN
+# filtered_data_with_treatment_length = patient_data.dropna(subset=['treatment_length_days'])
 
+# # Scatter plot for Treatment Length vs. % Reimbursement
+# plt.figure(figsize=(10, 6))
+# sns.scatterplot(x=filtered_data_with_treatment_length['treatment_length_days'], y=filtered_data_with_treatment_length['% reimbursement'])
+# plt.title('Treatment Length (Days) vs. % Reimbursement')
+# plt.xlabel('Treatment Length (Days)')
+# plt.ylabel('% Reimbursement')
+# plt.grid(True)
+# plt.show()
 
+# # Calculate the Pearson correlation coefficient for treatment length and % reimbursement
+# treatment_reimbursement_corr = filtered_data_with_treatment_length['treatment_length_months'].corr(filtered_data_with_treatment_length['% reimbursement'])
+# print(treatment_reimbursement_corr)
 
 
 
@@ -7492,25 +7566,736 @@ print(df[['MONTH', 'YEAR', 'Date']].head())
 
 
 
+'''
+    USE THIS WHEN IT WONT or CANT FIND A FILE IN CSVs DIRECTORY... IT MIGHT BE HIDDEN OR HAVE A DIFF NAME BEHIND THE SCENES!
+'''
 
+# # Print current working directory
+# import os
+# print("Current Working Directory:", os.getcwd())
 
+# # List files in the specific directory
+# print("Files in './CSVs/':", os.listdir('./CSVs/'))
 
 
 
 
 
+'''
+    HERE WE DEMO THE IDXMAX METHOD, WHICH IS USED AFTER WE COUNT INSTANCES OF UNIQUE ENTRIES, TO GET THE MOST FREQUENT OR THE MOST COMMON STRING ENTRY. THEN WE DEMO THE ISIN METHOD, WHICH HELPS US FIND SPECIFIC STRING ENTRIES IN THEIR RESPECTIVE ROW. WE ALSO DEMO THE COUNTER MODULE AT THE END.
+'''
 
 
+# import pandas as pd
 
+# df = pd.read_csv('./CSVs/WELLNESS_COST_2022_CW_V2  - Sheet1.tsv', sep='\t')
+# print(df.head())
+# print(df.columns)
+# print(df.info(verbose=True))
 
+# cost_center_counts = df['COST_CENTER'].value_counts()
+# print(cost_center_counts.head())
 
+# most_common_cost_center = cost_center_counts.idxmax()
+# print('Most common COST_CENTER:', most_common_cost_center)
 
+# # Filter the dataframe for rows where CONCEPT 
+# # is either 'MATERNITY SUBSIDY' or 'MEDICAL REST'
+# filtered_df = df[df['CONCEPT'].isin(['MATERNITY SUBSIDY', 'MEDICAL REST'])]
+# print("Queried column:\n")
+# print(filtered_df)
 
+# # Filter for rows with 'MATERNITY SUBSIDY' or 'MEDICAL REST' in the CONCEPT column
+# filtered_df = df[df['CONCEPT'].isin(['MATERNITY SUBSIDY', 'MEDICAL REST'])]
+# print("Queried column:\n")
+# # Print the filtered DataFrame
+# print(filtered_df)
 
+# # Count the number of records and check the unique years in the filtered data
+# record_count = filtered_df.shape[0] # Shape returns the dimensionality, i.e., 0 = rows x cols = 1
+# unique_years = filtered_df['PERIOD'].unique()
+# print('Number of records:', record_count)
+# print('Unique years in the data:', unique_years)
 
 
+'''
+    COUNT MANUALLY WITH THE COUNTER MODULE
+'''
+# from collections import Counter
 
+# cost_center_counts = Counter(df['COST_CENTER'])
 
+# # Print the results, sorted in descending order by frequency
+# for cost_center, count in cost_center_counts.most_common():
+#   print(f'{cost_center}: {count}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, WE PERFORM A BUNCH OF OPS. SO ILL JUST LIST KEYWORDS:
+
+    - COUNTER
+    - MOST COMMON
+    - TO PERIOD
+    - LINE GRAPH
+    - PLOT AND SUBPLOT
+    - BAR GRAPH
+    - HARDCODE/CUSTOM X-TICKS/X-AXIS LABELS
+    - GRID LINES
+'''
+
+# import pandas as pd
+# from collections import Counter
+# import matplotlib.pyplot as plt
+
+# # Load the Excel file
+# wild_df = pd.read_excel('./CSVs/Wild_by_Aura_Final.xlsx')
+
+# # Explore the data set
+# print(wild_df.head())
+# print(wild_df.columns)
+# print(f"INFO STARTS HERE!\n")
+# print(wild_df.info(verbose=True))
+
+# # Get the most common entry 
+# age_platform_counts = Counter(
+#     zip(wild_df['Shopping Platform'], wild_df['Age'])
+# )
+
+# print("Most common:\n")
+# print(age_platform_counts.most_common())
+
+# # Extract month, quarter, and year 
+# # NOTE: No need to convert since its already datetime dtype
+# wild_df['Month'] = wild_df['Purchase Date'].dt.month
+# wild_df['Quarter'] = wild_df['Purchase Date'].dt.to_period('Q')
+# wild_df['Year'] = wild_df['Purchase Date'].dt.year
+
+# # Remove '$' from 'Transaction Amount ' and convert to float
+# wild_df['Transaction Amount'] = wild_df['Transaction Amount '].replace('[\$,]', '', regex=True).astype(float)
+
+# # Aggregate data by quarter and month
+# quarterly_counts = wild_df.groupby('Quarter').size()
+# quarterly_amounts = wild_df.groupby('Quarter')['Transaction Amount'].sum()
+# monthly_counts = wild_df.groupby('Month').size()
+# monthly_amounts = wild_df.groupby('Month')['Transaction Amount'].sum()
+
+# # Group data by month and year, and count the number of purchases
+# monthly_purchases = wild_df.groupby(['Year', 'Month']).size()
+
+# # Confirm
+# print(monthly_purchases.head())
+
+
+# # Plotting 4 line graphs
+# plt.figure(figsize=(14, 10), facecolor='white')
+
+# plt.subplot(2, 2, 1)
+# plt.plot(quarterly_counts.index.astype(str), 
+#          quarterly_counts.values, 
+#          marker='o', 
+#          color='blue', 
+#          label='Transaction Count by Quarter')
+# plt.title('Transaction Count by Quarter')
+# plt.legend()
+
+# plt.subplot(2, 2, 2)
+# plt.plot(quarterly_amounts.index.astype(str), 
+#          quarterly_amounts.values, 
+#          marker='o', 
+#          color='green', 
+#          label='Transaction Amount by Quarter')
+# plt.title('Transaction Amount by Quarter')
+# plt.legend()
+
+# plt.subplot(2, 2, 3)
+# plt.plot(monthly_counts.index.astype(str), 
+#          monthly_counts.values, 
+#          marker='o', 
+#          color='red', 
+#          label='Transaction Count by Month')
+# plt.title('Transaction Count by Month')
+# plt.legend()
+
+# plt.subplot(2, 2, 4)
+# plt.plot(monthly_amounts.index.astype(str), 
+#          monthly_amounts.values, 
+#          marker='o', 
+#          color='purple', 
+#          label='Transaction Amount by Month')
+# plt.title('Transaction Amount by Month')
+# plt.legend()
+
+# plt.tight_layout()
+# plt.show()
+
+
+
+# # Plotting a bar chart for monthly purchase trends - v1
+# # V1: Hardcode the month names
+# plt.figure(figsize=(10, 6), facecolor='white')
+# plt.bar(monthly_counts.index, monthly_counts.values, color='skyblue')
+# plt.title('Monthly Purchase Trends')
+# plt.xlabel('Month')
+# plt.ylabel('Number of Transactions')
+# plt.xticks(monthly_counts.index, ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+# plt.grid(axis='y', linestyle='--', alpha=0.7)
+# plt.show()
+
+
+
+# # Plotting a bar chart for monthly purchase trends - v2
+# # V2: Extract the year/month dates
+# plt.figure(figsize=(12, 6))
+# monthly_purchases.plot(kind='bar', color='skyblue')
+# plt.title('Monthly Purchase Trends')
+# plt.xlabel('Year and Month')
+# plt.ylabel('Number of Purchases')
+# plt.xticks(rotation=45)
+# plt.grid(axis='y')
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE USE A NEW MODULE FOR STATS AND USE THE PROBABILITY DENSITY FUNCTION (PDF) TO GENERATE GAUSSIAN WEIGHTS.
+
+    A Gaussian distribution, also commonly referred to as a normal distribution, is a type of continuous probability distribution that is symmetric around its mean, showing that data near the mean are more frequent in occurrence than data far from the mean. In graph form, this distribution will appear as a bell curve.
+
+    Key Characteristics of Gaussian Distribution:
+    
+    ~ Symmetry: The distribution is perfectly symmetrical around its mean.
+    
+    ~ Mean, Median, and Mode: In a Gaussian distribution, the mean, median, and mode are all equal.
+    
+    ~Empirical Rule: About 68% of the data falls within one standard deviation of the mean, 95% within two standard deviations, and nearly all (99.7%) within three standard deviations.
+    
+    ~ Inflection Points: The curve changes concavity at points one standard deviation away from the mean. These are called the points of inflection.
+'''
+
+
+# import pandas as pd
+# import numpy as np
+# from scipy.stats import norm, skewnorm
+
+# # Load the EQUIP-CHEMICALS.csv data
+# chem_df = pd.read_csv('./CSVs/EQUIP-CHEMICALS.csv')
+
+# # Display the head of the dataframe to understand its structure
+# print(chem_df.head())
+# print(chem_df.info())
+
+
+'''APPLY A NORM (IS THAT RIGHT?) TRANSFORM'''
+# # Calculate the weights for a Gaussian distribution
+# mean_price = chem_df['Total Price'].mean()
+# std_price = chem_df['Total Price'].std()
+
+# # Generate weights using the Gaussian formula
+# chem_df['Weights'] = norm.pdf(chem_df['Total Price'], 
+#                               mean_price, 
+#                               std_price)
+
+# # Output the weights
+# print(chem_df[['Total Price', 'Weights']].head())
+
+# # Calculate parameters for a positively skewed distribution
+# a = 4  # Positive skewness parameter
+# loc = chem_df['Total Price'].min()  # Location parameter
+# scale = chem_df['Total Price'].std()  # Scale parameter
+
+# # Generate weights for the positively skewed distribution
+# chem_df['Skewed_Weights'] = skewnorm.pdf(chem_df['Total Price'], 
+#                                          a, 
+#                                          loc, 
+#                                          scale)
+
+# # Output the updated weights
+# print(chem_df[['Total Price', 'Skewed_Weights']].head())
+
+
+'''APPLYING A LOG TRANSFORM (ONLY DEFINED FOR POSITIVE REALS)'''
+# # Load the EQUIP-CHEMICALS.csv data
+# df = pd.read_csv('./CSVs/EQUIP-CHEMICALS.csv')
+
+# # Since log(0) is undefined, we adjust 0 values to a small positive value (e.g., 1) before transformation
+# df['Total Price Adjusted'] = df['Total Price'].apply(lambda x: x if x > 0 else 1)
+
+# # Apply log transformation to 'Total Price' to skew the distribution positively
+# df['Total Price Log'] = np.log(df['Total Price Adjusted'])
+
+# # Calculate mean and standard deviation of the log-transformed 'Total Price'
+# mean_log = df['Total Price Log'].mean()
+# std_dev_log = df['Total Price Log'].std()
+
+# # Apply the Gaussian distribution formula to the log-transformed values
+# weights_log = norm.pdf(df['Total Price Log'], loc=mean_log, scale=std_dev_log)
+
+# # Print the updated weights
+# print(weights_log)
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE HAVE A LOT OF COOL NEW FUNCTIONALITY AND TWO CUSTOM BUILT METHODS USED FOR MODIFYING ENTRIES
+'''
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Load the HOA transactions data
+# hoa_df = pd.read_csv('./CSVs/hoa_transactions.csv')
+
+# # Display the first few rows of the dataframe to understand its structure
+# print(hoa_df.head())
+# print(hoa_df.dtypes)
+# print(hoa_df.info())
+
+
+'''start tests'''
+# uniq_dates = hoa_df['Date'].unique()
+# print(f'Unique dates:\n{uniq_dates}')
+
+# count_dates = hoa_df['Date'].value_counts()
+# print(f'Their individual counts (BEFORE):\n{count_dates}')
+
+# count_dates = hoa_df['Date'].value_counts().sum()
+# print(f'Their TOTAL counts:\n{count_dates}')
+'''end tests'''
+
+
+'''converting dates with different formats'''
+# # Function to parse dates with multiple formats (for this specific dataset)
+# def parse_date(date_str):
+#     if not isinstance(date_str, float) and len(date_str) > 2:
+#         formats = ['%d-%b', '%b-%d']
+#         for fmt in formats:
+#             try:
+#                 return pd.to_datetime(date_str, format=fmt)
+#             except ValueError:
+#                 pass
+#     return None
+
+# # Apply function to the date column for conversions
+# hoa_df['Date'] = hoa_df['Date'].apply(parse_date)
+
+
+'''start tests'''
+# # Display unique non-parsed dates and the number of missing dates after conversion
+# non_parsed_dates = hoa_df[hoa_df['Date'].isna()]['Date'].unique()
+# print(f'Non parsed:\n{non_parsed_dates}') 
+
+# missing_dates_count = hoa_df['Date'].isna().sum()
+# print(f'Missing:\n{missing_dates_count}')
+
+# count_dates = hoa_df['Date'].value_counts()
+# print(f'Their individual counts (AFTER):\n{count_dates}')
+
+# count_dates = hoa_df['Date'].value_counts().sum()
+# print(f'Their counts (AFTER):\n{count_dates}')
+
+# uni_total = hoa_df['Total'].value_counts().sum()
+# print(f'Unique totals count (BEFORE):\n{uni_total}')
+'''end tests'''
+
+
+# # Clean the 'Total' column by removing commas and parentheses
+# hoa_df['Total'] = hoa_df['Total'].str.replace('[(),]', '', regex=True)
+# hoa_df['Total'] = pd.to_numeric(hoa_df['Total'])
+
+
+'''start tests'''
+# uni_total = hoa_df['Total'].value_counts().sum()
+# print(f'Unique totals count (AFTER):\n{uni_total}')
+
+# uni_units = hoa_df['Unit'].value_counts()
+# print(f'Unique units:\n{uni_units}')
+# total_units = uni_units.sum()
+# print(f'Total number of units is:\n{total_units}')
+'''end tests'''
+
+
+'''spliting numeric/integer entries'''
+# # Function to split the Unit column into Building and Unit
+# def split_unit(value):
+#      # Check if the value is fully numeric
+#     if value.isnumeric(): 
+#         # Split into first digit and the rest
+#         return value[0], value[1:]  
+#     else:
+#         # Non-numeric values go entirely into Unit
+#         return '', value  
+
+# # Apply the function to the Unit column
+# hoa_df[['Building', 'Unit']] = hoa_df['Unit'].apply(lambda x: split_unit(str(x)) if pd.notnull(x) else ('', '')).tolist()
+
+# # Display the modified DataFrame to confirm changes
+# print(hoa_df[['Building', 'Unit']].head(n=20))
+
+
+# # Analyzing the distribution of income across different units
+# income_per_unit = hoa_df.groupby('Unit')['Income'].sum().dropna()
+# print(f'Income per unit:\n{income_per_unit}')
+# print('\nEND')
+
+# # Plotting the distribution of income per unit
+# plt.figure(figsize=(12, 8), facecolor='white')
+# income_per_unit.plot(kind='bar', color='skyblue')
+# plt.title('Distribution of Income Across Units')
+# plt.xlabel('Unit')
+# plt.ylabel('Total Income')
+# plt.xticks(rotation=45)
+# plt.grid(True)
+# plt.show()
+
+# # Descriptive statistics for income distribution
+# income_stats = income_per_unit.describe()
+# print(income_stats)
+
+# # Plotting the scatter plot for both Expenses and Income over Time
+# plt.figure(figsize=(12, 8), facecolor='white')
+# plt.scatter(hoa_df['Date'], hoa_df['Expenses'], color='blue', alpha=0.5, label='Expenses')
+# plt.scatter(hoa_df['Date'], hoa_df['Income'], color='red', alpha=0.5, label='Income')
+# plt.title('Scatter Plot of Expenses and Income Over Time')
+# plt.xlabel('Date')
+# plt.ylabel('Amount')
+# plt.legend()
+# plt.grid(True)
+# # plt.show()
+
+# # Calculating the correlation coefficients
+# expenses_income_corr = hoa_df[['Expenses', 'Income']].corr().iloc[0, 1]
+# # print('Correlation coefficient between Expenses and Income:', expenses_income_corr)
+
+# corr1 = hoa_df['Date'].corr(hoa_df['Income'])
+# print(f'Correlation coefficient between Date (as timestamp) and Income: {corr1}')
+
+# corr2 = hoa_df['Date'].corr(hoa_df['Expenses'])
+# print(f'Correlation coefficient between Date (as timestamp) and Income: {corr2}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Load the PAYROLL_MAY.xlsx file
+# payroll_df = pd.read_excel('./CSVs/PAYROLL_MAY.xlsx')
+
+# # Display the head of the dataframe to understand its structure
+# print(payroll_df.head(n=15))
+# print(payroll_df.info())
+
+# # Confirm there are only two types of expenses
+# exp_counts = payroll_df['EXPENSE'].value_counts()
+# print(f'Unique type of expenses:\n{exp_counts}')
+
+# # Splitting the EXPENSE column into INDIRECT EXPENSE and GENERAL EXPENSE
+# payroll_df['INDIRECT EXPENSE'] = payroll_df['EXPENSE'].apply(lambda x: x if 'INDIRECT' in x else '')
+# payroll_df['GENERAL EXPENSE'] = payroll_df['EXPENSE'].apply(lambda x: x if 'GENERAL' in x else '')
+
+# Display the modified DataFrame to confirm changes
+# print(payroll_df[['EXPENSE', 'INDIRECT EXPENSE', 'GENERAL EXPENSE']].head())
+
+# num_in_ex = payroll_df['INDIRECT EXPENSE'].value_counts()
+# print(num_in_ex)
+
+# uni_status = payroll_df['STATUS'].value_counts()
+# print(f'Unique statuses:\n{uni_status}')
+
+# # Filtering the DataFrame for records with 'CESSED' status and displaying the new columns
+# cessed_records = payroll_df[payroll_df['STATUS'] == 'CESSED'][['INDIRECT EXPENSE', 'GENERAL EXPENSE']]
+# print(cessed_records)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # Print current working directory
+# import os
+# print("Current Working Directory:", os.getcwd())
+
+# # List files in the specific directory
+# print("Files in './CSVs/':", os.listdir('./CSVs/'))
+
+
+
+
+
+
+
+
+
+'''
+    TWO WAYS TO FORMAT STRINGS LIKE MONEY/CURRENCY
+'''
+
+# import pandas as pd
+
+# # Load the Excel file 
+# file_path_inventory = './CSVs/dataset.xls'
+# data_inventory = pd.read_excel(file_path_inventory)
+
+# # Explore the file
+# print(data_inventory.head())
+# print(data_inventory.info())
+
+
+# # Calculate the total cost for items in inventory as per the 'Storeroom Total' column
+# total_storeroom_cost = data_inventory['Storeroom Total'].sum()
+# formatted_total1 = f"${total_storeroom_cost:,.2f}"
+# print(formatted_total1)
+
+# # Calculate the total estimated value based on List Price and Storeroom Quantity
+# data_inventory['Estimated Storeroom Value'] = data_inventory['List Price'] * data_inventory['Storeroom Quantity']
+# total_estimated_storeroom_value = data_inventory['Estimated Storeroom Value'].sum()
+
+# # Format the total estimated value as currency
+# formatted_total2 = "${:,.2f}".format(total_estimated_storeroom_value)
+# print("\nTotal est. storeroom val:")
+# print(formatted_total2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the Excel file to see the first few rows and understand its structure
+file_path_gas = './CSVs/Gas_Prices.xlsx'
+gas_prices_data = pd.read_excel(file_path_gas)
+# print(gas_prices_data.head())
+print(gas_prices_data.info())
+
+# Extract the Price Per Gallon (USD) for India
+price_per_gallon_india = gas_prices_data.loc[gas_prices_data['Country'] == 'India', 'Price Per Gallon (USD)'].values[0]
+print("\n")
+# print(price_per_gallon_india)
+
+# Display basic statistics and a histogram for 'Gallons GDP Per Capita Can Buy'
+gallons_stats = gas_prices_data['Gallons GDP Per Capita Can Buy'].describe()
+fig, ax = plt.subplots()
+gas_prices_data['Gallons GDP Per Capita Can Buy'].hist(ax=ax, bins=10, color='skyblue', edgecolor='black')
+ax.set_title('Distribution of Gallons GDP Per Capita Can Buy')
+ax.set_xlabel('Gallons GDP Per Capita Can Buy')
+ax.set_ylabel('Frequency')
+
+# print(gallons_stats) 
+print("\n")
+# plt.show()
+
+# Calculate percentiles for the segmentation
+percentile_25 = gas_prices_data['Gallons GDP Per Capita Can Buy'].quantile(0.25)
+percentile_50 = gas_prices_data['Gallons GDP Per Capita Can Buy'].quantile(0.50)
+percentile_75 = gas_prices_data['Gallons GDP Per Capita Can Buy'].quantile(0.75)
+
+# Define bins and labels based on these percentiles
+bins_percentiles = [0, percentile_25, percentile_50, percentile_75, gas_prices_data['Gallons GDP Per Capita Can Buy'].max()]
+labels_percentiles = ['25th Percentile', '50th Percentile', '75th Percentile', '100th Percentile']
+
+# Segment data using these new bins
+gas_prices_data['GDP Per Capita Gallons Percentile'] = pd.cut(
+    gas_prices_data['Gallons GDP Per Capita Can Buy'], 
+    bins=bins_percentiles, 
+    labels=labels_percentiles)
+
+# Select and display the segmented data
+segmented_data = gas_prices_data[['Country', 
+                                  'Gallons GDP Per Capita Can Buy', 
+                                  'Price Per Gallon (USD)', 
+                                  'GDP Per Capita Gallons Percentile']]
+segmented_data.groupby('GDP Per Capita Gallons Percentile', observed=True).apply(lambda x: x[['Country', 'Price Per Gallon (USD)']])
+
+
+
+
+
+
+
+
+
+
+# # Calculate 25th, 50th, and 75th percentiles and round to nearest integer
+# low = gas_prices_data['Gallons GDP Per Capita Can Buy'].quantile(0.25).round()
+# medium = gas_prices_data['Gallons GDP Per Capita Can Buy'].quantile(0.50).round()
+# high = gas_prices_data['Gallons GDP Per Capita Can Buy'].quantile(0.75).round()
+
+# # Create a new column for segment based on the calculated percentiles
+# gas_prices_data['Gallons GDP Per Capita Can Buy Segment'] = pd.cut(gas_prices_data['Gallons GDP Per Capita Can Buy'], bins=[-float('inf'), low, medium, high, float('inf')],
+#                                                      labels=['Low', 'Medium', 'High', 'Very High'])
+
+
+# # Filter to relevant columns and sort by the new segment column
+# df_filtered = gas_prices_data[['Price Per Gallon (USD)', 'Country', 'Gallons GDP Per Capita Can Buy Segment']].sort_values('Gallons GDP Per Capita Can Buy Segment')
+
+# # Display the filtered and sorted dataframe
+# print(df_filtered)
+
+
+
+# Define the bins and labels for the segmentation
+bins = [0, 1000, 5000, gas_prices_data['Gallons GDP Per Capita Can Buy'].max()]
+labels = ['Low', 'Medium', 'High']
+
+# Segment the data
+gas_prices_data['Segment'] = pd.cut(gas_prices_data['Gallons GDP Per Capita Can Buy'], bins=bins, labels=labels, right=False)
+
+# Calculate the number of countries in each segment
+segment_counts = gas_prices_data['Segment'].value_counts().sort_index()
+
+# Calculate basic statistics for each segment
+segment_stats = gas_prices_data.groupby('Segment', observed=False).agg({
+    'Gallons GDP Per Capita Can Buy': ['mean', 'median', 'std', 'min', 'max'],
+    'Price Per Gallon (USD)': ['mean', 'median', 'std', 'min', 'max'],
+    'GDP Per Capita ( USD )': ['mean', 'median', 'std', 'min', 'max'],
+    'Yearly Gallons Per Capita': ['mean', 'median', 'std', 'min', 'max'],
+})
+
+print(segment_counts)
+print(segment_stats)
+output_file_path = './OutCSVs/segmentedGas.csv'
+segment_stats.to_csv(output_file_path, index=False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+print("\n")
+print("\n")
+# print(segmented_data)
+print("\n")
+print("\n")
+
+# Create a formatted output to clearly show results for each percentile segment
+formatted_results = segmented_data.groupby('GDP Per Capita Gallons Percentile', observed=True) \
+                                   .apply(lambda x: x[['Country', 'Price Per Gallon (USD)']].to_dict('records')) \
+                                   .reset_index()
+formatted_results.rename(columns={0: 'Details'}, inplace=True)
+# print(formatted_results)
+print("\n")
+print("\n")
 
 
 
