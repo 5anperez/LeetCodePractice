@@ -8171,104 +8171,90 @@ Please provide the Python code.
 
 
 
+'''
+    SEGMENTATION
+'''
+# import pandas as pd
+# import matplotlib.pyplot as plt
 
-import pandas as pd
-import matplotlib.pyplot as plt
+# # Load the Excel file to see the first few rows and understand its structure
+# file_path_gas = './CSVs/Gas_Prices.xlsx'
+# gas_prices_data = pd.read_excel(file_path_gas)
+# # print(gas_prices_data.head())
+# print(gas_prices_data.info())
 
-# Load the Excel file to see the first few rows and understand its structure
-file_path_gas = './CSVs/Gas_Prices.xlsx'
-gas_prices_data = pd.read_excel(file_path_gas)
-# print(gas_prices_data.head())
-print(gas_prices_data.info())
+# # Extract the Price Per Gallon (USD) for India
+# price_per_gallon_india = gas_prices_data.loc[gas_prices_data['Country'] == 'India', 'Price Per Gallon (USD)'].values[0]
+# print("\n")
+# # print(price_per_gallon_india)
 
-# Extract the Price Per Gallon (USD) for India
-price_per_gallon_india = gas_prices_data.loc[gas_prices_data['Country'] == 'India', 'Price Per Gallon (USD)'].values[0]
-print("\n")
-# print(price_per_gallon_india)
+# # Display basic statistics and a histogram for 'Gallons GDP Per Capita Can Buy'
+# gallons_stats = gas_prices_data['Gallons GDP Per Capita Can Buy'].describe()
+# fig, ax = plt.subplots()
+# gas_prices_data['Gallons GDP Per Capita Can Buy'].hist(ax=ax, bins=10, color='skyblue', edgecolor='black')
+# ax.set_title('Distribution of Gallons GDP Per Capita Can Buy')
+# ax.set_xlabel('Gallons GDP Per Capita Can Buy')
+# ax.set_ylabel('Frequency')
 
-# Display basic statistics and a histogram for 'Gallons GDP Per Capita Can Buy'
-gallons_stats = gas_prices_data['Gallons GDP Per Capita Can Buy'].describe()
-fig, ax = plt.subplots()
-gas_prices_data['Gallons GDP Per Capita Can Buy'].hist(ax=ax, bins=10, color='skyblue', edgecolor='black')
-ax.set_title('Distribution of Gallons GDP Per Capita Can Buy')
-ax.set_xlabel('Gallons GDP Per Capita Can Buy')
-ax.set_ylabel('Frequency')
-
-# print(gallons_stats) 
-print("\n")
+# # print(gallons_stats) 
+# print("\n")
 # plt.show()
 
-# Calculate percentiles for the segmentation
-percentile_25 = gas_prices_data['Gallons GDP Per Capita Can Buy'].quantile(0.25)
-percentile_50 = gas_prices_data['Gallons GDP Per Capita Can Buy'].quantile(0.50)
-percentile_75 = gas_prices_data['Gallons GDP Per Capita Can Buy'].quantile(0.75)
 
-# Define bins and labels based on these percentiles
-bins_percentiles = [0, percentile_25, percentile_50, percentile_75, gas_prices_data['Gallons GDP Per Capita Can Buy'].max()]
-labels_percentiles = ['25th Percentile', '50th Percentile', '75th Percentile', '100th Percentile']
+'''APPROACH 1: BY QUARTILES'''
+# # Calculate percentiles for the segmentation
+# percentile_25 = gas_prices_data['Gallons GDP Per Capita Can Buy'].quantile(0.25)
+# percentile_50 = gas_prices_data['Gallons GDP Per Capita Can Buy'].quantile(0.50)
+# percentile_75 = gas_prices_data['Gallons GDP Per Capita Can Buy'].quantile(0.75)
 
-# Segment data using these new bins
-gas_prices_data['GDP Per Capita Gallons Percentile'] = pd.cut(
-    gas_prices_data['Gallons GDP Per Capita Can Buy'], 
-    bins=bins_percentiles, 
-    labels=labels_percentiles)
+# # Define bins and labels based on these percentiles
+# bins_percentiles = [0, percentile_25, percentile_50, percentile_75, gas_prices_data['Gallons GDP Per Capita Can Buy'].max()]
+# labels_percentiles = ['25th Percentile', '50th Percentile', '75th Percentile', '100th Percentile']
 
-# Select and display the segmented data
-segmented_data = gas_prices_data[['Country', 
-                                  'Gallons GDP Per Capita Can Buy', 
-                                  'Price Per Gallon (USD)', 
-                                  'GDP Per Capita Gallons Percentile']]
-segmented_data.groupby('GDP Per Capita Gallons Percentile', observed=True).apply(lambda x: x[['Country', 'Price Per Gallon (USD)']])
+# # Segment data using these new bins
+# gas_prices_data['GDP Per Capita Gallons Percentile'] = pd.cut(
+#     gas_prices_data['Gallons GDP Per Capita Can Buy'], 
+#     bins=bins_percentiles, 
+#     labels=labels_percentiles)
 
-
-
-
+# # Select and display the segmented data
+# segmented_data = gas_prices_data[['Country', 
+#                                   'Gallons GDP Per Capita Can Buy', 
+#                                   'Price Per Gallon (USD)', 
+#                                   'GDP Per Capita Gallons Percentile']]
+# segmented_data.groupby('GDP Per Capita Gallons Percentile', observed=True).apply(lambda x: x[['Country', 'Price Per Gallon (USD)']])
 
 
 
 
 
 
+
+
+
+'''APPROACH 2: BY QUARTILES'''
 # # Calculate 25th, 50th, and 75th percentiles and round to nearest integer
 # low = gas_prices_data['Gallons GDP Per Capita Can Buy'].quantile(0.25).round()
 # medium = gas_prices_data['Gallons GDP Per Capita Can Buy'].quantile(0.50).round()
 # high = gas_prices_data['Gallons GDP Per Capita Can Buy'].quantile(0.75).round()
 
 # # Create a new column for segment based on the calculated percentiles
-# gas_prices_data['Gallons GDP Per Capita Can Buy Segment'] = pd.cut(gas_prices_data['Gallons GDP Per Capita Can Buy'], bins=[-float('inf'), low, medium, high, float('inf')],
-#                                                      labels=['Low', 'Medium', 'High', 'Very High'])
+# gas_prices_data['Gallons GDP Per Capita Can Buy Segment'] = pd.cut(
+#     gas_prices_data['Gallons GDP Per Capita Can Buy'], 
+#     bins=[-float('inf'), low, medium, high, float('inf')],
+#     labels=['Low', 'Medium', 'High', 'Very High'])
 
 
 # # Filter to relevant columns and sort by the new segment column
-# df_filtered = gas_prices_data[['Price Per Gallon (USD)', 'Country', 'Gallons GDP Per Capita Can Buy Segment']].sort_values('Gallons GDP Per Capita Can Buy Segment')
+# df_filtered = gas_prices_data[['Price Per Gallon (USD)', 
+#                                'Country', 
+#                                'Gallons GDP Per Capita Can Buy Segment']].sort_values('Gallons GDP Per Capita Can Buy Segment')
 
 # # Display the filtered and sorted dataframe
 # print(df_filtered)
 
 
 
-# Define the bins and labels for the segmentation
-bins = [0, 1000, 5000, gas_prices_data['Gallons GDP Per Capita Can Buy'].max()]
-labels = ['Low', 'Medium', 'High']
-
-# Segment the data
-gas_prices_data['Segment'] = pd.cut(gas_prices_data['Gallons GDP Per Capita Can Buy'], bins=bins, labels=labels, right=False)
-
-# Calculate the number of countries in each segment
-segment_counts = gas_prices_data['Segment'].value_counts().sort_index()
-
-# Calculate basic statistics for each segment
-segment_stats = gas_prices_data.groupby('Segment', observed=False).agg({
-    'Gallons GDP Per Capita Can Buy': ['mean', 'median', 'std', 'min', 'max'],
-    'Price Per Gallon (USD)': ['mean', 'median', 'std', 'min', 'max'],
-    'GDP Per Capita ( USD )': ['mean', 'median', 'std', 'min', 'max'],
-    'Yearly Gallons Per Capita': ['mean', 'median', 'std', 'min', 'max'],
-})
-
-print(segment_counts)
-print(segment_stats)
-output_file_path = './OutCSVs/segmentedGas.csv'
-segment_stats.to_csv(output_file_path, index=False)
 
 
 
@@ -8277,25 +8263,1668 @@ segment_stats.to_csv(output_file_path, index=False)
 
 
 
+'''APPROACH 3: BY COUNTRY GAL. QUANT. AFFORDABILITY'''
+# # Define the bins and labels for the segmentation
+# bins = [0, 1000, 5000, gas_prices_data['Gallons GDP Per Capita Can Buy'].max()]
+# labels = ['Low', 'Medium', 'High']
+
+# # Segment the data
+# gas_prices_data['Segment'] = pd.cut(
+#     gas_prices_data['Gallons GDP Per Capita Can Buy'], 
+#     bins=bins, 
+#     labels=labels, 
+#     right=False)
+
+# # Calculate the number of countries in each segment
+# segment_counts = gas_prices_data['Segment'].value_counts().sort_index()
+
+# # Calculate basic statistics for each segment
+# segment_stats = gas_prices_data.groupby('Segment', observed=False).agg({
+#     'Gallons GDP Per Capita Can Buy': ['mean', 'median', 'std', 'min', 'max'],
+#     'Price Per Gallon (USD)': ['mean', 'median', 'std', 'min', 'max'],
+#     'GDP Per Capita ( USD )': ['mean', 'median', 'std', 'min', 'max'],
+#     'Yearly Gallons Per Capita': ['mean', 'median', 'std', 'min', 'max'],
+# })
+
+# print(segment_counts)
+# print(segment_stats)
+
+# # Save to csv out
+# output_file_path = './OutCSVs/segmentedGas.csv'
+# segment_stats.to_csv(output_file_path, index=False)
+
+# print("\n")
+# print("\n")
+# # print(segmented_data)
+# print("\n")
+# print("\n")
+
+# # Create a formatted output to clearly show results for each percentile segment
+# formatted_results = segmented_data.groupby('GDP Per Capita Gallons Percentile', observed=True) \
+#                                    .apply(lambda x: x[['Country', 'Price Per Gallon (USD)']].to_dict('records')) \
+#                                    .reset_index()
+# formatted_results.rename(columns={0: 'Details'}, inplace=True)
+# # print(formatted_results)
+# print("\n")
+# print("\n")
 
 
 
 
 
-print("\n")
-print("\n")
-# print(segmented_data)
-print("\n")
-print("\n")
 
-# Create a formatted output to clearly show results for each percentile segment
-formatted_results = segmented_data.groupby('GDP Per Capita Gallons Percentile', observed=True) \
-                                   .apply(lambda x: x[['Country', 'Price Per Gallon (USD)']].to_dict('records')) \
-                                   .reset_index()
-formatted_results.rename(columns={0: 'Details'}, inplace=True)
-# print(formatted_results)
-print("\n")
-print("\n")
+
+
+
+
+
+
+
+
+
+'''
+    SCATTER PLOT PARAMETERS (NON-EXHAUSTIVE)
+
+data: This specifies the DataFrame that contains the data to plot. In this case, it's heart_data_reuploaded.
+x: The name of the column in the DataFrame to use for the x-coordinates of the points in the plot. Here, it's 'age'.
+y: The name of the column for the y-coordinates. Here, it's 'DEATH_EVENT'.
+hue: This parameter determines which column in the DataFrame should be used to color the points. By setting this to 'smoking', points are colored based on whether individuals are smokers or not.
+style: It's also set to 'smoking' here. This changes the marker style based on the smoking status. You can use it to differentiate points not only by color but also by shape.
+s: Size of the markers (points on the plot). You can increase or decrease this value to make points larger or smaller.
+alpha: This controls the transparency of the points. A lower value makes the points more transparent, which can be useful when you have overlapping points.
+palette: This defines the color palette used for different categories in hue. Here, 'coolwarm' is used, which provides a range from cool to warm colors. You can experiment with other palettes like 'viridis', 'plasma', 'inferno', 'magma', or even custom palettes like ['red', 'blue', 'green'].
+
+    HERE WE COMPARE SMOKE, AGE, AND DEATH COLUMNS
+'''
+
+
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+# import pandas as pd
+
+# # Reload the heart_failure_clinical_records_dataset
+# heart_data_path = './CSVs/heart_failure_clinical_records_dataset.csv'
+# heart_data = pd.read_csv(heart_data_path)
+
+# # Display the first few rows and the columns of the dataset
+# print(heart_data.head()) 
+# print(heart_data.columns)
+# print(heart_data.info())
+
+
+'''start testing'''
+# uni_smoke = heart_data['smoking'].value_counts()
+# uni_dead = heart_data['DEATH_EVENT'].value_counts()
+# print(f'death:\n{uni_dead}')
+# print(f'smoke:\n{uni_smoke}')
+
+# # Count of non-smoking survivors
+# non_smoking_survivors_count = heart_data[(heart_data['smoking'] == 0) & (heart_data['DEATH_EVENT'] == 0)].shape[0]
+
+# # Count of smokers that died
+# smokers_died_count = heart_data[(heart_data['smoking'] == 1) & (heart_data['DEATH_EVENT'] == 1)].shape[0]
+
+# print("Number of non-smoking survivors:", non_smoking_survivors_count)
+# print("Number of smokers that died:", smokers_died_count)
+'''end testing'''
+
+
+'''APPROACH 1: SIMPLE (MIGHT NOT BE THE MOST EFFICIENT)'''
+# # Set style for the plots
+# sns.set_theme(style="whitegrid")
+
+# # Create a scatter plot
+# plt.figure(figsize=(10, 6))
+# sns.scatterplot(data=heart_data, 
+#                 x='age', 
+#                 y='smoking', 
+#                 hue='DEATH_EVENT', 
+#                 style='DEATH_EVENT', 
+#                 size='DEATH_EVENT',
+#                 sizes=(50,150), 
+#                 alpha=1, 
+#                 palette='coolwarm')
+
+# plt.title('Impact of Age and Smoking on Mortality in Heart Failure Patients', fontsize=16)
+# plt.xlabel('Age', fontsize=16)
+# plt.ylabel('Smoking Status', fontsize=16)
+# plt.legend(title='Smoking Status', 
+#            labels=['Survived', 
+#                    'Deceased'])
+# plt.show()
+
+
+
+'''APPROACH 2: MORE SOPHISTICATED (MORE COMPONENTS GIVES MORE CUSTOMIZATION)'''
+# # Set the aesthetic style of the plots
+# sns.set_style("whitegrid")
+
+# # Create a figure and a set of subplots
+# fig, ax = plt.subplots(figsize=(10, 6))
+
+# # Plot the data
+# sns.scatterplot(data=heart_data, 
+#                 x='age', 
+#                 y='smoking', 
+#                 hue='DEATH_EVENT', 
+#                 style='DEATH_EVENT', 
+#                 size='DEATH_EVENT', 
+#                 sizes=(50, 150), 
+#                 alpha=0.6, 
+#                 ax=ax)
+
+# # Customizing the plot
+# ax.set_title('Impact of Age and Smoking on Health Outcomes', fontsize=16)
+# ax.set_xlabel('Age', fontsize=14)
+# ax.set_ylabel('Smoking Status', fontsize=14)
+# ax.set_yticks([0, 1])
+# ax.set_yticklabels(['Non-Smoker', 'Smoker'])
+# ax.legend(title='Death Event', 
+#           labels=['Survived', 
+#                   'Deceased'])
+
+# plt.tight_layout()
+# plt.show()
+
+'''start testing'''
+
+'''end testing'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''find out what this does'''
+# import pandas as pd
+
+# FILEPATH = './CSVs/SOLDFOOD2023 - Winter.xlsx'
+# dataframes = pd.read_excel(FILEPATH, header=3)
+
+# # print each dataframe name
+# print("Dataframe keys of dataframes:" + ", ".join(dataframes.keys()))
+
+# for k, v in dataframes.items():
+#     # strip whitespace where possible from column names; need to check if isinstance(x, str) because some column names are numbers
+#     try:
+#         v = v.rename(columns=lambda x: x.strip() if isinstance(x, str) else x)
+#     except:
+#         pass
+
+#     # strip whitespace where possible from cells
+#     try:
+#         v = v.apply(lambda col: col.str.strip() if col.dtype == "object" else col)
+#     except:
+#         pass
+#     dataframes[k] = v
+#     print('dataframe: '+ k)
+#     print(v.head(15))
+'''find out what this ^^^^ does'''
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE HAVE A MULTI-SHEET EXCEL, WITH 3 ROWS OF HEADER AND 1 ROW OF FOOTER, AND WE COMBINE THEM INTO ONE. WE THEN AGGREGATE TWO DISTINCT COLUMNS.
+'''
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Load the Excel file
+# file_path = './CSVs/SOLDFOOD2023 - Winter.xlsx'
+# xls = pd.ExcelFile(file_path)
+
+# # Sheet names
+# sheet_names = xls.sheet_names
+
+# # Load and combine data from all sheets, skip the first three rows and the last footer row
+# combined_data = pd.concat(
+#     [xls.parse(sheet_name, skiprows=3, skipfooter=1) for sheet_name in sheet_names],
+#     ignore_index=True
+# )
+
+# print(combined_data.head(n=15))
+# print(combined_data.info())
+
+'''get some summary stats'''
+# # Calculate unique products
+# unique_products = combined_data['CODE'].nunique()
+
+# # Calculate average price and standard deviation
+# average_price = combined_data['PRICE'].mean()
+# price_std = combined_data['PRICE'].std()
+
+# # Calculate average quantity sold
+# average_quantity = combined_data['QUANTITY'].mean()
+
+# # Identify outliers in quantity
+# q1 = combined_data['QUANTITY'].quantile(0.25)
+# q3 = combined_data['QUANTITY'].quantile(0.75)
+# iqr = q3 - q1
+# lower_bound = q1 - 1.5 * iqr
+# upper_bound = q3 + 1.5 * iqr
+# outliers = combined_data[
+#     (combined_data['QUANTITY'] < lower_bound) | 
+#     (combined_data['QUANTITY'] > upper_bound)
+#     ]['QUANTITY']
+
+# print(f'Unique products: {unique_products}')
+# print(f'Average price: {average_price:.2f}, Standard deviation of price: {price_std:.2f}')
+# print(f'Average quantity sold: {average_quantity:.2f}')
+# print(f'Outliers in quantity: {outliers.values}')
+
+# # Summarize total sales by product group for all months combined
+# combined_sales_summary = combined_data.groupby('GROUP').agg({'TOTAL SALE': 'sum', 'QUANTITY': 'sum'})
+# print('Aggregated data by product group:\n')
+# print(combined_sales_summary)
+
+# # Group by CODE and aggregate
+# aggregated_data = combined_data.groupby('CODE').agg({'QUANTITY': 'sum', 'TOTAL SALE': 'sum'}).reset_index()
+# print('Aggregated data by product code:\n')
+# print(aggregated_data)
+
+# # Plotting
+# plt.figure(figsize=(10, 6), facecolor='white')
+# plt.bar(aggregated_data['CODE'], aggregated_data['TOTAL SALE'], color='blue')
+# plt.title('Total Sales by Product Code')
+# plt.xlabel('Product Code')
+# plt.ylabel('Total Sales')
+# plt.grid(True)
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE PRINT SOME STATS WITH TWO DECIMAL PLACES.
+
+    PRINT ENTRIES TO HAVE TWO DECIMAL PLACES
+'''
+
+# import pandas as pd
+
+# # Load the data from Sheet3 which is assumed to be the South America data
+# south_america_df = pd.read_excel('./CSVs/population_and_age_1.xlsx', sheet_name='Sheet3')
+# print(south_america_df.info())
+
+# # Calculate average age and population
+# average_age = south_america_df['Average Age'].mean()
+# average_population = south_america_df['Population'].mean()
+
+# print(f'Average age across all countries in South America: {average_age:.2f}')
+# print(f'Average population across all countries in South America: {average_population:.2f}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE HAVE SEVERAL DIFF WAYS OF GENERATING MOSTLY THE SAME DATA, SOME GEN. DIFF DATA, BUT THEY ARE ALL SIMILAR. 
+
+    NOTE: YOU NEED TO FIGURE OUT THE MOST EFFICIENT WAY OF DOING THINGS BY TRIAL, ERROR, AND ELIMINATION OF CUMBERSOME COMMANDS. E.G., WHATS THE BETTER WAY OF CLEANING THE TOTAL COLUMN? REPLACING EVERY UNWANTED CHAR OR OMITTING EVERYTHING THAT ISNT WHAT YOU WANT? BOTH APPROACHES ARE BELOW...
+'''
+
+
+# import pandas as pd
+
+# # Load the data
+# file_path = './CSVs/STRAWBERRY SALES 2023 - Sheet1.tsv'
+
+'''APPROACH 1'''
+# data = pd.read_csv(file_path, sep='\t', skiprows=2)
+
+# data.columns = [
+#     'Date', 'Clamshells', 'Boxes', 'Kilos', 'Price per Box',
+#     'Total Sales', 'Product', 'Type of Product'
+# ]
+
+# # Convert the 'Date' column to datetime
+# data['Date'] = pd.to_datetime(data['Date'], dayfirst=True)
+
+# # Remove '$' and spaces from 'Total Sales' and convert to float
+# data['Total Sales'] = data['Total Sales'].replace({',': '', '\$': '', ' ': '', '\'': ''}, regex=True).astype(float)
+
+# # Display the first few rows of the dataframe and its column names
+# print(data.head(n=20))
+# print(data.columns)
+# print(data.info())
+
+# # Extract month and year from the 'Date' column for grouping
+# data['Month'] = data['Date'].dt.to_period('M')
+# m = data['Month']
+# # print(f'The new month column:\n{m}')
+
+# # Group data by the new 'Month' column and calculate required metrics
+# monthly_sales = data.groupby('Month').agg(
+#     Total_Sales=('Total Sales', 'sum'),
+#     Average_Day=('Date', lambda x: (x.dt.day).mean()),
+#     Median_Day=('Date', lambda x: (x.dt.day).median())
+# ).reset_index()
+
+# print(f'Monthly sales:\n{monthly_sales}')
+
+
+'''APPROACH 2'''
+# # Extract month and year from the `DATE` column
+# data['Date'] = pd.to_datetime(data['Date'], format='%d-%b-%y')
+# data['MONTH'] = data['Date'].dt.month_name()
+# data['YEAR'] = data['Date'].dt.year
+
+# # Calculate total sales for each month
+# monthly_sales = data.groupby(['MONTH', 'YEAR'])['Total Sales'].sum()
+
+# # Calculate average daily sales for each month
+# average_daily_sales = data.groupby(['MONTH', 'YEAR'])['Total Sales'].mean()
+
+# # Calculate mean day for each month
+# mean_day = data.groupby(['MONTH', 'YEAR'])['Date'].apply(lambda x: int(x.dt.day.mean()))
+
+# # Combine the three series into a DataFrame
+# result_df = pd.DataFrame({'Total Sales': monthly_sales, 'Average Day': average_daily_sales, 'Mean Day': mean_day})
+
+# # Format the `average_daily_sales` column to two decimal places
+# result_df['Average Day'] = result_df['Average Day'].apply(lambda x: f'${x:.2f}')
+
+# # Print the final DataFrame
+# print(result_df.to_markdown(numalign="left", stralign="left"))
+
+# # Save the final DataFrame to a new tsv file
+# result_df.to_csv('monthly_strawberry_sales_summary.tsv', sep='\t')
+
+
+'''APPROACH 3'''
+# data = pd.read_csv(file_path, sep='\t')
+
+# data.columns = [
+#     'DATE', 'Clamshells', 'Boxes', 'Kilos', 'Price per Box',
+#     'TOTAL', 'Product', 'Type of Product'
+# ]
+
+# # Convert the 'Date' column to datetime
+# data['DATE'] = pd.to_datetime(data['DATE'], dayfirst=True)
+
+# # Remove '$' and spaces from 'Total Sales' and convert to float
+# data['TOTAL'] = data['TOTAL'].replace({',': '', '\$': '', ' ': '', '\'': ''}, regex=True).astype(float)
+
+# Clean the data
+# Removing the initial rows and setting the correct column names
+# data.columns = data.iloc[1]  # Set the correct column headers
+# data = data[2:]  # Remove the first two rows
+
+# Reset index
+# data.reset_index(drop=True, inplace=True)
+# print(data.head(n=15))
+# print(data.info())
+# print(f'Cols:\n{data.columns}')
+# print('\nEND')
+
+# # Convert 'DATE' to datetime and 'TOTAL' to numeric after removing the $ sign
+# data['DATE'] = pd.to_datetime(data['DATE                         '])
+# data['TOTAL'] = data['TOTAL       '].replace('[\$,]', '', regex=True).astype(float)
+
+# # Extracting month and year from DATE for grouping
+# data['Month'] = data['DATE'].dt.month
+# data['Year'] = data['DATE'].dt.year
+
+# # Calculate total sales, average sales per day, and mean sales day for each month
+# # Assuming "mean day" implies finding the median sale value and identifying the corresponding day(s)
+
+# # Group by month and year
+# monthly_data = data.groupby(['Year', 'Month']).agg(
+#     Total_Sales=('TOTAL', 'sum'),
+#     Average_Sales_Per_Day=('TOTAL', 'mean')
+# ).reset_index()
+
+# # For finding the "mean day" or median sales day, we need to compute the median sale value for each month
+# # and then find the day(s) that are closest to this median value in terms of sales
+
+# def find_median_day(group):
+#     median_sales = group['TOTAL'].median()
+#     closest_to_median = group.iloc[(group['TOTAL'] - median_sales).abs().argsort()[:1]]
+#     return closest_to_median['DATE'].dt.day.values[0]
+
+# monthly_data['Median_Sales_Day'] = data.groupby(['Year', 'Month']).apply(find_median_day).reset_index(level=[0,1], drop=True)
+
+
+# print(monthly_data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, WE ILLUSTRATE A TECHNIQUE TO MAKE THE GROUP BY METHOD MORE EFFICIENT IN THE CASE OF COLUMN LOOK UPS!
+'''
+# import pandas as pd
+
+# # Read the CSV files into Pandas DataFrames
+# df_alcohol_drug_abuse = pd.read_excel('./CSVs/Hospital_Survey_Data_Alcohol_Drug_Abuse.xlsx', skiprows=1)
+# df_speticemia = pd.read_csv('./CSVs/Hospital_Survey_Data_Speticemia.csv', skiprows=1)
+
+# # Explore the data's structure
+# print("First 5 rows of Alcohol_Drug_Abuse data:")
+# print(df_alcohol_drug_abuse.head())
+# print("\nAlcohol_Drug_Abuse data information:")
+# print(df_alcohol_drug_abuse.info())
+# print("\nFirst 5 rows of Speticemia data:")
+# print(df_speticemia.head())
+# print("\nSpeticemia data information:")
+# print(df_speticemia.info())
+
+
+# # Concatenate the two dataframes
+# df_combined = pd.concat([df_alcohol_drug_abuse, df_speticemia])
+
+'''
+Efficiency in Column Handling:
+Code Block 1 performs the grouping on the entire DataFrame and then specifies which columns to aggregate within the agg() method. This means that the grouping considers all columns, which can be less efficient if the DataFrame has many columns that are not needed for the final aggregation.
+Code Block 2 is more efficient in scenarios where the DataFrame has many irrelevant columns. By selecting only the necessary columns immediately after groupby(), it reduces the amount of data processed in the subsequent aggregation step.
+'''
+
+# # Aggregate by state (block 1)
+# df_agg = df_combined.groupby('Provider State').agg(
+#     Total_Discharges=('Total Discharges', 'sum'),
+#     Average_Total_Payments=('Average Total Payments ($)', 'mean')
+# ).reset_index()
+
+
+
+# # Aggregate by state (block 2: more efficient)
+# df_agg = df_combined.groupby('Provider State')[['Total Discharges', 'Average Total Payments ($)']].agg(
+#     Total_Discharges=('Total Discharges', 'sum'),
+#     Average_Total_Payments=('Average Total Payments ($)', 'mean')
+# ).reset_index()
+
+
+
+# # Rename columns
+# df_agg = df_agg.rename(columns={'Total_Discharges': 
+#                                 'Total Discharges', 
+#                                 'Average_Total_Payments': 
+#                                 'Average Total Payments ($)'})
+
+# # Print the table
+# print(f'\nSum discharges and Avg. payments per state:\n\n{df_agg}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    CLEAN UP COLUMN NAMES THAT HAVE NEWLINE CHARS
+'''
+
+# import matplotlib.pyplot as plt
+# import pandas as pd
+
+# # Load the sushi_earns.xlsx file
+# sushi_df = pd.read_excel('./CSVs/sushi_earns.xlsx')
+
+# # Explore the dataframe to understand its structure
+# print(sushi_df.head())
+# print(sushi_df.info())
+
+# # Clean up the column names newline char
+# sushi_df.columns = sushi_df.columns.str.replace('\n', '', regex=True)
+
+# # Confirm it worked
+# print(sushi_df.head())
+# print(sushi_df.info())
+
+# uni_categories = sushi_df['Category'].value_counts()
+# print(f'Unique categories:\n{uni_categories}')
+
+# # Aggregate the total revenue by category
+# revenue_by_category = sushi_df.groupby('Category')['revenue_from_applicable_discounts'].sum().sort_values(ascending=False)
+
+# # Plotting the total revenue by category
+# plt.figure(figsize=(10, 6), facecolor='white')
+# revenue_by_category.plot(kind='bar', color='skyblue')
+# plt.title('Total Revenue by Product Category')
+# plt.xlabel('Product Category')
+# plt.ylabel('Total Revenue')
+# plt.xticks(rotation=45)
+# plt.grid(axis='y', linestyle='--', alpha=0.7)
+# plt.tight_layout()
+# plt.show()
+
+# # Display the aggregated data
+# print(revenue_by_category)
+
+
+
+# # Calculate total revenue (THIS SHOULD BE COLUMNS WITH "REVENUE" IN THE NAME)
+# df_menu['Total_revenue'] = df_menu['Cash_revenue'] + df_menu['Pedidosya_revenue'] + df_menu['Shea_app_revenue']
+
+# # Group by `Category` and sum up `Total_revenue`
+# df_agg = df_menu.groupby('Category')['Total_revenue'].sum().reset_index()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE SHOW HOW TO CREATE A BAR CHART WITH THE GRID BACKGROUND, HOWEVER, THE GRID'S LINES ARE DOTTED!
+'''
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Load the SOLDFOOD2023 - Winter.xlsx file, skipping the first 3 rows
+# food_df = pd.read_excel('./CSVs/SOLDFOOD2023 - Winter.xlsx', skiprows=3)
+
+# # Display the first few rows of the dataframe to understand its structure
+# print(food_df.head())
+
+# # Aggregate the total quantity sold by group
+# quantity_by_group = food_df.groupby('GROUP')['QUANTITY'].sum().sort_values(ascending=False)
+
+# # Plotting the total quantity sold by group
+# plt.figure(figsize=(10, 6), facecolor='white')
+# quantity_by_group.plot(kind='bar', color='lightgreen')
+# plt.title('Total Quantity Sold by Product Category')
+# plt.xlabel('Product Category')
+# plt.ylabel('Total Quantity Sold')
+# plt.xticks(rotation=45)
+# plt.grid(axis='y', linestyle='--', alpha=0.7)
+# plt.tight_layout()
+# plt.show()
+
+# # Display the aggregated data
+# print(quantity_by_group)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE HAVE SOME VERY NEW FUNCTIONALITY! 
+    
+    1. FIRST, WE USE PANDAS TO GENERATE A PIE CHART BUT WE EXPLODE ONE OF THE SLICES TO EMPHASIZE IT... 
+
+    2. THEN, WE INVOKE A NEW MODULE NAMED ALTAIR, WHICH HELPS WITH VISUALIZATIONS (I THINK, STILL GOTTA CONFIRM). WE USE IT TO GENERATE A PIE CHART AND SAVE THE CHART TO A HTML FILE SO THAT WE CAN RENDER IT IN THE BROWSER.
+'''
+
+'''CHART 1'''
+# import matplotlib.pyplot as plt
+
+# # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+# labels = 'Decluttering', 'Dusting', 'Vacuuming', 'Mopping', 'Bathroom Cleaning', 'Kitchen Cleaning'
+# sizes = [15, 20, 20, 15, 15, 15]
+# explode = (0.1, 0, 0, 0, 0, 0)  # only "explode" the 1st slice (i.e. 'Decluttering')
+
+# fig1, ax1 = plt.subplots()
+# ax1.pie(sizes, 
+#         explode = explode, 
+#         labels = labels, 
+#         autopct = '%1.1f%%',
+#         shadow = True, 
+#         startangle = 90)
+# ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+# plt.title('Effective House Cleaning Distribution')
+# plt.show()
+
+
+'''CHART 2'''
+# import altair as alt
+# import pandas as pd
+
+# # Define the cleaning tasks and their approximate percentages
+# tasks = [
+#     "Decluttering",
+#     "Dusting",
+#     "Vacuuming & Sweeping",
+#     "Mopping",
+#     "Bathroom Cleaning",
+#     "Kitchen Cleaning",
+#     "Laundry",
+#     "Windows Cleaning"
+# ]
+
+# # Approximate time investment (as percentages)
+# percentages = [10, 8, 20, 15, 10, 15, 10, 12]
+
+# # Create a DataFrame
+# df = pd.DataFrame({
+#     'Task': tasks,
+#     'Percentage': percentages
+# })
+
+# # Create the Altair pie chart
+# pie_chart = alt.Chart(df).mark_arc().encode(
+#     theta = alt.Theta(field='Percentage', type='quantitative'),
+#     color = alt.Color(field='Task', type='nominal'),
+#     tooltip = ['Task', 'Percentage']
+# ).properties(
+#     title = 'Effective House Cleaning Distribution'
+# )
+
+# pie_chart.show()
+
+
+
+'''COMPARE THIS ONE TO THE ONE ABOVE'''
+# import pandas as pd
+# import altair as alt
+
+# # Create a dictionary with the cleaning tasks and their estimated times
+# data = {
+#     'Task': ['Declutter (All Rooms)', 'Clean High Surfaces, Walls, Baseboards, Windows, and Mirrors', 'Bedrooms', 'Bathrooms', 'Kitchen', 'Living Room', 'Empty Trash and Recycling'],
+#     'Estimated Time (minutes)': [45, 40, 20, 20, 25, 15, 5]
+# }
+
+# # Create a DataFrame from the dictionary
+# df = pd.DataFrame(data)
+
+# # Calculate the percentage of each value in relation to the total sum of the `Estimated Time (minutes)` column, store it as a number between 0 and 1.
+# df["percentage"] = df["Estimated Time (minutes)"] / df["Estimated Time (minutes)"].sum()
+
+# # Create the base chart with the theta encoding for the pie slices
+# base = alt.Chart(df).encode(
+#     theta=alt.Theta("Estimated Time (minutes):Q", stack=True),
+#     color=alt.Color("Task:N", legend=None),
+#     tooltip=["Task", "Estimated Time (minutes)", alt.Tooltip("percentage", title="Percentage", format=".1%")]
+# )
+
+# # Create the pie chart with the arcs
+# pie = base.mark_arc(outerRadius=120)
+
+# # Create the text labels for the pie slices
+# text = base.mark_text(radius=140, fill="white").encode(
+#     text=alt.Text("Estimated Time (minutes):Q", format=".0f"),
+# )
+
+# # Combine the pie chart and text labels
+# chart = pie + text
+
+# # Configure the chart title and properties
+# chart = chart.properties(
+#     title="How to Effectively Clean Your House (Estimated Time per Task)"
+# ).configure_title(
+#     fontSize=14,
+#     anchor="middle",
+# ).interactive()
+
+# # Save the chart in a JSON file
+# chart.save('cleaning_tasks_pie_chart.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE MAKE A REALLY COOL BAR CHART WITH THE NEW MODULE ALTAIR! THIS IS OUR FIRST TASTE OF EXPLORING WITH INTERAVTIVE BROWSER-BASED GRAPHS THAT HAVE TOOL TIPS!
+'''
+
+# import pandas as pd
+# import altair as alt
+
+# # Make a DataFrame with the columns `Variety` and `Calories per Serving (g)` using the values from the table above
+# df = pd.DataFrame(
+#     {
+#         "Variety": [
+#             "Regular Potato Chips",
+#             "Baked Potato Chips",
+#             "Kettle-Cooked Potato Chips",
+#             "Reduced-Fat Potato Chips",
+#             "Tortilla Chips",
+#             "Multigrain Chips",
+#         ],
+#         "Calories per Serving (g)": [160, 130, 150, 140, 150, 140],
+#     }
+# )
+
+# # Make bar plot with `Variety` on the x-axis and `Calories per Serving (g)` on the y-axis
+# chart = (
+#     alt.Chart(df, title="Calories per Serving of Different Potato Chips")
+#     .mark_bar()
+#     .encode(
+#         x=alt.X("Variety:N", axis=alt.Axis(labelAngle=-45)),
+#         y="Calories per Serving (g):Q",
+#         tooltip=["Variety", "Calories per Serving (g)"],
+#     )
+#     .interactive()
+# )
+
+# # Save the plot
+# chart.save("calories_per_serving_potato_chips_bar_chart.html")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE DEMO THE LINESTYLE ARG
+'''
+# import matplotlib.pyplot as plt
+
+# # Define some x and y data
+# x = range(10)
+# y1 = [i for i in x]
+# y2 = [i * 2 for i in x]
+# y3 = [i ** 2 for i in x]
+
+# # Plot data with different linestyles
+# plt.plot(x, y1, linestyle='-', label='Solid')
+# plt.plot(x, y2, linestyle='--', label='Dashed')
+# plt.plot(x, y3, linestyle=':', label='Dotted')
+
+# plt.legend()
+# plt.xlabel('X Axis')
+# plt.ylabel('Y Axis')
+# plt.title('Different Linestyles')
+# plt.grid(True, linestyle='-.', alpha=0.7)
+# plt.show()
+
+
+
+
+
+'''
+    HERE WE DEMO THE ANNOTATE METHOD
+'''
+# import matplotlib.pyplot as plt
+# import pandas as pd
+
+# # Define the data
+# data = {
+#     'body_area': ['Chest', 'Back', 'Triceps', 'Biceps', 'Shoulders', 'Abs', 'Legs', 'Legs', 'Calves', 'Glutes'],
+#     'target_muscle': ['Pectoralis Major', 'Latissimus Dorsi', 'Triceps Brachii', 'Biceps Brachii', 'Deltoids',
+#                       'Rectus Abdominis', 'Quadriceps', 'Hamstrings', 'Gastrocnemius', 'Gluteus Maximus'],
+#     'exercise': ['Bench Press', 'Pull-Ups', 'Triceps Pushdowns', 'Bicep Curls', 'Overhead Press', 'Crunches',
+#                  'Squats', 'Deadlifts', 'Calf Raises', 'Hip Thrusts'],
+#     'workout_length': [20, 35, 30, 40, 30, 25, 35, 45, 20, 30],
+#     'reps': [10, 10, 10, 10, 10, 20, 10, 10, 20, 10]
+# }
+
+# # Create a DataFrame
+# df = pd.DataFrame(data)
+
+# # Create the scatter plot
+# plt.figure(figsize=(8, 6))
+# plt.scatter(df['workout_length'], df['reps'], color='blue')
+# plt.xlabel('Workout Length (minutes)')
+# plt.ylabel('Reps')
+# plt.title('Scatter Plot of Workout Length vs. Reps')
+# plt.grid(True, linestyle='--', alpha=0.7)
+
+# # Add annotations for each exercise
+# for i, txt in enumerate(df['exercise']):
+#     plt.annotate(txt, (df['workout_length'][i], df['reps'][i]), fontsize=8, ha='right')
+
+# plt.show()
+
+
+
+'''
+    HERE WE DEMO THE ANNOTATE METHOD'S HORIZONTAL ALIGNMENT ARG (ha)
+'''
+# import matplotlib.pyplot as plt
+
+# # Example data
+# x = [1, 2, 3, 4, 5]
+# y = [10, 15, 20, 25, 30]
+# labels = ['A', 'B', 'C', 'D', 'E']
+
+# # Plot the data
+# plt.scatter(x, y)
+
+# # Add annotations with different horizontal alignments
+# for i, txt in enumerate(labels):
+#     plt.annotate(txt, (x[i], y[i]), ha='left')  # Align to the left
+#     plt.annotate(txt, (x[i] + 0.2, y[i]), ha='right')  # Align to the right
+#     plt.annotate(txt, (x[i] + 0.4, y[i]), ha='center')  # Centered
+
+# plt.grid(True)
+# plt.xlabel('X Axis')
+# plt.ylabel('Y Axis')
+# plt.title('Horizontal Alignment (ha) Parameter Example')
+# plt.show()
+
+
+
+'''
+This will create a legend with the markers corresponding to each exercise, providing meaningful labels. However, if all the data points use the same color or marker, you may not see all distinct labels.
+'''
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Data
+# data = {
+#     "body_area": ["Chest", "Back", "Triceps", "Biceps", "Shoulders", "Abs", "Legs", "Legs", "Calves", "Glutes"],
+#     "target_muscle": ["Pectoralis Major", "Latissimus Dorsi", "Triceps Brachii", "Biceps Brachii", "Deltoids", "Rectus Abdominis", "Quadriceps", "Hamstrings", "Gastrocnemius", "Gluteus Maximus"],
+#     "exercise": ["Bench Press", "Pull-Ups", "Triceps Pushdowns", "Bicep Curls", "Overhead Press", "Crunches", "Squats", "Deadlifts", "Calf Raises", "Hip Thrusts"],
+#     "workout_length": [30, 30, 30, 30, 30, 30, 30, 30, 30, 30],
+#     "reps": [10, 10, 10, 10, 10, 20, 10, 10, 20, 10]
+# }
+
+# df = pd.DataFrame(data)
+
+# # Plot
+# plt.figure(figsize=(10, 6))
+# scatter = plt.scatter(df["workout_length"], df["reps"], c='blue', label='Exercises')
+# plt.title('Workout Length vs. Repetitions')
+# plt.xlabel('Workout Length (minutes)')
+# plt.ylabel('Repetitions')
+'''HERE WE TRY TO ASSIGN THE LABELS REFERENCED ABOVE'''
+# plt.legend(handles=scatter.legend_elements()[0], labels=df["exercise"])
+# plt.grid(True)
+# plt.show()
+
+'''THIS WAY MIGHT BE BETTER'''
+# # Create a scatter plot
+# plt.figure(figsize=(10, 6))
+# for i, exercise in enumerate(df['exercise']):
+#     plt.scatter(df['workout_length'][i], df['reps'][i], label=exercise)
+
+# plt.title('Workout Length vs. Repetitions')
+# plt.xlabel('Workout Length (minutes)')
+# plt.ylabel('Repetitions')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, WE ILLUSTRATE THE FOLLOWING:
+
+    1. df['column_name']: Selects a single column as a pandas Series.
+    2. df[['column1', 'column2']]: Selects multiple columns as a DataFrame.
+    3. Two different types of heatmaps
+'''
+
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+
+# # Define the data
+# data = {
+#     "Body Region": ["Chest", "Back", "Legs", "Shoulders", "Arms"],
+#     "Muscle Group": ["Chest", "Back", "Quadriceps", "Shoulders", "Biceps"],
+#     "Exercise": ["Bench Press", "Pull-Ups", "Squats", "Overhead Press", "Bicep Curls"],
+#     "Time (in minutes)": [30, 20, 45, 25, 15],
+#     "Reps": [10, 15, 20, 10, 15]
+# }
+
+# # Create a DataFrame
+# df = pd.DataFrame(data)
+
+# # Compute the correlation matrix regarding this subset
+# correlation_matrix = df[["Time (in minutes)", "Reps"]].corr()
+
+# # Plot the heatmap V1
+# plt.figure(figsize=(8, 6))
+# sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
+# plt.title("Correlation Heatmap: Time vs. Reps")
+# plt.show()
+
+# # Plot the heatmap V2
+# plt.figure(figsize=(8, 6))
+# heatmap = sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f')
+# heatmap.set_title('Correlation Heatmap between Time and Reps')
+# plt.show()
+
+
+
+
+
+
+
+
+'''
+    HEATMAP WITH ALTAIR
+'''
+# import pandas as pd
+# import altair as alt
+
+# # Create a DataFrame with the data
+# data = {
+#     'Body Region': ['Chest', 'Back', 'Legs', 'Shoulders', 'Arms'],
+#     'Muscle Group': ['Chest', 'Back', 'Quadriceps', 'Shoulders', 'Biceps'],
+#     'Exercise': ['Bench Press', 'Pull-Ups', 'Squats', 'Overhead Press', 'Bicep Curls'],
+#     'Time (in minutes)': [30, 20, 45, 25, 15],
+#     'Reps': [10, 15, 20, 10, 15]
+# }
+
+# df = pd.DataFrame(data)
+
+# # Calculate the correlation between `Time (in minutes)` and `Reps`
+# correlation = df['Time (in minutes)'].corr(df['Reps'])
+
+# # Create a DataFrame for the heatmap
+# correlation_df = pd.DataFrame({'Correlation': [correlation]})
+
+# # Create the heatmap
+# heatmap = alt.Chart(correlation_df).mark_rect().encode(
+#     x=alt.X('Correlation:Q', axis=alt.Axis(title='')),
+#     y=alt.Y('Correlation:Q', axis=alt.Axis(title='')),
+#     color=alt.Color('Correlation:Q', scale=alt.Scale(scheme='blueorange')),
+#     tooltip=['Correlation:Q']
+# ).properties(
+#     title='Correlation Between Time and Reps'
+# ).interactive()
+
+# # Add text label to show the correlation value
+# text = heatmap.mark_text(baseline='middle').encode(
+#     text=alt.Text('Correlation:Q', format='.2f')
+# )
+
+# # Combine the heatmap and text label
+# chart = heatmap + text
+
+# # Display the chart
+# chart.save('correlation_heatmap_time_reps.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE CLEAN UP A FILTHY DATASET AND THEN CALCULATE THE DIFFERENT PRODUCTS PRICE DELTA AS PERCENTAGES.
+'''
+
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+
+# # Load the data from the TSV file
+# strawberry_sales_path = './CSVs/STRAWBERRY SALES 2023 - Sheet1.tsv'
+# strawberry_sales_data = pd.read_csv(strawberry_sales_path, sep='\t', skiprows=2)
+
+# # Display the first few rows and recheck the data summary
+# print(strawberry_sales_data.head()) 
+# print(strawberry_sales_data.info(verbose=True)) 
+# print(strawberry_sales_data.describe())
+
+# # Rename the poorly formatted col names
+# strawberry_sales_data.columns = ['DATE', 'CLAMSHELLS', 'NUM_BOXES', 'KILOS', 'PRICE_PER_BOX', 'TOTAL', 'PRODUCT', 'TYPE_OF_PRODUCT']
+
+# # Convert price fields from string to float and clean them
+# strawberry_sales_data['PRICE_PER_BOX'] = strawberry_sales_data['PRICE_PER_BOX'].str.replace('[\$,]', '', regex=True).str.strip().astype(float)
+# strawberry_sales_data['TOTAL'] = strawberry_sales_data['TOTAL'].replace('[\$,]', '', regex=True).astype(float)
+
+# # Convert the dates to datetime
+# strawberry_sales_data['DATE'] = pd.to_datetime(strawberry_sales_data['DATE'], format='mixed')
+
+# # Confirm the clean-up
+# print("\n\nAFTER:")
+# print(strawberry_sales_data.head()) 
+# print(strawberry_sales_data.info(verbose=True)) 
+# print(strawberry_sales_data.describe())
+
+# # Calculate the average price per product type
+# strawberry_sales_data['MONTH'] = pd.to_datetime(strawberry_sales_data['DATE']).dt.month
+# average_price_per_type = strawberry_sales_data.groupby('TYPE_OF_PRODUCT')['PRICE_PER_BOX'].mean()
+# print("\nAverage price per strawberry type:")
+# print(average_price_per_type)
+
+# # Calculate the month-by-month price change for each product type
+# monthly_price_change = strawberry_sales_data.groupby(['TYPE_OF_PRODUCT', 'MONTH'])['PRICE_PER_BOX'].mean().groupby(level=0).pct_change()
+# print("\nMonthly price percentage delta:")
+# print(monthly_price_change)
+
+# # Identify the month with the highest price for each product type
+# highest_price_month = strawberry_sales_data.groupby(['TYPE_OF_PRODUCT', 'MONTH'])['PRICE_PER_BOX'].mean().groupby(level=0).idxmax()
+# print("\nThe month with the highest price:")
+# print(highest_price_month)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    COOL NEW MATPLOTLIB MODULES!
+'''
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+# import matplotlib.dates as mdates
+# import matplotlib.colors as mcolors
+
+# # Load the data
+# file_path = './CSVs/Indian Summers.csv'
+# data = pd.read_csv(file_path)
+
+# print(data.head())
+# print(data.info())
+
+# # Convert Date to datetime type
+# data['Date'] = pd.to_datetime(data['Date'])  
+# data['Year'] = data['Date'].dt.year
+# data['Month'] = data['Date'].dt.month
+
+# # Define a custom color map from white to dark greyish blue
+# cmap = mcolors.LinearSegmentedColormap.from_list('custom_blue', ['white', '#2c3e50'])
+
+# # Setting up the plot
+# plt.figure(figsize=(20, 5), facecolor='white')
+# plt.scatter(data['Date'], 
+#             data['moonphase'], 
+#             c=data['moonphase'], 
+#             cmap='Blues', 
+#             edgecolor='none')
+# plt.colorbar(label='Moonphase')
+# plt.gca().xaxis.set_major_locator(mdates.YearLocator())
+# plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+# plt.title('Moonphase Over Time')
+# plt.xlabel('Date')
+# plt.ylabel('Moonphase')
+# plt.grid(True)
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE PERFORM A K-CLUSTERS ANALYSIS
+'''
+# from sklearn.cluster import KMeans
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+# import pandas as pd
+
+# # Load the TSV file into a DataFrame
+# wellness_costs = pd.read_csv('./CSVs/WELLNESS_COST_2022_CW_V2  - Sheet1.tsv', sep='\t')
+
+# # Explore the dataset
+# print(wellness_costs.head())
+# print(wellness_costs.info())
+
+# # Adding a new column 'YEARLY' by summing the monthly columns
+# wellness_costs['YEARLY'] = wellness_costs[['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER']].sum(axis=1)
+
+# # Display the head of the dataframe to confirm the new column
+# print(wellness_costs.head())
+
+# # Extract the YEARLY column for clustering
+# X = wellness_costs[['YEARLY']].values
+
+# # Determine the optimal number of clusters using the elbow method
+# sse = []
+# k_values = range(1, 11)
+
+# for k in k_values:
+#     kmeans = KMeans(n_clusters=k, random_state=0)
+#     kmeans.fit(X)
+#     sse.append(kmeans.inertia_)
+
+# # Plot the elbow graph
+# plt.figure(figsize=(8, 5))
+# plt.plot(k_values, sse, marker='o')
+# plt.xlabel('Number of Clusters')
+# plt.ylabel('Sum of Squared Errors')
+# plt.title('Elbow Method to Determine Optimal Number of Clusters')
+
+# # Apply k-means clustering with 3 clusters
+# kmeans_3 = KMeans(n_clusters=3, random_state=0)
+# wellness_costs['Cluster_3'] = kmeans_3.fit_predict(X)
+
+# # Analyze the clusters by showing basic statistics
+# cluster_analysis_3 = wellness_costs.groupby('Cluster_3')['YEARLY'].describe()
+
+# print("\nCluster analysis:")
+# print(cluster_analysis_3)
+
+# # Visualize the clusters
+# plt.figure(figsize=(10, 6))
+# sns.histplot(data=wellness_costs, x='YEARLY', hue='Cluster_3', multiple='stack', bins=30, palette='Set2')
+# plt.xlabel('Yearly Expenditure')
+# plt.ylabel('Count')
+# plt.title('Distribution of Yearly Expenditure by Cluster (3 Clusters)')
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    2 DIFF HEATMAP APPROACHES
+'''
+
+# import altair as alt
+# import numpy as np
+# import pandas as pd
+# from pandas.api.types import is_numeric_dtype
+
+# # Read the CSV file into a DataFrame
+# df = pd.read_excel('./CSVs/PAYROLL_MAY.xlsx')
+
+# # Display the first 5 rows
+# print(df.head())
+
+# # Print the column names and their data types
+# print(df.info(verbose=True))
+
+# uni_years = df['YEAR'].value_counts()
+# print(f'Unique Years:\n{uni_years}')
+
+# for column_name in ['YEAR']:
+#   if not is_numeric_dtype(df[column_name]):
+#     # Assume CSV columns can only be numeric or string.
+#     df[column_name] = pd.to_numeric(
+#         df[column_name].str.replace(',', 
+#                                     repl='', 
+#                                     regex=True),
+#                                     ).fillna(0)
+
+# print(df['YEAR'].value_counts())
+# print(df['YEAR'].describe(percentiles=[.1, .25, .5, .75, .9]))
+
+# # Combine `YEAR` and `MONTH` to create datetime column `Date`
+# df['Date'] = pd.to_datetime(df[['YEAR', 'MONTH']].assign(DAY=1))
+
+# # Print the value counts of `Date`
+# print(df['Date'].value_counts())
+
+# # Print descriptive statistics of `Date`
+# print(df['Date'].describe())
+
+# # Combine the month and year into a single datetime column
+# df['Date'] = pd.to_datetime(df.YEAR.astype(str) + '-' + df.MONTH.astype(str), format='%Y-%m')
+
+# # Show the first few rows to confirm the new column
+# print(df[['MONTH', 'YEAR', 'Date']].head())
+
+# # Create a pivot table with the years extracted from the `Date` column as the index, 
+# # the months extracted from the `Date` column as the columns, and the sum of `PLA_I_BASIC ASSETS` as the values.
+# pivot_table = df.pivot_table(index=df['Date'].dt.year, 
+#                              columns=df['Date'].dt.month, 
+#                              values='PLA_I_BASIC ASSETS', 
+#                              aggfunc='sum')
+
+# # Replace missing values with 0
+# pivot_table = pivot_table.fillna(0)
+
+# # Melt the pivot table to long format for Altair
+# melted_df = pivot_table.reset_index().melt(id_vars='Date', var_name='Month', value_name='PLA_I_BASIC ASSETS')
+
+# # Convert the 'Date' and 'Month' columns to strings for Altair
+# melted_df['Date'] = melted_df['Date'].astype(str)
+# melted_df['Month'] = melted_df['Month'].astype(str)
+
+# # Create the heatmap
+# chart = alt.Chart(melted_df).mark_rect().encode(
+#     x=alt.X('Month:O', axis=alt.Axis(title='Month', labelAngle=-45)),
+#     y=alt.Y('Date:O', axis=alt.Axis(title='Year')),
+#     color=alt.Color('PLA_I_BASIC ASSETS:Q', scale=alt.Scale(scheme='blues')),
+#     tooltip=['Month', 'Date', 'PLA_I_BASIC ASSETS']
+# ).properties(
+#     title='Heatmap of PLA_I_BASIC ASSETS by Year and Month'
+# ).interactive()
+
+# # Add text labels to the heatmap cells
+# text = chart.mark_text(baseline='middle').encode(
+#     text=alt.Text('PLA_I_BASIC ASSETS:Q', format='.0f')
+# )
+
+# # Combine the heatmap and text layers
+# final_chart = chart + text
+
+# # Save the chart as a JSON file
+# final_chart.save('basic_assets_heatmap2.html')
+
+
+
+
+
+
+'''SREAMLINED AND USING MEAN INSTEAD OF SUM'''
+
+# import altair as alt
+# import pandas as pd
+
+# # Load the dataset
+# payroll_data = pd.read_excel('PAYROLL_MAY.xlsx')
+
+# # Creating a pivot table for the heatmap
+# heatmap_data = payroll_data.pivot_table(index='YEAR', 
+#                                         columns='MONTH', 
+#                                         values='PLA_I_BASIC ASSETS', aggfunc='mean').reset_index()
+
+# heatmap_data = pd.melt(heatmap_data, id_vars=['YEAR'], value_vars=heatmap_data.columns[1:], var_name='MONTH', value_name='PLA_I_BASIC ASSETS')
+
+# # Creating the heatmap using Altair
+# heatmap = alt.Chart(heatmap_data).mark_rect().encode(
+#     x='MONTH:O',
+#     y='YEAR:O',
+#     color='PLA_I_BASIC ASSETS:Q',
+#     tooltip=['YEAR', 'MONTH', 'PLA_I_BASIC ASSETS']
+# ).properties(
+#     title='Heatmap of PLA_I_BASIC ASSETS by Month and Year',
+#     width=500,
+#     height=300
+# )
+
+# heatmap.save("payrollHeatmap.html")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    FIND ALL NON ZERO COLS WITHIN AN EXCEL FILE
+'''
+
+# import pandas as pd
+
+# FILEPATH = './CSVs/outcomes_incomes_fs.xlsx'
+# df = pd.read_excel(FILEPATH, header=1)
+
+# print(df.info(verbose=True))
+
+# # Rename columns
+# columns = ['Type', 'Description', 'January', 'February', 'March', 'April', 'May', 'June',
+#            'July', 'August', 'September', 'October', 'November']
+
+# df.columns = columns
+
+# # Filter only income-related data and exclude total rows
+# income_data = df[df['Type'].str.lower() == 'incomes']
+
+# # Remove NaN columns that don't have month data
+# income_data = income_data.drop(columns=['Type'])
+
+# # Convert all month columns to numeric values and replace non-numeric data with NaN
+# months = columns[2:]
+# income_data[months] = income_data[months].apply(pd.to_numeric, errors='coerce')
+
+# # Drop NaN rows
+# income_data_clean = income_data.dropna(how='all', subset=months)
+
+# # Display non-zero incomes per month
+# non_zero_incomes = {}
+# for month in months:
+#     non_zero_incomes[month] = income_data_clean[income_data_clean[month] != 0][['Description', month]].reset_index(drop=True)
+
+# print(f"\nAll non-zero incomes for each month:\n{non_zero_incomes}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    USE THIS WHEN IT WONT or CANT FIND A FILE IN CSVs DIRECTORY... IT MIGHT BE HIDDEN OR HAVE A DIFF NAME BEHIND THE SCENES!
+'''
+
+# # Print current working directory
+# import os
+# print("Current Working Directory:", os.getcwd())
+
+# # List files in the specific directory
+# print("Files in './CSVs/':", os.listdir('./CSVs/'))
+
+
+
+import pandas as pd
+
+# Read the CSV file into a DataFrame
+df = pd.read_excel('./CSVs/Data_Set_TransactionReport_All_01Nov2023_30Nov2023_20231214165632.xlsx')
+print(df.head())
+print(df.info())
+
+# Correct the column name for 'Status' (PaymentStatus)
+columns_of_interest = [
+    'Transaction Date', 'RecordLocator', 'PaymentStatus', 'PaymentAmount'
+]
+df_filtered = df[columns_of_interest]
+
+# Redefine the date range
+start_date = pd.Timestamp('2023-09-01')
+end_date = pd.Timestamp('2023-12-31')
+
+# Extract the payment date and time only
+payment_dates = df_filtered[
+    (df_filtered['Transaction Date'] >= start_date) &
+    (df_filtered['Transaction Date'] <= end_date) &
+    (df_filtered['PaymentStatus'].str.lower() == 'approved') &
+    (df_filtered['RecordLocator'].str.contains(r'\d'))
+]['Transaction Date'].dt.strftime('%y-%m-%d %H:%M')
+
+payment_dates_list = payment_dates.tolist()
+
+# Display the results
+print(f'\nPayment dates:\n{payment_dates_list}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
