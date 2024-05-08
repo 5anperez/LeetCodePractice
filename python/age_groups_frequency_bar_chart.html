@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-addc6512c295cfecf9d42087497c6e6f"}, "mark": {"type": "bar"}, "encoding": {"tooltip": [{"field": "Age", "type": "nominal"}, {"field": "Frequency", "type": "quantitative"}], "x": {"field": "Age", "type": "nominal"}, "y": {"field": "Frequency", "type": "quantitative"}}, "params": [{"name": "param_1", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "title": "Frequency of Age Groups", "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-addc6512c295cfecf9d42087497c6e6f": [{"Age": "13-17", "Frequency": 451}, {"Age": "18-24", "Frequency": 1097}, {"Age": "25-34", "Frequency": 5337}, {"Age": "35-44", "Frequency": 5597}, {"Age": "45-54", "Frequency": 5178}, {"Age": "55-64", "Frequency": 3273}, {"Age": "65+", "Frequency": 1251}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

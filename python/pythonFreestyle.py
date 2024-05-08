@@ -9841,35 +9841,1341 @@ This will create a legend with the markers corresponding to each exercise, provi
 
 
 
+
+
+'''
+    EXTRACT COLUMNS AND SPECIFIC ENTRIES FROM THOSE COLUMNS.
+'''
+
+# import pandas as pd
+
+# # Read the CSV file into a DataFrame
+# df = pd.read_excel('./CSVs/Data_Set_TransactionReport_All_01Nov2023_30Nov2023_20231214165632.xlsx')
+# print(df.head())
+# print(df.info())
+
+# # Correct the column name for 'Status' (PaymentStatus)
+# columns_of_interest = [
+#     'Transaction Date', 'RecordLocator', 'PaymentStatus', 'PaymentAmount'
+# ]
+# df_filtered = df[columns_of_interest]
+
+# # Redefine the date range
+# start_date = pd.Timestamp('2023-09-01')
+# end_date = pd.Timestamp('2023-12-31')
+
+# # Extract the payment date and time only
+# payment_dates = df_filtered[
+#     (df_filtered['Transaction Date'] >= start_date) &
+#     (df_filtered['Transaction Date'] <= end_date) &
+#     (df_filtered['PaymentStatus'].str.lower() == 'approved') &
+#     (df_filtered['RecordLocator'].str.contains(r'\d'))
+# ]['Transaction Date'].dt.strftime('%y-%m-%d %H:%M')
+
+# payment_dates_list = payment_dates.tolist()
+
+# # Display the results
+# print(f'\nPayment dates:\n{payment_dates_list}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    BARPLOT WITH LINE THAT FITS
+'''
+
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+# import pandas as pd
+
+# # Load the dataset
+# file_path = './CSVs/Real Estate Mumbai Database - Rgdcvvvh.csv'
+
+# # Attempt to read the dataset with different encoding
+# df = pd.read_csv(file_path, encoding='ISO-8859-1')
+
+# # Display the first few rows and check the column names
+# print(df.head())
+# print(df.columns)
+# print(df.info())
+
+# avg_client_age = df['CLIENT AGE'].mean()
+# print(f'\nAvg. client age is {avg_client_age}')
+# most_freq_addy = df['PROPERTY ADDRESS'].value_counts()
+# print(f'\nCOUNT OF {most_freq_addy}')
+# num_bedrooms = df['NUMBER OF BEDROOMS'].value_counts()
+# print(f'\n{num_bedrooms}')
+# types_of_transactions = df['TRANSACTION TYPE'].value_counts()
+# print(f'\n{types_of_transactions}')
+# dates_of_transactions = df['TRANSACTION DATE'].value_counts()
+# print(f'\n{dates_of_transactions}')
+# desc_spending_max = df['AMOUNT IN (INR)'].max()
+# desc_spending_min = df['AMOUNT IN (INR)'].min()
+# print(f'\nMax spent is {desc_spending_max} and the min spent is {desc_spending_min}')
+# min_age = df['CLIENT AGE'].min()
+# max_age = df['CLIENT AGE'].max()
+# print(f'\nMax age is {max_age} and the min age is {min_age}')
+
+
+
+
+# # Filter based on transaction types
+# rent_transactions = df[df['TRANSACTION TYPE'] == 'RENT']
+# buy_transactions = df[df['TRANSACTION TYPE'] == 'BUY']
+
+# # Find the minimum amount for rental transactions
+# cheapest_rental = rent_transactions['AMOUNT IN (INR)'].min()
+# max_rental = rent_transactions['AMOUNT IN (INR)'].max()
+
+# # Find the maximum amount for purchase transactions
+# max_purchase = buy_transactions['AMOUNT IN (INR)'].max()
+# min_purchase = buy_transactions['AMOUNT IN (INR)'].min()
+# print(f'\nExpensive rental is {max_rental}')
+# print(f'\nCheapest rental cost {cheapest_rental}')
+# print(f'\nExpensive purchase is {max_purchase}')
+# print(f'\nCheapest purchase cost {min_purchase}')
+
+
+
+# # Client Age Analysis
+# plt.figure(figsize=(10, 5))
+# sns.histplot(df['CLIENT AGE'], bins=15, kde=True, color='skyblue')
+# plt.title('Distribution of Client Age')
+# plt.xlabel('Client Age')
+# plt.ylabel('Frequency')
+# plt.grid(True)
+
+# # Categorize into age groups
+# bins = [0, 18, 25, 35, 45, 60, 100]
+# labels = ['0-18', '18-25', '25-35', '35-45', '45-60', '60+']
+# df['AGE GROUP'] = pd.cut(df['CLIENT AGE'], bins=bins, labels=labels, right=False)
+
+# # Count by Age Group
+# age_group_count = df['AGE GROUP'].value_counts().sort_index()
+# plt.figure(figsize=(10, 5))
+# sns.barplot(x=age_group_count.index, 
+#             y=age_group_count.values, 
+#             palette='pastel', 
+#             hue=age_group_count, 
+#             legend=False)
+# plt.title('Transaction Count by Age Group')
+# plt.xlabel('Age Group')
+# plt.ylabel('Transaction Count')
+# plt.grid(True)
+
+
+# # Property Address Analysis
+# property_count = df['PROPERTY ADDRESS'].value_counts().head(10)
+# plt.figure(figsize=(10, 5))
+# sns.barplot(x=property_count.index, 
+#             y=property_count.values, 
+#             palette='pastel',
+#             hue=property_count,
+#             legend=False)
+# plt.title('Top 10 Property Addresses by Transaction Count')
+# plt.xlabel('Property Address')
+# plt.ylabel('Transaction Count')
+# plt.grid(True)
+
+
+# # Correlation between Age Group and Property Address
+# address_age_group = df.groupby(['PROPERTY ADDRESS', 'AGE GROUP'], observed=False).size().unstack(fill_value=0)
+
+# plt.figure(figsize=(12, 8))
+# sns.heatmap(address_age_group, annot=True, fmt='d', cmap='Blues', linewidths=.5)
+# plt.title('Correlation Between Property Address and Age Group')
+# plt.xlabel('Age Group')
+# plt.ylabel('Property Address')
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE RESOLVE THE SettingWithCopyWarning WARNING BY USING THE .copy() METHOD
+'''
+
+
+# import pandas as pd
+
+# # Load the dataset with proper encoding
+# laptop_df = pd.read_csv('./CSVs/Cleaned_Laptop_data.csv', encoding='ISO-8859-1')
+# print(laptop_df.head())
+# print(laptop_df.columns)
+# print(laptop_df.info())
+
+# # Filter laptops with a 'star_rating' of 4 or higher
+# high_rating_laptops = laptop_df[laptop_df['star_rating'] >= 4].copy()
+
+# # Calculate the mean price difference
+# high_rating_laptops['price_difference'] = high_rating_laptops['old_price'] - high_rating_laptops['latest_price']
+# mean_price_difference = high_rating_laptops['price_difference'].mean()
+
+# print('Mean Price Difference:', mean_price_difference)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    GET THE TOP TEN
+'''
+
+# import pandas as pd
+
+# # Load the dataset with ISO-8859-1 encoding
+# ice_email_df = pd.read_csv('./CSVs/ice_email_replies-ice_email_replies.csv', encoding='ISO-8859-1')
+
+# # Check the columns and head
+# print(ice_email_df.head())
+# print(ice_email_df.columns)
+# print(ice_email_df.info())
+
+# # Calculate the top 10 most frequent emails
+# top_emails = ice_email_df['customerEmailSentFrom'].value_counts().head(10)
+
+# # Print the top 10 emails and their frequency
+# print(top_emails)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    SAVE A FILE TO OUTCSVS
+'''
+
+# import pandas as pd
+
+# # Load the data from the Excel file
+# audit_df = pd.read_excel('./CSVs/Premium Collection Audit.xlsx')
+# print(audit_df.head())
+# print(audit_df.columns)
+# print(audit_df.info())
+
+# # Combine the Audit ID and Policy ID Number into a new column
+# audit_df['Audit/Policy ID'] = audit_df['Audit ID'].astype(str) + '/.' + audit_df['Policy ID Number'].astype(str)
+
+# # Save the new table
+# audit_df.to_csv('./OutCSVs/Audit_Policy.csv', index=False)
+# print('\nSUCCESS!\nAudit_Policy.csv has been saved with the new Audit/Policy ID column.')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, WE PERFORM A SOPHISTICATED CLEAN UP ON A MULTI-DIMENSIONAL EXCEL FILE
+'''
+
+
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+# import pandas as pd
+
+# # Read the Excel file into a DataFrame
+# FILEPATH = './CSVs/outcomes_incomes_fs.xlsx'
+# df = pd.read_excel(FILEPATH, header=1)
+
+# # Rename the first two columns
+# df.rename(columns={df.columns[0]: 'Categories', 
+#                    df.columns[1]: 'Subcategories'}, 
+#                    inplace=True)
+
+# # Separate the dataset into two dataframes for generating two heatmaps
+# # Group by Categories and drop the subcategories 
+# category_group = df.groupby('Categories').sum()
+# category_group = category_group.drop(category_group.columns[0], axis=1)
+
+# # Generate the heatmap for 'Categories' vs months
+# plt.figure(figsize=(12, 8))
+# sns.heatmap(category_group, 
+#             annot=True, 
+#             cmap='coolwarm', 
+#             linewidths=0.5)
+# plt.title('Categories vs. Months Heatmap')
+# plt.xlabel('Months')
+# plt.ylabel('Categories')
+
+# # Group by Subcategories and drop the categories
+# subcategory_group = df.groupby('Subcategories').sum()
+# subcategory_group = subcategory_group.drop(subcategory_group.columns[0], axis=1)
+
+# # Generate the heatmap for 'Subcategories' vs months
+# plt.figure(figsize=(20, 30))
+# sns.heatmap(subcategory_group, 
+#             annot=True, 
+#             cmap='coolwarm', 
+#             linewidths=0.5)
+# plt.title('Subcategories vs. Months Heatmap')
+# plt.xlabel('Months')
+# plt.ylabel('Subcategories')
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+
+# # Cleaning and restructuring the data for visualization
+# # Extracting month headers
+# months = df.iloc[0, 2:].values
+
+# # Dropping unnecessary rows and columns for clarity
+# cleaned_data = df.drop([0]).reset_index(drop=True)
+
+# # Setting the first row as column names and dropping the first column
+# cleaned_data.columns = ['Category', 'Source'] + list(months)
+# cleaned_data = cleaned_data.drop(columns=['Category'])
+
+# # Melting the dataframe to have a long format for easier plotting
+# melted_data = cleaned_data.melt(id_vars='Source', var_name='Month', value_name='Amount')
+
+# # Converting 'Amount' to numeric, errors='coerce' will convert non-convertible values to NaNs
+# melted_data['Amount'] = pd.to_numeric(melted_data['Amount'])
+
+# # Dropping NaN values if any
+# melted_data.dropna(inplace=True)
+
+# # Pivot table for heatmap
+# pivot_table = melted_data.pivot("Source", "Month", "Amount")
+
+# # Generating the heatmap
+# plt.figure(figsize=(12, 8))
+# sns.heatmap(pivot_table, annot=True, fmt=".0f", cmap="YlGnBu", linewidths=.5)
+# plt.title('Monthly Income and Outgoings for Each Category (2022)')
+# plt.xticks(rotation=45)
+# plt.ylabel('Source/Category')
+# plt.xlabel('Month')
+# plt.tight_layout()
+
+# # Display the heatmap
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    THIS IS THE MOST STRAIGHTFORWARD WAY
+'''
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Step 1: Load the CSV file into a DataFrame
+# file_path = './CSVs/Bancos-Bodega.xlsxcsv-Global.csv'
+# data = pd.read_csv(file_path)
+
+# # First, ensure we handle negative values correctly by trimming spaces
+# data['Monto'] = data['Monto'].str.replace('$', '').str.replace(',', '').str.replace(' ', '').astype(float)
+
+# # Now, let's try calculating the average value of 'Monto' again
+# average_monto = data['Monto'].mean()
+
+# # Display the result
+# print(f'The average value of Monto is: {average_monto}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    SPLITTING STRINGS AND JOINING STRINGS
+'''
+
+
+# import pandas as pd
+
+# # Load the top_200_youtubers.csv data
+# youtubers_df = pd.read_csv('./CSVs/top_200_youtubers.csv')
+# uni_more_topics = youtubers_df['More topics'].value_counts()
+# print(f'\nUnique {uni_more_topics}')
+
+# # Split the 'More topics' column's comma-separated values into three new columns
+# youtubers_df[['topic one', 'topic two', 'topic three']] = youtubers_df['More topics'].str.split(',', expand=True, n=2)
+
+# # Print the head of the dataframe to verify the new columns
+# print(youtubers_df[['More topics', 'topic one', 'topic two', 'topic three']].head(n=20))
+
+# # Consolidate 'topic one', 'topic two', 'topic three' into one column named 'topic'
+# youtubers_df['topic'] = youtubers_df[['topic one', 'topic two', 'topic three']].apply(lambda x: ', '.join(x.dropna()), axis=1)
+
+# # Print the head of the dataframe to verify the new 'topic' column
+# print(youtubers_df[['topic one', 'topic two', 'topic three', 'topic']].head(n=20))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import matplotlib.pyplot as plt
+# import pandas as pd 
+
+# # Load the hoa_transactions.csv data
+# hoa_df = pd.read_csv('./CSVs/hoa_transactions.csv')
+
+# print(hoa_df.head())
+# print(hoa_df.columns)
+# print(hoa_df.info())
+
+# # Inspect its format
+# print("\n")
+# print(hoa_df['Date'].head(n=20))
+
+
+# '''converting dates with different formats'''
+# # Function to parse dates with multiple formats (for this specific dataset)
+# def parse_date(date_str):
+#     if not isinstance(date_str, float) and len(date_str) > 2:
+#         formats = ['%d-%b', '%b-%d']
+#         for fmt in formats:
+#             try:
+#                 return pd.to_datetime(date_str, format=fmt)
+#             except ValueError:
+#                 pass
+#     return None
+
+# # Apply function to the date column for conversions
+# hoa_df['Date'] = hoa_df['Date'].apply(parse_date)
+
+# # Reinspect the format conversion
+# print("\n")
+# print(hoa_df['Date'].head(n=20))
+# print(hoa_df.info())
+
+# # Create a scatter plot between `Date` and `Income`.
+# plt.figure(figsize=(10, 6))
+# plt.scatter(hoa_df['Date'], hoa_df['Income'])
+
+# # Calculate correlations after converting Date to timestamp
+# corr = hoa_df['Date'].astype('int64').corr(hoa_df['Expenses'])
+# print(f'Correlation coefficient between Date (as timestamp) and Expenses: {corr}')
+
+# # Calculate correlations after converting Date to timestamp
+# corr = hoa_df['Date'].astype('int64').corr(hoa_df['Income'])
+# print(f'Correlation coefficient between Date (as timestamp) and Income: {corr}')
+
+# # Add title, x and y axis labels.
+# plt.title('Date vs Income')
+# plt.xlabel('Date')
+# plt.ylabel('Income')
+# plt.xticks(rotation=45, ha='right')
+# plt.locator_params(axis='y', nbins=10)
+# plt.tight_layout()
+# plt.show()
+
+# # Set up the plot figure
+# plt.figure(figsize=(14, 7))
+
+# # Plotting Expenses
+# plt.subplot(1, 2, 1)  # 1 row, 2 columns, 1st subplot
+# plt.scatter(hoa_df['Date'], hoa_df['Expenses'], color='red', alpha=0.5)
+# plt.title('Expenses over Time')
+# plt.xlabel('Date')
+# plt.ylabel('Expenses')
+# plt.xticks(rotation=45, ha='right')
+
+# # Plotting Income
+# plt.subplot(1, 2, 2)  # 1 row, 2 columns, 2nd subplot
+# plt.scatter(hoa_df['Date'], hoa_df['Income'], color='blue', alpha=0.5)
+# plt.title('Income over Time')
+# plt.xlabel('Date')
+# plt.ylabel('Income')
+# plt.xticks(rotation=45, ha='right')
+
+# # Show the plots
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    Take th series with averages for specific intervals, and calculate the daily averages for missing days by interpolating the data
+'''
+
+# import matplotlib.pyplot as plt
+# import pandas as pd
+
+# # Load the top_200_youtubers.csv data
+# top_youtubers_df = pd.read_csv('./CSVs/top_200_youtubers.csv')
+
+# # Count the number of rows with a null value in the 'Category' column
+# null_categories = top_youtubers_df['Category'].isnull().sum()
+# print('Number of rows with a null value in the Category column:', null_categories)
+
+# # Filter for Like Nastya and select relevant columns
+# nastya_data = top_youtubers_df[
+#     top_youtubers_df['Channel Name'] == 'Like Nastya'][[
+#         'Avg. 1 Day', 
+#         'Avg. 3 Day', 
+#         'Avg. 7 Day', 
+#         'Avg. 14 Day', 
+#         'Avg. 30 day', 
+#         'Avg. 60 day']].iloc[0]
+# print('\n')
+# print(nastya_data) 
+
+# # Mapping intervals to days
+# interval_to_day = {
+#     'Avg. 1 Day': 1,
+#     'Avg. 3 Day': 3,
+#     'Avg. 7 Day': 7,
+#     'Avg. 14 Day': 14,
+#     'Avg. 30 day': 30,
+#     'Avg. 60 day': 60
+# }
+
+# # Create a DataFrame with the known daily averages
+# known_averages = pd.Series({interval_to_day[k]: v for k, v in nastya_data.items()})
+# df = pd.DataFrame({'Daily Avg Views': known_averages})
+
+# # Reindex to include all days from 1 to 60 and interpolate missing values
+# df = df.reindex(range(1, 61)).interpolate(method='linear').fillna(method='bfill').fillna(method='ffill')
+
+# # Plot the data
+# plt.figure(figsize=(12, 6))
+# plt.plot(df.index, df['Daily Avg Views'], marker='o', linestyle='-')
+# plt.title('Daily Average Views for Like Nastya')
+# plt.xlabel('Day')
+# plt.ylabel('Average Views')
+# plt.grid(axis='y', linestyle='--')
+# plt.show()
+
+
+'''TASK: FIND OUT WHAT THE TWO APPROACHES BELOW ARE MISSING. ARE THEY ON TRACK TO GENERATE THE PLOT ABOVE?'''
+# # Divide each column by the corresponding number of days and fill NaN with 0
+# daily_avg_views = nastya_data.div([1, 3, 7, 14, 30, 60]).fillna(0)
+
+# # Create a list of days from 1 to 60
+# days = list(range(1, 61))
+
+# # Extend the daily_avg_views to match the length of days
+# extended_daily_avg_views = daily_avg_views.tolist() + [daily_avg_views[-1]] * (len(days) - len(daily_avg_views))
+
+# # Create the line chart
+# plt.figure(figsize=(12, 6))
+# plt.plot(days, extended_daily_avg_views, marker='o', linestyle='-')
+# plt.title('Daily Average Views for Like Nastya')
+# plt.xlabel('Day')
+# plt.ylabel('Average Views')
+# plt.grid(axis='y', linestyle='--')
+
+
+
+# # Filter the data for the channel 'Like Nastya'
+# nastya_data = top_youtubers_df[top_youtubers_df['Channel Name'] == 'Like Nastya']
+
+# # Extract the relevant average viewers columns
+# day_columns = ['Avg. 1 Day', 'Avg. 3 Day', 'Avg. 7 Day', 'Avg. 14 Day', 'Avg. 30 day', 'Avg. 60 day']
+
+# # Calculate the daily averages for each specified period
+# averages = {}
+# for col in day_columns:
+#     period = int(col.split(' ')[1])  # Extract the number of days from the column name
+#     averages[period] = [nastya_data[col].iloc[0] / period for _ in range(period)]
+
+# # Flatten the list of averages and create a continuous day range
+# all_averages = [avg for sublist in averages.values() for avg in sublist]
+# days = list(range(1, sum(len(v) for v in averages.values()) + 1))
+
+# # Plot the daily averages
+# plt.figure(figsize=(12, 6), facecolor='white')
+# plt.plot(days, all_averages, marker='o')
+# plt.title('Daily Average Viewers for Like Nastya')
+# plt.xlabel('Day')
+# plt.ylabel('Average Viewers')
+# plt.grid(True)
+# plt.xticks(rotation=45)
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    SPLITTING STRINGS
+'''
+
+# import matplotlib.pyplot as plt
+# import pandas as pd
+
+# # Load the uk_universities.csv data
+# uk_universities_df = pd.read_csv('./CSVs/uk_universities.csv')
+
+# # Check the first few rows to understand the format of 'Student_enrollment' column
+# print(uk_universities_df.head())
+# print(uk_universities_df.info())
+# stu_enroll = uk_universities_df['Student_enrollment'].head(n=15)
+# print(stu_enroll)
+
+# # Split the 'Student_enrollment' column into two new columns
+# uk_universities_df[['Student_enrollment_Lower_Bound', 
+#                     'Student_enrollment_Upper_Bound']] = uk_universities_df['Student_enrollment'].str.split('-', expand=True)
+
+# # Convert the new columns to numeric type
+# uk_universities_df['Student_enrollment_Lower_Bound'] = pd.to_numeric(
+#     uk_universities_df['Student_enrollment_Lower_Bound'].str.replace(',', '')
+# )
+# uk_universities_df['Student_enrollment_Upper_Bound'] = pd.to_numeric(
+#     uk_universities_df['Student_enrollment_Upper_Bound'].str.replace(',', '')
+# )
+
+# # Display the updated dataframe to confirm the changes
+# print(uk_universities_df.head())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    CLEAN UP AND STANDARDIZE COLUMN NAMES TO MAKE THE CONCATINATION OF THE TWO FILES EASIER AND TO NOT LOSE ANY DATA
+
+    WE ALSO PERFORM AN IQR ANALYSIS TO FIND OUTLIERS AND THEN SAVE OUR FINDINGS TO AN OUTPUT TSV FILE.
+'''
+
+
+# import pandas as pd
+
+# # Read the TSV file into a DataFrame
+# df_tsv = pd.read_csv('./CSVs/FAL Projects NY - West SM.tsv', sep='\t', skiprows=9)
+
+# # Read the CSV file into a DataFrame
+# df_csv = pd.read_excel('./CSVs/FAL Projects NY - office NY - FAL Proyectos.xlsx', skiprows=9)
+
+# Standardize the column names
+# df_csv.rename(columns={df_csv.columns[5]: 'Shipping/ Handling:'}, inplace=True)
+
+# print(df_tsv.head())
+# print(df_tsv.columns)
+# print(df_tsv.info())
+# print(df_csv.head())
+# print(df_csv.columns)
+# print(df_csv.info())
+
+# Combine the dataframes
+# combined_df = pd.concat([df_tsv, df_csv])
+
+# # Display the first 5 rows
+# print(combined_df.head())
+# print(combined_df.info())
+
+# # Filter to keep only the columns `Purchased By`, `Order Subtotal`, `Shipping/Handling`, `Vendor`, and `Created`
+# filtered_df = combined_df[['Purchased By:', 
+#                            'Order Sub Total:', 
+#                            'Shipping/ Handling:', 
+#                            'Vendor Name:', 
+#                            'Create Date:']]
+
+# # Drop rows where any of the columns `Purchased By`, `Order Subtotal`, `Shipping/Handling`, `Vendor`, and `Created` have null values
+# filtered_df = filtered_df.dropna(subset=['Purchased By:', 
+#                            'Order Sub Total:', 
+#                            'Shipping/ Handling:', 
+#                            'Vendor Name:', 
+#                            'Create Date:'])
+
+# # Remove '$' and ',' from the columns `Order Subtotal` and `Shipping/Handling` and convert to numeric
+# for column_name in ['Order Sub Total:', 'Shipping/ Handling:']:
+#     filtered_df[column_name] = filtered_df[column_name].astype(str).str.replace(r'[$,]', '', regex=True)
+#     filtered_df[column_name] = pd.to_numeric(filtered_df[column_name])
+
+# # Calculate a new column `Shipping/Handling Proportion` as `Shipping/Handling` divided by `Order Subtotal`
+# filtered_df['Shipping/Handling Proportion'] = filtered_df['Shipping/ Handling:'] / filtered_df['Order Sub Total:']
+
+# # Calculate the first quartile (Q1), third quartile (Q3), and interquartile range (IQR) for the `Shipping/Handling Proportion` column
+# Q1 = filtered_df['Shipping/Handling Proportion'].quantile(0.25)
+# Q3 = filtered_df['Shipping/Handling Proportion'].quantile(0.75)
+# IQR = Q3 - Q1
+
+# # Define the lower and upper bounds for outliers as Q1 - 1.5 * IQR and Q3 + 1.5 * IQR, respectively
+# lower_bound = Q1 - 1.5 * IQR
+# upper_bound = Q3 + 1.5 * IQR
+
+# # Filter to keep only the rows where the `Shipping/Handling Proportion` is outside the lower and upper bounds
+# outlier_df = filtered_df.loc[(filtered_df['Shipping/Handling Proportion'] < lower_bound) | 
+#                              (filtered_df['Shipping/Handling Proportion'] > upper_bound)]
+
+# # Sort the filtered dataframe by `Shipping/Handling Proportion` in descending order
+# outlier_df = outlier_df.sort_values(by='Shipping/Handling Proportion', ascending=False)
+# print(f'Outliers:\n{outlier_df}')
+
+# Write the sorted dataframe to a new TSV file called "outlier_purchases.tsv"
+# outlier_df.to_csv('./OutCSVs/outlier_purchases.tsv', sep='\t', index=False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+'''what are the significant aspects of the Hospital Survey Data on alcohol and drug abuse in regards to the number of entries, data completeness, data type diversity, and any apparent outliers'''
+
+'''
+    IQR ANALYSIS ON ONE FILE. I STARTED OUT WITH TWO BUT THEN AFTER RE-READING THE PROMPT, I REALIZED THAT ITS ASKING FOR A SPECIFIC FILE'S STATISTICS.
+'''
+
+
+# import pandas as pd
+
+# # Load the files
+# df_alcohol_drug_abuse = pd.read_excel('./CSVs/Hospital_Survey_Data_Alcohol_Drug_Abuse.xlsx', header=1)
+# df_septicemia = pd.read_csv('./CSVs/Hospital_Survey_Data_Speticemia.csv', header=1)
+
+# print(df_alcohol_drug_abuse.head())
+# print(df_alcohol_drug_abuse.columns)
+# print(df_alcohol_drug_abuse.info())
+
+# print(df_septicemia.head())
+# print(df_septicemia.columns)
+# print(df_septicemia.info())
+
+# max_discharges = df_alcohol_drug_abuse['Total Discharges'].max()
+# min_discharges = df_alcohol_drug_abuse['Total Discharges'].min()
+# print(f'\nThe range of discharges goes from {min_discharges} to {max_discharges}\n')
+
+# max_discharges = df_septicemia['Total Discharges'].max()
+# min_discharges = df_septicemia['Total Discharges'].min()
+# print(f'\nThe range of discharges goes from {min_discharges} to {max_discharges}\n')
+
+# # Combine the dataframes
+# combined_df = pd.concat([df_alcohol_drug_abuse, df_septicemia])
+
+# print(combined_df.info())
+
+# max_discharges = combined_df['Total Discharges'].max()
+# min_discharges = combined_df['Total Discharges'].min()
+# print(f'\nThe range of discharges goes from {min_discharges} to {max_discharges}\n')
+
+# # Filter columns containing '$'
+# filtered_columns = [col for col in combined_df.columns if '$' in col]
+# filtered_df = combined_df[filtered_columns]
+# print(f'The filtered money columns:\n{filtered_df}')
+# filt_count = filtered_df.value_counts().sum()
+# print(f'\nIts length:\n{filt_count}')
+
+# # Convert all columns in filtered_df to numeric, coercing errors to NaN
+# # for col in filtered_df.columns:
+# #     filtered_df[col] = pd.to_numeric(filtered_df[col])
+
+# # Descriptive statistics for filtered columns
+# print("Descriptive Statistics for columns with '$':")
+# print(filtered_df.describe())
+
+# # Calculate and print IQR for each filtered column
+# print("\nInterquartile Range (IQR) for columns with '$':")
+# print((filtered_df.quantile(0.75) - filtered_df.quantile(0.25)))
+
+# # Calculate and print outlier bounds for each filtered column
+# print("\nOutlier Bounds for columns with '$':")
+# Q1 = filtered_df.quantile(0.25)
+# Q3 = filtered_df.quantile(0.75)
+# IQR = Q3 - Q1
+# upper_bound = Q3 + 1.5 * IQR
+# lower_bound = Q1 - 1.5 * IQR
+# bounds_df = pd.DataFrame({'Lower Bound': lower_bound, 'Upper Bound': upper_bound})
+# print(bounds_df)
+
+# # Identify and print the number of outliers in each filtered column
+# print("\nNumber of Outliers for columns with '$':")
+# for col in filtered_columns:
+#     outliers = filtered_df[(filtered_df[col] < lower_bound[col]) | (filtered_df[col] > upper_bound[col])]
+#     print(f"{col}: {len(outliers)} outliers")
+
+
+'''SAME ANALYSIS BUT WE PRINT IT IN MARKDOWN FORM WHICH IS MORE ORGANIZED'''
+# # Filter columns containing '$'
+# filtered_columns = [col for col in df_alcohol_drug_abuse.columns if '$' in col]
+# filtered_df = df_alcohol_drug_abuse[filtered_columns]
+
+# # Descriptive statistics for filtered columns
+# print("Descriptive Statistics for columns with '$':")
+# print(filtered_df.describe().to_markdown(numalign="left", stralign="left"))
+
+# # Calculate and print IQR for each filtered column
+# print("\nInterquartile Range (IQR) for columns with '$':")
+# print((filtered_df.quantile(0.75) - filtered_df.quantile(0.25)).to_markdown(numalign="left", stralign="left"))
+
+# # Calculate and print outlier bounds for each filtered column
+# print("\nOutlier Bounds for columns with '$':")
+# Q1 = filtered_df.quantile(0.25)
+# Q3 = filtered_df.quantile(0.75)
+# IQR = Q3 - Q1
+# upper_bound = Q3 + 1.5 * IQR
+# lower_bound = Q1 - 1.5 * IQR
+# bounds_df = pd.DataFrame({'Lower Bound': lower_bound, 'Upper Bound': upper_bound})
+# print(bounds_df.to_markdown(numalign="left", stralign="left"))
+
+# # Identify and print the number of outliers in each filtered column
+# print("\nNumber of Outliers for columns with '$':")
+# for col in filtered_columns:
+#     outliers = filtered_df[(filtered_df[col] < lower_bound[col]) | (filtered_df[col] > upper_bound[col])]
+#     print(f"{col}: {len(outliers)} outliers")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE CREATE A VERY COOL BAR GRAPH USING THE NEON AND BLACK COLORWAY
+'''
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Load the ByrdBiteAdData.csv
+# df_byrdbite = pd.read_csv('./CSVs/ByrdBiteAdData.csv')
+# print(df_byrdbite.head())
+# print(df_byrdbite.info())
+
+# # Count the occurrences of each age
+# df_age_counts = df_byrdbite['Age'].value_counts().sort_index()
+
+# # Define neon colors for the bars
+# neon_colors = ['#FFD700', 
+#                '#FF6347', 
+#                '#FF1493', 
+#                '#00FF00', 
+#                '#00BFFF', 
+#                '#8A2BE2', # Repeat the color list to cover all bars
+#                '#FF4500'] * (len(df_age_counts) // 7 + 1)  
+
+
+# # Adjusting the plot to have a black background behind the bars as well
+# plt.figure(figsize=(10, 6), facecolor='black')
+# ax = plt.subplot(111, facecolor='black')
+# ax.bar(df_age_counts.index, df_age_counts.values, color=neon_colors[:len(df_age_counts)])
+# ax.set_title('Number of Times Each Age Population Appears', color='white')
+# ax.set_xlabel('Age', color='white')
+# ax.set_ylabel('Frequency', color='white')
+# ax.tick_params(axis='x', colors='white')
+# ax.tick_params(axis='y', colors='white')
+# ax.grid(axis='y', linestyle='--', alpha=0.7, color='white')
+# plt.show()
+
+
+'''2nd approach with altair'''
+# import altair as alt
+
+# # Drop null values in `Age`
+# df_byrdbite.dropna(subset = ['Age'], inplace=True)
+
+# # Calculate the frequency of each unique value in `Age`
+# age_counts = df_byrdbite['Age'].value_counts()
+
+# # Convert the series `age_counts` to a DataFrame
+# age_counts_df = age_counts.reset_index()
+
+# # Rename the columns
+# age_counts_df.columns = ['Age', 'Frequency']
+
+# # Sort the DataFrame by `Age` in ascending order
+# age_counts_df = age_counts_df.sort_values('Age')
+
+# # Create a bar chart with `Age` on the x-axis and `Frequency` on the y-axis
+# chart = alt.Chart(age_counts_df).mark_bar().encode(
+#     x='Age',
+#     y='Frequency',
+#     tooltip = ['Age', 'Frequency']
+# ).properties(
+#     title = 'Frequency of Age Groups'
+# ).interactive()
+
+# Save the chart
+# chart.save('./OutCSVs/age_groups_frequency_bar_chart.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import pandas as pd
 
-# Read the CSV file into a DataFrame
-df = pd.read_excel('./CSVs/Data_Set_TransactionReport_All_01Nov2023_30Nov2023_20231214165632.xlsx')
-print(df.head())
-print(df.info())
+# Load the current_accounts.csv
+df_current_accounts = pd.read_csv('./CSVs/current_accounts.csv')
 
-# Correct the column name for 'Status' (PaymentStatus)
-columns_of_interest = [
-    'Transaction Date', 'RecordLocator', 'PaymentStatus', 'PaymentAmount'
-]
-df_filtered = df[columns_of_interest]
+# # Display the first few rows of the dataframe to understand its structure and contents
+# print(df_current_accounts.head())
+# print(df_current_accounts.columns)
+# print(df_current_accounts.info())
 
-# Redefine the date range
-start_date = pd.Timestamp('2023-09-01')
-end_date = pd.Timestamp('2023-12-31')
+# uni_statuses = df_current_accounts['Status'].unique()
+# print(f'The unique statuses are the following:\n{uni_statuses}')
+# val_counts = df_current_accounts['Status'].value_counts()
+# print(f'And there are this many:\n{val_counts}')
 
-# Extract the payment date and time only
-payment_dates = df_filtered[
-    (df_filtered['Transaction Date'] >= start_date) &
-    (df_filtered['Transaction Date'] <= end_date) &
-    (df_filtered['PaymentStatus'].str.lower() == 'approved') &
-    (df_filtered['RecordLocator'].str.contains(r'\d'))
-]['Transaction Date'].dt.strftime('%y-%m-%d %H:%M')
+# # Convert Balance to numeric, handling commas as decimal points 
+# df_current_accounts['Balance'] = pd.to_numeric(df_current_accounts['Balance'].str.replace(',', '.'))
 
-payment_dates_list = payment_dates.tolist()
+# # Filter data by 'PENDIENTE' and 'PARCIAL' statuses
+# df_pendiente = df_current_accounts[df_current_accounts['Status'] == 'PENDIENTE']
+# df_parcial = df_current_accounts[df_current_accounts['Status'] == 'PARCIAL']
 
-# Display the results
-print(f'\nPayment dates:\n{payment_dates_list}')
+# # Calculate mean and median for 'PENDIENTE' status
+# mean_pendiente = df_pendiente['Balance'].mean()
+# median_pendiente = df_pendiente['Balance'].median()
+
+# # Calculate mean and median for 'PARCIAL' status
+# mean_parcial = df_parcial['Balance'].mean()
+# median_parcial = df_parcial['Balance'].median()
+
+# print('Mean Balance for PENDIENTE status:', mean_pendiente)
+# print('Median Balance for PENDIENTE status:', median_pendiente)
+# print('Mean Balance for PARCIAL status:', mean_parcial)
+# print('Median Balance for PARCIAL status:', median_parcial)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Drop null values in `Status`
+df_current_accounts.dropna(subset = ['Status'], inplace=True)
+
+# Replace ',' with '.' in `Debit` and `Credit` columns and convert to numeric
+for column_name in ['Debit', 'Credit']:
+  df_current_accounts[column_name] = pd.to_numeric(df_current_accounts[column_name].str.replace(',', '.'))
+#   df_current_accounts[column_name] = df_current_accounts[column_name].astype(str).str.replace(',', '.', regex=False)
+#   df_current_accounts[column_name] = pd.to_numeric(df_current_accounts[column_name])
+
+# Calculate `Calculated_Balance` as cumulative sum of `Credit` - `Debit` grouped by `Voucher`
+# df_current_accounts['Calculated_Balance'] = df_current_accounts.groupby('Voucher')['Credit'].cumsum() - df_current_accounts.groupby('Voucher')['Debit'].cumsum()
+
+# Replace ',' with '.' in `Balance` and convert to numeric
+df_current_accounts['Balance'] = pd.to_numeric(df_current_accounts['Balance'].str.replace(',', '.'))
+# df_current_accounts['Balance'] = df_current_accounts['Balance'].astype(str).str.replace(',', '.', regex=False)
+# df_current_accounts['Balance'] = pd.to_numeric(df_current_accounts['Balance'])
+
+# Calculate `Calculated_Balance` as cumulative sum of `Credit` - `Debit` grouped by `Voucher`
+df_current_accounts['Calculated_Balance'] = df_current_accounts.groupby('Voucher')['Balance'].cumsum() - df_current_accounts.groupby('Voucher')['Credit'].cumsum()
+
+# Verify if `Calculated_Balance` matches `Balance`
+if (df_current_accounts['Calculated_Balance'] == df_current_accounts['Balance']).all():
+  print('Calculated_Balance matches Balance for all rows')
+else:
+  print('There are mismatches between Calculated_Balance and Balance')
+  print(df_current_accounts[df_current_accounts['Calculated_Balance'] != df_current_accounts['Balance']])
+
+# Print unique values of `Status`
+print(f"Unique values of Status: {df_current_accounts['Status'].unique()}")
+
+
+import altair as alt
+
+# Filter the dataframe to include only rows where `Status` is either 'PENDIENTE' or 'PARCIAL'
+filtered_df = df_current_accounts[df_current_accounts['Status'].isin(['PENDIENTE', 'PARCIAL'])]
+
+# Calculate and print descriptive statistics of `Calculated_Balance` for each `Status`
+print(filtered_df.groupby('Status')['Calculated_Balance'].describe())
+
+# Create a boxplot to visualize the distribution of `Calculated_Balance` for each `Status`
+chart = alt.Chart(filtered_df).mark_boxplot(extent='min-max').encode(
+    x=alt.X('Status:N', axis=alt.Axis(title='Status', labelAngle=-45)),
+    y=alt.Y('Calculated_Balance:Q', axis=alt.Axis(title='Calculated Balance')),
+    color='Status:N',
+    tooltip = ['Status', 'Calculated_Balance']
+).properties(
+    title='Distribution of Calculated Balance by Status'
+).interactive()
+
+chart.save('./OutCSVs/calculated_balance_by_status_boxplot.html')
+
+
+
+
+
+
+
 
 
 
