@@ -11053,10 +11053,10 @@ This will create a legend with the markers corresponding to each exercise, provi
 
 
 
-import pandas as pd
+# import pandas as pd
 
-# Load the current_accounts.csv
-df_current_accounts = pd.read_csv('./CSVs/current_accounts.csv')
+# # Load the current_accounts.csv
+# df_current_accounts = pd.read_csv('./CSVs/current_accounts.csv')
 
 # # Display the first few rows of the dataframe to understand its structure and contents
 # print(df_current_accounts.head())
@@ -11119,56 +11119,6 @@ df_current_accounts = pd.read_csv('./CSVs/current_accounts.csv')
 
 
 
-# Drop null values in `Status`
-df_current_accounts.dropna(subset = ['Status'], inplace=True)
-
-# Replace ',' with '.' in `Debit` and `Credit` columns and convert to numeric
-for column_name in ['Debit', 'Credit']:
-  df_current_accounts[column_name] = pd.to_numeric(df_current_accounts[column_name].str.replace(',', '.'))
-#   df_current_accounts[column_name] = df_current_accounts[column_name].astype(str).str.replace(',', '.', regex=False)
-#   df_current_accounts[column_name] = pd.to_numeric(df_current_accounts[column_name])
-
-# Calculate `Calculated_Balance` as cumulative sum of `Credit` - `Debit` grouped by `Voucher`
-# df_current_accounts['Calculated_Balance'] = df_current_accounts.groupby('Voucher')['Credit'].cumsum() - df_current_accounts.groupby('Voucher')['Debit'].cumsum()
-
-# Replace ',' with '.' in `Balance` and convert to numeric
-df_current_accounts['Balance'] = pd.to_numeric(df_current_accounts['Balance'].str.replace(',', '.'))
-# df_current_accounts['Balance'] = df_current_accounts['Balance'].astype(str).str.replace(',', '.', regex=False)
-# df_current_accounts['Balance'] = pd.to_numeric(df_current_accounts['Balance'])
-
-# Calculate `Calculated_Balance` as cumulative sum of `Credit` - `Debit` grouped by `Voucher`
-df_current_accounts['Calculated_Balance'] = df_current_accounts.groupby('Voucher')['Balance'].cumsum() - df_current_accounts.groupby('Voucher')['Credit'].cumsum()
-
-# Verify if `Calculated_Balance` matches `Balance`
-if (df_current_accounts['Calculated_Balance'] == df_current_accounts['Balance']).all():
-  print('Calculated_Balance matches Balance for all rows')
-else:
-  print('There are mismatches between Calculated_Balance and Balance')
-  print(df_current_accounts[df_current_accounts['Calculated_Balance'] != df_current_accounts['Balance']])
-
-# Print unique values of `Status`
-print(f"Unique values of Status: {df_current_accounts['Status'].unique()}")
-
-
-import altair as alt
-
-# Filter the dataframe to include only rows where `Status` is either 'PENDIENTE' or 'PARCIAL'
-filtered_df = df_current_accounts[df_current_accounts['Status'].isin(['PENDIENTE', 'PARCIAL'])]
-
-# Calculate and print descriptive statistics of `Calculated_Balance` for each `Status`
-print(filtered_df.groupby('Status')['Calculated_Balance'].describe())
-
-# Create a boxplot to visualize the distribution of `Calculated_Balance` for each `Status`
-chart = alt.Chart(filtered_df).mark_boxplot(extent='min-max').encode(
-    x=alt.X('Status:N', axis=alt.Axis(title='Status', labelAngle=-45)),
-    y=alt.Y('Calculated_Balance:Q', axis=alt.Axis(title='Calculated Balance')),
-    color='Status:N',
-    tooltip = ['Status', 'Calculated_Balance']
-).properties(
-    title='Distribution of Calculated Balance by Status'
-).interactive()
-
-chart.save('./OutCSVs/calculated_balance_by_status_boxplot.html')
 
 
 

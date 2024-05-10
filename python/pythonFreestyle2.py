@@ -1,4 +1,495 @@
 
+
+# from typing import Optional, List, Tuple
+
+# class TreeNode:
+#     def __init__(self, val: int = 0, left: Optional['TreeNode'] = None, right: Optional['TreeNode'] = None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+
+'''THIS ONE PRINTS THE NODE VALUES'''
+# def largestCluster(root: Optional[TreeNode]) -> List[int]:
+#     def helper(node: Optional[TreeNode]) -> tuple[bool, int, int, int, Optional[TreeNode]]:
+#         """Returns a tuple (isBST, min, max, size, largestBSTRoot)"""
+#         if not node:
+#             return True, float('inf'), float('-inf'), 0, None
+
+#         left_is_bst, left_min, left_max, left_size, left_bst = helper(node.left)
+#         right_is_bst, right_min, right_max, right_size, right_bst = helper(node.right)
+
+#         if left_is_bst and right_is_bst and left_max < node.val < right_min:
+#             current_size = left_size + right_size + 1
+#             return True, min(left_min, node.val), max(right_max, node.val), current_size, node
+#         else:
+#             if left_size > right_size:
+#                 return False, 0, 0, left_size, left_bst
+#             else:
+#                 return False, 0, 0, right_size, right_bst
+
+#     def extract_values(node: Optional[TreeNode]) -> List[int]:
+#         """Extracts all values from the given subtree"""
+#         if not node:
+#             return []
+#         return extract_values(node.left) + [node.val] + extract_values(node.right)
+
+#     _, _, _, _, largest_bst_root = helper(root)
+#     return extract_values(largest_bst_root)
+
+
+
+
+
+'''THIS ONE PRINTS THE ASCII TREE, THATS WHY WE NEED THE TUPLE'''
+# def largestCluster(root: Optional[TreeNode]) -> str:
+
+#     def traverse(node: Optional[TreeNode]) -> Tuple[bool, int, int, int, Optional[TreeNode]]:
+#         # Returns a tuple (isBST, min, max, size, largestBSTRoot)
+#         if not node:
+#             return True, float('inf'), float('-inf'), 0, None
+
+#         left_is_bst, left_min, left_max, left_size, left_bst = traverse(node.left)
+#         right_is_bst, right_min, right_max, right_size, right_bst = traverse(node.right)
+
+#         if left_is_bst and right_is_bst and left_max < node.val < right_min:
+#             current_size = left_size + right_size + 1
+#             return True, min(left_min, node.val), max(right_max, node.val), current_size, node
+#         else:
+#             if left_size > right_size:
+#                 return False, 0, 0, left_size, left_bst
+#             else:
+#                 return False, 0, 0, right_size, right_bst
+
+#     def treeToString(node: Optional[TreeNode]) -> List[str]:
+#         # Constructs a visual representation of the tree rooted at the given node
+#         if not node:
+#             return []
+
+#         left_lines = treeToString(node.left)
+#         right_lines = treeToString(node.right)
+
+#         node_str = str(node.val)
+#         node_width = len(node_str)
+
+    #     # Prepare spacing for the node value
+    #     first_line = node_str
+    #     second_line = ""
+    #     if left_lines or right_lines:
+    #         if left_lines:
+    #             left_branch_width = max(len(line) for line in left_lines)
+    #             second_line += f"{' ' * (left_branch_width - 1)}/"
+    #             first_line = f"{' ' * left_branch_width}{first_line}"
+    #         else:
+    #             first_line = f"{first_line} "
+
+    #         if right_lines:
+    #             right_branch_width = max(len(line) for line in right_lines)
+    #             second_line += f"\\{' ' * (right_branch_width - 1)}"
+    #             first_line = f"{first_line}{' ' * right_branch_width}"
+
+    #     result_lines = [first_line, second_line]
+    #     zipped_lines = zipLongest(left_lines, right_lines, fillvalue="")
+
+    #     for left_line, right_line in zipped_lines:
+    #         result_lines.append(f"{left_line}{' ' * node_width}{right_line}")
+
+    #     return result_lines
+
+    # def zipLongest(left, right, fillvalue=""):
+    #     # Helper function to zip two lists and fill with a value if lengths differ
+    #     max_len = max(len(left), len(right))
+    #     return zip(left + [fillvalue] * (max_len - len(left)),
+    #                right + [fillvalue] * (max_len - len(right)))
+
+    # _, _, _, _, largest_bst_root = traverse(root)
+    # return '\n'.join(treeToString(largest_bst_root))
+
+
+
+
+
+
+
+
+# like this:
+#     4
+#   /   \
+#  0     7 
+
+
+# # Constructing a sample BST network
+# root = TreeNode(9)
+# root.left = TreeNode(4)
+# root.right = TreeNode(14)
+# root.left.left = TreeNode(0)
+# root.left.right = TreeNode(7)
+# null
+# root.right.right = TreeNode(6)
+
+# Output should be 3 (subtree rooted at 4)
+# print(f'Expected: 3\nActual: {largestCluster(root)}')
+
+# print(f'Expected: [0, 4, 7]\nActual: {largestCluster(root)}')
+
+
+# print(f'Expected: [0, 4, 7]\nActual:\n{largestCluster(root)}')
+# print('\n')
+
+# like this:
+#     6
+#   /   
+#  4     
+
+# # Constructing a sample BST network
+# root2 = TreeNode(3)
+# root2.left = TreeNode(1)
+# root2.right = TreeNode(6)
+# root2.left.left = TreeNode(1)
+# root2.left.right = TreeNode(2)
+# root2.right.left = TreeNode(4)
+# null
+# root2.left.left.left = TreeNode(1)
+# null
+# null
+# null
+# null
+# null
+# root2.left.left.left.left = TreeNode(0)
+
+# Output should be 2 (subtree rooted at 6)
+# print(f'Expected: 2\nActual: {largestCluster(root2)}')
+
+# print(f'Expected: [4, 6]\nActual: {largestCluster(root2)}')
+
+
+# print(f'Expected: [4, 6]\nActual:\n{largestCluster(root2)}')
+# print('\n')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def longestSlope(terrain: list[list[int]]) -> int:
+#     if not terrain or not terrain[0]:
+#         return 0
+
+#     rows, cols = len(terrain), len(terrain[0])
+#     memo = [[-1] * cols for _ in range(rows)]
+#     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+#     def is_valid(x, y):
+#         return 0 <= x < rows and 0 <= y < cols
+
+#     def dfs(x, y):
+#         if memo[x][y] != -1:
+#             return memo[x][y]
+
+#         max_length = 1
+#         for dx, dy in directions:
+#             nx, ny = x + dx, y + dy
+#             if is_valid(nx, ny) and terrain[nx][ny] > terrain[x][y]:
+#                 max_length = max(max_length, 1 + dfs(nx, ny))
+
+#         memo[x][y] = max_length
+#         return max_length
+
+#     longest_path = 0
+#     for x in range(rows):
+#         for y in range(cols):
+#             longest_path = max(longest_path, dfs(x, y))
+
+#     return longest_path
+
+'''THESE OTHER VERSIONS START FROM THE LOWEST'''
+
+# def longestSlope2(terrain: list[list[int]]) -> int:
+#     """
+#     Finds the longest increasing path in a terrain grid, simulating a water flow.
+
+#     Args:
+#         terrain: A 2D list representing the terrain's elevation grid.
+
+#     Returns:
+#         The length (in meters) of the longest increasing path.
+#     """
+    
+#     rows, cols = len(terrain), len(terrain[0])
+    
+#     # Memoization for dynamic programming
+#     dp = [[-1 for _ in range(cols)] for _ in range(rows)]
+    
+#     def dfs(i, j):
+#         """Depth-first search to find longest path from a cell."""
+#         if dp[i][j] != -1:  # If calculated, return the stored value
+#             return dp[i][j]
+
+#         longest = 1
+#         for x, y in [(i-1, j), (i+1, j), (i, j-1), (i, j+1)]:
+#             if 0 <= x < rows and 0 <= y < cols and terrain[x][y] > terrain[i][j]:
+#                 longest = max(longest, 1 + dfs(x, y))
+#         dp[i][j] = longest  # Store the result
+#         return longest
+    
+#     # Start from the lowest point
+#     start_i, start_j = 0, 0
+#     for i in range(rows):
+#         for j in range(cols):
+#             if terrain[i][j] < terrain[start_i][start_j]:
+#                 start_i, start_j = i, j
+
+#     return dfs(start_i, start_j)
+
+
+'''
+    THIS ONE RETURNS THE PATH AND ITS LENGTH AND CAN START FROM ANY CELL
+'''
+# def longestSlope(terrain: list[list[int]]) -> tuple[int, list[int]]:
+#     if not terrain or not terrain[0]:
+#         return 0, []
+
+#     rows, cols = len(terrain), len(terrain[0])
+
+#     # Memoization for dynamic programming
+#     dp = [[-1 for _ in range(cols)] for _ in range(rows)]
+#     path_memo = [[None for _ in range(cols)] for _ in range(rows)]
+
+#     def dfs(i, j):
+#         """Depth-first search to find longest path from a cell."""
+#         if dp[i][j] != -1:  # If already calculated, return the stored value
+#             return dp[i][j], path_memo[i][j]
+
+#         longest = 1
+#         best_path = [terrain[i][j]]
+#         for x, y in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+#             if 0 <= x < rows and 0 <= y < cols and terrain[x][y] > terrain[i][j]:
+#                 length, sub_path = dfs(x, y)
+#                 if 1 + length > longest:
+#                     longest = 1 + length
+#                     best_path = [terrain[i][j]] + sub_path
+
+#         dp[i][j] = longest  # Store the result
+#         path_memo[i][j] = best_path
+#         return longest, best_path
+
+#     max_length = 0
+#     longest_path = []
+#     for i in range(rows):
+#         for j in range(cols):
+#             length, path = dfs(i, j)
+#             if length > max_length:
+#                 max_length = length
+#                 longest_path = path
+
+#     return max_length, longest_path
+
+
+
+
+
+# def longestSlope(terrain: list[list[int]]) -> int:
+#     """
+#     Finds the longest increasing path in a terrain grid.
+
+#     Args:
+#         terrain: A 2D list representing the terrain's elevation grid.
+
+#     Returns:
+#         The length (in meters) of the longest increasing path.
+#     """
+#     rows, cols = len(terrain), len(terrain[0])
+#     dp = [[-1 for _ in range(cols)] for _ in range(rows)]  # Memoization
+
+#     def dfs(i, j):
+#         """Depth-first search to find longest path from a cell."""
+#         if dp[i][j] != -1:  # If calculated, return the stored value
+#             return dp[i][j]
+
+#         longest = 1
+#         for x, y in [(i-1, j), (i+1, j), (i, j-1), (i, j+1)]:
+#             if 0 <= x < rows and 0 <= y < cols and terrain[x][y] > terrain[i][j]:
+#                 longest = max(longest, 1 + dfs(x, y))
+#         dp[i][j] = longest  # Store the result
+#         return longest
+
+#     # Find the longest path starting from any cell
+#     longest_path = 0
+#     for i in range(rows):
+#         for j in range(cols):
+#             longest_path = max(longest_path, dfs(i, j))
+
+#     return longest_path
+
+
+'''
+    ALL THESE TESTS ARE FOR THE VERSION THAT CAN START AT ANY CELL
+'''
+
+# # Example 1 (starts at the lowest)
+# terrain1 = [[5, 6, 7, 8],
+#             [4, 5, 1, 7],
+#             [3, 4, 5, 6],
+#             [2, 3, 4, 5]]
+# # Output should be 5
+# print(f'Expected: 7\nActual: {longestSlope(terrain1)}')
+# print(longestSlope2(terrain1))
+# print('\n')
+
+# # Example 2
+# terrain2 = [[9, 12, 6, 3], 
+#             [5, 10, 15, 2], 
+#             [4, 11, 13, 1]]
+# # Expected Output:  6 (e.g., path: 4 -> 5 -> 10 -> 11 -> 13 -> 15) 
+# print(f'Expected: 6\nActual: {longestSlope(terrain2)}')
+# print(longestSlope2(terrain2))
+# print('\n')
+
+# # Example 3
+# terrain3 = [[3, 4, 5], 
+#             [3, 2, 6], 
+#             [2, 2, 1]]
+# # Output should be 4
+# print(f'Expected: 4\nActual: {longestSlope(terrain3)}')
+# print(longestSlope2(terrain3))
+# print('\n')
+
+
+# # Example 4
+# terrain4 = [[1, 4, 2],
+#             [8, 12, 8],
+#             [7, 10, 9]]
+# # Output should be 5
+# print(f'Expected: 5\nActual: {longestSlope(terrain4)}')
+# print(longestSlope2(terrain4))
+# print('\n')
+
+# # Example 5
+# terrain5 = [[10, 8, 12, 11], 
+#             [14, 6, 9, 15], 
+#             [1, 6, 3, 7], 
+#             [2, 1, 16, 4]]
+# # Output should be 4
+# print(f'Expected: 4\nActual: {longestSlope(terrain5)}')
+# print(longestSlope2(terrain5))
+
+
+
+'''
+    THESE ARE FOR THE VERSION THAT FINDS THE LOWEST POINT AND STARTS FROM THERE.
+'''
+
+# # Example 1
+# terrain1 = [[1,  14,  2],
+#             [8, 12, 9],
+#             [7, 8, 3]]
+# # Output should be 9
+# print(f'Expected: 9\nActual: {longestSlope2(terrain1)}')
+
+# # Example 2
+# terrain2 = [[3, 4, 5], 
+#             [3, 2, 6], 
+#             [2, 2, 1]]
+# # Output should be 4
+# print(f'Expected: 4\nActual: {longestSlope(terrain2)}')
+
+# # Example 3
+# terrain3 = [[3, 3, 3], 
+#             [3, 1, 3], 
+#             [3, 3, 3]]
+# # Output should be 2
+# print(f'Expected: 2\nActual: {longestSlope(terrain3)}')
+
+# # Example 4
+# terrain4 = [[1, 2, 3], 
+#             [6, 5, 4], 
+#             [7, 8, 9]]
+# # Output should be 9
+# print(f'Expected: 9\nActual: {longestSlope(terrain4)}')
+
+# # Example 5
+# terrain5 = [[10, 8, 12, 11], 
+#             [14, 13, 9, 15], 
+#             [5, 6, 3, 7], 
+#             [2, 1, 16, 4]]
+# # Output should be 6
+# print(f'Expected: 6\nActual: {longestSlope(terrain5)}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # def paintCombos(numHouses: int, numColors: int) -> int:
 #     if numHouses == 1:
 #         return numColors
