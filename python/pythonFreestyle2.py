@@ -1,5 +1,594 @@
 
 
+'''
+    TWO VERSIONS OF THE 354.RUSSIAN DOLL ENVELOPS PROBLEM THAT IS ESSENTIALLY A STACKABLE BOXES DP PROBLEM. THE NAIVE SOLUTE JUST BRUTE FORCES THE POSSIBILITIES BUT A CLEVER APPROACH SORTS BY WIDTH THEN REDUCES THE PROBLEM TO A LONGEST INCREASING SUBSEQUENCE LSI PROBLEM, WHICH CAN BE SOLVED WITH A BINARY SEARCH. 
+'''
+# def numPackages(packages: list[list[int]]) -> int:
+#     # Sort by width in ascending order, unless the widths are
+#     # equal, then sort by height in descending so that when comparing 
+#     # heights below, the out of place element is flagged.
+#     packages.sort(key=lambda x: (x[0], -x[1]))
+
+#     # Now we will reduce the problem to finding the longest 
+#     # increasing subsequence w.r.t. the heights
+#     LIS = []
+#     size = 0
+#     for (w, h) in packages:
+#         if not LIS or h > LIS[-1]:
+#             LIS.append(h)
+#             size += 1
+#         else:
+#             l, r = 0, size
+#             while l < r:
+#                 m = l + (r - l) // 2
+#                 if LIS[m] < h:
+#                     l = m + 1
+#                 else:
+#                     r = m
+#             LIS[l] = h
+#     return size
+
+
+
+# import bisect
+
+# def numPackages(packages: list[list[int]]) -> int:
+#     # Sort by width (ascending), then height (descending) if widths tie
+#     packages.sort(key=lambda x: (x[0], -x[1]))
+
+#     heights = [p[1] for p in packages]  # Extract heights
+
+#     # Patience Sorting (a variant of LIS)
+#     piles = []
+#     for h in heights:
+#         # Binary search to find the leftmost pile where h can be placed
+#         i = bisect.bisect_left(piles, h)
+#         if i == len(piles):
+#             piles.append(h)  # Create a new pile
+#         else:
+#             piles[i] = h  # Update the existing pile
+
+#     return len(piles)  # The number of piles is the LIS
+
+
+
+
+# packages1 = [[2, 3], [3, 4], [5, 6], [4, 5]]
+# packages2 = [[1, 1], [1, 1], [1, 1]]
+# packages3 = [[5, 4], [6, 4], [6, 7], [2, 3]]
+# print(f'Expected: 4,\nActual: {numPackages(packages1)}')
+# print(f'Expected: 1,\nActual: {numPackages(packages2)}')
+# print(f'Expected: 3,\nActual: {numPackages(packages3)}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''original'''
+# def divScore(packSize: int) -> int:
+#     # Base cases
+#     if packSize == 2:
+#         return 1  
+#     if packSize == 3:
+#         return 2 
+
+#     # For packSize greater than 3, proceed with maximizing the product
+#     q = packSize // 3
+#     r = packSize % 3
+
+#     if r == 1 and q >= 1:
+#         return (3 ** (q - 1)) * 4  # Optimize by replacing one 3 with two 2's when remainder is 1
+#     elif r == 2:
+#         return (3 ** q) * 2  # Simply add a 2 when remainder is 2
+#     else:
+#         return 3 ** q  # Use all 3's when remainder is 0
+
+
+
+
+'''Tests the original'''
+# Example usage: type 1
+# pack_sizes = [2, 3, 6, 7, 8, 10, 12, 24]
+# expected = [1, 2, 9, 12, 18, 36, 81, 6561]
+# idx = 0
+# for size in pack_sizes:
+#     actualScore = divScore(size)
+#     expectedScore = expected[idx]
+#     print(f"Pack size {size}: \
+#           \nExpected score = {expectedScore} \
+#           \nDiversity score = {actualScore}\n")
+#     idx += 1
+
+
+
+
+
+'''2nd version prints the score's equation as a string'''
+# from math import prod
+
+# def divScore(packSize: int) -> tuple[str, str]:
+#     max_score = 0
+#     best_distribution = []
+
+#     # Iterate over possible number of types starting from 2 up to packSize
+#     for num_types in range(2, packSize + 1):
+#         base_quantity = packSize // num_types
+#         remainder = packSize % num_types
+
+#         # Create distribution: some types might get an extra beer
+#         distribution = [base_quantity + 1] * remainder + [base_quantity] * (num_types - remainder)
+
+#         # Calculate the product of this distribution
+#         score = prod(distribution)
+#         if score > max_score:
+#             max_score = score
+#             best_distribution = distribution
+
+#     # Prepare the summation and product equation strings
+#     if best_distribution:
+#         summation_str = " + ".join(map(str, best_distribution)) + f" = {sum(best_distribution)}"
+#         product_str = " * ".join(map(str, best_distribution)) + f" = {max_score}"
+#     else:
+#         # Fallback for unexpected cases, though this should not normally execute
+#         summation_str = "0 = 0"
+#         product_str = "0 = 0"
+
+#     return (summation_str, product_str)
+
+
+
+
+
+
+
+
+
+
+'''mA 2nd version'''
+# from math import prod
+
+# def divScore(packSize: int) -> tuple[str, str]:
+#     max_score = 0
+#     sum_equation = ""
+#     prod_equation = ""
+
+#     for num_types in range(2, packSize + 1):
+#         base_quantity = packSize // num_types
+#         remainder = packSize % num_types
+#         if base_quantity == 0:
+#             break  # Further increase in types leads to zero quantity per type
+        
+#         # Generating Equations:
+#         sum_terms = [str(base_quantity + 1)] * remainder + [str(base_quantity)] * (num_types - remainder)
+
+#         sum_equation = " + ".join(sum_terms) + f" = {packSize}"
+#         prod_equation = " * ".join(sum_terms) + f" = {prod([base_quantity + 1] * remainder + [base_quantity] * (num_types - remainder))}"
+
+#         # Calculating score and update if higher:
+#         score = prod([base_quantity + 1] * remainder + [base_quantity] * (num_types - remainder))
+#         if score > max_score:
+#             max_score = score
+#             best_sum_equation = sum_equation
+#             best_prod_equation = prod_equation
+
+
+#     return best_sum_equation, best_prod_equation
+
+
+
+
+
+
+# from math import prod
+
+# def divScore(packSize: int) -> tuple[str, str]:
+
+#     max_score = 0
+#     summation_eq, product_eq = "", ""  # Initialize empty strings for equations
+
+#     for num_types in range(2, packSize + 1):
+#         base_quantity = packSize // num_types
+#         remainder = packSize % num_types
+#         if base_quantity == 0:
+#             break  # Further increase in types leads to zero quantity per type
+
+#         distribution = [base_quantity + 1] * remainder + [base_quantity] * (num_types - remainder)
+
+#         score = prod(distribution)
+#         if score > max_score:
+#             max_score = score
+#             summation_eq = " + ".join([str(x) for x in distribution]) + f" = {packSize}"
+#             product_eq = " * ".join([str(x) for x in distribution]) + f" = {score}"
+
+#     return summation_eq, product_eq
+
+
+
+
+
+
+# # Example usage: type 2
+# pack_sizes = [2, 3, 6, 7, 8, 10, 12, 24]
+# expected = [1, 2, 9, 12, 18, 36, 81, 6561]
+# expectedEq = [('1 + 1 = 2', '1 * 1 = 1'), 
+#               ('2 + 1 = 3', '2 * 1 = 2'), 
+#               ('3 + 3 = 6', '3 * 3 = 9'), 
+#               ('4 + 3 = 7', '4 * 3 = 12'), 
+#               ('3 + 3 + 2 = 8', '3 * 3 * 2 = 18'), 
+#               ('4 + 3 + 3 = 10', '4 * 3 * 3 = 36'), 
+#               ('3 + 3 + 3 + 3 = 12', '3 * 3 * 3 * 3 = 81'), 
+#               ('3 + 3 + 3 + 3 + 3 + 3 + 3 + 3 = 24', '3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 = 6561')]
+# idx = 0
+# for size in pack_sizes:
+#     actualEq = divScore(size)
+#     expectedScore = expected[idx]
+#     expEq = expectedEq[idx]
+#     print(f"Pack size {size}: \
+#           \nDiversity score = {expectedScore} \
+#           \nExpected equations: {expEq} \
+#           \nActual equations: {actualEq}\n")
+#     idx += 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''Original only returns the final compute'''
+# from typing import Optional
+
+# # Assuming your TreeNode class is defined as:
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+# def getMaxCompute(root: Optional[TreeNode]) -> int:
+#     """
+#     Calculates the maximum compute power achievable without using directly
+#     connected CPUs in a binary tree representation.
+
+#     Args:
+#         root: The root node of the binary tree.
+
+#     Returns:
+#         The maximum compute power.
+#     """
+#     if not root:
+#         return 0
+
+#     # Dictionary to store maximum compute for each node and its 'usage' status
+#     memo = {}  
+
+#     def dfs(node: TreeNode, using_parent: bool) -> int:
+#         if not node:
+#             return 0
+
+#         # Key to uniquely identify node and its usage status
+#         key = (id(node), using_parent)
+
+#         if key in memo:
+#             return memo[key]
+
+#         # Calculate max compute if NOT using current node (always valid)
+#         max_without_node = dfs(node.left, False) + dfs(node.right, False)
+
+#         # If using the parent, cannot use this node directly
+#         if using_parent:
+#             memo[key] = max_without_node
+#             return max_without_node
+
+#         # If not using parent, can explore using this node 
+#         max_with_node = node.val + dfs(node.left, True) + dfs(node.right, True)
+
+#         # Store the maximum of the two scenarios
+#         memo[key] = max(max_without_node, max_with_node)
+#         return memo[key]
+
+#     return dfs(root, False)
+
+
+# root = TreeNode(4)
+# root.left = TreeNode(5)
+# root.right = TreeNode(6)
+# root.left.left = TreeNode(2)
+# root.left.right = TreeNode(4) 
+# root.right.right = TreeNode(2)
+
+# # Output: 2 + 4 + 6 = 12
+# max_compute = getMaxCompute(root)
+# print("Expected maximum compute power: 2 + 4 + 6 = 12")
+# print("Actual maximum compute power:", max_compute)  
+
+
+'''Returns the max compute summation equation'''
+# def getMaxCompute(root):
+#     def compute(node):
+#         # If the node is None, return zero compute and an empty description
+#         if not node:
+#             return (0, ""), (0, "")
+        
+#         # Recurse on the left and right children
+#         left_include, left_exclude = compute(node.left)
+#         right_include, right_exclude = compute(node.right)
+        
+#         # Include current node: add its value to the sum and skip direct children
+#         include_sum = node.val + left_exclude[0] + right_exclude[0]
+#         include_str = f"{node.val}"
+#         if left_exclude[0] > 0:
+#             include_str += " + " + left_exclude[1]
+#         if right_exclude[0] > 0:
+#             include_str += " + " + right_exclude[1]
+        
+#         # Exclude current node: consider the best scores of its children
+#         exclude_sum = max(left_include[0], left_exclude[0]) + max(right_include[0], right_exclude[0])
+#         exclude_parts = []
+#         if max(left_include[0], left_exclude[0]) == left_include[0]:
+#             exclude_parts.append(left_include[1])
+#         else:
+#             exclude_parts.append(left_exclude[1])
+#         if max(right_include[0], right_exclude[0]) == right_include[0]:
+#             exclude_parts.append(right_include[1])
+#         else:
+#             exclude_parts.append(right_exclude[1])
+#         exclude_str = " + ".join(filter(bool, exclude_parts))  # filters out empty strings
+
+#         return (include_sum, include_str), (exclude_sum, exclude_str)
+
+#     (final_include, final_include_str), (final_exclude, final_exclude_str) = compute(root)
+    
+#     # Determine the maximum score and prepare the return string
+#     if final_include > final_exclude:
+#         result_str = f"{final_include_str} = {final_include}"
+#     else:
+#         result_str = f"{final_exclude_str} = {final_exclude}"
+    
+#     return result_str
+
+
+'''modelA'''
+# def getMaxCompute(root: Optional[TreeNode]) -> str:
+
+#     if not root:
+#         return "0 = 0"  # Handle empty tree
+
+#     memo = {}  # Memoization dictionary
+#     used_nodes = []  # List to track nodes used in the maximum sum
+
+#     def dfs(node: TreeNode, using_parent: bool) -> int:
+#         if not node:
+#             return 0
+
+#         # Key to uniquely identify node and its usage status
+#         key = (id(node), using_parent)
+
+#         if key in memo:
+#             return memo[key]
+
+#         # Calculate max compute if NOT using current node (always valid)
+#         max_without_node = dfs(node.left, False) + dfs(node.right, False)
+
+#         # If using the parent, cannot use this node directly
+#         if using_parent:
+#             memo[key] = max_without_node
+#             return max_without_node
+
+#         # If not using parent, can explore using this node 
+#         max_with_node = node.val + dfs(node.left, True) + dfs(node.right, True)
+
+#         # Store the maximum of the two scenarios
+#         memo[key] = max(max_without_node, max_with_node)
+#         key = (id(node), using_parent)
+#         if not using_parent and memo[key] == node.val + dfs(node.left, True) + dfs(node.right, True):
+#             used_nodes.append(node.val)  
+#         return memo[key]
+        
+#     max_compute = dfs(root, False)
+
+#     # Construct the string representation of the summation
+#     if used_nodes:
+#         summation_str = " + ".join(map(str, used_nodes)) + f" = {max_compute}"
+#     else:
+#         summation_str = "0 = 0"  # Handle case where no nodes can be used
+
+#     return summation_str
+
+
+'''modelB'''
+# def getMaxCompute(root: Optional[TreeNode]) -> str:
+
+#     if not root:
+#         return "0 = 0"  # Handle empty tree
+
+#     memo = {}
+#     max_compute = 0
+
+#     def dfs(node: TreeNode, using_parent: bool, expression: str) -> str:
+#         nonlocal max_compute  # Access max_compute from outer scope
+
+#         if not node:
+#             return expression
+
+#         key = (id(node), using_parent)
+#         if key in memo:
+#             return memo[key]
+
+#         max_without_node = dfs(node.left, False, expression) + dfs(node.right, False, expression)
+#         if using_parent:
+#             memo[key] = max_without_node
+#             return max_without_node
+
+#         max_with_node = str(node.val) + " + " + dfs(node.left, True, expression) + dfs(node.right, True, expression)
+#         memo[key] = max_with_node
+
+#         # Update max_compute and store the corresponding expression
+#         current_compute = eval(max_with_node)  # Calculate actual value
+#         if current_compute > max_compute:
+#             max_compute = current_compute
+#             memo[key] = max_with_node  # Store expression for the max_compute
+
+#         return memo[key]
+
+#     # Start from root, initially not using any parent, with empty expression
+#     dfs(root, False, "")
+#     return memo[(id(root), False)] + f" = {max_compute}"  # Final expression
+
+
+
+
+
+
+
+
+# root = TreeNode(4)
+# root.left = TreeNode(5)
+# root.right = TreeNode(6)
+# root.left.left = TreeNode(2)
+# root.left.right = TreeNode(4) 
+# # null
+# root.right.right = TreeNode(2)
+
+# # Output: 2 + 4 + 6 = 12
+# max_compute = getMaxCompute(root)
+# print("Expected maximum compute power: 2 + 4 + 6 = 12")
+# print("Actual maximum compute power:", max_compute)
+
+
+# root2 = TreeNode(3)
+# root2.left = TreeNode(2)
+# root2.right = TreeNode(3)
+# # null
+# root2.left.right = TreeNode(3) 
+# root2.right.right = TreeNode(1)
+
+# # Output: 3 + 3 + 1 = 7
+# max_compute2 = getMaxCompute(root2)
+# print("Expected maximum compute power: 3 + 3 + 1 = 7")
+# print("Actual maximum compute power:", max_compute2)
+
+
+# root3 = TreeNode(3)
+# root3.left = TreeNode(4)
+# root3.right = TreeNode(5)
+# root3.left.left = TreeNode(1)
+# root3.left.right = TreeNode(3)
+# # null 
+# root3.right.right = TreeNode(1)
+
+# # Output: 4 + 5 = 9
+# max_compute3 = getMaxCompute(root3)
+# print("Expected maximum compute power: 4 + 5 = 9")
+# print("Actual maximum compute power:", max_compute3)
+
+
+
+
+
+
+
+
+'''
+
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # from typing import Optional, List, Tuple
 
 # class TreeNode:

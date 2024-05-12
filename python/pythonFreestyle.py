@@ -11107,11 +11107,377 @@ This will create a legend with the markers corresponding to each exercise, provi
 
 
 
+'''
+    COHORT ANALYSIS AND A FUNCTION TO CONVERT DATES
+'''
+
+
+
+# # Function to handle non-empty date strings
+# def safe_to_datetime(date_str, date_format='%Y-%m-%d'):
+#     try:
+#         return pd.to_datetime(date_str, format=date_format)
+#     except (ValueError, TypeError):
+#         return pd.NaT
+
+# # Apply the conversion safely to each value
+# df['date_column'] = df['date_column'].apply(lambda x: safe_to_datetime(x) if x else pd.NaT)
 
 
 
 
 
+
+# import pandas as pd
+
+# # Load the dataset
+# file_path = './CSVs/data_offers_orders_joined.csv'
+# data = pd.read_csv(file_path, sep=';')
+
+# print(data.info())
+
+
+
+# # Replace missing manager_id values with "HQ"
+# data['manager_id'].fillna('HQ', inplace=True)
+# print("AFTER")
+# print(data.info())
+# uni_ids = data['manager_id'].value_counts()
+# print(f'Unique manager ids (BEFORE):\n{uni_ids}')
+
+# # Convert net_offer_sum and invoice_sum to numeric values (they're currently strings with commas for decimals)
+# data['net_offer_sum'] = data['net_offer_sum'].str.replace(',', '.').astype(float)
+# data['invoice_sum'] = data['invoice_sum'].str.replace(',', '.').astype(float)
+
+# # Group the data by manager_id and calculate performance metrics
+# manager_performance = data.groupby('manager_id').agg(
+#     projects_count=pd.NamedAgg(column='id', aggfunc='count'),
+#     avg_net_offer_sum=pd.NamedAgg(column='net_offer_sum', aggfunc='mean'),
+#     avg_invoice_sum=pd.NamedAgg(column='invoice_sum', aggfunc='mean')
+# ).reset_index()
+
+# # Display the summarized performance metrics by manager
+# print(manager_performance)
+    
+
+
+
+
+
+# # Display the first few rows and column names to understand the structure
+# print(df.head()) 
+# print(df.columns)
+# print(df.info())
+
+# uni_ids = df['manager_id'].value_counts()
+# print(f'Unique manager ids (BEFORE):\n{uni_ids}')
+
+# # Replace missing manager_id with "HQ"
+# df['manager_id'] = df['manager_id'].fillna('HQ')
+
+# uni_ids = df['manager_id'].value_counts()
+# print(f'Unique manager ids (AFTER):\n{uni_ids}')
+
+# # Convert necessary columns to numeric after replacing commas with dots
+# df['net_offer_sum'] = df['net_offer_sum'].str.replace(',', '.').astype(float)
+# df['net_order_sum'] = df['net_order_sum'].str.replace(',', '.').astype(float)
+# df['invoice_sum'] = df['invoice_sum'].str.replace(',', '.').astype(float)
+
+# # Convert relevant date columns to datetime 
+# # NOTE: here, the coerce arg has a positive effect and the format wasnt needed
+# date_cols = ['offer_submission_date', 'offer_reject_date', 'order_confirmation_date',
+#              'expected_order_start_date', 'expected_order_done_date', 'actual_order_done_date', 'invoice_date']
+# for col in date_cols:
+#     df[col] = pd.to_datetime(df[col], errors='coerce')
+
+# print('AFTER date time convert')
+# print(df.info())
+
+# # Group by manager_id and calculate relevant performance metrics
+# cohort_analysis = df.groupby('manager_id').agg(
+#     offers_count=('id', 'count'),
+#     confirmed_offers=('offer_status', lambda x: (x == 'Confirmed').sum()),
+#     rejected_offers=('offer_status', lambda x: (x == 'Rejected').sum()),
+#     total_offer_value=('net_offer_sum', 'sum'),
+#     total_order_value=('net_order_sum', 'sum'),
+#     total_invoice_value=('invoice_sum', 'sum'),
+#     avg_offer_value=('net_offer_sum', 'mean'),
+#     avg_order_value=('net_order_sum', 'mean'),
+#     avg_invoice_value=('invoice_sum', 'mean')
+# ).reset_index()
+
+# print(cohort_analysis)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE HAVE THREE DIFFERENT APPROACHES TO GENERATING BAR GRAPHS WHERE EACH DATE HAS TWO BARS REPRESENTING TWO DIFFERENT COLUMNS. I LIKE THE 3RD APPROACH. ITS THE CLEANEST.
+
+    NOTE: FIND OUT HOW THE LAST APPROACH IS SO CLEAN, I.E., HOW IS THE DATE BEING FORMATTED AUTOMATICALLY???? ALSO, FIGURE OUT HOW TO MAKE A GROUPED BAR CHART USING THE ALTAIR MODULE. 
+'''
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Load the dataset
+# trapiche_df = pd.read_csv('./CSVs/trapiche_ingenio_nv.csv')
+# print('BEFORE')
+# print(trapiche_df.info())
+
+# # Convert 'Fecha' to datetime
+# trapiche_df['Fecha'] = pd.to_datetime(trapiche_df['Fecha'], format='%Y-%m-%d')
+
+# print('AFTER')
+# print(trapiche_df.info())
+
+# # Group by 'Fecha' and sum 'Bruto' and 'Neto'
+# sums_df = trapiche_df.groupby('Fecha').agg({'Bruto': 'sum', 'Neto': 'sum'}).reset_index()
+# grouped_data = trapiche_df.groupby('Fecha')[['Bruto', 'Neto']].sum().reset_index()
+
+
+# # Plotting
+# plt.figure(figsize=(10, 6), facecolor='white')
+# sums_df.plot(x='Fecha', y=['Bruto', 'Neto'], kind='bar', color=['blue', 'green'], alpha=0.7)
+# plt.title('Sum of Bruto and Neto by Date')
+# plt.xlabel('Date')
+# plt.ylabel('Sum')
+# plt.xticks(rotation=45)
+# plt.legend(title='Column')
+# plt.tight_layout()
+# plt.show()
+
+# import altair as alt
+
+# melted_data = grouped_data.melt(id_vars='Fecha', 
+#                                 value_vars=['Bruto', 'Neto'], 
+#                                 var_name='Metric', 
+#                                 value_name='Sum')
+# chart = alt.Chart(melted_data).mark_bar().encode(
+#     x=alt.X('date:T', title='Date'),
+#     y=alt.Y('Sum:Q', title='Sum'),
+#     color='Metric:N',
+#     column='Metric:N'
+# ).properties(
+#     title='Sum of Bruto and Neto per Date'
+# ).resolve_scale(
+#     y='independent'
+# )
+
+# chart = alt.Chart(melted_data).mark_bar().encode(
+#     x=alt.X('date:T', title='Date'),
+#     y=alt.Y('Sum:Q', title='Sum'),
+#     color='Metric:N',
+#     tooltip=['date:T', 'Metric:N', 'Sum:Q']
+# ).properties(
+#     width=800,
+#     height=400,
+#     title='Sum of Bruto and Neto per Date'
+# )
+
+
+# # Display the chart
+# chart.save('./OutCSVs/bruto.html')
+
+
+
+
+# import altair as alt
+
+# # Load the dataset
+# df = pd.read_csv('./CSVs/trapiche_ingenio_nv.csv')
+
+# # Convert `Fecha` to datetime
+# df['Fecha'] = pd.to_datetime(df['Fecha'], format='%Y-%m-%d')
+
+# # Aggregate by `Fecha`, summing `Bruto` and `Neto`
+# df_agg = df.groupby('Fecha')[['Bruto', 'Neto']].sum().reset_index()
+
+# # Reshape to long format
+# df_long = df_agg.melt(id_vars='Fecha', var_name='Variable', value_name='Value')
+
+# # Create the bar chart
+# chart = alt.Chart(df_long).mark_bar().encode(
+#     x=alt.X('Fecha:T', axis=alt.Axis(title='Date', labelAngle=-45)),
+#     y=alt.Y('Value:Q', axis=alt.Axis(title='Total')),
+#     color='Variable:N',
+#     tooltip=['Fecha', 'Variable', 'Value']
+# ).properties(
+#     title='Total Bruto and Neto by Date'
+# ).interactive()
+
+# # Save the chart
+# chart.save('./OutCSVs/bruto_neto_by_date_bar_chart.html')
+
+
+# # Now let's create the bar chart
+# import matplotlib.pyplot as plt
+# import pandas as pd
+
+# # Load the dataset
+# df2 = pd.read_csv('./CSVs/trapiche_ingenio_nv.csv')
+
+# grouped_data = df2.groupby('Fecha')[['Bruto', 'Neto']].sum().reset_index()
+
+# # Set the figure size for better readability
+# plt.figure(figsize=(14, 7))
+
+# # Plotting the data
+# plt.bar(grouped_data['Fecha'], grouped_data['Bruto'], label='Bruto', alpha=0.6)
+# plt.bar(grouped_data['Fecha'], grouped_data['Neto'], label='Neto', alpha=0.6)
+
+# # Adding labels and title
+# plt.xlabel('Fecha')
+# plt.ylabel('Suma')
+# plt.title('Suma de Bruto y Neto por Fecha')
+# plt.xticks(rotation=45)
+# plt.legend()
+
+# # Show the plot
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+'''
+    CHECK TO SEE IF ANY OF THE FOLLOWING EXAMPLES CAN BE USED TO SATISFY THE VISUALIZATION ABOVE. WE RAN INTO MANY ISSUES ABOVE, TRYING TO GENERATE A GROUPED BAR GRAPH USING ALTAIR 
+'''
+
+# import altair as alt
+# import pandas as pd
+
+# # Create a DataFrame
+# data = {
+#     'Year': ['2022', '2022', '2022', '2023', '2023', '2023', '2024', '2024', '2024'],
+#     'Product': ['Product A', 'Product B', 'Product C', 'Product A', 'Product B', 'Product C', 'Product A', 'Product B', 'Product C'],
+#     'Sales': [25, 22, 20, 32, 30, 28, 34, 35, 32]
+# }
+# df = pd.DataFrame(data)
+
+# # Create the grouped bar graph
+# bar_chart = alt.Chart(df).mark_bar().encode(
+#     x=alt.X('Year:N', title='Year'),
+#     y=alt.Y('Sales:Q', title='Sales'),
+#     color='Product:N',
+#     column='Product:N'
+# ).properties(
+#     width=100,
+#     title='Sales per Product Over Time'
+# )
+
+# bar_chart.show()
+
+
+
+
+
+
+# import altair as alt
+# import pandas as pd
+
+# # Create a DataFrame
+# data = {
+#     'Year': ['2022', '2022', '2022', '2023', '2023', '2023', '2024', '2024', '2024'],
+#     'Product': ['Product A', 'Product B', 'Product C', 'Product A', 'Product B', 'Product C', 'Product A', 'Product B', 'Product C'],
+#     'Sales': [25, 22, 20, 32, 30, 28, 34, 35, 32]
+# }
+# df = pd.DataFrame(data)
+
+# # Create the grouped bar graph
+# bar_chart = alt.Chart(df).mark_bar().encode(
+#     x=alt.X('Year:O', title='Year', axis=alt.Axis(labelAngle=0)),
+#     y=alt.Y('Sales:Q', title='Sales'),
+#     color='Product:N',
+#     column='Product:N'
+# ).properties(
+#     width=100,
+#     title='Sales per Product Over Time'
+# )
+
+# bar_chart.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    USE THIS WHEN IT WONT or CANT FIND A FILE IN CSVs DIRECTORY... IT MIGHT BE HIDDEN OR HAVE A DIFF NAME BEHIND THE SCENES!
+'''
+
+# # Print current working directory
+# import os
+# print("Current Working Directory:", os.getcwd())
+
+# # List files in the specific directory
+# print("Files in './CSVs/':", os.listdir('./CSVs/'))
+
+
+'''
+    LEARN HOW TO USE THE STRING METHOD 'CONTAINS' WHICH JUST ASKS THE RELEVANT ENTRIES IF IT CONTAINS SOME STRING OR SUBSTRING. 
+'''
+
+# import pandas as pd
+
+# # Load the Excel file
+# hospital_df = pd.read_excel('./CSVs/Hospital_Survey_Data_Alcohol_Drug_Abuse.xlsx', skiprows=1)
+
+# # Display the first few rows to understand the structure of the data
+# print(hospital_df.head())
+# print(hospital_df.columns)
+# print(hospital_df.info())
+
+# uni_drg = hospital_df['DRG Definition'].value_counts()
+# print(f'unique DRG:\n{uni_drg}')
+
+# # Filter the data for cases with and without rehabilitation therapy
+# cases_with_rehab = hospital_df[hospital_df['DRG Definition'].str.contains('W REHABILITATION THERAPY')]
+# cases_without_rehab = hospital_df[hospital_df['DRG Definition'].str.contains('W/O REHABILITATION THERAPY')]
+
+# # Calculate the average discharge rates for both groups
+# avg_discharge_with_rehab = cases_with_rehab['Total Discharges'].mean()
+# avg_discharge_without_rehab = cases_without_rehab['Total Discharges'].mean()
+
+# print('Average Discharges with Rehabilitation Therapy:', avg_discharge_with_rehab)
+# print('Average Discharges without Rehabilitation Therapy:', avg_discharge_without_rehab)
 
 
 
