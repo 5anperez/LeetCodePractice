@@ -1,5 +1,414 @@
 
 
+'''lc version'''
+# def getShelveLengths(rawLengths: list[int]) -> list[int]:
+
+#     if not rawLengths:
+#         return []
+    
+#     rawLengths.sort()  # Sort the numbers to simplify the problem
+    
+#     # dp[i] stores the size of the largest divisible subset ending with nums[i]
+#     # parent[i] stores the index of the previous element in the largest divisible subset
+#     dp = [1] * len(rawLengths)
+#     parent = [-1] * len(rawLengths)
+    
+#     max_index = 0  # index of the last element of the largest divisible subset
+    
+#     for i in range(len(rawLengths)):
+#         for j in range(i):
+#             if rawLengths[i] % rawLengths[j] == 0 and dp[i] < dp[j] + 1:
+#                 dp[i] = dp[j] + 1
+#                 parent[i] = j
+#         if dp[i] > dp[max_index]:
+#             max_index = i
+    
+#     # Reconstruct the largest divisible subset
+#     result = []
+#     while max_index != -1:
+#         result.append(rawLengths[max_index])
+#         max_index = parent[max_index]
+    
+#     return result[::1]  # Return the subset in reverse order
+
+
+
+'''streamlined version'''
+# def getShelveLengths(rawLengths: list[int]) -> list[int]:
+#     rawLengths.sort()
+#     dp = [[num] for num in rawLengths]
+#     print(f'\n At first, dp = {dp}\n')
+#     for i in range(len(rawLengths)):
+#         for j in range(i):
+#             if rawLengths[i] % rawLengths[j] == 0 and len(dp[i]) < len(dp[j]) + 1:
+#                 dp[i] = dp[j] + [rawLengths[i]]
+#     return max(dp, key=len)
+
+
+
+'''Version 2'''
+# def getShelveLengths(rawLengths: list[int]) -> list[list[int]]:
+#     rawLengths.sort()
+#     dp = [[num] for num in rawLengths]
+#     max_len = 0
+#     max_subsets = []
+
+#     for i in range(len(rawLengths)):
+#         for j in range(i):
+#             if rawLengths[i] % rawLengths[j] == 0 and len(dp[i]) < len(dp[j]) + 1:
+#                 dp[i] = dp[j] + [rawLengths[i]]
+
+#         if len(dp[i]) > max_len:
+#             max_len = len(dp[i])
+#             max_subsets = [dp[i]]
+#         elif len(dp[i]) == max_len:
+#             max_subsets.append(dp[i])
+
+#     return max_subsets
+
+
+
+
+
+
+'''mA'''
+def getShelveLengths(rawLengths: list[int]) -> list[list[int]]:
+
+    n = len(rawLengths)
+    rawLengths.sort()
+
+    dp = [1] * n
+    parent = [-1] * n
+
+    max_length = 1
+    max_indices = [0]
+
+    for i in range(1, n):
+        for j in range(i):
+            if rawLengths[i] % rawLengths[j] == 0 and dp[j] + 1 > dp[i]:
+                dp[i] = dp[j] + 1
+                parent[i] = j
+
+        if dp[i] > max_length:
+            max_length = dp[i]
+            max_indices = [i]
+        elif dp[i] == max_length:
+            max_indices.append(i)
+
+    # Reconstruct all optimal subsequences
+    all_valid_lengths = []
+    for max_index in max_indices:
+        valid_lengths = []
+        while max_index != -1:
+            valid_lengths.append(rawLengths[max_index])
+            max_index = parent[max_index]
+        valid_lengths.reverse()
+        all_valid_lengths.append(valid_lengths)
+
+    return all_valid_lengths
+
+
+
+
+
+
+'''mB'''
+def getShelveLengths(rawLengths: list[int]) -> list[list[int]]:
+
+    n = len(rawLengths)
+    rawLengths.sort()  # Sorting for easier processing
+
+    dp = [1] * n
+    parent = [[] for _ in range(n)]
+
+    maxLength = 1  # Track the maximum length among all valid subsequences
+
+    for i in range(1, n):
+        for j in range(i):
+            if rawLengths[i] % rawLengths[j] == 0 and dp[j] + 1 >= dp[i]:
+                if dp[j] + 1 > dp[i]:
+                    dp[i] = dp[j] + 1
+                    parent[i] = [j]  # New parent
+                else:
+                    parent[i].append(j)  # Add another parent if same length
+
+        maxLength = max(maxLength, dp[i])
+
+    # Function to reconstruct all valid subsequences starting from an index
+    def build_subsequences(idx):
+        if not parent[idx]:
+            return [[rawLengths[idx]]]
+        subsequences = []
+        for p in parent[idx]:
+            for sub in build_subsequences(p):
+                subsequences.append(sub + [rawLengths[idx]])
+        return subsequences
+
+    # Collect all valid subsequences of maximum length
+    all_valid_subsequences = []
+    for i in range(n):
+        if dp[i] == maxLength:
+            all_valid_subsequences.extend(build_subsequences(i))
+
+    return all_valid_subsequences
+
+
+
+
+# Example tests:
+shelfLengths1 = [12, 24, 36, 48, 60, 72, 84, 96]
+shelfLengths2 = [12, 18, 24, 30, 36]
+shelfLengths3 = [1, 2, 3]
+
+# # Version 1: Finding the largest subset of lengths that fit together perfectly
+# print(f'Expected lengths: [96, 48, 24, 12],\
+#       \nActual lengths: {getShelveLengths(shelfLengths1)}')
+# print(f'Expected lengths: [24, 12],\
+#       \nActual lengths: {getShelveLengths(shelfLengths2)}')
+# print("NOTE that the order of elements doesnt matter and there might be more than one answer!")
+
+
+
+# Version 2: Finding ALL largest subset of lengths that fit together perfectly
+print(f'Expected lengths: [96, 48, 24, 12],\
+      \nActual lengths: {getShelveLengths(shelfLengths1)}')
+print(f'Expected lengths: [[24, 12], [12, 36], [18, 36]],\
+      \nActual lengths: {getShelveLengths(shelfLengths2)}')
+print(f'Expected lengths: [[1, 2], [1, 3]]\
+      \nActual lengths: {getShelveLengths(shelfLengths3)}')
+print("NOTE that the order of elements doesnt matter!")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''og'''
+# def getUniIDCount(idSize: int) -> int:
+#     """
+#     Calculates the number of unique IDs possible given the ID size.
+
+#     Args:
+#         idSize: The number of digits allowed in the ID.
+
+#     Returns:
+#         The total count of unique IDs with no repeating digits.
+#     """
+
+#     if idSize == 0:
+#         return 1  # Only the number 0
+#     if idSize == 1:
+#         return 10  # Numbers 0 through 9
+
+#     TOTAL_AVAIL_DIGITS = 10
+
+#     # There are 10 choices (0-9) if the id is only one digit
+#     # and 9 choices for the second when the id is two or more digits
+#     total = 10
+#     uniqueDigits = 9  
+
+#     # Calculate numbers with unique digits
+#     for i in range(1, idSize):
+#         # Decrease available digits by 1 each iteration
+#         uniqueDigits *= (TOTAL_AVAIL_DIGITS - i)  
+#         total += uniqueDigits
+
+#     return total
+
+
+
+'''og recursive'''
+# def getUniIDCount(idSize: int) -> int:
+#     if idSize == 0:
+#         return 1  # Special case: Only the number 0
+#     if idSize == 1:
+#         return 10  # From 0 to 9
+
+#     # A utility function to calculate factorial
+#     def factorial(num):
+#         if num == 0 or num == 1:
+#             return 1
+#         return num * factorial(num - 1)
+    
+#     # A utility function to calculate the number of unique digit numbers of exact length k
+#     def count_exact_k_digits(k):
+#         if k == 1:
+#             return 10  # From 0 to 9
+#         # Choose k digits from 0-9 and arrange them (leading digit cannot be 0)
+#         count = 9  # choices for the first digit (1-9, cannot choose 0 as leading)
+#         for i in range(9, 9 - (k - 1), -1):
+#             count *= i
+#         return count
+    
+#     total = 0
+#     for i in range(1, idSize + 1):
+#         total += count_exact_k_digits(i)
+    
+#     return total
+
+
+
+
+
+'''saves the dp-like table to a pickle file'''
+# import pickle
+# import os
+
+# def getUniIDCount(idSize: int) -> int:
+#     # Path to the file that will store the database of unique ID counts
+#     db_file = "./TXTs/uniqueIDCounts.pickle"
+    
+#     # Try to load existing counts from the file
+#     if os.path.exists(db_file):
+#         with open(db_file, 'rb') as file:
+#             id_counts = pickle.load(file)
+#     else:
+#         id_counts = {}
+
+#     # Check if the count for this idSize has already been calculated
+#     if idSize in id_counts:
+#         print(f'We found the count for size: {idSize}!')
+#         return id_counts[idSize]
+
+#     # Calculate the number of unique IDs if not found in the database
+#     if idSize == 0:
+#         id_counts[idSize] = 1  # Only the number 0
+#     elif idSize == 1:
+#         id_counts[idSize] = 10  # Numbers 0 through 9
+#     else:
+#         TOTAL_AVAIL_DIGITS = 10
+#         total = 10
+#         uniqueDigits = 9  # First digit cannot be '0' if it's a leading digit
+
+#         for i in range(1, idSize):
+#             uniqueDigits *= (TOTAL_AVAIL_DIGITS - i)
+#             total += uniqueDigits
+
+#         id_counts[idSize] = total
+
+#     # Save the updated counts back to the file
+#     with open(db_file, 'wb') as file:
+#         pickle.dump(id_counts, file)
+
+#     return id_counts[idSize]
+
+
+
+
+
+
+
+# # Example usage:
+# print(f'Expected: 10,\nActual: {getUniIDCount(1)}')
+# # Output: 91
+# print(f'Expecteed: 91,\nActual: {getUniIDCount(2)}') 
+# print(f'\nWe should have gotten a confirmation of the file look up')
+# # Output: 739 
+# print(f'Expecteed: 739,\nActual: {getUniIDCount(3)}')   
+# # Output: 5275
+# print(f'Expected: 5275,\nActual: {getUniIDCount(4)}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 '''
     TWO VERSIONS OF THE 354.RUSSIAN DOLL ENVELOPS PROBLEM THAT IS ESSENTIALLY A STACKABLE BOXES DP PROBLEM. THE NAIVE SOLUTE JUST BRUTE FORCES THE POSSIBILITIES BUT A CLEVER APPROACH SORTS BY WIDTH THEN REDUCES THE PROBLEM TO A LONGEST INCREASING SUBSEQUENCE LSI PROBLEM, WHICH CAN BE SOLVED WITH A BINARY SEARCH. 
 '''
