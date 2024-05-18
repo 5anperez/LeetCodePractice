@@ -1,5 +1,246 @@
 
 
+
+
+
+'''og'''
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+# def getNewCount(head: ListNode) -> ListNode:
+#     # Helper function to reverse the linked list
+#     def reverseList(node: ListNode) -> ListNode:
+#         prev = None
+#         curr = node
+#         while curr:
+#             next_node = curr.next
+#             curr.next = prev
+#             prev = curr
+#             curr = next_node
+#         return prev
+
+#     # Reverse the list to make incrementing easier
+#     head = reverseList(head)
+    
+#     # Increment the number represented by the reversed linked list
+#     curr = head
+#     carry = 1  # Start with the increment of 1
+
+#     while curr:
+#         curr.val += carry
+#         # Case 1: one digit, no carry
+#         if curr.val < 10:
+#             carry = 0
+#             break
+#         # Case 2: two digits, must carry
+#         else:
+#             curr.val = 0
+#             carry = 1
+
+#         if not curr.next:
+#             if carry > 0:
+#                 curr.next = ListNode(carry)
+#                 carry = 0
+#                 break
+
+#         curr = curr.next
+
+#     # Reverse the list back to its original order
+#     head = reverseList(head)
+#     return head
+
+
+
+
+
+'''og recursive'''
+# def getNewCount(head: ListNode) -> ListNode:
+
+#     # Helper function to handle the recursion
+#     def addOne(node: ListNode) -> int:
+#         # Base case: If the node is None, return the carry of 1 (increment)
+#         if not node:
+#             return 1
+        
+#         # Recursive case: Process the next node and get the carry
+#         carry = addOne(node.next)
+        
+#         # Add the carry to the current node's value
+#         node.val += carry
+        
+#         # Determine the new carry
+#         carry = node.val // 10
+#         node.val %= 10
+        
+#         return carry
+
+#     # Start the recursion
+#     carry = addOne(head)
+    
+#     # If there's still a carry left after processing all nodes, create a new head node
+#     if carry:
+#         new_head = ListNode(carry)
+#         new_head.next = head
+#         return new_head
+#     else:
+#         return head
+
+
+
+
+
+
+
+
+'''mA recursive'''
+# def getNewCount(head: ListNode) -> ListNode:
+
+
+#     def increment(node):
+
+#         if not node:
+#             return 1  # Carry over to a new node if end is reached
+
+
+#         carry = increment(node.next)
+
+
+#         val = (node.val + carry) % 10
+#         carry = (node.val + carry) // 10
+#         node.val = val
+
+#         return carry
+
+#     carry = increment(head)
+
+#     if carry:
+#         return ListNode(carry, head)  # Add new node for carry if needed
+#     else:
+#         return head
+
+
+
+
+
+
+def getNewCount(head: ListNode) -> ListNode:
+    """
+    Recursively increments a counter represented as a linked list by 1.
+
+    Args:
+        head: The head of the linked list representing the counter.
+
+    Returns:
+        The head of the updated linked list after the increment.
+    """
+
+    def increment_recursive(node, carry=1):
+        if not node:
+            return ListNode(carry) if carry else None  # Base case: end of list or no carry
+
+        node.val += carry
+        carry = node.val // 10
+        node.val %= 10
+
+        node.next = increment_recursive(node.next, carry)
+        return node
+
+    return increment_recursive(head)
+
+
+
+
+
+
+
+
+
+
+
+# Helper function to print the linked list
+def printList(node: ListNode):
+    while node:
+        print(node.val, end="")
+        node = node.next
+    print()
+
+
+# Example usage 1:
+# Creating a linked list for the number 129
+head1 = ListNode(1, ListNode(2, ListNode(9)))
+print("Original count: ", end="")
+printList(head1)
+# Increment the count
+new_head = getNewCount(head1)
+print("Expected new count: 130")
+print("Actual new count: ", end="")
+printList(new_head)
+
+# Example usage 2:
+# Creating a linked list for the number 9
+head2 =  ListNode(9)
+print("Original count: ", end="")
+printList(head2)
+# Increment the count
+new_head2 = getNewCount(head2)
+print("Expected new count: 10")
+print("Actual new count: ", end="")
+printList(new_head2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 '''lc version'''
 # def getShelveLengths(rawLengths: list[int]) -> list[int]:
 
@@ -72,40 +313,40 @@
 
 
 '''mA'''
-def getShelveLengths(rawLengths: list[int]) -> list[list[int]]:
+# def getShelveLengths(rawLengths: list[int]) -> list[list[int]]:
 
-    n = len(rawLengths)
-    rawLengths.sort()
+#     n = len(rawLengths)
+#     rawLengths.sort()
 
-    dp = [1] * n
-    parent = [-1] * n
+#     dp = [1] * n
+#     parent = [-1] * n
 
-    max_length = 1
-    max_indices = [0]
+#     max_length = 1
+#     max_indices = [0]
 
-    for i in range(1, n):
-        for j in range(i):
-            if rawLengths[i] % rawLengths[j] == 0 and dp[j] + 1 > dp[i]:
-                dp[i] = dp[j] + 1
-                parent[i] = j
+#     for i in range(1, n):
+#         for j in range(i):
+#             if rawLengths[i] % rawLengths[j] == 0 and dp[j] + 1 > dp[i]:
+#                 dp[i] = dp[j] + 1
+#                 parent[i] = j
 
-        if dp[i] > max_length:
-            max_length = dp[i]
-            max_indices = [i]
-        elif dp[i] == max_length:
-            max_indices.append(i)
+#         if dp[i] > max_length:
+#             max_length = dp[i]
+#             max_indices = [i]
+#         elif dp[i] == max_length:
+#             max_indices.append(i)
 
-    # Reconstruct all optimal subsequences
-    all_valid_lengths = []
-    for max_index in max_indices:
-        valid_lengths = []
-        while max_index != -1:
-            valid_lengths.append(rawLengths[max_index])
-            max_index = parent[max_index]
-        valid_lengths.reverse()
-        all_valid_lengths.append(valid_lengths)
+#     # Reconstruct all optimal subsequences
+#     all_valid_lengths = []
+#     for max_index in max_indices:
+#         valid_lengths = []
+#         while max_index != -1:
+#             valid_lengths.append(rawLengths[max_index])
+#             max_index = parent[max_index]
+#         valid_lengths.reverse()
+#         all_valid_lengths.append(valid_lengths)
 
-    return all_valid_lengths
+#     return all_valid_lengths
 
 
 
@@ -113,52 +354,52 @@ def getShelveLengths(rawLengths: list[int]) -> list[list[int]]:
 
 
 '''mB'''
-def getShelveLengths(rawLengths: list[int]) -> list[list[int]]:
+# def getShelveLengths(rawLengths: list[int]) -> list[list[int]]:
 
-    n = len(rawLengths)
-    rawLengths.sort()  # Sorting for easier processing
+#     n = len(rawLengths)
+#     rawLengths.sort()  # Sorting for easier processing
 
-    dp = [1] * n
-    parent = [[] for _ in range(n)]
+#     dp = [1] * n
+#     parent = [[] for _ in range(n)]
 
-    maxLength = 1  # Track the maximum length among all valid subsequences
+#     maxLength = 1  # Track the maximum length among all valid subsequences
 
-    for i in range(1, n):
-        for j in range(i):
-            if rawLengths[i] % rawLengths[j] == 0 and dp[j] + 1 >= dp[i]:
-                if dp[j] + 1 > dp[i]:
-                    dp[i] = dp[j] + 1
-                    parent[i] = [j]  # New parent
-                else:
-                    parent[i].append(j)  # Add another parent if same length
+#     for i in range(1, n):
+#         for j in range(i):
+#             if rawLengths[i] % rawLengths[j] == 0 and dp[j] + 1 >= dp[i]:
+#                 if dp[j] + 1 > dp[i]:
+#                     dp[i] = dp[j] + 1
+#                     parent[i] = [j]  # New parent
+#                 else:
+#                     parent[i].append(j)  # Add another parent if same length
 
-        maxLength = max(maxLength, dp[i])
+#         maxLength = max(maxLength, dp[i])
 
-    # Function to reconstruct all valid subsequences starting from an index
-    def build_subsequences(idx):
-        if not parent[idx]:
-            return [[rawLengths[idx]]]
-        subsequences = []
-        for p in parent[idx]:
-            for sub in build_subsequences(p):
-                subsequences.append(sub + [rawLengths[idx]])
-        return subsequences
+#     # Function to reconstruct all valid subsequences starting from an index
+#     def build_subsequences(idx):
+#         if not parent[idx]:
+#             return [[rawLengths[idx]]]
+#         subsequences = []
+#         for p in parent[idx]:
+#             for sub in build_subsequences(p):
+#                 subsequences.append(sub + [rawLengths[idx]])
+#         return subsequences
 
-    # Collect all valid subsequences of maximum length
-    all_valid_subsequences = []
-    for i in range(n):
-        if dp[i] == maxLength:
-            all_valid_subsequences.extend(build_subsequences(i))
+#     # Collect all valid subsequences of maximum length
+#     all_valid_subsequences = []
+#     for i in range(n):
+#         if dp[i] == maxLength:
+#             all_valid_subsequences.extend(build_subsequences(i))
 
-    return all_valid_subsequences
-
-
+#     return all_valid_subsequences
 
 
-# Example tests:
-shelfLengths1 = [12, 24, 36, 48, 60, 72, 84, 96]
-shelfLengths2 = [12, 18, 24, 30, 36]
-shelfLengths3 = [1, 2, 3]
+
+
+# # Example tests:
+# shelfLengths1 = [12, 24, 36, 48, 60, 72, 84, 96]
+# shelfLengths2 = [12, 18, 24, 30, 36]
+# shelfLengths3 = [1, 2, 3]
 
 # # Version 1: Finding the largest subset of lengths that fit together perfectly
 # print(f'Expected lengths: [96, 48, 24, 12],\
@@ -169,14 +410,14 @@ shelfLengths3 = [1, 2, 3]
 
 
 
-# Version 2: Finding ALL largest subset of lengths that fit together perfectly
-print(f'Expected lengths: [96, 48, 24, 12],\
-      \nActual lengths: {getShelveLengths(shelfLengths1)}')
-print(f'Expected lengths: [[24, 12], [12, 36], [18, 36]],\
-      \nActual lengths: {getShelveLengths(shelfLengths2)}')
-print(f'Expected lengths: [[1, 2], [1, 3]]\
-      \nActual lengths: {getShelveLengths(shelfLengths3)}')
-print("NOTE that the order of elements doesnt matter!")
+# # Version 2: Finding ALL largest subset of lengths that fit together perfectly
+# print(f'Expected lengths: [96, 48, 24, 12],\
+#       \nActual lengths: {getShelveLengths(shelfLengths1)}')
+# print(f'Expected lengths: [[24, 12], [12, 36], [18, 36]],\
+#       \nActual lengths: {getShelveLengths(shelfLengths2)}')
+# print(f'Expected lengths: [[1, 2], [1, 3]]\
+#       \nActual lengths: {getShelveLengths(shelfLengths3)}')
+# print("NOTE that the order of elements doesnt matter!")
 
 
 
