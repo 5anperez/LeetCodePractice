@@ -1,13 +1,1146 @@
 
 
+'''To update such that a list of genomes get passed in, you can just update the return 
+statement to create the new list via list comprehension!'''
+
+
+'''og'''
+# def geneId(gene: str, chromosome: str) -> bool:
+    
+#     gene_index = 0
+#     chromosome_index = 0
+
+#     gene = gene.upper()
+#     chromosome = chromosome.upper()
+
+#     while gene_index < len(gene) and chromosome_index < len(chromosome):
+#         if gene[gene_index] == chromosome[chromosome_index]:
+#             gene_index += 1
+#         chromosome_index += 1
+
+#     return gene_index == len(gene)
+
+
+
+
+
+
+'''mA'''
+# def geneId(gene: str, chromosome: str) -> bool:
+#     """
+#     Checks if a gene sequence can be found within a chromosome sequence as either 
+#     a substring or a subsequence, while allowing for case variations.
+
+#     Args:
+#         gene: The gene sequence (string of nucleotides).
+#         chromosome: The chromosome DNA sequence (string of nucleotides).
+
+#     Returns:
+#         True if the gene is found within the chromosome, False otherwise.
+#     """
+
+#     gene = gene.upper()
+#     chromosome = chromosome.upper()
+
+#     # Check if gene is a subsequence of chromosome
+#     gene_idx = 0
+#     for char in chromosome:
+#         if char == gene[gene_idx]:
+#             gene_idx += 1
+#         if gene_idx == len(gene):  # All characters in gene have been found
+#             return True
+#     return False  # Gene not found as a subsequence
+
+
+
+
+
+
+
+
+
+
+
+
+'''mB'''
+# def is_subsequence(gene: str, chromosome: str) -> bool:
+#     """
+#     Checks if the gene is a subsequence of the chromosome.
+#     """
+#     gene_index = 0
+#     for char in chromosome:
+#         if char == gene[gene_index]:
+#             gene_index += 1
+#             if gene_index == len(gene):
+#                 return True  # Entire gene found as subsequence
+#     return False
+
+# def geneId(gene: str, chromosome: str) -> bool:
+#     """
+#     Checks if a gene sequence can be found within a chromosome sequence,
+#     allowing for variations in case (upper/lower case) and handling
+#     both substrings and subsequences.
+
+#     Args:
+#         gene: The gene sequence (string of nucleotides).
+#         chromosome: The chromosome DNA sequence (string of nucleotides).
+
+#     Returns:
+#         True if the gene is found within the chromosome, False otherwise.
+#     """
+
+#     gene = gene.upper()
+#     chromosome = chromosome.upper()
+
+#     # Check for both substring and subsequence relationships
+#     return gene in chromosome or is_subsequence(gene, chromosome)
+
+
+
+
+# # Output 1: True
+# gene1 = "abc"
+# chromosome1 = "atadbgdc"
+# print("Expected result: True")
+# print(f'Actual result: {geneId(gene1, chromosome1)}')  
+
+
+# # Output 2: True
+# gene2 = "ATGGCTACT"
+# chromosome2 = "TTAGATCGATGGCTACTCGGTAGA"
+# print("Expected result: True")
+# print(f'Actual result: {geneId(gene2, chromosome2)}')  
+
+
+# # Output 3: False
+# gene3 = "AZM"
+# chromosome3 = "ACTGCATGGCTAGCATCGTAGCTAGCTAGCTA"
+# print("Expected result: False")
+# print(f'Actual result: {geneId(gene3, chromosome3)}')  
+
+
+# # Output 4 - edge case: True
+# gene4 = ""
+# chromosome4 = "atadbgdc"
+# print("Expected result: True (trivially)")
+# print(f'Actual result: {geneId(gene4, chromosome4)}') 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+Q: Is the following dp solute derived from a reccurance relation?
+
+Yes, the solution using dynamic programming for counting permutations that sum up to a target is derived from a recurrence relation. Here's a detailed explanation of how the recurrence relation is formulated and how it leads to the dynamic programming solution:
+
+### Recurrence Relation
+
+The recurrence relation for this problem can be derived based on the idea that for each target sum `i`, you can form this sum by adding a number `num` from the list `nums` to a smaller sum `i - num`. Therefore, the number of ways to form the target sum `i` is the sum of the ways to form each of the sums `i - num` for every `num` in `nums`.
+
+### Recurrence Formula
+
+Let's define `dp[i]` as the number of ways to achieve the target sum `i`. The recurrence relation can be expressed as follows:
+
+\[ dp[i] = \sum_{num \in nums} dp[i - num] \]
+
+This means that to find the number of ways to get the sum `i`, you look at all possible numbers `num` in `nums` and add the number of ways to get the sum `i - num`.
+
+### Base Case
+
+The base case is:
+
+\[ dp[0] = 1 \]
+
+This is because there is exactly one way to achieve the sum of 0, which is by using no elements at all.
+
+### Dynamic Programming Approach
+
+Using the recurrence relation, we can iteratively fill out the `dp` array to compute the number of ways to achieve each target sum up to the given target. Here's the step-by-step process:
+
+1. **Initialization**: Initialize a `dp` array of length `target + 1` with all elements set to 0, and set `dp[0]` to 1.
+
+2. **Filling the DP Array**: Use nested loops to fill in the `dp` array:
+   - The outer loop iterates over each target sum `i` from 1 to `target`.
+   - The inner loop iterates over each number `num` in `nums`.
+   - For each combination of `i` and `num`, if `num` is less than or equal to `i`, update `dp[i]` by adding the value of `dp[i - num]`.
+
+3. **Result**: The value of `dp[target]` gives the number of ways to achieve the target sum using permutations of the numbers in `nums`.
+
+### Example Implementation
+
+Here is the implementation based on the recurrence relation:
+
+```python
+def combinationSum4(nums, target):
+    # Initialize the dp array with 0s and set dp[0] to 1
+    dp = [0] * (target + 1)
+    dp[0] = 1
+
+    # Fill the dp array using the recurrence relation
+    for i in range(1, target + 1):
+        for num in nums:
+            if i >= num:
+                dp[i] += dp[i - num]
+
+    # The result is the number of ways to achieve the target sum
+    return dp[target]
+
+# Example usage:
+nums = [1, 2, 3]
+target = 4
+print(combinationSum4(nums, target))  # Output: 7
+```
+
+### Example Walkthrough
+
+Let's go through the example `nums = [1, 2, 3]` and `target = 4` step by step:
+
+1. **Initialization**:
+   ```python
+   dp = [1, 0, 0, 0, 0]
+   ```
+
+2. **Filling the DP Array**:
+   - For `i = 1`:
+     - `num = 1`: `i - num = 0`, `dp[1] += dp[0]` → `dp[1] = 1`
+     - `num = 2` and `num = 3` are not considered because they are greater than `i`.
+     ```python
+     dp = [1, 1, 0, 0, 0]
+     ```
+   - For `i = 2`:
+     - `num = 1`: `i - num = 1`, `dp[2] += dp[1]` → `dp[2] = 1`
+     - `num = 2`: `i - num = 0`, `dp[2] += dp[0]` → `dp[2] = 2`
+     - `num = 3` is not considered because it is greater than `i`.
+     ```python
+     dp = [1, 1, 2, 0, 0]
+     ```
+   - For `i = 3`:
+     - `num = 1`: `i - num = 2`, `dp[3] += dp[2]` → `dp[3] = 2`
+     - `num = 2`: `i - num = 1`, `dp[3] += dp[1]` → `dp[3] = 3`
+     - `num = 3`: `i - num = 0`, `dp[3] += dp[0]` → `dp[3] = 4`
+     ```python
+     dp = [1, 1, 2, 4, 0]
+     ```
+   - For `i = 4`:
+     - `num = 1`: `i - num = 3`, `dp[4] += dp[3]` → `dp[4] = 4`
+     - `num = 2`: `i - num = 2`, `dp[4] += dp[2]` → `dp[4] = 6`
+     - `num = 3`: `i - num = 1`, `dp[4] += dp[1]` → `dp[4] = 7`
+     ```python
+     dp = [1, 1, 2, 4, 7]
+     ```
+
+### Conclusion
+
+The dynamic programming approach is derived directly from the recurrence relation. It ensures that each subproblem is solved optimally by breaking the problem into smaller subproblems and building up the solution using previously computed results. This method provides an efficient way to count the number of permutations that sum to the target, leveraging the properties of dynamic programming.
+'''
+
+
+
+'''og: dp'''
+# def getDistributions(capacities: list[int], quantity: int) -> int:
+#     # Create a DP array to store the number of ways to get each quantity
+#     # Each element of dp is a possible quantity i.e. 0, 1, ..., quantity
+#     # and by claculating all them, we can sum them to get the total number
+#     # of ways to get our target quantity. Also, NOTE that whenever we count,
+#     # we must start at zero... its kinda like a seed, hence the +1 padding.
+#     dp = [0] * (quantity + 1)
+#     dp[0] = 1  # There's one way to make quantity 0, which is using no containers
+
+#     # Iterate through each possible quantity 
+#     # (i.e., each possible target sum)
+#     for q in range(1, quantity + 1):
+#         # Iterate through each capacity
+#         for capacity in capacities:
+#             if q >= capacity:
+#                 # (q - capacity) represents the remaining quantity 
+#                 # after considering the current capacity, i.e.,
+#                 # after we apply some capacity (distribute some quantity),
+#                 # then the remainin quantity can go to the  
+#                 dp[q] += dp[q - capacity]
+
+#     # Return the number of permutations
+#     return dp[quantity]
+
+
+
+
+
+
+
+
+
+'''mA: recursive'''
+# def getDistributions(capacities: list[int], quantity: int) -> int:
+
+#     memo = {}
+
+#     def countPermutations(remaining_quantity):
+#         if remaining_quantity == 0:
+#             return 1  # Exact match found
+
+#         if remaining_quantity in memo:
+#             return memo[remaining_quantity]
+
+#         total_permutations = 0
+#         for capacity in capacities:
+#             if capacity <= remaining_quantity:
+#                 total_permutations += countPermutations(remaining_quantity - capacity)
+
+#         memo[remaining_quantity] = total_permutations
+#         return total_permutations
+
+#     return countPermutations(quantity)
+
+
+
+
+
+
+
+
+
+# # Test Output: Number of possibilities: 15
+# capacitiesA = [5, 10, 25]
+# quantityA = 30
+# possibilitiesA = getDistributions(capacitiesA, quantityA)
+# print("Expected number of possibilities: 15")
+# print(f"Actual number of possibilities: {possibilitiesA}") 
+# print("----") 
+
+# # Test Output: Number of possibilities: 13
+# capacitiesB = [10, 20, 30]
+# quantityB = 50
+# possibilitiesB = getDistributions(capacitiesB, quantityB)
+# print("Expected number of possibilities: 13")
+# print(f"Actual number of possibilities: {possibilitiesB}") 
+# print("----") 
+
+# # Test Output: Number of possibilities: 7
+# capacitiesC = [1, 2, 3]
+# quantityC = 4
+# possibilitiesC = getDistributions(capacitiesC, quantityC)
+# print("Expected number of possibilities: 7")
+# print(f"Actual number of possibilities: {possibilitiesC}")  
+# print("----") 
+
+# # Test Output: Number of possibilities: 3596136181
+# capacitiesD = [8, 4, 1]
+# quantityD = 64
+# possibilitiesD = getDistributions(capacitiesD, quantityD)
+# print("Expected number of possibilities: 3596136181")
+# print(f"Actual number of possibilities: {possibilitiesD}")  
+# print("----") 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    THOUGHT PROCESS: HOW MANY STATES DO YOU NEED TO KEEP TRACK OF? YOU HAVE TWO BASE CASES, WHICH WERE GIVEN IN THE PROBLEM, 1 ELT AND 2 ELT. THERFORE AT 3 ELEMENTS, WHAT MATTERS? THE TOP THING IS THE PREVIOUS ELEMENTS SIGN, WAS IT NEG OR POS? 
+
+    Since the sign of the last difference determines whether the current element can extend the subsequence, you need to keep track of two states:
+    1. Longest subsequence ending at index i with a positive last difference.
+    2. Longest subsequence ending at index i with a negative last difference.
+'''
+
+
+'''og1'''
+# def longest_alternating_subsequence(sequence):
+#     if not sequence:
+#         return 0
+    
+#     n = len(sequence)
+#     if n == 1:
+#         return 1
+
+#     # dp[i][0] means the length of the longest alternating subsequence ending at i with a positive difference
+#     # dp[i][1] means the length of the longest alternating subsequence ending at i with a negative difference
+#     dp = [[1] * 2 for _ in range(n)]
+
+#     max_length = 1
+
+#     for i in range(1, n):
+#         for j in range(i):
+#             if sequence[i] > sequence[j]:
+#                 dp[i][0] = max(dp[i][0], dp[j][1] + 1)
+#             elif sequence[i] < sequence[j]:
+#                 dp[i][1] = max(dp[i][1], dp[j][0] + 1)
+#         max_length = max(max_length, dp[i][0], dp[i][1])
+
+#     return max_length
+
+
+
+'''og2'''
+# def analyzeSignal(signal: list[int]) -> int:
+#     if not signal:
+#         return 0
+
+#     n = len(signal)
+#     if n == 1:
+#         return 1
+
+#     # Initialize the up and down tables
+#     up = [1] * n
+#     down = [1] * n
+
+#     for i in range(1, n):
+#         for j in range(i):
+#             if signal[i] > signal[j]:
+#                 up[i] = max(up[i], down[j] + 1)
+#             elif signal[i] < signal[j]:
+#                 down[i] = max(down[i], up[j] + 1)
+
+#     return max(max(up), max(down))
+
+
+
+
+
+
+
+
+
+'''mA'''
+# def analyzeSignal(signal: list[int]) -> int:
+#     """
+#     Analyzes a radio signal to find the longest subsequence with alternating differences.
+
+#     Args:
+#         signal: A list of integers representing the amplitude measurements of the signal.
+
+#     Returns:
+#         The length of the longest subsequence with strictly oscillating differences.
+#     """
+
+#     n = len(signal)
+#     dp = [1] * n  # dp[i] stores the length of the longest oscillating subsequence ending at index i
+
+#     for i in range(1, n):
+#         for j in range(i + 1):  # Include i in the range to handle initial oscillations
+#             if j == 0:
+#                 dp[i] = max(dp[i], 2)  # Single element or initial oscillation are valid
+#             else:
+#                 diff1 = signal[i] - signal[j]
+#                 diff2 = signal[j] - signal[j - 1]
+
+#                 if (diff1 > 0 and diff2 < 0) or (diff1 < 0 and diff2 > 0):
+#                     dp[i] = max(dp[i], dp[j] + 1)
+
+#     return max(dp)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''mB'''
+# def analyzeSignal(signal: list[int]) -> int:
+#     """
+#     Analyzes a radio signal to find the longest subsequence with alternating differences.
+
+#     Args:
+#         signal: A list of integers representing the amplitude measurements of the signal.
+
+#     Returns:
+#         The length of the longest subsequence with strictly oscillating differences.
+#     """
+
+#     n = len(signal)
+#     if n < 2:  # Base case: signal too short for oscillation
+#         return n
+
+#     dp = [[1, 1] for _ in range(n)]  # dp[i][0] for increasing, dp[i][1] for decreasing
+
+#     for i in range(1, n):
+#         for j in range(i):
+#             diff = signal[i] - signal[j]
+
+#             # Check for oscillation and update dp table accordingly
+#             if diff > 0:  
+#                 dp[i][0] = max(dp[i][0], dp[j][1] + 1)  # Increase after decrease
+#             elif diff < 0:
+#                 dp[i][1] = max(dp[i][1], dp[j][0] + 1)  # Decrease after increase
+
+#     return max(max(dp[i]) for i in range(n))  # Find the overall maximum length
+
+
+
+
+
+
+
+
+# # Test Cases
+# signals = [
+#     [1, 5, 2, 6, 3, 7], 
+#     [10, 15, 8, 12, 6, 11], 
+#     [2, 18, 6, 11, 14, 16, 11, 6, 17, 9],
+#     [8, 12, 9, 14, 11, 16, 13, 18, 15],  
+#     [1, 2, 1, 2, 3, 2, 3],
+#     [4, 2, 5, 1, 6, 3, 7, 2],
+#     [3, 8, 2, 11, 5, 14, 8, 17, 11, 20, 14],
+#     [0, 0]
+# ]
+
+# expected_lengths = [6, 6, 7, 9, 6, 8, 11, 1]
+
+# for i, signal in enumerate(signals):
+#     result = analyzeSignal(signal)
+#     print(f"Test Case {i+1}:")
+#     print("  Input Signal:", signal)
+#     print("  Expected Length:", expected_lengths[i])
+#     print("  Actual Length:", result)
+#     if result != expected_lengths[i]:
+#         print("  !!! FAILED !!!")  # Mark failed tests
+#     print("---")
+
+
+
+# # Output 1: 6
+# signalA = [1, 5, 2, 6, 3, 7]  
+# resultA = analyzeSignal(signalA)
+# print("Expected length: 6")  
+# print("Actual length:", resultA) 
+
+# # Output 2: 6
+# signalB = [10, 15, 8, 12, 6, 11]
+# resultB = analyzeSignal(signalB)
+# print("Expected length: 6")  
+# print("Actual length:", resultB) 
+
+# # Output 3: 7
+# signal3 = [2, 18, 6, 11, 14, 16, 11, 6, 17, 9]
+# result3 = analyzeSignal(signal3)
+# print("Expected length: 7")  
+# print("Actual length:", result3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    A difference array is derived from an original array such that each element in the difference array represents the difference between consecutive elements in the original array.
+
+    diff[i] = original[i] - original[i - 1] for i > 0 && diff[0] == original[0]
+'''
+
+'''og'''
+# def applyTransactions(numDays: int, transactions: list[list[int]]) -> list[int]:
+#     # Initialize the newLedger with zeros
+#     newLedger = [0] * numDays
+    
+#     # Apply the transactions using a difference array technique
+#     for transaction in transactions:
+#         startDay, endDay, amount = transaction
+        
+#         # Apply the amount at startDay
+#         if startDay < numDays:
+#             newLedger[startDay] += amount
+        
+#         # Subtract the amount at endDay + 1 (if within bounds)
+#         if endDay + 1 < numDays:
+#             newLedger[endDay + 1] -= amount
+    
+#     # Convert the difference array to the actual ledger values
+#     for i in range(1, numDays):
+#         newLedger[i] += newLedger[i - 1]
+    
+#     return newLedger
+
+
+
+
+'''mA'''
+# def applyTransactions(numDays: int, transactions: list[list[int]]) -> list[int]:
+
+#     newLedger = [0] * numDays  # Create a zeroed-out ledger
+
+#     for startDay, endDay, amount in transactions:
+#         # Ensure valid transaction ranges
+#         startDay = max(0, startDay - 1)  # Adjust for 0-based indexing
+#         endDay = min(numDays, endDay)     
+
+#         # Apply the transaction amount to each day in the range
+#         for day in range(startDay, endDay):
+#             newLedger[day] += amount
+
+#     return newLedger
+'''mA V2'''
+# def applyTransactions(numDays: int, transactions: list[list[int]]) -> list[int]:
+    
+#     # 1. Initialize newLedger and changes list.
+#     newLedger = [0] * (numDays + 1)  # Extra day for cumulative sum calculation
+#     changes = [0] * (numDays + 1)
+
+#     # 2. Mark changes at start and end days.
+#     for startDay, endDay, amount in transactions:
+#         changes[startDay] += amount
+#         changes[endDay + 1] -= amount  # Adjust for exclusive end
+
+#     # 3. Calculate cumulative sum for newLedger.
+#     for i in range(1, numDays + 1):
+#         newLedger[i] = newLedger[i - 1] + changes[i]
+
+#     return newLedger[:-1]  # Exclude the extra day
+
+
+
+
+
+
+'''mB V2: linear'''
+# def applyTransactions(numDays: int, transactions: list[list[int]]) -> list[int]:
+#     newLedger = [0] * numDays
+
+#     # 1. Record changes at start and end days
+#     for transaction in transactions:
+#         startDay, endDay, amount = transaction
+        
+#         # Ensure the transaction falls within the valid date range
+#         startDay = max(0, startDay)
+#         endDay = min(numDays - 1, endDay)
+
+#         newLedger[startDay] += amount
+#         if endDay < numDays - 1:  
+#             newLedger[endDay + 1] -= amount
+
+#     # 2. Accumulate changes to calculate final balances
+#     for day in range(1, numDays):
+#         newLedger[day] += newLedger[day - 1]
+
+#     return newLedger
+
+
+
+
+
+
+# print("Expected:\n[10, 30, 45, 45, 25]\n\
+# [0, 5, 3, 3, 3, -2, -2]\n\
+# [0, 100, 50, 50, -50, 150, 200]\n\
+# Actual:")
+# # Example transactions 1:
+# numDays = 5
+# transactions = [
+#     [0, 1, 10],  # Add 10 from day 0 to day 1
+#     [1, 3, 20],  # Add 20 from day 1 to day 3
+#     [2, 4, 25]   # Add 25 from day 2 to day 4
+# ]
+
+# result = applyTransactions(numDays, transactions)
+# print(result)  # Output: [10, 30, 45, 45, 25]
+
+# # Example transactions 2:
+# numDays2 = 7 
+# transactions2 = [
+#     [1, 4, 5],  # Add 5 from day 1 to day 4
+#     [2, 6, -2]  # Add -2 from day 2 to day 6
+# ] 
+
+# result2 = applyTransactions(numDays2, transactions2)
+# print(result2)  # Output: [0, 5, 3, 3, 3, -2, -2]
+
+
+# # Example transactions 3:
+# numDays3 = 7  # Ledger covers 7 days
+# transactions3 = [
+#     [1, 3, 100],    # Add 100 from day 1 to day 3
+#     [2, 5, -50],    # Add -50 from day 2 to day 5
+#     [5, 6, 200],    # Add 200 from day 5 to day 6
+# ]
+
+# result3 = applyTransactions(numDays3, transactions3)
+# print(result3) # Output: [0, 100, 50, 0, -50, 150, 200]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    VERSION 2: ANY MATH OPERATION
+'''
 
 
 
 '''og'''
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
+# def applyTransactions(numDays: int, 
+#                       transactions: list[list[int]], 
+#                       operation: tuple = ('increment', 1)) -> list[int]:
+#     # Initialize the newLedger with zeros
+#     newLedger = [0] * numDays
+
+#     # Apply the transactions using the prefix sum technique for increments
+#     for transaction in transactions:
+#         startDay, endDay, amount = transaction
+#         newLedger[startDay] += amount
+#         if endDay + 1 < numDays:
+#             newLedger[endDay + 1] -= amount
+
+#     # Calculate the prefix sums to get the final ledger values
+#     for i in range(1, numDays):
+#         newLedger[i] += newLedger[i - 1]
+
+#     # Check if the operation is 'scale' and apply the scaling factor if so
+#     if operation[0] == 'scale':
+#         factor = operation[1]
+#         newLedger = [value * factor for value in newLedger]
+    
+#     return newLedger
+
+
+
+
+
+
+
+'''mA'''
+# # Importing Union from the typing module
+# from typing import Union
+# def applyTransactions(numDays: int, transactions: list[list[int]], 
+#                      operation: tuple[str, Union[int, float]] = ('increment', 1)) -> list[int]:
+#     newLedger = [0] * numDays
+#     op_type, factor = operation  # Unpack the operation tuple
+
+#     # Apply increments first
+#     for transaction in transactions:
+#         startDay, endDay, amount = transaction
+        
+#         # Ensure the transaction falls within the valid date range
+#         startDay = max(0, startDay)
+#         endDay = min(numDays - 1, endDay)
+
+#         if op_type == 'increment':
+#             newLedger[startDay] += amount
+#             if endDay < numDays - 1:
+#                 newLedger[endDay + 1] -= amount
+#         # ... (no scaling logic in this loop)
+
+#     # Accumulate incremental changes
+#     if op_type == 'increment':
+#         for day in range(1, numDays):
+#             newLedger[day] += newLedger[day - 1]
+
+#     # Apply scaling factor (after increments)
+#     if op_type == 'scale':
+#         for day in range(numDays):
+#             newLedger[day] *= factor  # Scale each value
+
+#     return newLedger
+
+
+
+
+
+
+'''mB'''
+# def applyTransactions(
+#     numDays: int, 
+#     transactions: list[list[int]], 
+#     operation: tuple[str, int] = ('increment', 1)
+# ) -> list[int]:
+    
+#     operation_type, factor = operation
+#     newLedger = [0] * numDays
+    
+#     # Apply increments first (if any)
+#     if operation_type == 'increment':
+#         for startDay, endDay, amount in transactions:
+#             startDay = max(0, startDay)
+#             endDay = min(numDays - 1, endDay)
+            
+#             newLedger[startDay] += amount
+#             if endDay < numDays - 1:
+#                 newLedger[endDay + 1] -= amount
+        
+#         for day in range(1, numDays):
+#             newLedger[day] += newLedger[day - 1]
+        
+#     # Apply scaling (if applicable)
+#     if operation_type == 'scale':
+#         for startDay, endDay, _ in transactions:  # Ignore 'amount' for scaling
+#             startDay = max(0, startDay)
+#             endDay = min(numDays - 1, endDay)
+            
+#             for day in range(startDay, endDay + 1):
+#                 newLedger[day] *= factor
+    
+#     return newLedger
+
+
+
+
+
+
+# print("Expected:\n[20, 60, 90, 90, 50]\n\
+# [0, 15, 9, 9, 9, -6, -6]\n\
+# [0, 100, 50, 50, -50, 150, 200]\n\
+# Actual:")
+# # Example transactions 1:
+# numDays = 5
+# transactions = [
+#     [0, 1, 10],  # Add 10 from day 0 to day 1
+#     [1, 3, 20],  # Add 20 from day 1 to day 3
+#     [2, 4, 25]   # Add 25 from day 2 to day 4
+# ]
+
+# result = applyTransactions(numDays, transactions, ('scale', 2))
+# print(result)  # Output: [20, 60, 90, 90, 50]
+
+# # Example transactions 2:
+# numDays2 = 7 
+# transactions2 = [
+#     [1, 4, 5],  # Add 5 from day 1 to day 4
+#     [2, 6, -2]  # Add -2 from day 2 to day 6
+# ] 
+
+# result2 = applyTransactions(numDays2, transactions2, ('scale', 3))
+# print(result2)  # Output: [0, 15, 9, 9, 9, -6, -6]
+
+
+# # Example transactions 3 (no scale):
+# numDays3 = 7  # Ledger covers 7 days
+# transactions3 = [
+#     [1, 3, 100],    # Add 100 from day 1 to day 3
+#     [2, 5, -50],    # Add -50 from day 2 to day 5
+#     [5, 6, 200],    # Add 200 from day 5 to day 6
+# ]
+
+# result3 = applyTransactions(numDays3, transactions3)
+# print(result3) # Output: [0, 100, 50, 50, -50, 150, 200]
+
+
+
+# print("Expected:\n[10, 30, 45, 45, 25]\n\
+# [0, 5, 3, 3, 3, -2, -2]\n\
+# [0, 100, 50, 50, -50, 150, 200]\n\
+# Actual:")
+# # Example transactions 1:
+# numDays = 5
+# transactions = [
+#     [0, 1, 10],  # Add 10 from day 0 to day 1
+#     [1, 3, 20],  # Add 20 from day 1 to day 3
+#     [2, 4, 25]   # Add 25 from day 2 to day 4
+# ]
+
+# result = applyTransactions(numDays, transactions)
+# print(result)  # Output: [10, 30, 45, 45, 25]
+
+# # Example transactions 2:
+# numDays2 = 7 
+# transactions2 = [
+#     [1, 4, 5],  # Add 5 from day 1 to day 4
+#     [2, 6, -2]  # Add -2 from day 2 to day 6
+# ] 
+
+# result2 = applyTransactions(numDays2, transactions2)
+# print(result2)  # Output: [0, 5, 3, 3, 3, -2, -2]
+
+
+# # Example transactions 3:
+# numDays3 = 7  # Ledger covers 7 days
+# transactions3 = [
+#     [1, 3, 100],    # Add 100 from day 1 to day 3
+#     [2, 5, -50],    # Add -50 from day 2 to day 5
+#     [5, 6, 200],    # Add 200 from day 5 to day 6
+# ]
+
+# result3 = applyTransactions(numDays3, transactions3)
+# print(result3) # Output: [0, 100, 50, 0, -50, 150, 200]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # Example usage:
+# numDays = 10
+# transactions_increment = [
+#     [2, 4, 10], # 
+#     [3, 5, 20],
+#     [0, 1, 5]
+# ]
+# transactions_scale = [
+#     [2, 4, 2],  # This means to double the values from day 2 to 4
+#     [3, 5, 0.5] # This means to halve the values from day 3 to 5
+# ]
+
+# # Applying the increment transactions
+# result_increment = applyTransactions(numDays, transactions_increment)
+# print("Increment Result:", result_increment)  # Output should be [5, 5, 15, 30, 30, 20, 0, 0, 0, 0]
+
+# # Applying the scale transactions
+# result_scale = applyTransactions(numDays, transactions_scale, 'scale')
+# print("Scale Result:", result_scale)  # Output should be [0, 0, 2, 2, 2, 1, 0, 0, 0, 0]
+
+
+
+
+
+
+
+
+
+
+
+# # Example usage:
+# length = 5
+
+# # Increment operations
+# increment_updates = [
+#     [1, 3, 2],
+#     [2, 4, 3],
+#     [0, 2, -2]
+# ]
+# print("After increments:", apply_updates(length, increment_updates, 'increment'))  # Output: [-2, 0, 3, 5, 3]
+
+# # Decrement operations
+# decrement_updates = [
+#     [1, 3, 2],
+#     [2, 4, 1]
+# ]
+# print("After decrements:", apply_updates(length, decrement_updates, 'decrement'))  # Output: [0, -2, -1, -3, -1]
+
+# # Set operations
+# set_updates = [
+#     [1, 3, 5]
+# ]
+# print("After setting values:", apply_updates(length, set_updates, 'set'))  # Output: [0, 5, 5, 5, 0]
+
+# # Multiply operations
+# multiply_updates = [
+#     [1, 3, 2]
+# ]
+# # Assume initial values for illustration
+# initial_values = [1, 2, 3, 4, 5]
+# print("Before multiplication:", initial_values)
+# # Apply multiply
+# for update in multiply_updates:
+#     start, end, factor = update
+#     for i in range(start, end + 1):
+#         initial_values[i] *= factor
+# print("After multiplication:", initial_values)  # Output: [1, 4, 6, 8, 5]
+
+# Note: 'multiply' operation is directly applied for illustration; difference array approach is more complex for multiplication
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''og'''
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 
 # def getNewCount(head: ListNode) -> ListNode:
 #     # Helper function to reverse the linked list
@@ -125,31 +1258,29 @@ class ListNode:
 
 
 
-def getNewCount(head: ListNode) -> ListNode:
-    """
-    Recursively increments a counter represented as a linked list by 1.
+# def getNewCount(head: ListNode) -> ListNode:
+#     """
+#     Recursively increments a counter represented as a linked list by 1.
 
-    Args:
-        head: The head of the linked list representing the counter.
+#     Args:
+#         head: The head of the linked list representing the counter.
 
-    Returns:
-        The head of the updated linked list after the increment.
-    """
+#     Returns:
+#         The head of the updated linked list after the increment.
+#     """
 
-    def increment_recursive(node, carry=1):
-        if not node:
-            return ListNode(carry) if carry else None  # Base case: end of list or no carry
+#     def increment_recursive(node, carry=1):
+#         if not node:
+#             return ListNode(carry) if carry else None  # Base case: end of list or no carry
 
-        node.val += carry
-        carry = node.val // 10
-        node.val %= 10
+#         node.val += carry
+#         carry = node.val // 10
+#         node.val %= 10
 
-        node.next = increment_recursive(node.next, carry)
-        return node
+#         node.next = increment_recursive(node.next, carry)
+#         return node
 
-    return increment_recursive(head)
-
-
+#     return increment_recursive(head)
 
 
 
@@ -159,35 +1290,37 @@ def getNewCount(head: ListNode) -> ListNode:
 
 
 
-# Helper function to print the linked list
-def printList(node: ListNode):
-    while node:
-        print(node.val, end="")
-        node = node.next
-    print()
 
 
-# Example usage 1:
-# Creating a linked list for the number 129
-head1 = ListNode(1, ListNode(2, ListNode(9)))
-print("Original count: ", end="")
-printList(head1)
-# Increment the count
-new_head = getNewCount(head1)
-print("Expected new count: 130")
-print("Actual new count: ", end="")
-printList(new_head)
+# # Helper function to print the linked list
+# def printList(node: ListNode):
+#     while node:
+#         print(node.val, end="")
+#         node = node.next
+#     print()
 
-# Example usage 2:
-# Creating a linked list for the number 9
-head2 =  ListNode(9)
-print("Original count: ", end="")
-printList(head2)
-# Increment the count
-new_head2 = getNewCount(head2)
-print("Expected new count: 10")
-print("Actual new count: ", end="")
-printList(new_head2)
+
+# # Example usage 1:
+# # Creating a linked list for the number 129
+# head1 = ListNode(1, ListNode(2, ListNode(9)))
+# print("Original count: ", end="")
+# printList(head1)
+# # Increment the count
+# new_head = getNewCount(head1)
+# print("Expected new count: 130")
+# print("Actual new count: ", end="")
+# printList(new_head)
+
+# # Example usage 2:
+# # Creating a linked list for the number 9
+# head2 =  ListNode(9)
+# print("Original count: ", end="")
+# printList(head2)
+# # Increment the count
+# new_head2 = getNewCount(head2)
+# print("Expected new count: 10")
+# print("Actual new count: ", end="")
+# printList(new_head2)
 
 
 
