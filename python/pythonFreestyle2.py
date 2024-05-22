@@ -1,5 +1,159 @@
 
 
+'''og'''
+# def getBestWDE(ds: list[int]) -> int:
+#     n = len(ds)
+    
+#     # Compute the initial WDE for rotation 0
+#     current_wde = sum(i * ds[i] for i in range(n))
+    
+#     max_wde = current_wde
+    
+#     # Compute the sum of the array elements
+#     total_sum = sum(ds)
+    
+#     # Iterate through all possible rotations
+#     for r in range(1, n):
+#         # Compute the WDE for the next rotation using the previous rotation's WDE
+#         current_wde += total_sum - n * ds[n - r]
+#         max_wde = max(max_wde, current_wde)
+    
+#     return max_wde
+
+
+
+
+
+'''mA'''
+# def getBestWDE(ds: list[int]) -> int:
+#     n = len(ds)
+#     total_sum = sum(ds)
+    
+#     # Correct initialization:
+#     max_wde = float('-inf') 
+#     current_wde = 0  
+    
+#     for i in range(n):
+#         current_wde += i * ds[i] 
+#     max_wde = max(max_wde, current_wde) 
+    
+#     # Iterate through all possible clockwise rotations (1 to n-1)
+#     for r in range(1, n):
+#         current_wde += (n - 1) * ds[r - 1] - total_sum + ds[r - 1] 
+#         max_wde = max(max_wde, current_wde) 
+
+#     return max_wde
+
+
+
+
+'''mB'''
+def getBestWDE(ds: list[int]) -> int:
+    n = len(ds)
+    total_sum = sum(ds) 
+
+    max_wde = 0 
+    current_wde = 0 
+
+    # Correctly calculate initial WDE (including weighting)
+    for i in range(n):
+        current_wde += i * ds[i]
+
+    # Iterate through all possible clockwise rotations (1 to n-1)
+    for r in range(1, n):
+        current_wde += (n - 1) * ds[r - 1] - total_sum + ds[r - 1]
+        max_wde = max(max_wde, current_wde)
+
+    return max_wde
+
+
+
+
+
+
+
+# Example usage:
+drone_scores1 = [10, 1, 7, 3, 8]  
+best_wde1 = getBestWDE(drone_scores1)
+print("Expected WDE: 77")  
+print("Actual WDE:", best_wde1) 
+
+drone_scores2 = [5, 8, 3, 6]
+best_wde2 = getBestWDE(drone_scores2)
+print("Expected WDE: 40")
+print("Actual WDE:", best_wde2)  
+
+drone_scores3 = [5, 8, 2, 4, 7]  
+best_wde3 = getBestWDE(drone_scores3)
+print("Expected WDE: 65")
+print("Actual WDE:", best_wde3)  
+
+drone_scores4 = [100]  
+best_wde4 = getBestWDE(drone_scores4)
+print("Expected WDE: 0")
+print("Actual WDE:", best_wde4) 
+
+drone_scores5 = [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]  
+best_wde5 = getBestWDE(drone_scores5)
+print("Expected WDE: 605")
+print("Actual WDE:", best_wde5)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 '''To update such that a list of genomes get passed in, you can just update the return 
 statement to create the new list via list comprehension!'''
 
