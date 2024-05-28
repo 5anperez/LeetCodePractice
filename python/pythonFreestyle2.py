@@ -1,5 +1,235 @@
 
 
+
+
+import math
+
+def arctan_sum(angles):
+    def arctan_add(x, y):
+        return math.atan((x + y) / (1 - x * y))
+    
+    result = 0
+    for angle in angles:
+        result = arctan_add(result, math.tan(angle))
+    return result
+
+# Example usage:
+angles = [1, 0.5, (1/3)]  # these should be in radians
+result = arctan_sum(angles)
+print(f"The sum of the arctangents is: {result} radians, which is {math.degrees(result)} degrees.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    FOR A PROBLEM LIKE THIS, YOU WANT TO DEFINE WHAT A 'FAVORABLE NUMBER' MEANS. E.G., EVENS ARE FAV BECAUSE THEY CAN BE HALFED TO REDUCE TO 1. SPECIFICALLY, MULTIPLES OF 2 ARE THE BEST, AND THE NEXT BEST THING IS A MULTIPLE OF 4. THEREFORE, IF N%4 == 1, WE SHOULD ALWAYS DECREMENT. ALSO, IF N == 3, WE SHOULD ALWAYS DECREMENT. 
+'''
+
+
+'''og1'''
+# def minHomeSteps(robPos: int) -> int:
+#     operations = 0
+#     while robPos != 1:
+#         if robPos % 2 == 0:
+#             robPos = robPos // 2
+#         else:
+#             if (robPos == 3) or (robPos % 4 == 1):
+#                 robPos -= 1
+#             else:
+#                 robPos += 1
+#         operations += 1
+#     return operations
+
+
+
+
+
+'''og2'''
+# from collections import deque
+
+# def minHomeSteps(robPos: int) -> int:
+#     if robPos == 1:
+#         return 0
+
+#     queue = deque([(robPos, 0)])  # Each element is a tuple (position, steps)
+#     visited = set([robPos])
+
+#     while queue:
+#         current_position, steps = queue.popleft()
+
+#         # Generate possible moves
+#         possible_moves = []
+#         if current_position % 2 == 0:
+#             possible_moves.append(current_position // 2)
+#         else:
+#             possible_moves.append(current_position + 1)
+#             possible_moves.append(current_position - 1)
+
+#         for move in possible_moves:
+#             if move == 1:
+#                 return steps + 1
+#             if move not in visited:
+#                 visited.add(move)
+#                 queue.append((move, steps + 1))
+
+#     return -1  # If the home position is never reached (shouldn't happen with valid input)
+
+
+
+
+
+
+
+
+'''mA'''
+# def minHomeSteps(robPos: int) -> int:
+    
+#     MHS = 0
+#     while robPos != 1:
+#         if robPos % 2 == 0:
+#             robPos //= 2
+#         elif robPos < 3:   # Odd position < 3
+#             robPos += 1     # Move away to reach even position
+#         else:               # Odd position > 3
+#             robPos -= 1     # Move towards home
+
+#         MHS += 1
+#     return MHS
+
+
+
+
+
+
+
+
+'''mB'''
+# def minHomeSteps(robPos: int) -> int:
+    
+#     MHS = 0
+#     while robPos != 1:
+#         if robPos % 2 == 0:
+#             robPos //= 2
+#         elif robPos == 3:
+#             robPos -= 1
+#         else:
+#             robPos -= 1  # Subtract 1 for odd positions > 3 to move closer to home
+
+#         MHS += 1
+#     return MHS
+
+
+
+
+
+
+
+
+# # Example tests
+# initial_position1 = 10
+# minimum_steps1 = minHomeSteps(initial_position1)
+# print("Expected:")  
+# print(f"Minimum steps from position {initial_position1} to home: 4")
+# print("Actual:")    # Output should be 4
+# print(f"Minimum steps from position {initial_position1} to home: {minimum_steps1}")
+
+# initial_position2 = 15
+# minimum_steps2 = minHomeSteps(initial_position2)
+# print("Expected:")  
+# print(f"Minimum steps from position {initial_position2} to home: 5")
+# print("Actual:")    # Output should be 5
+# print(f"Minimum steps from position {initial_position2} to home: {minimum_steps2}")
+
+# initial_position3 = 4321
+# minimum_steps3 = minHomeSteps(initial_position3)
+# print("Expected:")  
+# print(f"Minimum steps from position {initial_position3} to home: 15")
+# print("Actual:")    # Output should be 15
+# print(f"Minimum steps from position {initial_position3} to home: {minimum_steps3}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 '''og'''
 # def getBestWDE(ds: list[int]) -> int:
 #     n = len(ds)
@@ -48,55 +278,55 @@
 
 
 '''mB'''
-def getBestWDE(ds: list[int]) -> int:
-    n = len(ds)
-    total_sum = sum(ds) 
+# def getBestWDE(ds: list[int]) -> int:
+#     n = len(ds)
+#     total_sum = sum(ds) 
 
-    max_wde = 0 
-    current_wde = 0 
+#     max_wde = 0 
+#     current_wde = 0 
 
-    # Correctly calculate initial WDE (including weighting)
-    for i in range(n):
-        current_wde += i * ds[i]
+#     # Correctly calculate initial WDE (including weighting)
+#     for i in range(n):
+#         current_wde += i * ds[i]
 
-    # Iterate through all possible clockwise rotations (1 to n-1)
-    for r in range(1, n):
-        current_wde += (n - 1) * ds[r - 1] - total_sum + ds[r - 1]
-        max_wde = max(max_wde, current_wde)
+#     # Iterate through all possible clockwise rotations (1 to n-1)
+#     for r in range(1, n):
+#         current_wde += (n - 1) * ds[r - 1] - total_sum + ds[r - 1]
+#         max_wde = max(max_wde, current_wde)
 
-    return max_wde
-
-
+#     return max_wde
 
 
 
 
 
-# Example usage:
-drone_scores1 = [10, 1, 7, 3, 8]  
-best_wde1 = getBestWDE(drone_scores1)
-print("Expected WDE: 77")  
-print("Actual WDE:", best_wde1) 
 
-drone_scores2 = [5, 8, 3, 6]
-best_wde2 = getBestWDE(drone_scores2)
-print("Expected WDE: 40")
-print("Actual WDE:", best_wde2)  
 
-drone_scores3 = [5, 8, 2, 4, 7]  
-best_wde3 = getBestWDE(drone_scores3)
-print("Expected WDE: 65")
-print("Actual WDE:", best_wde3)  
+# # Example usage:
+# drone_scores1 = [10, 1, 7, 3, 8]  
+# best_wde1 = getBestWDE(drone_scores1)
+# print("Expected WDE: 77")  
+# print("Actual WDE:", best_wde1) 
 
-drone_scores4 = [100]  
-best_wde4 = getBestWDE(drone_scores4)
-print("Expected WDE: 0")
-print("Actual WDE:", best_wde4) 
+# drone_scores2 = [5, 8, 3, 6]
+# best_wde2 = getBestWDE(drone_scores2)
+# print("Expected WDE: 40")
+# print("Actual WDE:", best_wde2)  
 
-drone_scores5 = [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]  
-best_wde5 = getBestWDE(drone_scores5)
-print("Expected WDE: 605")
-print("Actual WDE:", best_wde5)
+# drone_scores3 = [5, 8, 2, 4, 7]  
+# best_wde3 = getBestWDE(drone_scores3)
+# print("Expected WDE: 65")
+# print("Actual WDE:", best_wde3)  
+
+# drone_scores4 = [100]  
+# best_wde4 = getBestWDE(drone_scores4)
+# print("Expected WDE: 0")
+# print("Actual WDE:", best_wde4) 
+
+# drone_scores5 = [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]  
+# best_wde5 = getBestWDE(drone_scores5)
+# print("Expected WDE: 605")
+# print("Actual WDE:", best_wde5)
 
 
 
