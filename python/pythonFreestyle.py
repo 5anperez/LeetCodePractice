@@ -11516,6 +11516,214 @@ This will create a legend with the markers corresponding to each exercise, provi
 
 
 
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Creating the dataframe
+# data = {
+#     'Information_Availability': ['High', 'Medium', 'Low', 'High', 'Medium', 'Low', 'High', 'Medium', 'Low', 'High', 'Medium'],
+#     'House_Cost': ['Low', 'Medium', 'High', 'Medium', 'Low', 'Medium', 'High', 'Medium', 'Low', 'Medium', 'High'],
+#     'School_Quality': ['Good', 'Average', 'Bad', 'Excellent', 'Good', 'Bad', 'Excellent', 'Good', 'Bad', 'Excellent', 'Good'],
+#     'Trust_in_Police': ['High', 'Medium', 'Low', 'High', 'Medium', 'Low', 'High', 'Medium', 'Low', 'High', 'Medium'],
+#     'Street_Quality': ['Good', 'Average', 'Bad', 'Excellent', 'Good', 'Bad', 'Excellent', 'Good', 'Bad', 'Excellent', 'Good'],
+#     'Events': ['Many', 'Some', 'Few', 'Many', 'Some', 'Few', 'Many', 'Some', 'Few', 'Many', 'Some'],
+#     'Happiness': ['Happy', 'Content', 'Sad', 'Very Happy', 'Happy', 'Sad', 'Very Happy', 'Happy', 'Sad', 'Very Happy', 'Happy']
+# }
+
+# df = pd.DataFrame(data)
+
+# # Mapping categorical data to numeric values
+# house_cost_map = {'Low': 1, 'Medium': 2, 'High': 3}
+# school_quality_map = {'Bad': 1, 'Average': 2, 'Good': 3, 'Excellent': 4}
+
+# df['House_Cost'] = df['House_Cost'].map(house_cost_map)
+# df['School_Quality'] = df['School_Quality'].map(school_quality_map)
+
+# # Plotting the scatter plot
+# plt.figure(figsize=(10, 6))
+# plt.scatter(df['House_Cost'], df['School_Quality'], c='blue', marker='o')
+# plt.title('Relationship between House Cost and School Quality')
+# plt.xlabel('House Cost (1: Low, 2: Medium, 3: High)')
+# plt.ylabel('School Quality (1: Bad, 2: Average, 3: Good, 4: Excellent)')
+# plt.grid(True)
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Creating, then initializing the dataframe
+# data = {
+#     'Data_Availability': ['Good', 'Fair', 'Excellent', 'Poor', 'Good', 'Fair', 'Excellent', 'Poor', 'Good'],
+#     'Affordable_Housing': ['High', 'Low', 'High', 'Low', 'Medium', 'Low', 'High', 'Low', 'Medium'],
+#     'Educational_Quality': ['Excellent', 'Good', 'Poor', 'Excellent', 'Good', 'Excellent', 'Poor', 'Excellent', 'Good'],
+#     'Trust_in_Law_Enforcement': ['High', 'Medium', 'Low', 'High', 'Medium', 'High', 'Low', 'High', 'Medium'],
+#     'Roads_and_Infrastructure': ['Good', 'Fair', 'Excellent', 'Poor', 'Good', 'Fair', 'Excellent', 'Poor', 'Good'],
+#     'Community_Events': ['Many', 'Few', 'Many', 'Few', 'Many', 'Few', 'Many', 'Few', 'Many'],
+#     'Mental_Wellness': ['Good', 'Fair', 'Excellent', 'Poor', 'Good', 'Fair', 'Excellent', 'Poor', 'Good']
+# }
+
+# df = pd.DataFrame(data)
+
+# # Plotting the bar chart
+# plt.figure(figsize=(12, 8))
+# df.groupby('Community_Events')['Mental_Wellness'].value_counts().unstack().plot(kind='bar', 
+#                                                                                 stacked=True, 
+#                                                                                 color=['skyblue', 'lightgreen', 'salmon', 'orange'], 
+#                                                                                 ax=plt.gca()
+# )
+# plt.title('Distribution of Mental Wellness for Cities with Different Levels of Community Events')
+# plt.xlabel('Community Events')
+# plt.ylabel('Count of Mental Wellness')
+# plt.xticks(rotation=0)
+# plt.legend(title='Mental Wellness')
+# plt.grid(axis='y')
+# plt.show()
+
+
+
+
+
+
+
+
+''' MA  '''
+# import pandas as pd
+# import altair as alt
+
+# # Create a DataFrame with the columns `Community Events` and `Mental Wellness` using the data provided in the query.
+# data = {
+#     'Community Events': ['Many', 'Few', 'Many', 'Few', 'Many', 'Few', 'Many', 'Few', 'Many'],
+#     'Mental Wellness': ['Good', 'Fair', 'Excellent', 'Poor', 'Good', 'Fair', 'Excellent', 'Poor', 'Good']
+# }
+# df = pd.DataFrame(data)
+
+# # Count the occurrences of each unique combination of `Community Events` and `Mental Wellness` and store the result in `grouped_data`.
+# grouped_data = df.groupby(['Community Events', 'Mental Wellness']).size().reset_index(name='Count')
+
+# # Create a bar chart using the data in `grouped_data`, with `Community Events` on the x-axis, the count on the y-axis, and separate bars for each `Mental Wellness` category.
+# chart = alt.Chart(grouped_data).mark_bar().encode(
+#     x='Community Events',
+#     y='Count',
+#     color='Mental Wellness',
+#     tooltip=['Community Events', 'Mental Wellness', 'Count']
+# ).properties(
+#     title='Distribution of Mental Wellness by Community Events'
+# ).interactive()
+
+# # Save the chart in json file
+# chart.save('./OutPlots/mental_wellness_by_community_events_bar_chart.html')
+
+
+
+
+
+
+
+
+
+''' MB  '''
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Create the data frame
+data = {
+    "Data Availability": ["Good", "Fair", "Excellent", "Poor", "Good", "Fair", "Excellent", "Poor", "Good"],
+    "Affordable Housing": ["High", "Low", "High", "Low", "Medium", "Low", "High", "Low", "Medium"],
+    "Educational Quality": ["Excellent", "Good", "Poor", "Excellent", "Good", "Excellent", "Poor", "Excellent", "Good"],
+    "Trust in Law Enforcement": ["High", "Medium", "Low", "High", "Medium", "High", "Low", "High", "Medium"],
+    "Roads and Infrastructure": ["Good", "Fair", "Excellent", "Poor", "Good", "Fair", "Excellent", "Poor", "Good"],
+    "Community Events": ["Many", "Few", "Many", "Few", "Many", "Few", "Many", "Few", "Many"],
+    "Mental Wellness": ["Good", "Fair", "Excellent", "Poor", "Good", "Fair", "Excellent", "Poor", "Good"]
+}
+
+df = pd.DataFrame(data)
+
+# Pivot table to aggregate Mental Wellness by Community Events
+pivot_table = df.pivot_table(index="Community Events", columns="Mental Wellness", aggfunc="size", fill_value=0)
+
+# Plot
+pivot_table.plot(kind="bar", stacked=True, figsize=(10, 6))
+plt.title("Distribution of Mental Wellness by Community Events")
+plt.xlabel("Community Events")
+plt.ylabel("Number of Cities")
+plt.xticks(rotation=45)
+plt.legend(title="Mental Wellness")
+plt.tight_layout()
+
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

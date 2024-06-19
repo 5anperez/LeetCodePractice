@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-f0c5b07ea7269f64120a3c78b9020667"}, "mark": {"type": "bar"}, "encoding": {"color": {"field": "Mental Wellness", "type": "nominal"}, "tooltip": [{"field": "Community Events", "type": "nominal"}, {"field": "Mental Wellness", "type": "nominal"}, {"field": "Count", "type": "quantitative"}], "x": {"field": "Community Events", "type": "nominal"}, "y": {"field": "Count", "type": "quantitative"}}, "params": [{"name": "param_1", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "title": "Distribution of Mental Wellness by Community Events", "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-f0c5b07ea7269f64120a3c78b9020667": [{"Community Events": "Few", "Mental Wellness": "Fair", "Count": 2}, {"Community Events": "Few", "Mental Wellness": "Poor", "Count": 2}, {"Community Events": "Many", "Mental Wellness": "Excellent", "Count": 2}, {"Community Events": "Many", "Mental Wellness": "Good", "Count": 3}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>
