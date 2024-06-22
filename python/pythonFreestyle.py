@@ -11648,35 +11648,1253 @@ This will create a legend with the markers corresponding to each exercise, provi
 
 
 ''' MB  '''
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Create the data frame
+# data = {
+#     "Data Availability": ["Good", "Fair", "Excellent", "Poor", "Good", "Fair", "Excellent", "Poor", "Good"],
+#     "Affordable Housing": ["High", "Low", "High", "Low", "Medium", "Low", "High", "Low", "Medium"],
+#     "Educational Quality": ["Excellent", "Good", "Poor", "Excellent", "Good", "Excellent", "Poor", "Excellent", "Good"],
+#     "Trust in Law Enforcement": ["High", "Medium", "Low", "High", "Medium", "High", "Low", "High", "Medium"],
+#     "Roads and Infrastructure": ["Good", "Fair", "Excellent", "Poor", "Good", "Fair", "Excellent", "Poor", "Good"],
+#     "Community Events": ["Many", "Few", "Many", "Few", "Many", "Few", "Many", "Few", "Many"],
+#     "Mental Wellness": ["Good", "Fair", "Excellent", "Poor", "Good", "Fair", "Excellent", "Poor", "Good"]
+# }
+
+# df = pd.DataFrame(data)
+
+# # Pivot table to aggregate Mental Wellness by Community Events
+# pivot_table = df.pivot_table(index="Community Events", columns="Mental Wellness", aggfunc="size", fill_value=0)
+
+# # Plot
+# pivot_table.plot(kind="bar", stacked=True, figsize=(10, 6))
+# plt.title("Distribution of Mental Wellness by Community Events")
+# plt.xlabel("Community Events")
+# plt.ylabel("Number of Cities")
+# plt.xticks(rotation=45)
+# plt.legend(title="Mental Wellness")
+# plt.tight_layout()
+
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    I CANT GET THE DATE COLUMN TO BE READ IN ON THIS ONE, WHY? THE GOAL IS TO SIMPLY SPLIT THE DATE COLUMN INTO TWO COLUMNS, THE MONTH AND DAY.
+'''
+# import pandas as pd
+
+# # Load the data from the TSV file
+# strawberry_sales_path = './CSVs/STRAWBERRY SALES 2023 - Sheet1.tsv'
+# strawberry_sales_data = pd.read_csv(strawberry_sales_path, sep='\t', skiprows=2)
+
+# # Display the first few rows and recheck the data summary
+# print(strawberry_sales_data.head()) 
+# print(strawberry_sales_data.info(verbose=True)) 
+# print(strawberry_sales_data.describe())
+
+# # First, let's clean the dataset and remove any rows with NaN values and unnecessary headers
+# cleaned_data = strawberry_sales_data.dropna().reset_index(drop=True)
+
+# # The relevant data starts from the 2nd row (index 1)
+# cleaned_data.columns = cleaned_data.iloc[0]
+# cleaned_data = cleaned_data.drop(0).reset_index(drop=True)
+
+# # Rename the poorly formatted col names
+# cleaned_data.columns = ['DATE', 'CLAMSHELLS', 'NUM_BOXES', 'KILOS', 'PRICE_PER_BOX', 'TOTAL', 'PRODUCT', 'TYPE_OF_PRODUCT']
+
+# # Convert the DATE column to datetime format
+# cleaned_data['DATE'] = pd.to_datetime(cleaned_data['DATE'], format='%d-%b-%y')
+
+# # Extract month and day of the week from the DATE column
+# cleaned_data['MONTH'] = cleaned_data['DATE'].dt.month_name()
+# cleaned_data['DAY_OF_WEEK'] = cleaned_data['DATE'].dt.day_name()
+
+# print(cleaned_data.head())
+
+
+
+
+
+
+
+
+'''ATTEMPT 2'''
+# import pandas as pd
+
+# # Read the TSV file into a DataFrame
+# df = pd.read_csv('./CSVs/STRAWBERRY SALES 2023 - Sheet1.tsv', delimiter='\t')
+
+# # Display the first 5 rows
+# print(df.head())
+
+# # Print the column names and their data types
+# print(df.info())
+
+# # Set the column names to the values in the 2nd row
+# df.columns = df.iloc[1]
+
+# # Drop the first 2 rows
+# df = df.iloc[2:].copy()
+
+# # Convert the `DATE` column to datetime
+# df['DATE'] = pd.to_datetime(df['DATE'])
+
+# # Extract month name and day of week from `DATE`
+# df['MONTH'] = df['DATE'].dt.strftime('%B')
+# df['DAY_OF_WEEK'] = df['DATE'].dt.strftime('%A')
+
+# # Show the first 5 rows of the columns `DATE`, `MONTH`, and `DAY_OF_WEEK`
+# print(df[['DATE', 'MONTH', 'DAY_OF_WEEK']].head())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Load the dataset
+# file_path = './CSVs/Data Set #13 report.csv'
+# df = pd.read_csv(file_path, encoding='ascii')
+
+# print(df.head())
+# print(df.info(verbose=True))
+# print('\n')
+# print(df['inventory_type'].unique())
+# print('\n')
+
+# # Convert COST and sell_price columns to numeric after removing the dollar sign and commas
+# df['COST'] = df['COST'].replace('[\$,]', '', regex=True).astype(float)
+# df['sell_price'] = df['sell_price'].replace('[\$,]', '', regex=True).astype(float)
+
+# # Clean up the 'qty_in_transit units' and 'qty_on_hand units' columns by removing commas and converting to numeric
+# cols_to_clean = ['qty_in_transit units', 'qty_on_hand units']
+# for col in cols_to_clean:
+#     df[col] = df[col].replace('[,"]', '', regex=True).astype(float)
+
+# # Group by inventory_type and calculate the required sums
+# summary_df = df.groupby('inventory_type').agg({
+#     'COST': 'sum',
+#     'sell_price': 'sum',
+#     'qty_in_transit units': 'sum',
+#     'qty_on_hand units': 'sum'
+# }).reset_index()
+
+# print(summary_df.info(verbose=True))
+
+# # Rename columns for clarity
+# summary_df.columns = ['Inventory Type', 
+#                       'Total Cost', 
+#                       'Total Sell Price', 
+#                       'Total Quantity in Transit', 
+#                       'Total Quantity on Hand'
+# ]
+
+# # Display the summary table
+# print(summary_df)
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Read the CSV file into a DataFrame
+# df = pd.read_csv('./CSVs/Data Set #13 report.csv')
+
+# # Display the first 5 rows
+# print(df.head())
+
+# # Print the column names and their data types
+# print(df.info())
+
+# # Remove '$' and ',' from columns and convert to numeric
+# for col in ['COST', 'sell_price', 'qty_in_transit units', 'qty_on_hand units']:
+#   df[col] = df[col].astype(str).str.replace(r'[\$,]', '', regex=True)
+#   df[col] = pd.to_numeric(df[col], errors='coerce')
+
+# print(df.info())
+
+# # Group by `inventory_type` and sum up `COST`, `sell_price`, `qty_in_transit units`, and `qty_on_hand units` columns
+# summary_df = (
+#     df.groupby('inventory_type')[['COST', 'sell_price', 'qty_in_transit units', 'qty_on_hand units']]
+#     .sum()
+#     .round(2)
+# )
+
+# # Print the resulting dataframe
+# print("Summary Statistics by Inventory Type:\n")
+# print(summary_df)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    BINARY LIST OF NON-ZERO INCOME ENTRIES
+'''
+# # Load the Excel file, skipping the first row and setting the header
+# import pandas as pd
+
+# df_outcomes_incomes = pd.read_excel('./CSVs/outcomes_incomes_fs.xlsx', skiprows=1)
+
+# print(df_outcomes_incomes.head())
+# print(df_outcomes_incomes.info(verbose=True))
+
+# # Set the correct header and drop the first column
+# new_header = df_outcomes_incomes.iloc[0] # first row as header
+
+# df_outcomes_incomes = df_outcomes_incomes[1:10] # take the data rows
+
+# df_outcomes_incomes.columns = new_header # set the header
+
+# df_outcomes_incomes = df_outcomes_incomes.reset_index(drop=True)
+
+# # Display the cleaned dataframe
+# print(df_outcomes_incomes.head())
+
+# # Rename the columns to month names
+# month_names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November']
+# df_outcomes_incomes.columns = [''] + ['income_type'] + month_names
+
+# # Create a binary dataframe where 1 indicates non-zero income and 0 indicates zero income
+# binary_incomes = df_outcomes_incomes.map(lambda x: 1 if x != 0 else 0)
+
+# # Add the income types back to the dataframe
+# binary_incomes['income_type'] = df_outcomes_incomes['income_type']
+
+# # Display the binary dataframe
+# print(binary_incomes)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Remove the first row and set the second row as the header
+# strawberry_sales_df = pd.read_csv('./CSVs/STRAWBERRY SALES 2023 - Sheet1.tsv', sep='\	', header=1)
+
+# # Display the first few rows to confirm the changes
+# print(strawberry_sales_df.head())
+
+# # Rename the columns to remove 'Unnamed' and make them more readable
+# strawberry_sales_df.columns = ['DATE', 'CLAMSHELLS', 'BOXES', 'KILOS', 'PRICE_PER_BOX', 'TOTAL', 'PRODUCT', 'TYPE_OF_PRODUCT']
+
+# # The unique values show that there is an entry '$/BOX' which is causing the conversion issue. We need to remove or handle this entry.
+# # Let's filter out rows where PRICE_PER_BOX is '$/BOX' and then proceed with the conversion.
+
+# # Filter out rows with '$/BOX'
+# strawberry_sales_df = strawberry_sales_df[strawberry_sales_df['PRICE_PER_BOX'] != '$/BOX']
+
+# # Convert relevant columns to numeric values for analysis
+# strawberry_sales_df['CLAMSHELLS'] = pd.to_numeric(strawberry_sales_df['CLAMSHELLS'])
+# strawberry_sales_df['BOXES'] = pd.to_numeric(strawberry_sales_df['BOXES'])
+# strawberry_sales_df['KILOS'] = pd.to_numeric(strawberry_sales_df['KILOS'])
+# strawberry_sales_df['PRICE_PER_BOX'] = strawberry_sales_df['PRICE_PER_BOX'].replace('[\$,]', '', regex=True).astype(float)
+# strawberry_sales_df['TOTAL'] = strawberry_sales_df['TOTAL'].replace('[\$,]', '', regex=True).astype(float)
+
+# # Display the cleaned dataframe
+# print(strawberry_sales_df.head())
+
+# # Calculate the average revenue per sale for organic and conventional strawberries
+# # Group by TYPE_OF_PRODUCT and calculate the mean of the TOTAL column
+# average_revenue_per_sale = strawberry_sales_df.groupby('TYPE_OF_PRODUCT')['TOTAL'].mean()
+# print(average_revenue_per_sale)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    CREATE A TSV from a csv
+'''
+# import pandas as pd
+
+# # Load the CSV file
+# file_path = './CSVs/Data Set #13 report.csv'
+# data = pd.read_csv(file_path)
+
+# # Display the first few rows to understand its structure
+# print(data.head())
+
+# # Extract the required columns: item_num, COST, sell_price, and AGE OF INVENTORY DAYS
+# inventory_data_df = data[['item_num', 'COST', 'sell_price', 'AGE OF INVENTORY DAYS']]
+
+# # Save the extracted data to a TSV file
+# tsv_file_path = './OutCSVs/inventory_data.tsv'
+# inventory_data_df.to_csv(tsv_file_path, sep='\t', index=False)
+
+# print(tsv_file_path)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    TWO APPROACHES TO AGGREGATING DATA
+'''
+# # Load the grades.xlsx file and inspect the sheets
+# import pandas as pd
+
+# # Load the 'Period 2' sheet to inspect the data
+# period_2_df = pd.read_excel('./CSVs/grades.xlsx', sheet_name='Period 2')
+# print(period_2_df.head())
+
+# # Create a new table with students and their aggregated scores across homework, midterm, and final exam for Period 2
+# period_2_df['Aggregated Score'] = period_2_df[['Homework', 'Midterm', 'Final Exam']].sum(axis=1)
+
+# # Select the required columns: Student and Aggregated Score
+# aggregated_scores_df = period_2_df[['Student', 'Aggregated Score']]
+# print(aggregated_scores_df)
+
+
+'''APPROACH 2'''
+# # Calculate the total score for each student by summing up their scores across Homework, Midterm, and Final Exam
+# period_2_df['Total Score'] = period_2_df['Homework'] + period_2_df['Midterm'] + period_2_df['Final Exam']
+
+# # Create a new table with students and their aggregated scores
+# aggregated_scores_df = period_2_df[['Student', 'Total Score']]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Loading with ISO-8859-1 encoding
+# real_estate_df = pd.read_csv('./CSVs/Real Estate Mumbai Database - Rgdcvvvh.csv', encoding='ISO-8859-1')
+# print(real_estate_df.head())
+
+# # Convert the TRANSACTION DATE column to datetime format
+# real_estate_df['TRANSACTION DATE'] = pd.to_datetime(real_estate_df['TRANSACTION DATE'], format='%d/%m/%Y')
+
+# # Create 'Year' and 'Month and Day' columns
+# real_estate_df['Year'] = real_estate_df['TRANSACTION DATE'].dt.year
+# real_estate_df['Month and Day'] = real_estate_df['TRANSACTION DATE'].dt.strftime('%m/%d')
+
+# # Drop the original TRANSACTION DATE column
+# real_estate_df = real_estate_df.drop(columns=['TRANSACTION DATE'])
+
+# # Display the updated dataframe
+# print(real_estate_df.head())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Load the last60.csv file
+# last60_df = pd.read_csv('./CSVs/last60.csv')
+
+# # Inspect the first few rows to understand the structure of the data
+# print(last60_df.head())
+
+# # Calculate the average of 'Cost' for each unique 'Brand'
+# avg_cost_per_brand = last60_df.groupby('Brand')['Cost'].mean().reset_index()
+# print(avg_cost_per_brand)
+
+# # Find out which 'Brand' has the highest 'QtyAvail'
+# highest_qty_brand = last60_df.loc[last60_df['QtyAvail'].idxmax(), 'Brand']
+# print('Brand with highest QtyAvail:', highest_qty_brand)
+
+# # Check and print those entries where 'AcquiredDate' is '11/29/2023'
+# entries_acquired_date = last60_df[last60_df['AcquiredDate'] == '11/29/2023']
+# print(entries_acquired_date)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Load the TSV file
+# tsv_file = './CSVs/FAL Projects NY - West SM.tsv'
+# df_tsv = pd.read_csv(tsv_file, sep='\t', skiprows=9)
+
+# # Load the Excel file
+# excel_file = './CSVs/FAL Projects NY - office NY - FAL Proyectos.xlsx'
+# df_excel = pd.read_excel(excel_file, sheet_name=None, skiprows=9)
+
+# # Extract the relevant sheet from the Excel file
+# df_excel_sheet = df_excel['NYC Office']
+
+# # Display the first few rows of each dataframe to understand their structure
+# print("TSV File DataFrame:")
+# print(df_tsv.head())
+# print(df_tsv.info(verbose=True))
+
+# print("\nExcel File DataFrame (NYC Office):")
+# print(df_excel_sheet.head())
+# print(df_excel_sheet.info(verbose=True))
+
+# Split the 'Create Date:' column in both datasets into separate 'Year', 'Month', and 'Day' columns
+
+# # For the TSV file
+# df_tsv['Year'] = pd.to_datetime(df_tsv['Create Date:'], errors='coerce').dt.year
+# df_tsv['Month'] = pd.to_datetime(df_tsv['Create Date:'], errors='coerce').dt.month
+# df_tsv['Day'] = pd.to_datetime(df_tsv['Create Date:'], errors='coerce').dt.day
+
+# # For the TSV file
+# df_tsv['Year'] = pd.to_datetime(df_tsv['Create Date:'], format='mixed', dayfirst=False).dt.year
+# df_tsv['Month'] = pd.to_datetime(df_tsv['Create Date:'], format='mixed', dayfirst=0).dt.month
+# df_tsv['Day'] = pd.to_datetime(df_tsv['Create Date:'], format='mixed', dayfirst=0).dt.day
+
+# # THIS LINE REVEALS THAT USING THE "coerce" FLAG OMITS SIGNIFICANT INFO!
+# print("TSV File DataFrame (AFTER):")
+# print(df_tsv.info(verbose=True))
+
+# # For the Excel file
+# df_excel_sheet['Year'] = pd.to_datetime(df_excel_sheet['Create Date:']).dt.year
+# df_excel_sheet['Month'] = pd.to_datetime(df_excel_sheet['Create Date:']).dt.month
+# df_excel_sheet['Day'] = pd.to_datetime(df_excel_sheet['Create Date:']).dt.day
+
+# # Display the first 5 rows of each updated dataframe
+# print('TSV File DataFrame with Year, Month, Day columns:')
+# print(df_tsv.head())
+
+# print('\
+# Excel File DataFrame (NYC Office) with Year, Month, Day columns:')
+# print(df_excel_sheet.head())
+
+
+
+
+'''THIS IS A COOL FUNCTION TO SPLIT A DATES COLUMN. THEN, WE DEMO THE MARKDOWN METHOD TO PRETTY PRINT'''
+# from pandas.errors import ParserError
+
+# # Function to split the date and handle potential errors
+# def split_date(df, date_column):
+#   try:
+#     df[date_column] = pd.to_datetime(df[date_column], format='mixed')
+#     df['Year'] = df[date_column].dt.year
+#     df['Month'] = df[date_column].dt.month
+#     df['Day'] = df[date_column].dt.day
+#   except (ParserError, ValueError):
+#     df['Year'] = 'NaN'
+#     df['Month'] = 'NaN'
+#     df['Day'] = 'NaN'
+#   return df
+
+# # Apply the function to both DataFrames
+# df_nyc_office = split_date(df_excel_sheet, 'Create Date:')
+# df_west_sm = split_date(df_tsv, 'Create Date:')
+
+# # Display the first 5 rows of each DataFrame
+# print("First 5 rows of NYC Office data with split date:")
+# print(df_nyc_office[['Create Date:', 'Year', 'Month', 'Day']].head().to_markdown(index=False, numalign="left", stralign="left"))
+
+# print("\nFirst 5 rows of West SM data with split date:")
+# print(df_west_sm[['Create Date:', 'Year', 'Month', 'Day']].head().to_markdown(index=False, numalign="left", stralign="left"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # Load the CSV file and calculate the number of times money was returned to a customer
+# import pandas as pd
+
+# # Load the CSV file
+# df_sales = pd.read_csv('./CSVs/Ventas_Julio-Octubre-wines.xlsxcsv-Julio-Octubre.csv')
+
+# # Display the first few rows to understand the structure of the data
+# print(df_sales.head())
+# print(df_sales.info(verbose=1))
+
+# # Calculate the number of returns
+# returns_count = df_sales[df_sales['\u00cdtem - Impte. Neto mon. Local'] < 0].shape[0]
+
+# # Calculate total spent and total returned for each customer
+# # total_spent = df_sales.groupby('Cliente - Pa\u00eds - C\u00f3d.')['\u00cdtem - Impte. Neto mon. Local'].sum()
+
+# total_spent = df_sales[df_sales['\u00cdtem - Impte. Neto mon. Local'] > 0].groupby('Cliente - Pa\u00eds - C\u00f3d.')['\u00cdtem - Impte. Neto mon. Local'].sum()
+
+# total_returned = df_sales[df_sales['\u00cdtem - Impte. Neto mon. Local'] < 0].groupby('Cliente - Pa\u00eds - C\u00f3d.')['\u00cdtem - Impte. Neto mon. Local'].sum().abs()
+
+# # Calculate the relationship score for each customer
+# relationship_score = (total_spent - total_returned) / total_spent * 100
+
+# # Combine the results into a single DataFrame
+# customer_relationship = pd.DataFrame({'Total Spent': total_spent, 'Total Returned': total_returned, 'Relationship Score (%)': relationship_score})
+
+# # Display the number of returns and the first few rows of the customer relationship DataFrame
+# print('Number of returns:', returns_count)
+# # print(customer_relationship.head())
+
+
+# # Sort the results in descending order by the relationship score
+# relationship_df = customer_relationship.sort_values(by='Relationship Score (%)', ascending=False)
+
+# # Print the results
+# print(relationship_df.to_markdown(index=False, numalign="left", stralign="left"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    MULTI-SHEET EXCEL
+'''
+# import pandas as pd
+
+# # Display the sheet names first to identify the correct sheet
+# excel_file = pd.ExcelFile('./CSVs/population_and_age_1.xlsx')
+# print(excel_file.sheet_names)
+
+# # Load the third sheet
+# df_south_america = pd.read_excel('./CSVs/population_and_age_1.xlsx', sheet_name=2)
+
+# # Display the first few rows 
+# print(df_south_america.head())
+# print(df_south_america.info(verbose=1))
+
+# # Calculate the average age and population for South American countries in the third sheet
+# average_age_south_america = df_south_america['Average Age'].mean()
+# average_population_south_america = df_south_america['Population'].mean()
+
+# # Display the results
+# print('Average Age in South America:', average_age_south_america)
+# print('Average Population in South America:', average_population_south_america)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HEATMAP USING AN EXCEL DATASET WITH MULTIPLE SHEETS, WHICH WE COMBINE HERE
+'''
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+
+# # Load the first sheet
+# df_month1 = pd.read_excel('./CSVs/SOLDFOOD2023 - Winter.xlsx', sheet_name=0, header=3)
+# df_month1['Month'] = 'Month1'
+
+# # Load the second sheet
+# df_month2 = pd.read_excel('./CSVs/SOLDFOOD2023 - Winter.xlsx', sheet_name=1, header=3)
+# df_month2['Month'] = 'Month2'
+
+# # Combine both sheets into a single dataframe
+# df_combined = pd.concat([df_month1, df_month2])
+
+# # Display the first few rows of the combined dataframe to confirm the changes
+# print(df_combined.head())
+# print(df_combined.info(verbose=1))
+
+# # Create a pivot table to prepare the data for the heatmap
+# pivot_table = df_combined.pivot_table(index='GROUP', columns='Month', values='QUANTITY', aggfunc='sum')
+
+# # Create the heatmap
+# plt.figure(figsize=(10, 6))
+# sns.heatmap(pivot_table, annot=True, fmt='g', cmap='viridis')
+# plt.title('Quantity Sold by Group and Month')
+# plt.xlabel('Month')
+# plt.ylabel('Group')
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    CREATE AGE GROUPS FROM AN AGE COLUMN, I.E., PARSE THE AGE COLUMN INTO SPECIFIC SIZED BINS.
+'''
+# import pandas as pd
+
+# # Load the Excel file
+# df_life_ins = pd.read_excel('./CSVs/LIFE INS ISSUE AGE AUDIT.xlsx')
+
+# print(df_life_ins.head())
+# print(df_life_ins.info(verbose=1))
+
+# # Create age groups in increments of 10 years
+# bins = list(range(0, df_life_ins['Issue Age'].max() + 10, 10))
+
+# labels = [str(i) + '-' + str(i + 9) for i in bins[:-1]]
+
+# df_life_ins['Age Group'] = pd.cut(
+#     df_life_ins['Issue Age'], 
+#     bins=bins, 
+#     labels=labels, 
+#     right=False
+# )
+
+# # Calculate the average premium for each age group
+# average_premium_by_age_group = df_life_ins.groupby('Age Group', observed=False)['Mode Premium'].mean().reset_index()
+
+# # Display the result
+# print(average_premium_by_age_group)
+
+
+
+
+'''2nd APPROACH'''
+# age_bins = list(range(0, 101, 10))
+# age_labels = [f"{i}-{i+9}" for i in range(0, 100, 10)]
+
+# # Categorize each policy into an age group
+# df_life_ins['Age Group'] = pd.cut(
+#     df_life_ins['Issue Age'], 
+#     bins=age_bins, 
+#     labels=age_labels, 
+#     right=False
+# )
+
+# # Calculate the average 'Mode Premium' for each age group
+# average_premium_by_age_group = df_life_ins.groupby('Age Group')['Mode Premium'].mean().reset_index()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE I HAD TO PREPROCESS THE GRAND TOTAL COL SUCH THAT BOTH POSITIVE AND NEGATIVE (REFUNDS) VALUES ARE ACCOUNTED FOR AND HANDLED ELEGANTLY. I NEEDED TO FIND THE TRANSACTION WITH THE LOWEST AMOUNT AND AT FIRST I SIMPLY GOT THE MIN, WHICH TURNED OUT TO BE A NEGATIVE, BUT THEN I REALIZED WHAT A NEGATIVE INT MEANS IN THE CONTEXT OF SALES, WHICH IS A REFUND. THEREFORE, I HAD TO UPDATE THE CODE TO IGNORE THESE.
+'''
+# import pandas as pd
+# import re
+
+# header_row = 9
+# df_fal_projects = pd.read_excel('./CSVs/FAL Projects NY - office NY - FAL Proyectos.xlsx', header=header_row)
+
+# # Display the first few rows to confirm the changes
+# print(df_fal_projects.head())
+# print(df_fal_projects.info(verbose=1))
+
+# # Clean up the col names
+# df_fal_projects.columns = ['PO/ Order #', 'Create Date', 'Vendor Name', 'Card #', 'Order Sub Total', 'Shipping/Handling', 'Delivery', 'Tax', 'Grand Total', 'Trade Adjustment', 'Purchased By', 'Item', 'Tracking Information', 'Notes', 'Arrived', 'Return/Change Order', 'Change Comments']
+
+# # Preprocess the 'Grand Total' column to handle negative values represented by parentheses
+# def preprocess_grand_total(value):
+#     if isinstance(value, str):
+#         # Remove dollar sign and commas
+#         value = value.replace('$', '').replace(',', '')
+#         # Check for negative values represented by parentheses
+#         if re.match(r'\(.*\)', value):
+#             value = '-' + value.strip('()')
+#     return float(value)
+
+# # Apply the preprocessing function to the 'Grand Total' column
+# df_fal_projects['Grand Total'] = df_fal_projects['Grand Total'].apply(preprocess_grand_total)
+
+# # Filter out rows with missing vendor or date
+# filtered_df = df_fal_projects.dropna(subset=['Vendor Name', 'Create Date'])
+
+# print('AFTER')
+# print(df_fal_projects.info(verbose=1))
+
+# # Filter out negative values from the 'Grand Total' column
+# positive_df = filtered_df[filtered_df['Grand Total'] > 0]
+
+# # Find the row with the smallest 'Grand Total' in the filtered dataframe
+# min_transaction_filtered = positive_df.loc[positive_df['Grand Total'].idxmin()]
+
+# # Extract relevant details
+# vendor_filtered = min_transaction_filtered['Vendor Name']
+# date_filtered = min_transaction_filtered['Create Date']
+# amount_filtered = min_transaction_filtered['Grand Total']
+
+# # Display the result
+# print('Vendor:', vendor_filtered)
+# print('Date:', date_filtered)
+# print('Amount:', amount_filtered)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE IS A COOL WAY OF GENERATING SUMMARIES AND THERES ALSO A FOR-LOOP THAT TRAVERSES ALL THE COLUMNS AND CALCULATES THE UNIQUE VALUES WITHIN EACH.
+'''
+# import pandas as pd
+
+# # Read the CSV file into a DataFrame
+# df = pd.read_excel('./CSVs/phone_buying_preference1.xlsx')
+# print(df.head())
+# print(df.info())
+
+# # Get a summary of the data
+# summary = {
+#     'Categories': list(df.columns),
+#     'Total Entries': len(df),
+#     'Missing Values': df.isnull().sum(),
+#     'Strange Values': df.apply(lambda x: x.str.strip().isin(['', 'NA', 'N/A', 'none', 'None']).sum() if x.dtype == "object" else 0)
+# }
+
+# summary_df = pd.DataFrame(summary)
+# print(summary_df)
+
+
+
+'''CREATES A COOL MARKDOWN TABLE IN THE TERMINAL'''
+# # Get all columns that are of type Object
+# object_columns = df.select_dtypes(include=['object']).columns
+
+# # Iterate through each object column
+# for col in object_columns:
+#   # Calculate the frequency of each unique value
+#   value_counts = df[col].value_counts(dropna=False)
+
+#   print(f'\nUnique values and their frequencies for column: {col}')
+#   if (len(value_counts) > 20):
+#     # Sample 20 of them if there are too many unique values
+#     print(value_counts.sample(20).to_markdown(numalign="left", stralign="left"))
+#   else:
+#     # Otherwise print all
+#     print(value_counts.to_markdown(numalign="left", stralign="left"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import pandas as pd
-import matplotlib.pyplot as plt
 
-# Create the data frame
-data = {
-    "Data Availability": ["Good", "Fair", "Excellent", "Poor", "Good", "Fair", "Excellent", "Poor", "Good"],
-    "Affordable Housing": ["High", "Low", "High", "Low", "Medium", "Low", "High", "Low", "Medium"],
-    "Educational Quality": ["Excellent", "Good", "Poor", "Excellent", "Good", "Excellent", "Poor", "Excellent", "Good"],
-    "Trust in Law Enforcement": ["High", "Medium", "Low", "High", "Medium", "High", "Low", "High", "Medium"],
-    "Roads and Infrastructure": ["Good", "Fair", "Excellent", "Poor", "Good", "Fair", "Excellent", "Poor", "Good"],
-    "Community Events": ["Many", "Few", "Many", "Few", "Many", "Few", "Many", "Few", "Many"],
-    "Mental Wellness": ["Good", "Fair", "Excellent", "Poor", "Good", "Fair", "Excellent", "Poor", "Good"]
-}
+# Load the CSV file
+last60_df = pd.read_csv('./CSVs/last60.csv')
 
-df = pd.DataFrame(data)
+# Count the records with missing values in the 'MapPrice' column
+missing_mapprice_count = last60_df['MapPrice'].isnull().sum()
 
-# Pivot table to aggregate Mental Wellness by Community Events
-pivot_table = df.pivot_table(index="Community Events", columns="Mental Wellness", aggfunc="size", fill_value=0)
+# Get the part numbers of the records with missing 'MapPrice'
+missing_mapprice_part_numbers = last60_df[last60_df['MapPrice'].isnull()]['PartNumber']
 
-# Plot
-pivot_table.plot(kind="bar", stacked=True, figsize=(10, 6))
-plt.title("Distribution of Mental Wellness by Community Events")
-plt.xlabel("Community Events")
-plt.ylabel("Number of Cities")
-plt.xticks(rotation=45)
-plt.legend(title="Mental Wellness")
-plt.tight_layout()
+# Display the count and several part numbers
+print('Count of records with missing MapPrice:', missing_mapprice_count)
+print('First 5 part numbers with missing MapPrice:\n', missing_mapprice_part_numbers.head(n=25))
 
-plt.show()
+
+
+
+
+
+
+# Get all unique rows where `MapPrice` has null values
+null_map_price_rows = last60_df[last60_df['MapPrice'].isnull()].drop_duplicates()
+
+if (len(null_map_price_rows) > 20):
+  # Sample 20 of them if there are too many unique rows
+  print(null_map_price_rows.sample(20))
+else:
+  # Otherwise print all unique rows
+  print(null_map_price_rows)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

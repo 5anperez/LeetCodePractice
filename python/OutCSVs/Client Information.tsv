@@ -1,0 +1,455 @@
+reference	Sales Team	Payment Status	Origin	Acounting Account
+INV1/2023/00933	Office	Payed	S16685	Acounting 2
+INV1/2023/00932	Office	Payed	S16680	Acounting 2
+INV1/2023/00931	Office	Payed	S16698	Acounting 2
+INV/2023/06739	Salesman 1	Payed	S16360	Accounting 1
+INV/2023/06738	Office	Not Payed	S16712	Accounting 1
+INV/2023/06737	Salesman 2	Not Payed	S16710	Accounting 1
+INV/2023/06736	Goverment	Payed	S16707	Accounting 1
+INV/2023/06735	Office	Payed	S16702	Accounting 1
+INV/2023/06734	Office	Payed	S16679	Accounting 1
+INV/2023/06733	Goverment	Payed	S16489	Accounting 1
+INV1/2023/00930	Office	Payed	S16706	Acounting 2
+INV1/2023/00929	Office	Payed	S16673	Acounting 2
+INV/2023/06732	Office	Not Payed	S16705	Accounting 1
+INV/2023/06731	Salesman 2	Not Payed	S16703	Accounting 1
+INV/2023/06730	Salesman 2	Not Payed	S16691	Accounting 1
+INV/2023/06729	Office	Payed	S16681	Accounting 1
+INV/2023/06728	Office	Payed	S16624	Accounting 1
+INV/2023/06727	Office	Payed	S16684	Accounting 1
+INV/2023/06726	Office	Payed	S16696	Accounting 1
+INV/2023/06725	Office	Not Payed	S16695	Accounting 1
+INV/2023/06724	Office	Not Payed	S16694	Accounting 1
+INV/2023/06723	Office	Not Payed	S16693	Accounting 1
+INV/2023/06722	Office	Payed	S16682	Accounting 1
+INV/2023/06721	Office	Not Payed	S16690	Accounting 1
+INV/2023/06720	Office	Not Payed	S16689	Accounting 1
+INV/2023/06719	Office	Not Payed	S16688	Accounting 1
+INV/2023/06718	Office	Payed	S16608	Accounting 1
+INV/2023/06717	Office	Payed	S16447	Accounting 1
+INV1/2023/00928	Office	Payed	S16662	Acounting 2
+INV1/2023/00927	Office	Payed	S16671	Acounting 2
+INV1/2023/00926	Office	Payed	S16532	Acounting 2
+INV1/2023/00925	Office	Payed	S16633	Acounting 2
+INV1/2023/00924	Office	Payed	S16657	Acounting 2
+INV/2023/06716	Office	Not Payed	S16669	Accounting 1
+INV/2023/06715	Office	Not Payed	S16668	Accounting 1
+INV/2023/06714	Office	Not Payed	S16667	Accounting 1
+INV/2023/06713	Office	Payed	S16666	Accounting 1
+INV/2023/06712	Office	Not Payed	S16664	Accounting 1
+INV/2023/06711	Office	Not Payed	S16663	Accounting 1
+INV/2023/06710	Office	Payed	S16265	Accounting 1
+INV/2023/06709	Office	Payed	S16653	Accounting 1
+INV/2023/06708	Office	Payed	S16654	Accounting 1
+INV/2023/06707	Office	Not Payed	S16659	Accounting 1
+INV/2023/06706	Office	Payed	S16623	Accounting 1
+INV/2023/06705	Goverment	Payed	S16564	Accounting 1
+INV/2023/06704	Office	Payed	S16299	Accounting 1
+INV1/2023/00923	Office	Payed	S16656	Acounting 2
+INV/2023/06703	Office	Payed	S16641	Accounting 1
+INV/2023/06702	Office	Payed	S16159	Accounting 1
+INV/2023/06701	Salesman 2	Not Payed	S16652	Accounting 1
+INV/2023/06700	Salesman 2	Not Payed	S16651	Accounting 1
+INV/2023/06699	Salesman 2	Not Payed	S16650	Accounting 1
+INV/2023/06698	Salesman 2	Not Payed	S16649	Accounting 1
+INV/2023/06697	Salesman 2	Not Payed	S16648	Accounting 1
+INV/2023/06696	Salesman 2	Not Payed	S16647	Accounting 1
+INV/2023/06695	Salesman 2	Not Payed	S16646	Accounting 1
+INV/2023/06694	Salesman 2	Not Payed	S16645	Accounting 1
+INV1/2023/00922	Office	Payed	S16592	Acounting 2
+INV1/2023/00921	Office	Payed	S16635	Acounting 2
+INV1/2023/00920	Office	Payed	S16634	Acounting 2
+INV/2023/06693	Office	Payed	S16627	Accounting 1
+INV/2023/06692	Salesman 2	Payed	S15822	Accounting 1
+INV/2023/06691	Office	Not Payed	S16637	Accounting 1
+INV/2023/06690	Salesman 2	Payed	S16630	Accounting 1
+INV/2023/06689	Salesman 2	Not Payed	S16629	Accounting 1
+INV/2023/06688	Salesman 2	Not Payed	S16628	Accounting 1
+INV/2023/06687	Office	Not Payed	S16625	Accounting 1
+INV1/2023/00919	Office	Payed	S16524	Acounting 2
+INV1/2023/00918	Office	Payed	S16584	Acounting 2
+INV1/2023/00917	Office	Payed	S16615	Acounting 2
+INV/2023/06686	Goverment	Payed	S16397	Accounting 1
+INV/2023/06685	Office	Not Payed	S16622	Accounting 1
+INV/2023/06684	Salesman 1	Payed	S16621	Accounting 1
+INV/2023/06683	Office	Not Payed	S16620	Accounting 1
+INV/2023/06682	Salesman 2	Payed	S16590	Accounting 1
+INV/2023/06681	Office	Payed	S16613	Accounting 1
+INV/2023/06680	Office	Payed	S16606	Accounting 1
+INV/2023/06679	Salesman 2	Payed	S15964	Accounting 1
+INV/2023/06677	Office	Not Payed	S16583	Accounting 1
+INV/2023/06676	Office	Not Payed	S16582	Accounting 1
+INV/2023/06675	Office	Not Payed	S16581	Accounting 1
+INV/2023/06674	Salesman 2	Payed	S16571	Accounting 1
+INV/2023/06673	Office	Not Payed	S16619	Accounting 1
+INV/2023/06672	Office	Payed	S16616	Accounting 1
+INV1/2023/00916	Office	Payed	S16498	Acounting 2
+INV1/2023/00915	Office	Payed	S16612	Acounting 2
+INV1/2023/00914	Office	Payed	S16543	Acounting 2
+INV1/2023/00913	Office	Payed	S16605	Acounting 2
+INV1/2023/00912	Office	Payed	S16599	Acounting 2
+INV1/2023/00911	Office	Payed	S16600	Acounting 2
+INV/2023/06671	Office	Payed	S16598	Accounting 1
+INV/2023/06670	Salesman 2	Not Payed	S16603	Accounting 1
+INV/2023/06669	Office	Not Payed	S16602	Accounting 1
+INV/2023/06668	Salesman 2	Not Payed	S16601	Accounting 1
+INV/2023/06667	Salesman 2	Not Payed	S16597	Accounting 1
+INV/2023/06666	Salesman 2	Not Payed	S16595	Accounting 1
+INV/2023/06665	Salesman 2	Not Payed	S16594	Accounting 1
+INV/2023/06664	Office	Payed	S16563	Accounting 1
+INV/2023/06663	Office	Payed	S16495	Accounting 1
+INV/2023/06662	Office	Payed	S16483	Accounting 1
+INV/2023/06661	Office	Payed	S16484	Accounting 1
+INV/2023/06660	Office	Not Payed	S16609	Accounting 1
+INV/2023/06659	Office	Payed	S16526	Accounting 1
+INV/2023/06658	Goverment	Payed	S16446	Accounting 1
+INV/2023/06657	Office	Payed	S16567	Accounting 1
+INV/2023/06656	Office	Not Payed	S16579	Accounting 1
+INV/2023/06655	Office	Not Payed	S15931	Accounting 1
+INV/2023/06654	Salesman 2	Not Payed	S16575	Accounting 1
+INV/2023/06653	Salesman 2	Not Payed	S16574	Accounting 1
+INV/2023/06652	Salesman 2	Not Payed	S16573	Accounting 1
+INV/2023/06651	Salesman 2	Payed	S16544	Accounting 1
+INV/2023/06650	Office	Payed	S16527	Accounting 1
+INV1/2023/00910	Office	Payed	S16577	Acounting 2
+INV1/2023/00909	Office	Payed	S16525	Acounting 2
+INV1/2023/00908	Office	Payed	S16557	Acounting 2
+INV1/2023/00907	Office	Payed	S16570	Acounting 2
+INV1/2023/00906	Office	Payed	S16569	Acounting 2
+INV/2023/06649	Office	Not Payed	S16588	Accounting 1
+INV/2023/06648	Office	Not Payed	S16578	Accounting 1
+INV/2023/06647	Office	Payed	S16576	Accounting 1
+INV/2023/06646	Office	Not Payed	S16572	Accounting 1
+INV/2023/06645	Office	Partially Payed	S16566	Accounting 1
+INV/2023/06644	Office	Payed	S16516	Accounting 1
+INV/2023/06643	Office	Payed	S16542	Accounting 1
+INV/2023/06642	Office	Payed	S16514	Accounting 1
+INV/2023/06641	Office	Payed	S16513	Accounting 1
+INV/2023/06640	Office	Payed	S16530	Accounting 1
+INV/2023/06639	Goverment	Payed	S16106	Accounting 1
+INV/2023/06638	Office	Payed	S16589	Accounting 1
+INV/2023/06637	Goverment	Payed	S16488	Accounting 1
+INV/2023/06636	Office	Payed	S16587	Accounting 1
+INV/2023/06635	Office	Payed	S16558	Accounting 1
+INV/2023/06634	Goverment	Payed	S16331	Accounting 1
+INV1/2023/00905	Office	Payed	S16565	Acounting 2
+INV/2023/06633	Salesman 2	Not Payed	S16547	Accounting 1
+INV/2023/06632	Salesman 2	Not Payed	S16562	Accounting 1
+INV/2023/06631	Salesman 2	Payed	S16561	Accounting 1
+INV/2023/06630	Salesman 2	Not Payed	S16560	Accounting 1
+INV/2023/06629	Salesman 2	Not Payed	S16092	Accounting 1
+INV/2023/06628	Salesman 2	Not Payed	S16559	Accounting 1
+INV/2023/06627	Office	Not Payed	S16548	Accounting 1
+INV/2023/06626	Salesman 2	Not Payed	S16554	Accounting 1
+INV/2023/06625	Office	Not Payed	S16553	Accounting 1
+INV/2023/06624	Salesman 2	Not Payed	S16550	Accounting 1
+INV/2023/06623	Office	Not Payed	S16549	Accounting 1
+INV/2023/06622	Salesman 2	Payed	S16546	Accounting 1
+INV/2023/06621	Salesman 2	Not Payed	S16545	Accounting 1
+INV/2023/06620	Salesman 2	Not Payed	S16541	Accounting 1
+INV/2023/06619	Salesman 2	Not Payed	S16540	Accounting 1
+INV/2023/06618	Salesman 2	Not Payed	S16539	Accounting 1
+INV/2023/06617	Salesman 2	Not Payed	S16538	Accounting 1
+INV/2023/06616	Salesman 2	Not Payed	S16537	Accounting 1
+INV/2023/06615	Salesman 2	Not Payed	S16536	Accounting 1
+INV/2023/06614	Salesman 1	Payed	S16468	Accounting 1
+INV/2023/06613	Salesman 2	Not Payed	S16535	Accounting 1
+INV/2023/06612	Salesman 2	Not Payed	S16534	Accounting 1
+INV/2023/06611	Salesman 2	Not Payed	S16533	Accounting 1
+INV/2023/06610	Office	Payed	S16519	Accounting 1
+INV/2023/06609	Office	Payed	S16511	Accounting 1
+INV/2023/06608	Office	Payed	S16485	Accounting 1
+INV/2023/06607	Office	Payed	S16401	Accounting 1
+INV/2023/06606	Office	Payed	S16508	Accounting 1
+INV1/2023/00904	Office	Payed	S16482	Acounting 2
+INV/2023/06605	Goverment	Not Payed	S16518	Accounting 1
+INV/2023/06604	Office	Payed	S16500	Accounting 1
+INV/2023/06603	Salesman 1	Not Payed	S16512	Accounting 1
+INV/2023/06602	Salesman 1	Not Payed	S16505	Accounting 1
+INV/2023/06601	Salesman 2	Not Payed	S16517	Accounting 1
+INV/2023/06600	Salesman 2	Not Payed	S16515	Accounting 1
+INV/2023/06599	Office	Payed	S16430	Accounting 1
+INV/2023/06598	Office	Not Payed	S16510	Accounting 1
+INV/2023/06597	Office	Payed	S16321	Accounting 1
+INV/2023/06596	Office	Payed	S16509	Accounting 1
+INV/2023/06595	Office	Payed	S16507	Accounting 1
+INV/2023/06594	Office	Payed	S16506	Accounting 1
+INV/2023/06593	Office	Payed	S16493	Accounting 1
+INV/2023/06592	Salesman 2	Not Payed	S16504	Accounting 1
+INV/2023/06591	Salesman 2	Not Payed	S16503	Accounting 1
+INV/2023/06590	Salesman 2	Not Payed	S16502	Accounting 1
+INV/2023/06589	Salesman 2	Not Payed	S16501	Accounting 1
+INV/2023/06588	Office	Payed	S16342	Accounting 1
+INV/2023/06587	Salesman 2	Payed	S16366	Accounting 1
+INV/2023/06586	Salesman 2	Payed	S16486	Accounting 1
+INV/2023/06585	Goverment	Payed	S16165	Accounting 1
+INV/2023/06584	Office	Payed	S16400	Accounting 1
+INV/2023/06583	Office	Payed	S16399	Accounting 1
+INV/2023/06582	Goverment	Payed	S16406	Accounting 1
+INV/2023/06581	Goverment	Payed	S16082	Accounting 1
+INV1/2023/00903	Office	Payed	S16463	Acounting 2
+INV1/2023/00902	Office	Payed	S16481	Acounting 2
+INV1/2023/00901	Office	Payed	S16459	Acounting 2
+INV/2023/06580	Goverment	Payed	S16480	Accounting 1
+INV/2023/06579	Salesman 2	Payed	S16476	Accounting 1
+INV/2023/06578	Goverment	Payed	S16075	Accounting 1
+INV/2023/06577	Goverment	Payed	S16140	Accounting 1
+INV/2023/06576	Office	Payed	S16415	Accounting 1
+INV/2023/06575	Salesman 2	Not Payed	S16479	Accounting 1
+INV/2023/06574	Salesman 2	Not Payed	S15817	Accounting 1
+INV/2023/06573	Salesman 2	Not Payed	S16147	Accounting 1
+INV/2023/06572	Salesman 2	Not Payed	S16478	Accounting 1
+INV/2023/06571	Office	Payed	S16472	Accounting 1
+INV/2023/06570	Office	Payed	S16362	Accounting 1
+INV/2023/06569	Office	Payed	S16469	Accounting 1
+INV/2023/06568	Office	Not Payed	S16474	Accounting 1
+INV/2023/06567	Office	Not Payed	S16473	Accounting 1
+INV/2023/06566	Office	Payed	S16451	Accounting 1
+INV/2023/06565	Goverment	Payed	S16051	Accounting 1
+INV/2023/06564	Office	Payed	S16461	Accounting 1
+INV/2023/06563	Office	Payed	S16457	Accounting 1
+INV/2023/06562	Office	Not Payed	S16466	Accounting 1
+INV/2023/06561	Office	Not Payed	S16465	Accounting 1
+INV/2023/06560	Office	Not Payed	S16464	Accounting 1
+INV1/2023/00900	Office	Payed	S16394	Acounting 2
+INV/2023/06559	Office	Payed	S16422	Accounting 1
+INV/2023/06558	Salesman 2	Not Payed	S16455	Accounting 1
+INV/2023/06557	Salesman 2	Not Payed	S16454	Accounting 1
+INV/2023/06556	Salesman 2	Partially Payed	S16452	Accounting 1
+INV/2023/06555	Office	Not Payed	S16450	Accounting 1
+INV/2023/06554	Office	Not Payed	S16408	Accounting 1
+INV/2023/06553	Salesman 2	Not Payed	S16448	Accounting 1
+INV/2023/06552	Goverment	Payed	S15980	Accounting 1
+INV/2023/06551	Salesman 2	Not Payed	S16445	Accounting 1
+INV/2023/06550	Salesman 2	Not Payed	S16443	Accounting 1
+INV/2023/06549	Salesman 2	Not Payed	S16442	Accounting 1
+INV/2023/06548	Salesman 2	Not Payed	S16441	Accounting 1
+INV/2023/06547	Salesman 2	Not Payed	S16440	Accounting 1
+INV/2023/06546	Salesman 2	Not Payed	S16439	Accounting 1
+INV/2023/06545	Salesman 2	Not Payed	S16438	Accounting 1
+INV/2023/06544	Salesman 2	Not Payed	S16437	Accounting 1
+INV/2023/06543	Salesman 2	Not Payed	S16436	Accounting 1
+INV/2023/06542	Salesman 2	Not Payed	S16434	Accounting 1
+INV/2023/06541	Salesman 2	Not Payed	S16433	Accounting 1
+INV/2023/06540	Salesman 2	Not Payed	S16432	Accounting 1
+INV/2023/06539	Salesman 2	Not Payed	S16431	Accounting 1
+INV/2023/06538	Salesman 2	Not Payed	S16429	Accounting 1
+INV/2023/06537	Salesman 2	Not Payed	S16428	Accounting 1
+INV/2023/06536	Salesman 2	Not Payed	S16427	Accounting 1
+INV/2023/06535	Office	Payed	S16369	Accounting 1
+INV/2023/06534	Office	Payed	S16416	Accounting 1
+INV/2023/06533	Goverment	Payed	S16419	Accounting 1
+INV/2023/06532	Salesman 2	Payed	S15981	Accounting 1
+INV/2023/06531	Office	Payed	S16420	Accounting 1
+INV/2023/06530	Office	Payed	S16391	Accounting 1
+INV1/2023/00899	Office	Payed	S16418	Acounting 2
+INV1/2023/00898	Office	Payed	S16414	Acounting 2
+INV/2023/06529	Office	Payed	S16318	Accounting 1
+INV/2023/06528	Office	Payed	S16320	Accounting 1
+INV/2023/06527	Office	Not Payed	S16411	Accounting 1
+INV/2023/06526	Office	Not Payed	S16413	Accounting 1
+INV/2023/06525	Office	Payed	S16376	Accounting 1
+INV/2023/06524	Salesman 1	Payed	S16328	Accounting 1
+INV/2023/06523	Office	Not Payed	S16412	Accounting 1
+INV/2023/06522	Office	Not Payed	S16206	Accounting 1
+INV/2023/06521	Salesman 2	Not Payed	S16236	Accounting 1
+INV/2023/06520	Salesman 2	Not Payed	S16243	Accounting 1
+INV/2023/06519	Office	Not Payed	S16245	Accounting 1
+INV/2023/06518	Office	Not Payed	S16065	Accounting 1
+INV/2023/06517	Salesman 2	Not Payed	S16314	Accounting 1
+INV/2023/06516	Salesman 2	Not Payed	S16353	Accounting 1
+INV/2023/06515	Office	Payed	S16193	Accounting 1
+INV/2023/06514	Salesman 1	Not Payed	S16409	Accounting 1
+INV/2023/06513	Office	Payed	S16266	Accounting 1
+INV/2023/06512	Office	Payed	S16167	Accounting 1
+INV/2023/06511	Salesman 2	Payed	S16371	Accounting 1
+INV/2023/06510	Office	Payed	S16367	Accounting 1
+INV/2023/06509	Office	Not Payed	S16404	Accounting 1
+INV/2023/06508	Office	Payed	S16403	Accounting 1
+INV/2023/06507	Office	Payed	S16387	Accounting 1
+INV/2023/06506	Office	Payed	S16373	Accounting 1
+INV/2023/06505	Office	Payed	S16375	Accounting 1
+INV/2023/06504	Office	Payed	S16363	Accounting 1
+INV/2023/06503	Office	Payed	S16304	Accounting 1
+INV1/2023/00897	Office	Payed	S16389	Acounting 2
+INV1/2023/00896	Office	Payed	S16293	Acounting 2
+INV1/2023/00895	Office	Payed	S16262	Acounting 2
+INV1/2023/00894	Office	Payed	S16271	Acounting 2
+INV/2023/06502	Office	Payed	S16384	Accounting 1
+INV/2023/06501	Office	Not Payed	S16291	Accounting 1
+INV/2023/06500	Office	Not Payed	S16383	Accounting 1
+INV/2023/06499	Office	Not Payed	S16382	Accounting 1
+INV/2023/06498	Office	Not Payed	S16381	Accounting 1
+INV/2023/06497	Office	Payed	S16334	Accounting 1
+INV/2023/06496	Office	Payed	S16357	Accounting 1
+INV/2023/06495	Office	Payed	S16256	Accounting 1
+INV/2023/06494	Salesman 2	Payed	S16250	Accounting 1
+INV/2023/06493	Goverment	Payed	S16338	Accounting 1
+INV/2023/06492	Office	Payed	S16188	Accounting 1
+INV/2023/06491	Office	Payed	S16194	Accounting 1
+INV/2023/06490	Office	Not Payed	S15942	Accounting 1
+INV/2023/06489	Salesman 2	Payed	S16352	Accounting 1
+INV/2023/06488	Office	Not Payed	S16269	Accounting 1
+INV/2023/06487	Salesman 2	Not Payed	S16123	Accounting 1
+INV/2023/06486	Office	Payed	S15864	Accounting 1
+INV/2023/06485	Office	Payed	S16270	Accounting 1
+INV/2023/06484	Office	Payed	S16365	Accounting 1
+INV/2023/06483	Office	Payed	S16364	Accounting 1
+INV/2023/06482	Office	Payed	S16359	Accounting 1
+INV1/2023/00893	Office	Payed	S16361	Acounting 2
+INV1/2023/00892	Office	Payed	S16368	Acounting 2
+INV1/2023/00891	Office	Payed	S16322	Acounting 2
+INV1/2023/00890	Office	Payed	S16344	Acounting 2
+INV1/2023/00889	Office	Payed	S16297	Acounting 2
+INV/2023/06481	Office	Payed	S15743	Accounting 1
+INV/2023/06480	Office	Payed	S16359	Accounting 1
+INV/2023/06479	Office	Not Payed	S16349	Accounting 1
+INV/2023/06478	Office	Payed	S16295	Accounting 1
+INV/2023/06477	Salesman 1	Payed	S16347	Accounting 1
+INV/2023/06476	Salesman 2	Not Payed	S16346	Accounting 1
+INV/2023/06475	Office	Payed	S16345	Accounting 1
+INV/2023/06474	Office	Payed	S16302	Accounting 1
+INV/2023/06473	Office	Not Payed	S16341	Accounting 1
+INV/2023/06472	Office	Payed	S16284	Accounting 1
+INV/2023/06471	Office	Payed	S16310	Accounting 1
+INV/2023/06470	Goverment	Payed	S16335	Accounting 1
+INV/2023/06469	Office	Payed	S16261	Accounting 1
+INV/2023/06468	Office	Payed	S16319	Accounting 1
+INV/2023/06467	Office	Not Payed	S16317	Accounting 1
+INV/2023/06466	Office	Payed	S16333	Accounting 1
+INV1/2023/00888	Office	Payed	S16157	Acounting 2
+INV1/2023/00887	Office	Payed	S16277	Acounting 2
+INV1/2023/00886	Office	Payed	S16263	Acounting 2
+INV1/2023/00885	Office	Payed	S16264	Acounting 2
+INV1/2023/00884	Office	Payed	S16311	Acounting 2
+INV1/2023/00883	Office	Payed	S16309	Acounting 2
+INV/2023/06465	Office	Payed	S16325	Accounting 1
+INV/2023/06464	Office	Payed	S16307	Accounting 1
+INV/2023/06463	Salesman 1	Not Payed	S16327	Accounting 1
+INV/2023/06462	Office	Payed	S16326	Accounting 1
+INV/2023/06461	Office	Payed	S16118	Accounting 1
+INV/2023/06460	Office	Payed	S16187	Accounting 1
+INV/2023/06459	Office	Payed	S16174	Accounting 1
+INV/2023/06458	Salesman 2	Payed	S16259	Accounting 1
+INV/2023/06457	Office	Payed	S16011	Accounting 1
+INV/2023/06456	Salesman 2	Payed	S16255	Accounting 1
+INV/2023/06455	Goverment	Not Payed	S16330	Accounting 1
+INV/2023/06454	Office	Payed	S16315	Accounting 1
+INV/2023/06453	Salesman 2	Not Payed	S16313	Accounting 1
+INV/2023/06452	Office	Payed	S16303	Accounting 1
+INV/2023/06451	Office	Payed	S16292	Accounting 1
+INV/2023/06450	Goverment	Payed	S15937	Accounting 1
+INV/2023/06449	Goverment	Payed	S16267	Accounting 1
+INV/2023/06448	Office	Payed	S16305	Accounting 1
+INV/2023/06447	Goverment	Payed	S15876	Accounting 1
+INV/2023/06446	Office	Payed	S16308	Accounting 1
+INV1/2023/00882	Office	Payed	S16249	Acounting 2
+INV1/2023/00881	Office	Payed	S16286	Acounting 2
+INV/2023/06445	Salesman 2	Payed	S16272	Accounting 1
+INV/2023/06443	Office	Payed	S16087	Accounting 1
+INV/2023/06442	Office	Payed	S16254	Accounting 1
+INV/2023/06441	Office	Payed	S16238	Accounting 1
+INV/2023/06440	Office	Payed	S16237	Accounting 1
+INV/2023/06439	Office	Not Payed	S16289	Accounting 1
+INV/2023/06438	Office	Payed	S16285	Accounting 1
+INV/2023/06437	Salesman 2	Not Payed	S16281	Accounting 1
+INV/2023/06436	Salesman 2	Not Payed	S16279	Accounting 1
+INV/2023/06435	Salesman 2	Not Payed	S16278	Accounting 1
+INV/2023/06434	Salesman 2	Payed	S16276	Accounting 1
+INV/2023/06433	Office	Not Payed	S16273	Accounting 1
+INV/2023/06432	Office	Payed	S16248	Accounting 1
+INV/2023/06431	Office	Not Payed	S16268	Accounting 1
+INV/2023/06430	Office	Payed	S16257	Accounting 1
+INV/2023/06429	Goverment	Payed	S15816	Accounting 1
+INV/2023/06428	Salesman 2	Payed	S16171	Accounting 1
+INV/2023/06427	Office	Payed	S16234	Accounting 1
+INV/2023/06426	Office	Payed	S16232	Accounting 1
+INV/2023/06425	Goverment	Payed	S15945	Accounting 1
+INV/2023/06424	Office	Payed	S16214	Accounting 1
+INV/2023/06423	Office	Payed	S16210	Accounting 1
+INV/2023/06422	Office	Payed	S16201	Accounting 1
+INV1/2023/00880	Office	Payed	S16258	Acounting 2
+INV1/2023/00879	Office	Payed	S16168	Acounting 2
+INV1/2023/00878	Office	Payed	S16208	Acounting 2
+INV1/2023/00877	Office	Payed	S16207	Acounting 2
+INV1/2023/00876	Office	Payed	S16251	Acounting 2
+INV1/2023/00875	Office	Payed	S16224	Acounting 2
+INV1/2023/00874	Office	Payed	S16218	Acounting 2
+INV1/2023/00873	Office	Payed	S15785	Acounting 2
+INV/2023/06421	Office	Not Payed	S16244	Accounting 1
+INV/2023/06420	Office	Payed	S16178	Accounting 1
+INV/2023/06419	Office	Payed	S16199	Accounting 1
+INV/2023/06418	Office	Payed	S16212	Accounting 1
+INV/2023/06417	Office	Not Payed	S16253	Accounting 1
+INV/2023/06416	Salesman 2	Not Payed	S16242	Accounting 1
+INV/2023/06415	Office	Not Payed	S16241	Accounting 1
+INV/2023/06414	Salesman 2	Not Payed	S16233	Accounting 1
+INV/2023/06413	Office	Not Payed	S16230	Accounting 1
+INV/2023/06412	Salesman 1	Not Payed	S16229	Accounting 1
+INV/2023/06411	Office	Payed	S16228	Accounting 1
+INV/2023/06410	Office	Payed	S16191	Accounting 1
+INV/2023/06409	Goverment	Payed	S15897	Accounting 1
+INV/2023/06408	Office	Payed	S16223	Accounting 1
+INV/2023/06407	Goverment	Payed	S15661	Accounting 1
+INV/2023/06406	Goverment	Payed	S15999	Accounting 1
+INV/2023/06405	Goverment	Payed	S16084	Accounting 1
+INV/2023/06404	Goverment	Payed	S15760	Accounting 1
+INV/2023/06403	Goverment	Payed	S15619	Accounting 1
+INV/2023/06402	Salesman 2	In process	S16190	Accounting 1
+INV/2023/06401	Salesman 2	Not Payed	S16204	Accounting 1
+INV/2023/06400	Salesman 2	Payed	S16202	Accounting 1
+INV/2023/06399	Office	Payed	S16226	Accounting 1
+INV/2023/06398	Office	Not Payed	S16222	Accounting 1
+INV/2023/06397	Office	Payed	S16221	Accounting 1
+INV/2023/06396	Salesman 1	Not Payed	S16220	Accounting 1
+INV/2023/06395	Office	Not Payed	S16219	Accounting 1
+INV/2023/06394	Office	Payed	S16169	Accounting 1
+INV/2023/06393	Office	Payed	S16192	Accounting 1
+INV/2023/06392	Office	Payed	S16205	Accounting 1
+INV/2023/06391	Office	Payed	S16189	Accounting 1
+INV/2023/06390	Office	Payed	S16213	Accounting 1
+INV/2023/06389	Goverment	Payed	S16200	Accounting 1
+INV/2023/06388	Office	Payed	S16113	Accounting 1
+INV/2023/06387	Salesman 2	Not Payed	S16181	Accounting 1
+INV1/2023/00872	Office	Payed	S16122	Acounting 2
+INV1/2023/00871	Office	Payed	S16150	Acounting 2
+INV1/2023/00870	Office	Payed	S16138	Acounting 2
+INV1/2023/00869	Office	Payed	S16164	Acounting 2
+INV1/2023/00868	Office	Payed	S16163	Acounting 2
+INV/2023/06386	Office	Payed	S16170	Accounting 1
+INV/2023/06385	Office	Not Payed	S16053	Accounting 1
+INV/2023/06384	Office	Payed	S16055	Accounting 1
+INV/2023/06383	Salesman 2	Payed	S15984	Accounting 1
+INV/2023/06382	Office	Payed	S15991	Accounting 1
+INV/2023/06381	Office	Payed	S15861	Accounting 1
+INV/2023/06380	Salesman 1	Payed	S15818	Accounting 1
+INV/2023/06379	Salesman 2	Payed	S16040	Accounting 1
+INV/2023/06378	Salesman 2	Payed	S15820	Accounting 1
+INV/2023/06377	Office	Payed	S16166	Accounting 1
+INV/2023/06376	Salesman 2	Not Payed	S16186	Accounting 1
+INV/2023/06375	Salesman 2	Not Payed	S16184	Accounting 1
+INV/2023/06374	Salesman 2	Not Payed	S16183	Accounting 1
+INV/2023/06373	Salesman 2	Not Payed	S16182	Accounting 1
+INV/2023/06372	Salesman 2	Not Payed	S16180	Accounting 1
+INV/2023/06371	Goverment	Payed	S14532	Accounting 1
+INV/2023/06370	Goverment	Payed	S14459	Accounting 1
+INV/2023/06369	Goverment	Payed	S16142	Accounting 1
+INV/2023/06368	Office	Payed	S16078	Accounting 1
+INV/2023/06367	Office	Payed	S16148	Accounting 1
+INV/2023/06366	Office	Payed	S16112	Accounting 1
+INV/2023/06365	Office	Payed	S16116	Accounting 1
+INV/2023/06364	Office	Payed	S15993	Accounting 1
+INV/2023/06363	Office	Payed	S16161	Accounting 1
+INV/2023/06362	Office	Payed	S16153	Accounting 1
+INV1/2023/00867	Office	Payed	S16129	Acounting 2
+INV1/2023/00866	Office	Payed	S16081	Acounting 2
+INV1/2023/00865	Office	Payed	S16114	Acounting 2
+INV1/2023/00864	Office	Payed	S16105	Acounting 2
+INV/2023/06361	Salesman 2	Not Payed	S16145	Accounting 1
+INV/2023/06360	Salesman 2	Not Payed	S16144	Accounting 1
+INV/2023/06359	Goverment	Payed	S15813	Accounting 1
+INV/2023/06358	Office	Not Payed	S16137	Accounting 1
+INV/2023/06357	Salesman 2	Not Payed	S16136	Accounting 1
+INV/2023/06356	Salesman 2	Not Payed	S16135	Accounting 1
+INV/2023/06355	Office	Payed	S16072	Accounting 1
+INV/2023/06354	Office	Payed	S16131	Accounting 1
