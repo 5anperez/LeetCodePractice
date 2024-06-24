@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "layer": [{"mark": {"type": "arc", "innerRadius": 0, "outerRadius": 120}, "encoding": {"color": {"field": "Lab", "legend": null, "type": "nominal"}, "theta": {"field": "Num_Products", "type": "quantitative"}, "tooltip": [{"field": "Lab", "type": "nominal"}, {"field": "Num_Products", "type": "quantitative"}, {"field": "Percentage", "type": "quantitative"}]}, "name": "view_1"}, {"mark": {"type": "text", "fill": "black", "radius": 125}, "encoding": {"color": {"field": "Lab", "legend": null, "type": "nominal"}, "text": {"field": "Percentage", "format": ".1f", "type": "quantitative"}, "theta": {"field": "Num_Products", "type": "quantitative"}, "tooltip": [{"field": "Lab", "type": "nominal"}, {"field": "Num_Products", "type": "quantitative"}, {"field": "Percentage", "type": "quantitative"}]}}, {"mark": {"type": "text", "fill": "black", "radius": 140}, "encoding": {"color": {"field": "Lab", "legend": null, "type": "nominal"}, "text": {"field": "Lab", "type": "nominal"}, "theta": {"field": "Num_Products", "type": "quantitative"}, "tooltip": [{"field": "Lab", "type": "nominal"}, {"field": "Num_Products", "type": "quantitative"}, {"field": "Percentage", "type": "quantitative"}]}}], "data": {"name": "data-32d4cca011bc6c009552064b0fdde747"}, "params": [{"name": "param_2", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales", "views": ["view_1"]}], "resolve": {"scale": {"theta": "independent"}}, "title": "Distribution of Products by Top 10 Labs and Others", "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-32d4cca011bc6c009552064b0fdde747": [{"Lab": "RECALCINE", "Num_Products": 53, "Percentage": 11.09}, {"Lab": "LABORATORIO OTROS", "Num_Products": 33, "Percentage": 6.9}, {"Lab": "SAVAL S.A.", "Num_Products": 32, "Percentage": 6.69}, {"Lab": "ANDROMACO FARMA", "Num_Products": 31, "Percentage": 6.49}, {"Lab": "AXON PHARMA", "Num_Products": 29, "Percentage": 6.07}, {"Lab": "PHARMA INVESTI", "Num_Products": 21, "Percentage": 4.39}, {"Lab": "BOEHRINGER INGELHEIM", "Num_Products": 20, "Percentage": 4.18}, {"Lab": "PFIZER", "Num_Products": 19, "Percentage": 3.97}, {"Lab": "ASTRA ZENECA", "Num_Products": 15, "Percentage": 3.14}, {"Lab": "TECNOFARMA LTDA.", "Num_Products": 14, "Percentage": 2.93}, {"Lab": "Others", "Num_Products": 211, "Percentage": 44.14}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

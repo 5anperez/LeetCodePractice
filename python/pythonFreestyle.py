@@ -4358,7 +4358,7 @@ NaN clean up here
 
 
 '''
-    HERE, WE USE THE CONCAT METHOD TO COMBINE TWO SHEETS OF A MULTI-SHEET EXCELL FILE.
+    HERE, WE USE THE CONCAT METHOD TO COMBINE TWO SHEETS OF A MULTI-SHEET EXCEL FILE.
 '''
 
 
@@ -12712,301 +12712,1296 @@ This will create a legend with the markers corresponding to each exercise, provi
 
 
 
+# import pandas as pd
+
+# # Load the CSV file
+# last60_df = pd.read_csv('./CSVs/last60.csv')
+
+# # Count the records with missing values in the 'MapPrice' column
+# missing_mapprice_count = last60_df['MapPrice'].isnull().sum()
+
+# # Get the part numbers of the records with missing 'MapPrice'
+# missing_mapprice_part_numbers = last60_df[last60_df['MapPrice'].isnull()]['PartNumber']
+
+# # Display the count and several part numbers
+# print('Count of records with missing MapPrice:', missing_mapprice_count)
+# print('First 5 part numbers with missing MapPrice:\n', missing_mapprice_part_numbers.head(n=25))
+
+
+
+
+
+
+
+# # Get all unique rows where `MapPrice` has null values
+# null_map_price_rows = last60_df[last60_df['MapPrice'].isnull()].drop_duplicates()
+
+# if (len(null_map_price_rows) > 20):
+#   # Sample 20 of them if there are too many unique rows
+#   print(null_map_price_rows.sample(20))
+# else:
+#   # Otherwise print all unique rows
+#   print(null_map_price_rows)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    IS THE 'equal' FLAG PASSED INTO THE AXIS METHOD REALLY NECISSARY HERE?
+'''
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# df = pd.read_csv('./CSVs/Loan_Default.csv')
+
+# # Filter the dataset
+# filtered_df = df[(df['loan_type'] == 'type1') & 
+#                  (df['loan_purpose'] == 'p1') & 
+#                  (df['Region'] == 'south')]
+
+# # Group by gender and count the occurrences
+# gender_counts = filtered_df['Gender'].value_counts()
+
+# # Create a pie chart
+# plt.figure(figsize=(12, 10))
+# plt.pie(gender_counts, 
+#         labels=gender_counts.index, 
+#         autopct='%1.1f%%', 
+#         startangle=140)
+# plt.title('Percentage of Each Gender Type with Loan Type1, Purpose P1, in South Region')
+# plt.axis('equal')  # Circular pie chart
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import matplotlib.pyplot as plt
+# import pandas as pd
+
+# # Load the data
+# vendor_df = pd.read_csv('./CSVs/VendorDownload_4_1f4f8b55-1614-476d-8f6d-7ece6d7c793c.xlsx - Líneas de artículos.tsv', delimiter='\t')
+# print(vendor_df.head())
+# print(vendor_df.info(verbose=1))
+
+# # Convert the date columns to datetime format
+# vendor_df['PO Date'] = pd.to_datetime(vendor_df['PO Date'])
+# vendor_df['Delivery beguin date'] = pd.to_datetime(vendor_df['Delivery beguin date'])
+# vendor_df['End Delivery date'] = pd.to_datetime(vendor_df['End Delivery date'])
+# vendor_df['Max Delivery Date'] = pd.to_datetime(vendor_df['Max Delivery Date'])
+
+# # Clean the 'Discount' column
+# vendor_df['Discount'] = pd.to_numeric(vendor_df['Discount'].str.replace('%', ''))
+
+# print("AFTER")
+# print(vendor_df.info(verbose=1))
+
+# # Print unique 'PO Date' values
+# print('Unique PO Dates:', vendor_df['PO Date'].unique())
+# print('Unique beguin dates:', vendor_df['Delivery beguin date'].unique())
+# print('Unique end Dates:', vendor_df['End Delivery date'].unique())
+# print('Unique max Dates:', vendor_df['Max Delivery Date'].unique())
+
+# # Plot the 'Discount' values
+# plt.figure(figsize=(10, 6))
+# plt.plot(vendor_df['PO Date'], vendor_df['Discount'], marker='o')
+# plt.title('Discount Values')
+# plt.xlabel('PO Date')
+# plt.ylabel('Discount')
+# plt.grid(True)
+# plt.xticks(rotation=45)
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE, I CAREFULLY CLEAN THE TWO DATASETS AND CALCULATE THEIR RESPECTIVE TAX PERCENTAGE USING MULTIPLE COLUMNS
+'''
+# # Load the FAL Projects NY - West SM.tsv file and display the column names to identify the correct columns for the tax calculation
+# import pandas as pd
+
+# # Load the TSV file, skipping the first 9 rows to get to the header
+# fal_west_df = pd.read_csv('./CSVs/FAL Projects NY - West SM.tsv', sep='\t', skiprows=9)
+
+# # Load the Excel file, skipping the first 9 rows to get to the header
+# fal_office_df = pd.read_excel('./CSVs/FAL Projects NY - office NY - FAL Proyectos.xlsx', skiprows=9)
+
+# # print(fal_west_df.head())
+# # print(fal_west_df.info(verbose=1))
+# # print(fal_west_df.columns)
+# # print(fal_west_df['Tax:'].unique())
+# # print(fal_west_df['Order Sub Total:'].unique())
+# # print(fal_west_df['Shipping/ Handling:'].unique())
+
+# print(fal_office_df.head())
+# print(fal_office_df.columns)
+# print(fal_office_df.info(verbose=1))
+
+# # Correct the column names and calculate the tax percentage
+# fal_office_df.rename(columns={'Shipping/\nHandling:': 'Shipping and Handling Fees', 'Tax:': 'Tax'}, inplace=True)
+# print(fal_office_df['Tax'].unique())
+# print(fal_office_df['Order Sub Total:'].unique())
+# print(fal_office_df['Shipping and Handling Fees'].unique())
+
+# # Convert the 'Tax:', 'Order Sub Total:', and 'Shipping/ Handling:' columns to numeric types
+# fal_west_df['Tax:'] = pd.to_numeric(fal_west_df['Tax:'].str.replace('$', '').str.replace(',', ''), errors='coerce')
+# fal_west_df['Order Sub Total:'] = pd.to_numeric(fal_west_df['Order Sub Total:'].str.replace('$', '').str.replace(',', '').str.replace('€', ''), errors='coerce')
+# fal_west_df['Shipping/ Handling:'] = pd.to_numeric(fal_west_df['Shipping/ Handling:'].str.replace('$', '').str.replace(',', ''), errors='coerce')
+
+# # No need to convert the fal_office relevant columns to numeric types, they already are numeric.
+
+# # # Check if any information was omittted as a result of using the coerce option
+# # print("AFTER")
+# # print(fal_west_df.info(verbose=1))
+# # print(fal_west_df['Tax:'].unique())
+# # print(fal_west_df['Order Sub Total:'].unique())
+# # print(fal_west_df['Shipping/ Handling:'].unique())
+
+# # Calculate the tax as a percentage of the Order Sub Total plus shipping and handling fees
+# fal_west_df['Total Before Tax'] = fal_west_df['Order Sub Total:'] + fal_west_df['Shipping/ Handling:']
+# fal_west_df['Tax Percentage'] = (fal_west_df['Tax:'] / fal_west_df['Total Before Tax']) * 100
+
+# # Calculate the tax as a percentage of the Order Sub Total plus shipping and handling fees
+# fal_office_df['Total Before Tax'] = fal_office_df['Order Sub Total:'] + fal_office_df['Shipping and Handling Fees']
+# fal_office_df['Tax Percentage'] = (fal_office_df['Tax'] / fal_office_df['Total Before Tax']) * 100
+
+
+# # Display the first few rows to verify the new column
+# print(fal_west_df.head())
+# print(fal_west_df['Tax Percentage'].unique())
+
+# # Display the first few rows to verify the new column
+# print(fal_office_df.head())
+# print(fal_office_df['Tax Percentage'].unique())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# vendor_df = pd.read_csv('./CSVs/VendorDownload_4_1f4f8b55-1614-476d-8f6d-7ece6d7c793c.xlsx - Líneas de artículos.tsv', sep='\t')
+
+# print(vendor_df.head())
+# print(vendor_df.info(verbose=1))
+
+# # Display the rows where 'Qty Ordered' is non-zero and 'Qty Confirmed' is zero
+# non_zero_ordered_zero_confirmed = vendor_df[(vendor_df['Qty Ordered'] != 0) & 
+#                                             (vendor_df['Qty Confirmed'] == 0)]
+# print(non_zero_ordered_zero_confirmed)
+
+# # Get unique values from `Availability/Comment`
+# unique_availability_comments = non_zero_ordered_zero_confirmed['Availability/Comment'].unique()
+# print(unique_availability_comments)
+
+# # Create the subset 's1' where 'Qty Ordered' is non-zero and 'Qty Confirmed' is zero
+# s1 = vendor_df[(vendor_df['Qty Ordered'] != 0) & (vendor_df['Qty Confirmed'] == 0)]
+
+# # Find rows that are not in 's1' but have 'R2...' or 'CP...' in the 'Availability/Comment' column
+# other_rows = vendor_df[~vendor_df.index.isin(s1.index) & vendor_df['Availability/Comment'].str.contains('R2|CP', na=False)]
+
+# # Display the rows
+# print(other_rows)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Load the cars_raw.csv file
+# cars_df = pd.read_csv('./CSVs/cars_raw.csv')
+
+# print(cars_df.head())
+# print(cars_df.info(verbose=1))
+# print(cars_df['FuelType'].unique())
+
+# # Filter the data to include only electric cars
+# electric_cars_df = cars_df[cars_df['FuelType'].str.contains('Electric', case=False, na=False)]
+# print("Num electric cars:", electric_cars_df.shape[0])
+
+# # Filter the data on `FuelType` column
+# electric_cars_df2 = cars_df[cars_df['FuelType'] == 'Electric'].copy()
+# print("Num electric cars2:", electric_cars_df2.shape[0])
+
+# # Save the filtered data to a new CSV file
+# electric_cars_df.to_csv('./OutCSVs/electric_cars.csv', index=False)
+# print('Electric cars data saved to electric_cars.csv')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE IS AN INTERESTING SCENARIO WHERE A NEWLY CREATED COLUMN IS PLACED AT A VERY SPECIFIC LOCATION WITHIN A DATASET.
+'''
+# import pandas as pd
+
+# # Load the TSV file
+# retail_store_df = pd.read_csv('./CSVs/Retail Store Performance and Capacity Metrics - EXO2E Crypto - cccvvv.tsv', sep='\t')
+
+# print(retail_store_df.head())
+# print(retail_store_df.info(verbose=1))
+
+# # Determine the position to insert the new column
+# position = retail_store_df.columns.get_loc('Category')
+
+# # Insert a new column after 'Installed Capacity 30' and initialize with zeros
+# retail_store_df.insert(position, 'Installed Capacity Difference', 0)
+
+# # Create the new requested column
+# retail_store_df['Installed Capacity Difference'] = retail_store_df['Installed Capacity 30'] - retail_store_df['Installed Capacity 20']
+
+# # Save the new table to a CSV file
+# retail_store_df.to_csv('./OutCSVs/retail_store_performance_installed_difference.csv', index=False)
+# print('Table with Installed Capacity Difference saved to retail_store_performance_installed_difference.csv')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE IS AN EXAMPLE OF ME WAISTING TIME BY NOT EXPLORING THE DATASET FIRST. I TRY TO FILTER FOR DATES WITHIN OCTOBOR AND NOVEMBER BUT I DO  NOT REALIZE THAT THE ENTIRE DATASET IS WITHIN THESE DATES SO FILTERING IS REDUNDANT!
+'''
+
+# import pandas as pd
+
+# # Load the dataset
+# vas_df = pd.read_csv('./CSVs/DATA_ECOM_VAS_v1-.xlsx-Grossreport.csv')
+# print(vas_df.head())
+# print(vas_df.info(verbose=1))
+
+# Filter the data for October and November
+# vas_df['Creation Date'] = pd.to_datetime(vas_df['Creation Date'])
+# print("AFTER")
+# print(vas_df.info(verbose=1))
+# oct_nov_df = vas_df[(vas_df['Creation Date'].dt.month == 10) | (vas_df['Creation Date'].dt.month == 11)]
+
+# # Group by product and sum the units sold
+# best_selling = oct_nov_df.groupby('SKU Name')['Quantity_SKU'].sum().reset_index()
+
+# # Find the best-selling product
+# best_selling_product = best_selling.loc[best_selling['Quantity_SKU'].idxmax()]
+
+# # Display the best-selling product and the number of units sold
+# print('Best-selling product of October and November:', best_selling_product['SKU Name'])
+# print('Units sold:', best_selling_product['Quantity_SKU'])
+
+
+# # Group by product and sum the units sold
+# best_selling = vas_df.groupby('SKU Name')['Quantity_SKU'].sum().reset_index()
+
+# # Find the best-selling product
+# best_selling_product = best_selling.loc[best_selling['Quantity_SKU'].idxmax()]
+
+# # Display the best-selling product and the number of units sold
+# print('Best-selling product of October and November:', best_selling_product['SKU Name'])
+# print('Units sold:', best_selling_product['Quantity_SKU'])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Load the Excel file
+# file_path = './CSVs/population_and_age.xlsx'
+# xlsx = pd.ExcelFile(file_path)
+
+# # Get the names of all sheets in the Excel file
+# sheet_names = xlsx.sheet_names
+# print(sheet_names)
+
+# # Load the South America sheet
+# south_america_df = pd.read_excel(file_path, sheet_name=sheet_names[2])
+
+# # Display the first few rows to understand the structure
+# print(south_america_df.head())
+# print(south_america_df.info(verbose=1))
+
+# # Calculate the average age and population
+# average_age = south_america_df['Average Age'].mean()
+# total_population = south_america_df['Population'].mean()
+
+# # Display the results
+# print('Average Age across all countries in South America:', average_age)
+# print('Total Population across all countries in South America:', total_population)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Load the Excel file
+# file_path = './CSVs/Gycology_Service_2020.xlsx'
+# df = pd.read_excel(file_path, skiprows=6)
+
+# # Display the first few rows of the DataFrame
+# print('First few rows of the DataFrame:')
+# print(df.head())
+
+# # Display the summary of the DataFrame
+# print('\
+# Summary of the DataFrame:')
+# print(df.info())
+
+# # Check for missing values
+# print('\
+# Missing values in the DataFrame:')
+# print(df.isnull().sum())
+
+# # Describe the DataFrame to get an overview of the data
+# print('\
+# Description of the DataFrame:')
+# print(df.describe())
+
+# # Check for possible outliers using IQR method
+# Q1 = df.quantile(0.25)
+# Q3 = df.quantile(0.75)
+# IQR = Q3 - Q1
+# outliers = ((df < (Q1 - 1.5 * IQR)) | (df > (Q3 + 1.5 * IQR))).sum()
+# print('\
+# Possible outliers in the DataFrame:')
+# print(outliers)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HOW WOULD I FIX THE PLOT BELOW? IT IS A PIE CHART, BUT THERE ARE MANY SLICES WHICH CAUSE LABEL OVERLAP. HOW CAN I INCREASE READABILITY? 
+'''
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Load the CSV file
+# file_path = './CSVs/MX_Pharmacy_inventory2022-dataset-Dataset.csv'
+# df = pd.read_csv(file_path, encoding='MacRoman')
+
+# print(df.head())
+# print(df.info(verbose=1))
+# print(df['Medication Description'].unique())
+
+# # Group by 'Lab ' and count the number of products
+# lab_product_counts = df['Lab '].value_counts()
+
+# # Plot a pie chart
+# plt.figure(figsize=(10, 8))
+# plt.pie(lab_product_counts, 
+#         labels=lab_product_counts.index, 
+#         autopct='%1.1f%%', 
+#         startangle=140)
+# plt.title('Distribution of Products by Lab')
+# plt.axis('equal')  
+# plt.show()
+
+'''
+    THE PLOTS BELOW INCREASE READABILITY BY CREATING A LEGEND. APPLY THE SAME TECHNIQUE TO THE PLOT ABOVE TO SEE IF IT WORKS!
+'''
+
+# import altair as alt
+
+# products_by_lab = df.groupby('Lab ')['Medication Description'].nunique()
+
+# # Sort in descending order of counts
+# products_by_lab = products_by_lab.sort_values(ascending=False)
+
+# # Print the result
+# print("Number of products by Lab:\n")
+# print(products_by_lab.to_markdown(numalign="left", stralign="left"))
+
+# # Create a DataFrame for plotting
+# df_plot = products_by_lab.reset_index().rename(columns={'Lab ': 'Lab', 'Medication Description': 'Num_Products'})
+
+# # Create a pie chart of the number of products by Lab
+# chart1 = alt.Chart(df_plot).mark_arc().encode(
+#     theta=alt.Theta(field="Num_Products", type="quantitative"),
+#     color=alt.Color(field="Lab", type="nominal"),
+#     tooltip = ["Lab", "Num_Products"]
+# ).properties(
+#     title = "Distribution of Products by Lab"
+# ).interactive()
+
+# # Save the chart in json file
+# chart1.save('./OutPlots/products_by_lab_pie_chart.html')
+
+
+'''
+    ALSO, APPLY THE LEGEND TO THE TOP 10 PLOT TO INCREASE ITS READABILITY!
+'''
+
+
+# # Keep only top 10 labs and create an 'Others' category
+# top_10_labs = products_by_lab.head(10)
+# other_labs = pd.Series({'Others': products_by_lab.iloc[10:].sum()})
+# combined_data = pd.concat([top_10_labs, other_labs])
+
+# # Create a DataFrame for plotting
+# df_plot = combined_data.reset_index().rename(columns={'index': 'Lab', 0: 'Num_Products'})
+
+# # Calculate percentages for each lab
+# total_products = df_plot['Num_Products'].sum()
+# df_plot['Percentage'] = ((df_plot['Num_Products'] / total_products) * 100).round(2)
+
+# # Create a pie chart of the number of products by Lab for the top 10 labs and 'Others' category
+# base = alt.Chart(df_plot).encode(
+#     theta=alt.Theta("Num_Products:Q"),
+#     color=alt.Color("Lab:N", legend=None),
+#     tooltip = ["Lab", "Num_Products", "Percentage"]
+# )
+
+# pie = base.mark_arc(outerRadius=120, innerRadius=0)
+# text = base.mark_text(radius=125, fill="black").encode(alt.Text(field="Percentage", type="quantitative", format=".1f"))
+# text_label = base.mark_text(radius=140, fill="black").encode(alt.Text(field="Lab", type="nominal"))
+
+# # Combine pie chart, text, and legend
+# chart2 = alt.layer(pie, text, text_label, data=df_plot).resolve_scale(theta="independent").properties(
+#     title='Distribution of Products by Top 10 Labs and Others'
+# ).interactive()
+
+# # Save the chart in json file
+# chart2.save('./OutPlots/top_10_labs_and_others_pie_chart.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    WHATS THE DIFFERENCE BETWEEN USING THE .pivot_table() AND NOT USING IT WHEN INVOKING THE .heatmap() or .corr()?
+'''
+
+
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+
+# # Load the CSV file
+# file_path = './CSVs/projects.csv'
+# df = pd.read_csv(file_path)
+# print(df.head())
+# print(df.info(verbose=1))
+
+# # There is 3, 20+, and 9 unique entries, respectively
+# print(df['DISCOUNT'].unique())
+# print(df['TOTAL'].unique())
+# print(df['PROJECT_TYPE'].unique())
+
+# # Function to clean and convert TOTAL column
+# def clean_total(total):
+#     # Remove quotes
+#     total = total.replace('"', '')
+#     # Replace comma with period
+#     total = total.replace(',', '.')
+#     # Convert to float
+#     return float(total)
+
+# # Apply the cleaning function to the TOTAL column
+# df['TOTAL'] = df['TOTAL'].apply(clean_total)
+
+# # To see if it omits entries
+# df['TOTAL'] = pd.to_numeric(df['TOTAL'], errors='coerce')
+
+# print("AFTER")
+# print(df.info(verbose=1))
+
+# # Create a pivot table for the heatmap
+# pivot_table = df.pivot_table(index='PROJECT_TYPE', 
+#                              values='TOTAL', 
+#                              columns='DISCOUNT',
+#                              aggfunc='sum')
+
+# # Plot the heatmap
+# plt.figure(figsize=(12, 8))
+# sns.heatmap(pivot_table, annot=True, cmap='coolwarm', fmt='.2f')
+# plt.title('Heatmap of PROJECT_TYPE, DISCOUNT, and TOTAL')
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    COHORT ANALYSIS ON A MULTI-SHEET EXCEL FILE. I LOAD EACH SHEET INDIVIDUALLY AND THEN CREATE A NEW COLOUMN TO STORE THEIR RESPECTIVE SHEET AND USE THAT TO CREATE COHORTS BEFORE FINALLY COMBINING ALL THE SHEETS. 
+'''
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Load the Excel file
+# file_path = './CSVs/SOLDFOOD2023 - Fall.xlsx'
+
+# # Read all sheets from the Excel file
+# xls = pd.ExcelFile(file_path)
+# sheet_names = xls.sheet_names
+# print(sheet_names)
+
+# # Read the first sheet into a DataFrame
+# sep = pd.read_excel(file_path, sheet_name=sheet_names[0], skiprows=3)
+# october = pd.read_excel(file_path, sheet_name=sheet_names[1], skiprows=3)
+# nov = pd.read_excel(file_path, sheet_name=sheet_names[2], skiprows=3)
+
+# # Add a cohort identifier
+# sep['COHORT'] = '2023-09'
+# october['COHORT'] = '2023-10'
+# nov['COHORT'] = '2023-11'
+
+# # Combine DataFrames
+# df_combined = pd.concat([sep, october, nov])
+# df_combined['COHORT'] = pd.to_datetime(df_combined['COHORT'])
+
+# # Display the first few rows of the combined DataFrame
+# print(df_combined.head())
+# print(df_combined.info())
+
+# # Aggregate the data to calculate total revenue for each product within each cohort
+# cohort_analysis = df_combined.groupby(['COHORT', 'DESCRIPTION']).agg({'TOTAL SALE': 'sum'}).reset_index()
+
+# # # Display the cohort analysis DataFrame
+# # print(cohort_analysis)
+
+# # Create a pivot table to visualize the data
+# pivot_table = cohort_analysis.pivot(index='DESCRIPTION', 
+#                                     columns='COHORT', 
+#                                     values='TOTAL SALE')
+
+# # Display the pivot table
+# print(pivot_table)
+
+# # Plot the heatmap
+# plt.figure(figsize=(12, 8))
+# sns.heatmap(pivot_table, 
+#             annot=True, 
+#             cmap='coolwarm', 
+#             fmt='.0f')
+# plt.title('Revenue by Product and Cohort (Month)')
+# plt.xlabel('Cohort (Month)')
+# plt.ylabel('Product ID')
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE I HAVE A FUNCTION THAT CYCLES THRU COLUMNS AND CREATES PLOTS OUT OF THE CORRESPONDING COL.
+'''
+
+# import pandas as pd
+# import altair as alt
+
+# # Load the Excel file
+# file_path = './CSVs/Hospital_Survey_Data_Alcohol_Drug_Abuse.xlsx'
+# df = pd.read_excel(file_path, skiprows=1)
+
+# print(df.head())
+# print(df.info())
+
+# # Check for missing values
+# missing_values = df.isnull().sum()
+# print('Missing values in each column:')
+# print(missing_values)
+
+# # Check for data type diversity
+# data_types = df.dtypes
+# print('Data types of each column:')
+# print(data_types)
+
+# # Check for apparent outliers using describe
+# describe_df = df.describe()
+# print('Statistical summary of the DataFrame:')
+# print(describe_df)
+
+
+# # Filter the dataframe to only include the columns `Total Discharges`, `Average Covered Charges ($)`, `Average Total Payments ($)`, `Average Medicare Payments ($)`, and `Hospital Rating`
+# columns_to_keep = ['Total Discharges', 'Average Covered Charges ($)', 'Average Total Payments ($)', 'Average Medicare Payments ($)', 'Hospital Rating']
+# filtered_df = df[columns_to_keep]
+
+# # Display descriptive statistics for the filtered dataframe
+# print("Descriptive Statistics of the Filtered Data:\n")
+# print(filtered_df.describe().to_markdown(numalign="left", stralign="left"))
+
+# # Create histograms for each of the columns in the filtered dataframe
+# for col in filtered_df.columns:
+#   chart = alt.Chart(filtered_df).mark_bar().encode(
+#       x=alt.X(col, bin=True),
+#       y=alt.Y('count()', title='Count of Hospitals'),
+#       tooltip=[col, 'count()']
+#   ).properties(
+#       title=f'Histogram of {col}'
+#   ).interactive()
+
+#   chart.save(f'./OutPlots/{col}_histogram.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    EXTRACT SPECIFIC COLS AND THEN USE THREE MONEY COLS TO CREATE A TOTAL INCOME COL THAT IS ESSENTIALLY THE SUM OF THREE SUMMATIONS.
+'''
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# file_path_alcohol_drug = './CSVs/Hospital_Survey_Data_Alcohol_Drug_Abuse.xlsx'
+# df_alcohol_drug = pd.read_excel(file_path_alcohol_drug, skiprows=1)
+# file_path_septicemia = './CSVs/Hospital_Survey_Data_Speticemia.csv'
+# df_septicemia = pd.read_csv(file_path_septicemia, skiprows=1)
+# print(df_alcohol_drug.head())
+# print(df_septicemia.head())
+# print(df_alcohol_drug.info(verbose=1))
+# print(df_septicemia.info(verbose=1))
+
+# # Combine the relevant columns from both datasets
+# combined_df = pd.concat([
+#     df_alcohol_drug[['Provider Zip Code', 'Average Covered Charges ($)', 'Average Total Payments ($)', 'Average Medicare Payments ($)']],
+#     df_septicemia[['Provider Zip Code', 'Average Covered Charges ($)', 'Average Total Payments ($)', 'Average Medicare Payments ($)']]
+# ])
+
+# print("AFTER")
+# print(combined_df.info(verbose=1))
+# print(combined_df['Provider Zip Code'].unique())
+
+# # Group by 'Provider Zip Code' and sum the specified columns
+# grouped_df = combined_df.groupby('Provider Zip Code').agg({
+#     'Average Covered Charges ($)': 'sum',
+#     'Average Total Payments ($)': 'sum',
+#     'Average Medicare Payments ($)': 'sum'
+# }).reset_index()
+
+# # Combine the three summations to get a total income value
+# grouped_df['Total Income'] = (
+#     grouped_df['Average Covered Charges ($)'] +
+#     grouped_df['Average Total Payments ($)'] +
+#     grouped_df['Average Medicare Payments ($)']
+# )
+
+# grouped_df = grouped_df.sort_values(by='Total Income', ascending=0)
+# print(grouped_df.head(n=20))
+
+# # Find the best-selling product
+# largest_income = grouped_df.loc[grouped_df['Total Income'].idxmax()]
+# print('Largest income:', largest_income)
+
+
+# # Plot the total income value for each zip code
+# plt.figure(figsize=(10, 6))
+# plt.bar(grouped_df['Provider Zip Code'], grouped_df['Total Income'], color='skyblue')
+# plt.xlabel('Provider Zip Code')
+# plt.ylabel('Total Income ($)')
+# plt.title('Total Income by Provider Zip Code')
+# plt.xticks(rotation=45)
+# plt.tight_layout()
+# plt.show()
+
+
+
+# # Group by 'Provider Zip Code' and sum the payment columns
+# income_by_zip = combined_df.groupby('Provider Zip Code').sum()
+
+# # Sort by 'Average Total Payments ($)' to find the zip codes with the highest income
+# income_by_zip_sorted = income_by_zip.sort_values(by='Average Total Payments ($)', ascending=False)
+
+# # Display the top zip codes by income
+# print('Top zip codes by income:')
+# print(income_by_zip_sorted.head(10))
+
+# # Plot the top zip codes by income
+# plt.figure(figsize=(12, 8))
+# sns.barplot(x=income_by_zip_sorted['Average Total Payments ($)'].head(10), y=income_by_zip_sorted.index[:10], palette='viridis')
+# plt.title('Top Zip Codes by Income')
+# plt.xlabel('Total Payments ($)')
+# plt.ylabel('Zip Code')
+# plt.show()
+
+
+
+
+'''
+    2ND APPROACH: USE LOOPS TO CLEAN AND PREPROCESS THE DATA THEN PRINT IT IN HUMAN FRIENDLY WAY WITH THE MARKDOWN METHOD.
+'''
+
+# # Convert column names to lowercase and replace whitespace with underscores
+# df_alcohol_drug.columns = df_alcohol_drug.columns.str.lower().str.replace(' ', '_')
+# df_septicemia.columns = df_septicemia.columns.str.lower().str.replace(' ', '_')
+
+# # Remove ',' from the columns `average_covered_charges`, `average_total_payments`, and `average_medicare_payments`
+# for col in ['average_covered_charges_($)', 'average_total_payments_($)', 'average_medicare_payments_($)']:
+#     df_alcohol_drug[col] = df_alcohol_drug[col].astype(str).str.replace(',', '', regex=False)
+#     df_septicemia[col] = df_septicemia[col].astype(str).str.replace(',', '', regex=False)
+
+# # Convert the columns `average_covered_charges`, `average_total_payments`, and `average_medicare_payments` to numeric
+# for col in ['average_covered_charges_($)', 'average_total_payments_($)', 'average_medicare_payments_($)']:
+#     df_alcohol_drug[col] = pd.to_numeric(df_alcohol_drug[col], errors='coerce')
+#     df_septicemia[col] = pd.to_numeric(df_septicemia[col], errors='coerce')
+
+# print("AFTER")
+# print(df_alcohol_drug.head())
+# print(df_septicemia.head())
+
+# print(df_alcohol_drug.info(verbose=1))
+# print(df_septicemia.info(verbose=1))
+
+# # Replace missing values in specified columns with 0
+# for col in ['average_covered_charges_($)', 'average_total_payments_($)', 'average_medicare_payments_($)']:
+#     df_alcohol_drug[col] = df_alcohol_drug[col].fillna(0)
+#     df_septicemia[col] = df_septicemia[col].fillna(0)
+
+# # Filter the DataFrames to only contain the columns `provider_zip_code`, `average_covered_charges`, `average_total_payments`, and `average_medicare_payments`
+# df_alcohol_drug_abuse = df_alcohol_drug[['provider_zip_code', 'average_covered_charges_($)', 'average_total_payments_($)', 'average_medicare_payments_($)']]
+# df_speticemia = df_septicemia[['provider_zip_code', 'average_covered_charges_($)', 'average_total_payments_($)', 'average_medicare_payments_($)']]
+
+# # Group by `provider_zip_code` and sum over `average_covered_charges_($)`, `average_total_payments_($)`, and `average_medicare_payments_($)` columns
+# grouped_df_alcohol_drug_abuse = df_alcohol_drug_abuse.groupby('provider_zip_code')[['average_covered_charges_($)', 'average_total_payments_($)', 'average_medicare_payments_($)']].sum()
+# grouped_df_speticemia = df_speticemia.groupby('provider_zip_code')[['average_covered_charges_($)', 'average_total_payments_($)', 'average_medicare_payments_($)']].sum()
+
+# # Sort grouped DataFrames in descending order of `average_covered_charges_($)`, `average_total_payments_($)`, and `average_medicare_payments_($)` columns
+# grouped_df_alcohol_drug_abuse = grouped_df_alcohol_drug_abuse.sort_values(by=['average_covered_charges_($)', 'average_total_payments_($)', 'average_medicare_payments_($)'], ascending=False)
+# grouped_df_speticemia = grouped_df_speticemia.sort_values(by=['average_covered_charges_($)', 'average_total_payments_($)', 'average_medicare_payments_($)'], ascending=False)
+
+# # Display the first 3 rows
+# print("Alcohol and Drug Abuse DataFrame - Zip codes with the highest income:")
+# print(grouped_df_alcohol_drug_abuse.head(3).to_markdown(numalign="left", stralign="left"))
+
+# print("\nSepticemia DataFrame - Zip codes with the highest income:")
+# print(grouped_df_speticemia.head(3).to_markdown(numalign="left", stralign="left"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    CREATE A PLOT THAT USES DAYS OF THE WEEK, SO I HAVE TO CONVERT THE DATES THEN EXTRACT THE DAY AND ITS NAME.
+'''
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Load the TSV file again with correct header settings
+# df_strawberry_sales = pd.read_csv('./CSVs/STRAWBERRY SALES 2023 - Sheet1.tsv', sep='\t', skiprows=2)
+# print(df_strawberry_sales.columns)
+# print(df_strawberry_sales.head())
+# print(df_strawberry_sales.info(verbose=1))
+
+# # Fix the column names
+# df_strawberry_sales.columns = ['DATE', 'NUM_CLAMSHELLS', 'NUM_BOXES', 'NUM_KILOS',
+#        'PRICE_PER_BOX', 'TOTAL', 'PRODUCT', 'TYPE_OF_PRODUCT']
+
+# # Convert the 'DATE ' column to datetime
+# df_strawberry_sales['DATE'] = pd.to_datetime(df_strawberry_sales['DATE'], format='mixed')
+
+# # Extract the day of the week from the 'DATE ' column
+# df_strawberry_sales['DAY_OF_WEEK'] = df_strawberry_sales['DATE'].dt.day_name()
+
+# # Remove the dollar sign and commas from the 'TOTAL ' column and convert to float
+# df_strawberry_sales['TOTAL'] = df_strawberry_sales['TOTAL'].replace('[\$,]', '', regex=True).astype(float)
+
+# # Group by 'TYPE OF PRODUCT' and 'DAY_OF_WEEK' and calculate the average 'TOTAL '
+# avg_sales_by_day = df_strawberry_sales.groupby(['TYPE_OF_PRODUCT', 'DAY_OF_WEEK'])['TOTAL'].mean().unstack()
+
+# # Define the order of the days of the week
+# ordered_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+# # Reindex the columns to follow the correct order
+# avg_sales_by_day = avg_sales_by_day[ordered_days]
+
+# # Display the average sales by day
+# print('Average sales by day:')
+# print(avg_sales_by_day)
+
+# # Plot the heatmap
+# plt.figure(figsize=(12, 8))
+# sns.heatmap(avg_sales_by_day, 
+#             annot=True, 
+#             fmt='.2f', 
+#             cmap='viridis')
+# plt.title('Average Daily Total Sales Value for Each Type of Product by Day of the Week')
+# plt.xlabel('Day of the Week')
+# plt.ylabel('Type of Product')
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import pandas as pd
-
-# Load the CSV file
-last60_df = pd.read_csv('./CSVs/last60.csv')
-
-# Count the records with missing values in the 'MapPrice' column
-missing_mapprice_count = last60_df['MapPrice'].isnull().sum()
-
-# Get the part numbers of the records with missing 'MapPrice'
-missing_mapprice_part_numbers = last60_df[last60_df['MapPrice'].isnull()]['PartNumber']
-
-# Display the count and several part numbers
-print('Count of records with missing MapPrice:', missing_mapprice_count)
-print('First 5 part numbers with missing MapPrice:\n', missing_mapprice_part_numbers.head(n=25))
-
-
-
-
-
-
-
-# Get all unique rows where `MapPrice` has null values
-null_map_price_rows = last60_df[last60_df['MapPrice'].isnull()].drop_duplicates()
-
-if (len(null_map_price_rows) > 20):
-  # Sample 20 of them if there are too many unique rows
-  print(null_map_price_rows.sample(20))
-else:
-  # Otherwise print all unique rows
-  print(null_map_price_rows)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import matplotlib.pyplot as plt
+
+# Load the trapiche_ingenio_nv.csv dataset
+df_trapiche = pd.read_csv('./CSVs/trapiche_ingenio_nv.csv', encoding='ascii')
+
+# Strip leading and trailing spaces from column names
+df_trapiche.columns = df_trapiche.columns.str.strip()
+
+print(df_trapiche.info(verbose=1))
+print(df_trapiche['Fecha'].unique())
+
+# Convert the 'Fecha' column to datetime, but ONLY use the date, not the timestamp
+df_trapiche['Fecha'] = pd.to_datetime(df_trapiche['Fecha']).dt.date
+
+print("AFTER")
+print(df_trapiche['Fecha'].unique())
+
+# Group by 'Fecha' and calculate the sum of 'Bruto' and 'Neto' columns
+sum_bruto_neto_by_date = df_trapiche.groupby('Fecha')[['Bruto', 'Neto']].sum()
+
+# Plot the bar chart
+plt.figure(figsize=(14, 8))
+sum_bruto_neto_by_date.plot(kind='bar', stacked=False)
+plt.title('Sum of Bruto and Neto by Date')
+plt.xlabel('Date')
+plt.ylabel('Sum')
+plt.xticks(rotation=45)
+plt.legend(['Bruto', 'Neto'])
+plt.show()
 
 
 

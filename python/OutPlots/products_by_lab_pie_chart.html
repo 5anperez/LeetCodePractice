@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-082b702f1e8387349f8a08f5cf953b87"}, "mark": {"type": "arc"}, "encoding": {"color": {"field": "Lab", "type": "nominal"}, "theta": {"field": "Num_Products", "type": "quantitative"}, "tooltip": [{"field": "Lab", "type": "nominal"}, {"field": "Num_Products", "type": "quantitative"}]}, "params": [{"name": "param_1", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "title": "Distribution of Products by Lab", "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-082b702f1e8387349f8a08f5cf953b87": [{"Lab": "RECALCINE", "Num_Products": 53}, {"Lab": "LABORATORIO OTROS", "Num_Products": 33}, {"Lab": "SAVAL S.A.", "Num_Products": 32}, {"Lab": "ANDROMACO FARMA", "Num_Products": 31}, {"Lab": "AXON PHARMA", "Num_Products": 29}, {"Lab": "PHARMA INVESTI", "Num_Products": 21}, {"Lab": "BOEHRINGER INGELHEIM", "Num_Products": 20}, {"Lab": "PFIZER", "Num_Products": 19}, {"Lab": "ASTRA ZENECA", "Num_Products": 15}, {"Lab": "TECNOFARMA LTDA.", "Num_Products": 14}, {"Lab": "ITF ", "Num_Products": 12}, {"Lab": "EUROFARMA", "Num_Products": 12}, {"Lab": "GALENICUM HEALTH", "Num_Products": 11}, {"Lab": "GLAXO", "Num_Products": 10}, {"Lab": "EXELTIS", "Num_Products": 9}, {"Lab": "GRUNENTHAL", "Num_Products": 7}, {"Lab": "SANITAS S.A.", "Num_Products": 6}, {"Lab": "NOVARTIS", "Num_Products": 6}, {"Lab": "ALLERGAN LTDA.", "Num_Products": 5}, {"Lab": "AVENTIS", "Num_Products": 5}, {"Lab": "NOVONORDISK", "Num_Products": 5}, {"Lab": "FERRER", "Num_Products": 5}, {"Lab": "ETEX FARMACEUTICA LTDA.", "Num_Products": 5}, {"Lab": "BAYER ETICO", "Num_Products": 5}, {"Lab": "MERCK SHARP&DOME", "Num_Products": 5}, {"Lab": "THEA PHARMA SPA", "Num_Products": 4}, {"Lab": "MSD- ORGANON", "Num_Products": 4}, {"Lab": "MERCK SA", "Num_Products": 4}, {"Lab": "D&M PHARMA S.A.", "Num_Products": 4}, {"Lab": "BIOTOSCANA", "Num_Products": 4}, {"Lab": "BAGO", "Num_Products": 4}, {"Lab": "PASTEUR", "Num_Products": 4}, {"Lab": "SOPHIA", "Num_Products": 4}, {"Lab": "ABBOTT ETICO", "Num_Products": 4}, {"Lab": "ABBOTT FARMA", "Num_Products": 3}, {"Lab": "ALCON", "Num_Products": 3}, {"Lab": "ASPEN", "Num_Products": 3}, {"Lab": "SANOFI", "Num_Products": 3}, {"Lab": "SYNTHON", "Num_Products": 3}, {"Lab": "SILESIA", "Num_Products": 3}, {"Lab": "MEDIPHARM", "Num_Products": 3}, {"Lab": "FERRING", "Num_Products": 3}, {"Lab": "PASTEUR OPHTHA", "Num_Products": 3}, {"Lab": "ROCHE", "Num_Products": 3}, {"Lab": "FAES FARMA", "Num_Products": 3}, {"Lab": "NEW SCIENCE", "Num_Products": 3}, {"Lab": "LUNDBECK", "Num_Products": 2}, {"Lab": "ASCEND LABORATORIES SPA", "Num_Products": 2}, {"Lab": "HOSPIFARMA", "Num_Products": 2}, {"Lab": "JANSSEN", "Num_Products": 2}, {"Lab": "PHARMASAN S.A.", "Num_Products": 2}, {"Lab": "DEUTSCHE PHARMA S.A.", "Num_Products": 2}, {"Lab": "BAYER OTC", "Num_Products": 2}, {"Lab": "GADORPHARMA SPA", "Num_Products": 2}, {"Lab": "CLINICAL MARKET", "Num_Products": 2}, {"Lab": "BPH S.A", "Num_Products": 2}, {"Lab": "OPKO", "Num_Products": 2}, {"Lab": "ABBOTT DIAGNOSTICA", "Num_Products": 1}, {"Lab": "GADOR", "Num_Products": 1}, {"Lab": "MEDCELL ACCESORIOS", "Num_Products": 1}, {"Lab": "HOFFMAN ACCESORIOS MEDICOS", "Num_Products": 1}, {"Lab": "GARDEN HOUSE", "Num_Products": 1}, {"Lab": "BAMBERG/SCHUBERT", "Num_Products": 1}, {"Lab": "RAFFO S.A.", "Num_Products": 1}, {"Lab": "RECKITT BENCKISER FARMA", "Num_Products": 1}, {"Lab": "VITAMIN LIFE", "Num_Products": 1}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>
