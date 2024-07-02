@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-521ce19a16ba741852c49d43a4f98188"}, "mark": {"type": "arc", "outerRadius": 120}, "encoding": {"color": {"field": "Product category", "type": "nominal"}, "order": {"field": "Total value", "sort": "descending", "type": "quantitative"}, "theta": {"field": "Total value", "stack": true, "type": "quantitative"}, "tooltip": [{"field": "Product category", "type": "nominal"}, {"field": "Inventory", "format": ".2f", "title": "Inventory", "type": "quantitative"}, {"field": "Total value", "format": ".2f", "title": "Total value", "type": "quantitative"}]}, "params": [{"name": "param_2", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "title": "Distribution of Total Value for Earrings", "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-521ce19a16ba741852c49d43a4f98188": [{"Product category": "Earrings,Colourful Earrings,Gold Earrings", "Inventory": 3, "Total value": 30.0}, {"Product category": "Earrings,Colourful Earrings,Gold Earrings,IN SALE", "Inventory": 15, "Total value": 99.0}, {"Product category": "Earrings,Colourful Earrings,IN SALE", "Inventory": 34, "Total value": 233.0}, {"Product category": "Earrings,Earrings Silvers", "Inventory": 3, "Total value": 24.0}, {"Product category": "Earrings,Earrings Silvers,IN SALE", "Inventory": 3, "Total value": 24.0}, {"Product category": "Earrings,Gold Earrings", "Inventory": 24, "Total value": 230.0}, {"Product category": "Earrings,Gold Earrings,Earrings Silvers,IN SALE", "Inventory": 3, "Total value": 30.0}, {"Product category": "Earrings,Gold Earrings,IN SALE", "Inventory": 73, "Total value": 493.0}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

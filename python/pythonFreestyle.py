@@ -13969,39 +13969,1845 @@ This will create a legend with the markers corresponding to each exercise, provi
 
 
 
+'''
+    IF YOU PLOT DATES AND THE TIMESTAMP IS INCLUDED IN THE DATES, BUT YOU WANT TO OMIT THEM, THEN USE THE CODE BELOW
+'''
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Load the trapiche_ingenio_nv.csv dataset
+# df_trapiche = pd.read_csv('./CSVs/trapiche_ingenio_nv.csv', encoding='ascii')
+
+# # Strip leading and trailing spaces from column names
+# df_trapiche.columns = df_trapiche.columns.str.strip()
+
+# print(df_trapiche.info(verbose=1))
+# print(df_trapiche['Fecha'].unique())
+
+# # Convert the 'Fecha' column to datetime, but ONLY use the date, not the timestamp
+# df_trapiche['Fecha'] = pd.to_datetime(df_trapiche['Fecha']).dt.date
+
+# print("AFTER")
+# print(df_trapiche['Fecha'].unique())
+
+# # Group by 'Fecha' and calculate the sum of 'Bruto' and 'Neto' columns
+# sum_bruto_neto_by_date = df_trapiche.groupby('Fecha')[['Bruto', 'Neto']].sum()
+
+# # Plot the bar chart
+# plt.figure(figsize=(14, 8))
+# sum_bruto_neto_by_date.plot(kind='bar', stacked=False)
+# plt.title('Sum of Bruto and Neto by Date')
+# plt.xlabel('Date')
+# plt.ylabel('Sum')
+# plt.xticks(rotation=45)
+# plt.legend(['Bruto', 'Neto'])
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    FIND OUT HOW THE MERGE FUNCTION WORKS AND WHAT IT DOES.
+'''
+
+# import pandas as pd
+
+# # Load the dataset
+# file_path = './CSVs/Ventas_Julio-Octubre-wines.xlsxcsv-Julio-Octubre.csv'
+# df = pd.read_csv(file_path)
+
+# print(df.head())
+# print(df.columns)
+# print(df.info(verbose=1))
+
+# # df['Ítem - Impte. Fact. Loc.'] = pd.to_numeric(df['Ítem - Impte. Fact. Loc.'], errors='coerce')
+
+# # Group by customer and calculate total spending and total refunds
+# customer_spending = df.groupby('Cliente - País - Cód.')['Ítem - Impte. Fact. Loc.'].sum().reset_index()
+# customer_spending.columns = ['Cliente - País - Cód.', 'Total_Spending']
+
+# # Calculate total refunds (negative values)
+# customer_refunds = df[df['Ítem - Impte. Fact. Loc.'] < 0].groupby('Cliente - País - Cód.')['Ítem - Impte. Fact. Loc.'].sum().reset_index()
+# customer_refunds.columns = ['Cliente - País - Cód.', 'Total_Refunds']
+
+# # Merge spending and refunds dataframes
+# customer_summary = pd.merge(customer_spending, customer_refunds, on='Cliente - País - Cód.', how='left')
+# customer_summary['Total_Refunds'] = customer_summary['Total_Refunds'].fillna(0)
+
+# # Calculate the score as a percentage
+# customer_summary['Score'] = (customer_summary['Total_Spending'] + customer_summary['Total_Refunds']) / customer_summary['Total_Spending'] * 100
+
+# # Display the customer summary
+# print(customer_summary.head())
+
+# # Count the number of refunds
+# num_refunds = df[df['Ítem - Impte. Fact. Loc.'] < 0].shape[0]
+# refunds_group = df[df['Ítem - Impte. Fact. Loc.'] < 0]
+# print('Number of refunds:', num_refunds)
+# print(refunds_group['Ítem - Impte. Fact. Loc.'].unique())
+# print(refunds_group['Cliente - País - Cód.'].unique())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+    Function to print the head, column names, and info of a DataFrame.
+    
+    Parameters:
+    df (pd.DataFrame): The DataFrame to analyze.
+"""
+
+import pandas as pd
+
+def analyze_dataframe(df):
+
+    print("\nANALYZING THE DATA...\n")
+    
+    # Print the first few rows of the DataFrame
+    print("Head of the DataFrame:")
+    print(df.head(), "\n")
+    
+    # Print the column names of the DataFrame
+    print("Column names:")
+    print(df.columns, "\n")
+    
+    # Print the info of the DataFrame
+    print("Info:")
+    print(df.info(verbose=1), "\n")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# NOTE: ADD FUNCTIONALITY FOR DELIMITERS, ENCODING FLAGS, AND FINISH THE MULTI-SHEET EXCEL FUNCTION THAT EXTRACTS SHEETS!
+
+'''
+    METHOD TO TRY MULTIPLE ENCODINGS
+'''
+# encodings = ['cp1252', 'utf-16', 'ascii', 'latin-1', 'MacRoman', 'Windows-1252']
+# for enc in encodings:
+#     try:
+#         split_data = pd.read_csv(xlsx_file_path, sep='|', skiprows=[1], encoding=enc)
+#         print(f"Success with encoding: {enc}")
+#         break
+#     except UnicodeDecodeError:
+#         print(f"Failed with encoding: {enc}")
+
+"""
+    Function to load a file from the "./CSVs/" directory and return a DataFrame.
+
+    Parameters:
+    file_name (str): The name of the file to load.
+    file_type (str): The type of the file ('csv' or 'excel'). Default is 'csv'.
+
+    Returns:
+    pd.DataFrame: The loaded DataFrame.
+"""
+
+
+# import pandas as pd
+
+# def load_file(file_name, file_type='csv'):
+    
+#     # Construct the full file path
+#     file_path = f"./CSVs/{file_name}"
+    
+#     # Load the file based on the file type
+#     if file_type == 'csv':
+#         df = pd.read_csv(file_path)
+#     elif file_type == 'excel':
+#         df = pd.read_excel(file_path)
+#     elif file_type == 'multi':
+#         df = pd.ExcelFile(file_path)
+#         sheets = df.sheet_names
+#         print("The file has the following sheets:", sheets)
+#     else:
+#         raise ValueError("Unsupported file type. Use 'csv' or 'excel'.")
+    
+#     print("\nLOADING THE DATA...\n")
+    
+#     return df
+
+# Example usage:
+# df_csv = load_file('example.csv', 'csv')
+# df_excel = load_file('example.xlsx', 'excel')
+
 
 
 
 import pandas as pd
+
+def load_file(file_name, file_type='csv'):
+    """
+    Load a file from the "./CSVs/" directory and return a DataFrame.
+
+    Parameters:
+    file_name (str): The name of the file to load.
+    file_type (str): The type of the file ('csv', 'excel', 'multi'). Default is 'csv'.
+
+    Returns:
+    pd.DataFrame: The loaded DataFrame.
+    """
+    # Construct the full file path
+    file_path = f"./CSVs/{file_name}"
+
+    # List of common encodings to try
+    encodings = ['utf-8', 'latin-1', 'utf-16', 'cp1252', 'iso-8859-1']
+
+    def try_loading_file(encoding=None):
+        if file_type == 'csv':
+            return pd.read_csv(file_path, encoding=encoding)
+        elif file_type == 'excel':
+            return pd.read_excel(file_path, encoding=encoding)
+        elif file_type == 'multi':
+            return pd.ExcelFile(file_path, encoding=encoding)
+        else:
+            raise ValueError("Unsupported file type. Use 'csv', 'excel', or 'multi'.")
+
+    # Try to load the file without specifying an encoding first
+    try:
+        df = try_loading_file()
+    except Exception as e:
+        print(f"Failed to load file without specifying encoding: {e}")
+        for encoding in encodings:
+            try:
+                print(f"Trying to load file with encoding: {encoding}")
+                df = try_loading_file(encoding=encoding)
+                print("File loaded successfully with encoding:", encoding)
+                break
+            except Exception as e:
+                print(f"Failed to load file with encoding {encoding}: {e}")
+        else:
+            raise ValueError("Failed to load file with all attempted encodings.")
+
+    if file_type == 'multi':
+        sheets = df.sheet_names
+        print("The file has the following sheets:", sheets)
+    
+    print("\nLOADING THE DATA...\n")
+
+    return df
+
+# Example usage:
+# df_csv = load_file('example.csv', 'csv')
+# df_excel = load_file('example.xlsx', 'excel')
+# df_multi = load_file('example.xlsx', 'multi')
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# file_path = './CSVs/paid-ads-top-campaigns-table_2023-11-30_2023-12-29.csv'
+# df_ads = pd.read_csv(file_path)
+
+# analyze_dataframe(df_ads)
+
+# # Drop null values in `Last update`
+# df_ads.dropna(subset=["Last update"], inplace=True)
+# df_ads['Last update'] = pd.to_datetime(df_ads['Last update'])
+# print(df_ads["Last update"].unique())
+
+# print("AFTER")
+# analyze_dataframe(df_ads)
+
+# # Display rows where 'Last update' is NaT to identify errors
+# errors_last_update = df_ads[df_ads['Last update'].isna()]
+# print(errors_last_update)
+
+# Display the corrected dataframe
+# print(df_ads.head())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import altair as alt
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+
+# # Load the dataset from the Excel file
+# file_path = './CSVs/phone_buying_preference1.xlsx'
+# df_phone = pd.read_excel(file_path)
+
+# Display the first few rows, column names, and info 
+# of the dataframe to understand its structure
+# analyze_dataframe(df_phone)
+
+# # Convert relevant columns to categorical data type for better analysis
+# categorical_columns = [
+#     'sex', 'Age bracket', 'Is phone colour a bother when purchasing a phone',
+#     'Phone internal storage increased, decreased or remain the same compared to previous phone',
+#     'Is previous phone still fuctional or faulty and unfunctional',
+#     'Was the price to acquire new phone higher, lower or unchanged ',
+#     'Did You transfer your data from the previous phone',
+#     'Did you change the phone manufacturer',
+#     'Did you consider the improvement of the camera quality',
+#     'Do you consider the year of manufacture of the phone when buying?'
+# ]
+
+# df_phone[categorical_columns] = df_phone[categorical_columns].astype('category')
+
+# # Plot the distribution of phone storage changes
+# plt.figure(figsize=(10, 6))
+# sns.countplot(data=df_phone, x='Phone internal storage increased, decreased or remain the same compared to previous phone')
+# plt.title('Distribution of Phone Storage Changes')
+# plt.xlabel('Phone Storage Change')
+# plt.ylabel('Count')
+# plt.show()
+
+# # Plot the relationship between phone storage change and other factors
+# plt.figure(figsize=(14, 8))
+# sns.countplot(data=df_phone, x='Phone internal storage increased, decreased or remain the same compared to previous phone', hue='sex')
+# plt.title('Phone Storage Change by Sex')
+# plt.xlabel('Phone Storage Change')
+# plt.ylabel('Count')
+# plt.show()
+
+# plt.figure(figsize=(14, 8))
+# sns.countplot(data=df_phone, x='Phone internal storage increased, decreased or remain the same compared to previous phone', hue='Age bracket')
+# plt.title('Phone Storage Change by Age Bracket')
+# plt.xlabel('Phone Storage Change')
+# plt.ylabel('Count')
+# plt.show()
+
+# plt.figure(figsize=(14, 8))
+# sns.countplot(data=df_phone, x='Phone internal storage increased, decreased or remain the same compared to previous phone', hue='Is phone colour a bother when purchasing a phone')
+# plt.title('Phone Storage Change by Phone Colour Preference')
+# plt.xlabel('Phone Storage Change')
+# plt.ylabel('Count')
+# plt.show()
+
+# plt.figure(figsize=(14, 8))
+# sns.countplot(data=df_phone, x='Phone internal storage increased, decreased or remain the same compared to previous phone', hue='Is previous phone still fuctional or faulty and unfunctional')
+# plt.title('Phone Storage Change by Previous Phone Functionality')
+# plt.xlabel('Phone Storage Change')
+# plt.ylabel('Count')
+# plt.show()
+
+# plt.figure(figsize=(14, 8))
+# sns.countplot(data=df_phone, x='Phone internal storage increased, decreased or remain the same compared to previous phone', hue='Was the price to acquire new phone higher, lower or unchanged ')
+# plt.title('Phone Storage Change by Price of New Phone')
+# plt.xlabel('Phone Storage Change')
+# plt.ylabel('Count')
+# plt.show()
+
+# plt.figure(figsize=(14, 8))
+# sns.countplot(data=df_phone, x='Phone internal storage increased, decreased or remain the same compared to previous phone', hue='Did You transfer your data from the previous phone')
+# plt.title('Phone Storage Change by Data Transfer')
+# plt.xlabel('Phone Storage Change')
+# plt.ylabel('Count')
+# plt.show()
+
+# plt.figure(figsize=(14, 8))
+# sns.countplot(data=df_phone, x='Phone internal storage increased, decreased or remain the same compared to previous phone', hue='Did you change the phone manufacturer')
+# plt.title('Phone Storage Change by Change of Phone Manufacturer')
+# plt.xlabel('Phone Storage Change')
+# plt.ylabel('Count')
+# plt.show()
+
+# plt.figure(figsize=(14, 8))
+# sns.countplot(data=df_phone, x='Phone internal storage increased, decreased or remain the same compared to previous phone', hue='Did you consider the improvement of the camera quality')
+# plt.title('Phone Storage Change by Camera Quality Consideration')
+# plt.xlabel('Phone Storage Change')
+# plt.ylabel('Count')
+# plt.show()
+
+# plt.figure(figsize=(14, 8))
+# sns.countplot(data=df_phone, x='Phone internal storage increased, decreased or remain the same compared to previous phone', hue='Do you consider the year of manufacture of the phone when buying?')
+# plt.title('Phone Storage Change by Year of Manufacture Consideration')
+# plt.xlabel('Phone Storage Change')
+# plt.ylabel('Count')
+# plt.show()
+
+# print('Exploratory Data Analysis Completed')
+
+
+
+
+# # Calculate the proportion of 'yes' values for the specified columns
+# for col in ['Is phone colour a bother when purchasing a phone', 'Did You transfer your data from the previous phone', 'Did you change the phone manufacturer', 'Did you consider the improvement of the camera quality', 'Do you consider the year of manufacture of the phone when buying?']:
+#   proportion_yes = df_phone[col].value_counts(normalize=True).get('yes', 0)
+#   print(f"Proportion of 'yes' values for '{col}': {proportion_yes:.1%}")
+
+# # Count the occurrences of each unique value in the 'Phone internal storage increased, decreased or remain the same compared to previous phone' column
+# storage_counts = df_phone['Phone internal storage increased, decreased or remain the same compared to previous phone'].value_counts()
+# print("\nCounts for 'Phone internal storage increased, decreased or remain the same compared to previous phone':")
+# print(storage_counts.to_markdown(numalign="left", stralign="left"))
+
+
+
+# # Create a histogram for the column `How often do you usually change phone in months`
+# chart1 = alt.Chart(df_phone).mark_bar().encode(
+#     alt.X('How often do you usually change phone in months', bin=True, title='Months'),
+#     y='count()',
+#     tooltip=[alt.Tooltip('How often do you usually change phone in months', bin=True, title='Months'), 'count()']
+# ).properties(title='Histogram of How Often People Change Phones').interactive()
+# chart1.save('./OutPlots/phone_change_frequency_histogram.html')
+
+# # Create a histogram for the column `on a scale of 1 to 5 rate your current phone compared to the previous`
+# chart2 = alt.Chart(df_phone).mark_bar().encode(
+#     alt.X('on a scale of 1 to 5 rate your current phone compared to the previous', bin=True, title='Rating'),
+#     y='count()',
+#     tooltip=[alt.Tooltip('on a scale of 1 to 5 rate your current phone compared to the previous', bin=True, title='Rating'), 'count()']
+# ).properties(title='Histogram of Phone Ratings Compared to Previous').interactive()
+# chart2.save('./OutPlots/phone_rating_comparison_histogram.html')
+
+
+
+# # Filter the DataFrame to only include rows where storage increased
+# df_filtered = df_phone[df_phone['Phone internal storage increased, decreased or remain the same compared to previous phone'] == 'Increase']
+
+# # Group by age bracket and previous phone status, and count the occurrences
+# df_grouped = df_filtered.groupby(['Age bracket', 'Is previous phone still fuctional or faulty and unfunctional']).size().to_frame(name='count')
+
+# # Create a pivot table with age bracket as the index, previous phone status as the columns, and count as the values
+# pivot_table = df_grouped.pivot_table(index='Age bracket', 
+#                                      columns='Is previous phone still fuctional or faulty and unfunctional', 
+#                                      values='count', 
+#                                      fill_value=0)
+
+# # Print the pivot table
+# print(pivot_table.to_markdown(numalign="left", stralign="left"))
+
+
+# # Filter the DataFrame to only include rows where storage increased
+# df_filtered = df_phone[df_phone['Phone internal storage increased, decreased or remain the same compared to previous phone'] == 'Increase']
+
+# # Group by age bracket and previous phone status, and count the occurrences
+# df_grouped = df_filtered.groupby(['Age bracket', 'Was the price to acquire new phone higher, lower or unchanged ']).size().to_frame(name='count')
+
+# # Create a pivot table with age bracket as the index, previous phone status as the columns, and count as the values
+# pivot_table = df_grouped.pivot_table(index='Age bracket', 
+#                                      columns='Was the price to acquire new phone higher, lower or unchanged ', 
+#                                      values='count', 
+#                                      fill_value=0)
+
+# # Print the pivot table
+# print(pivot_table.to_markdown(numalign="left", stralign="left"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    FIND THE PERSON THAT GAVE THE MOST FEEDBACK
+'''
+
+# # Load the dataset from the CSV file
+# file_path = './CSVs/ACS_Ecom-purchase_Q2-Naman_Paliwal.csv'
+# df_ecom = pd.read_csv(file_path)
+
+# analyze_dataframe(df_ecom)
+
+# print(df_ecom["Customer Name"].unique())
+
+# # Find the customer who provided the most feedback
+# most_feedback_customer = df_ecom['Customer Name'].value_counts().idxmax()
+# feedback_count = df_ecom['Customer Name'].value_counts().max()
+# print('Customer who provided the most feedback:', most_feedback_customer)
+# print('Number of feedbacks provided:', feedback_count)
+
+'''
+    A MORE STREAMLINED APPROACH: 1-LINER
+'''
+
+# # Summarize the amount of feedback by customer
+# feedback_summary = df_ecom.groupby('Customer Name')['Customer Feedback'].count().sort_values(ascending=False)
+
+# print(feedback_summary.head())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    AN ATTEMPT TO CALCULATE THE DISTANCE COVARIANCE
+'''
+
+# # Load the dataset from the TSV file
+# file_path = './CSVs/Retail Store Performance and Capacity Metrics - EXO2E Crypto - cccvvv.tsv'
+# df_retail = pd.read_csv(file_path, sep='\t')
+
+# mean_gcs_ngk = df_retail['GCS NGK'].mean()
+# mean_gcs_counter = df_retail['GCS Counter '].mean()
+# print("MEANS:\n")
+# print(mean_gcs_ngk)
+# print(mean_gcs_counter)
+
+# df_retail['distance_from_mean'] = ((df_retail['GCS NGK'] - mean_gcs_ngk)**2 + (df_retail['GCS Counter '] - mean_gcs_counter)**2)**0.5
+
+# # Calculate the "country value" as the average of 'distance_from_mean' for each country
+# country_value = df_retail.groupby('Country')['distance_from_mean'].mean().reset_index(name='Country Value')
+
+# print(country_value.head())
+
+# # analyze_dataframe(df_retail)
+# # print(df_retail['Country'].unique())
+
+# # Calculate the covariance between 'GCS NGK' and 'GCS Counter'
+# covariance = df_retail[['GCS NGK', 'GCS Counter ']].cov().iloc[0, 1]
+# print('Covariance between GCS NGK and GCS Counter:', covariance)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    Add a new column to the dataset calculating the total monthly cost per patient based on session price, frequency, and reimbursement.
+
+    THIS INVOLVED SOME PRETTY COOL FUNCTIONS THAT MAP CATEGORICAL STATS TO NUMERICAL ONES FOR COMPUTE.
+'''
+
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Load the patient list dataset
+# file_path_patient = './CSVs/patient_list-_patient_list.csv'
+# df_patient = pd.read_csv(file_path_patient)
+
+# analyze_dataframe(df_patient)
+# print(df_patient['frequency'].unique())
+# print(df_patient['% reimbursement'].unique())
+
+# # Function to convert frequency to the number of sessions per month
+# def frequency_to_sessions_per_month(frequency):
+#     if frequency == 'weekly':
+#         return 4
+#     elif frequency == 'bi-weekly':
+#         return 2
+#     elif frequency == 'monthly':
+#         return 1
+#     else:
+#         return 0  # Handle any unexpected values
+    
+# # Function to convert frequency to the number of sessions per month
+# def reimbursement_conversion(percentage):
+#     if percentage == '10%':
+#         return 0.1
+#     elif percentage == '5%':
+#         return 0.05
+#     elif percentage == '15%':
+#         return 0.15
+#     elif percentage == '33%':
+#         return 0.33
+#     else:
+#         return 0  # Handle any unexpected values
+
+# # Apply the function to create a new column for the number of sessions per month
+# df_patient['sessions_per_month'] = df_patient['frequency'].apply(frequency_to_sessions_per_month)
+
+# # Apply the function to create a new column for the percentages
+# df_patient['reimbursement_perc'] = df_patient['% reimbursement'].apply(reimbursement_conversion)
+# df_patient['net'] = df_patient['session_price'] - (df_patient['session_price'] * df_patient['reimbursement_perc'])
+
+# # Calculate the total monthly cost per patient
+# df_patient['total_monthly_cost'] = df_patient['net'] * df_patient['sessions_per_month'] 
+
+# # Display the first few rows of the updated dataframe
+# print(df_patient.head(n=20))
+
+# # Create a histogram to show the distribution of total monthly cost
+# plt.figure(figsize=(10, 6))
+# sns.histplot(df_patient['total_monthly_cost'].dropna(), bins=20, kde=True)
+# plt.title('Distribution of Total Monthly Cost')
+# plt.xlabel('Total Monthly Cost')
+# plt.ylabel('Frequency')
+# plt.grid(True)
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Load the inventory snapshot dataset
+# file_path_inventory = './CSVs/inventory-snapshot-table_2024-01-15_ 01 - sheet1.tsv'
+# df_inventory = pd.read_csv(file_path_inventory, sep='\t')
+
+# # analyze_dataframe(df_inventory)
+# # print(df_inventory['Product category'].unique())
+
+# # Function to clean the "Total value" column
+# def clean_total_value(value):
+#     # Remove the euro sign and any extra spaces
+#     value = value.replace('€', '').strip()
+#     # Convert to float
+#     return float(value)
+
+# # Apply the cleaning function to the "Total value" column
+# df_inventory['Total value'] = df_inventory['Total value'].apply(clean_total_value)
+
+# # Filter the dataset for the 'Earrings' category
+# df_earrings = df_inventory[df_inventory['Product category'].str.contains('Earrings', case=False, na=False)]
+# print("FIRST")
+# print(df_earrings['Product category'].unique())
+
+# # Display the first few rows of the filtered dataframe
+# print(df_earrings.head())
+
+# # Display summary statistics for the filtered dataframe
+# print(df_earrings.describe(include='all'))
+
+# # Create visualizations for the 'Earrings' category
+# plt.figure(figsize=(14, 10))
+
+# # Histogram of Inventory levels
+# plt.subplot(2, 2, 1)
+# sns.histplot(df_earrings['Inventory'].dropna(), bins=10, kde=True)
+# plt.title('Distribution of Inventory Levels')
+# plt.xlabel('Inventory')
+# plt.ylabel('Frequency')
+# plt.grid(True)
+
+# # Histogram of Total value
+# plt.subplot(2, 2, 2)
+# df_earrings['Total value'] = df_earrings['Total value'].str.replace(' €', '').astype(float)
+# sns.histplot(df_earrings['Total value'].dropna(), bins=10, kde=True)
+# plt.title('Distribution of Total Value')
+# plt.xlabel('Total Value (€)')
+# plt.ylabel('Frequency')
+# plt.grid(True)
+
+# # Count plot of Last sold on dates
+# plt.subplot(2, 2, 3)
+# df_earrings['Last sold on'] = pd.to_datetime(df_earrings['Last sold on'], errors='coerce')
+# sns.countplot(y=df_earrings['Last sold on'].dt.date)
+# plt.title('Last Sold On Dates')
+# plt.xlabel('Count')
+# plt.ylabel('Last Sold On')
+# plt.grid(True)
+
+# plt.tight_layout()
+# plt.show()
+
+
+# # Create a pie chart to visualize the Inventory and Total value columns for the 'Earrings' product category
+# plt.figure(figsize=(14, 7))
+
+# # Pie chart for Inventory
+# plt.subplot(1, 2, 1)
+# plt.pie(df_earrings['Inventory'], labels=df_earrings['Product category'], autopct='%1.1f%%', startangle=140)
+# plt.title('Inventory Distribution for Earrings')
+
+# # Pie chart for Total value
+# plt.subplot(1, 2, 2)
+# plt.pie(df_earrings['Total value'], labels=df_earrings['Product category'], autopct='%1.1f%%', startangle=140)
+# plt.title('Total Value Distribution for Earrings')
+
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+# df = pd.read_csv(file_path_inventory, sep='\t')
+
+# # Remove '€' from `Total value` column and convert it to numeric datatype
+# df['Total value'] = df['Total value'].astype(str).str.replace('€', '', regex=False)
+# df['Total value'] = pd.to_numeric(df['Total value'])
+
+# # Fill in missing values of `Total value` with '0'
+# df['Total value'] = df['Total value'].fillna(0)
+
+# # Filter the data for the product category 'Earrings'
+# earrings_df = df[df['Product category'].str.contains('Earrings')]
+# print(earrings_df['Product category'].unique())
+
+# # Group the data on `Product category` and sum the `Inventory` and `Total value` columns
+# grouped_df = earrings_df.groupby('Product category')[['Inventory', 'Total value']].sum()
+
+# # Display the table, sorted by `Total value` in descending order
+# print(grouped_df.sort_values('Total value', ascending=False))
+
+# import altair as alt
+
+# # Create a pie chart of the `Inventory` and `Total value` columns
+# chart1 = alt.Chart(grouped_df.reset_index()).mark_arc(outerRadius=120).encode(
+#     theta=alt.Theta(field="Inventory", type="quantitative", stack=True),
+#     color=alt.Color(field="Product category", type="nominal"),
+#     order=alt.Order(field="Inventory", type="quantitative", sort="descending"),
+#     tooltip=[alt.Tooltip(field="Product category", type="nominal"),
+#              alt.Tooltip(field="Inventory", type="quantitative", title='Inventory', format = '.2f'),
+#              alt.Tooltip(field="Total value", type="quantitative", title='Total value', format = '.2f')]
+# ).properties(
+#     title='Distribution of Inventory for Earrings'
+# ).interactive()
+
+# chart2 = alt.Chart(grouped_df.reset_index()).mark_arc(outerRadius=120).encode(
+#     theta=alt.Theta(field="Total value", type="quantitative", stack=True),
+#     color=alt.Color(field="Product category", type="nominal"),
+#     order=alt.Order(field="Total value", type="quantitative", sort="descending"),
+#     tooltip=[alt.Tooltip(field="Product category", type="nominal"),
+#              alt.Tooltip(field="Inventory", type="quantitative", title='Inventory', format = '.2f'),
+#              alt.Tooltip(field="Total value", type="quantitative", title='Total value', format = '.2f')]
+# ).properties(
+#     title='Distribution of Total Value for Earrings'
+# ).interactive()
+
+# # Save the charts in JSON files
+# chart1.save('./OutPlots/inventory_pie_chart.html')
+# chart2.save('./OutPlots/total_value_pie_chart.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Load the dataset
+# # df = pd.read_csv('caja-dia-a-dia-no-Pii.csv', encoding='utf-8')
+# file_path = 'caja-dia-a-dia-no-Pii.csv'
+# df = load_file(file_path)
+
+# # analyze_dataframe(df)
+
+# # Convert the 'Fecha' column to datetime format
+# df['Fecha'] = pd.to_datetime(df['Fecha'])
+# print(df['Fecha'].value_counts())
+
+# # Count the number of occurrences of each unique value in `Fecha`
+# date_counts = df['Fecha'].value_counts().reset_index(name='counts').rename(columns={'index': 'Fecha'})
+# print(date_counts)
+
+# # Plot the histogram
+# plt.figure(figsize=(10, 6))
+# plt.hist(df['Fecha'], bins=30, edgecolor='black')
+# plt.title('Distribution of Dates')
+# plt.xlabel('Date')
+# plt.ylabel('Frequency')
+# plt.grid(True)
+# plt.show()
+
+
+
+
+
+
+# import altair as alt
+
+# # Convert `Fecha` to datetime
+# df['Fecha'] = pd.to_datetime(df['Fecha'])
+
+# # Create the histogram
+# chart = alt.Chart(df).mark_bar().encode(
+#     x=alt.X('Fecha', bin=alt.Bin(maxbins=30), title='Date'),
+#     y=alt.Y('count()', title='Count'),
+#     tooltip=[alt.Tooltip('Fecha', bin=alt.Bin(maxbins=30), title='Date'), 'count()']
+# ).properties(
+#     title='Distribution of Dates'
+# ).interactive()
+
+# # Save the chart
+# chart.save('./OutPlots/distribution_of_dates_histogram.html')
+
+
+
+# import altair as alt
+
+# # Convert `Fecha` to datetime
+# df['Fecha'] = pd.to_datetime(df['Fecha'])
+
+# # Count the number of occurrences of each unique value in `Fecha`
+# date_counts = df['Fecha'].value_counts().reset_index(name='counts').rename(columns={'index': 'Fecha'})
+
+# # Create a chart
+# chart = alt.Chart(date_counts).mark_bar().encode(
+#     x=alt.X('Fecha:T', axis=alt.Axis(title='Date', format='%Y-%m')),
+#     y=alt.Y('counts:Q', axis=alt.Axis(title='Count')),
+#     tooltip=['Fecha', 'counts']
+# ).properties(
+#     title='Distribution of Dates'
+# ).interactive()
+
+# chart.save('./OutPlots/distribution_of_dates_histogram2.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    GET THE MOST COMMON "MUESTRA" USING TWO APPROACHES. APPROACH 1. USE THE .value_counts() METHOD, APPROACH 2. USE THE .mode()[0] METHOD
+'''
+
+# import pandas as pd
+
+# # Load the dataset
+# fPath = 'trapiche_ingenio_nv.csv'
+# df = load_file(fPath)
+# analyze_dataframe(df)
+
+# # Find the most common 'Muestra'
+# most_common_muestra = df['Muestra'].mode()
+
+# print('The most common Muestra is:', most_common_muestra)
+
+# # Find the row with the most common 'Muestra'
+# most_common_muestra_row = df[df['Muestra'] == most_common_muestra]
+
+# print(most_common_muestra_row)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import altair as alt
+
+# fPath = 'ttc-bus-delay-data-2022.csv'
+# df_ttc = load_file(fPath)
+# analyze_dataframe(df_ttc)
+
+# # A bus is considered delayed if 'Min Delay' is greater than 0
+# buses_delayed = df_ttc[df_ttc['Min Delay'] > 0].shape[0]
+# buses_not_delayed = df_ttc[df_ttc['Min Delay'] == 0].shape[0]
+
+# print('Number of buses delayed:', buses_delayed)
+# print('Number of buses not delayed:', buses_not_delayed)
+
+# # Create the 'delay' column
+# df_ttc['delay'] = df_ttc['Min Delay'] + df_ttc['Min Gap']
+
+# # Count the number of entries where 'delay' is in the range [0, 200] inclusive
+# delay_count = df_ttc[(df_ttc['delay'] >= 0) & (df_ttc['delay'] <= 200)].shape[0]
+
+# print('Number of entries where delay is in the range [0, 200]:', delay_count)
+
+# # Calculate the total number of buses for each day of the week
+# total_buses_per_day = df_ttc['Day'].value_counts()
+
+# # Calculate the number of delayed buses for each day of the week
+# delayed_buses_per_day = df_ttc[df_ttc['Min Delay'] > 0]['Day'].value_counts()
+
+# # Calculate the proportion of delayed buses for each day of the week
+# proportion_delayed_per_day = (delayed_buses_per_day / total_buses_per_day) * 100
+
+# # Identify the day with the highest and lowest proportion of delayed buses
+# highest_proportion_day = proportion_delayed_per_day.idxmax()
+# lowest_proportion_day = proportion_delayed_per_day.idxmin()
+
+# print('Day with the highest proportion of delayed buses:', highest_proportion_day)
+# print('Day with the lowest proportion of delayed buses:', lowest_proportion_day)
+
+
+
+
+
+
+
+# # Filter the data on `Mechanical` incidents
+# df_filtered = df[df['Incident'] == 'Mechanical'].copy()
+
+# # Group by 'Date' and count the number of incidents
+# df_grouped = df_filtered.groupby('Date').size().reset_index(name='Incident Count')
+
+# # Sort grouped df
+# df_grouped = df_grouped.sort_values(by='Date')
+
+# # Display the first 5 rows
+# print(df_grouped.head())
+
+# # Create the line plot
+# chart = alt.Chart(df_grouped).mark_line().encode(
+#     x=alt.X('Date:T', axis=alt.Axis(title='Date', format='%Y-%m-%d')),
+#     y=alt.Y('Incident Count:Q', axis=alt.Axis(title='Count')),
+#     tooltip=[alt.Tooltip('Date:T', format='%Y-%m-%d'), 'Incident Count:Q']
+# ).properties(
+#     title='Mechanical Incidents Over Time'
+# ).interactive()
+
+# # Save the chart
+# chart.save('./OutPlots/mechanical_incidents_over_time_line_chart2.html')
+
+
+
+
+# # Create a new column `Delay` by adding `Min Delay` and `Min Gap`
+# df['Delay'] = df['Min Delay'] + df['Min Gap']
+
+# # Create a new column `Delayed` which is 'True' if `Delay` is greater than 0, otherwise 'False'
+# df['Delayed'] = df['Delay'] > 0
+
+# # Print the number of delayed and not delayed buses
+# print(f"Number of delayed buses: {df['Delayed'].sum()}")
+# print(f"Number of not delayed buses: {len(df) - df['Delayed'].sum()}")
+
+# # Convert the `Time` column to datetime
+# df['Time'] = pd.to_datetime(df['Time'], format='%H:%M')
+
+# # Extract the hour from the `Time` column and store it in a new column `Hour`
+# df['Hour'] = df['Time'].dt.hour
+# print("AFTTER")
+# analyze_dataframe(df)
+
+# # Group the data by `Hour` and calculate the mean of `Delayed`
+# delays_by_hour = df.groupby('Hour')['Delayed'].mean()
+
+# # Group the data by `Day` and calculate the mean of `Delayed`
+# delays_by_day = df.groupby('Day')['Delayed'].mean()
+
+# # Group the data by `Incident` and calculate the mean of `Delayed`
+# delays_by_incident = df.groupby('Incident')['Delayed'].mean()
+
+# # Print the results
+# print("Delays by hour:")
+# print(delays_by_hour.to_markdown(numalign="left", stralign="left"))
+
+# print("\nDelays by day:")
+# print(delays_by_day.to_markdown(numalign="left", stralign="left"))
+
+# print("\nDelays by incident:")
+# print(delays_by_incident.to_markdown(numalign="left", stralign="left"))
+
+# import altair as alt
+
+# # Plot a histogram of the `Delay` column
+# chart = alt.Chart(df).mark_bar().encode(
+#     x=alt.X('Delay:Q', bin=True, title='Delay (minutes)'),
+#     y=alt.Y('count()', title='Number of Buses'),
+#     tooltip=[alt.Tooltip('Delay:Q', bin=True, title='Delay (minutes)'), 'count()']
+# ).properties(
+#     title='Distribution of Delays'
+# ).interactive()
+
+# chart.save('./OutPlots/delay_distribution_histogram.html')
+
+
+# # Plot a histogram of the `Delay` column
+# chart = alt.Chart(df).mark_bar().encode(
+#     x=alt.X('Delayed:Q', bin=True, title='Delayed (minutes)'),
+#     y=alt.Y('count()', title='Number of Buses'),
+#     tooltip=[alt.Tooltip('Delayed:Q', bin=True, title='Delayed (minutes)'), 'count()']
+# ).properties(
+#     title='Distribution of Delays'
+# ).interactive()
+
+# chart.save('./OutPlots/delay_distribution_histogram2.html')
+
+
+
+
+
+
+
+
+
+
+
+# # Create a line plot of `delays_by_hour` with `Hour` on the x-axis and `Delayed` on the y-axis
+# chart1 = alt.Chart(delays_by_hour.reset_index()).mark_line(point=True).encode(
+#     x=alt.X('Hour:O', title='Hour'),
+#     y=alt.Y('Delayed:Q', title='Proportion of Delayed Buses'),
+#     tooltip=['Hour', 'Delayed']
+# ).properties(
+#     title='Proportion of Delayed Buses by Hour'
+# ).interactive()
+
+# # Create a bar plot of `delays_by_day` with `Day` on the x-axis and `Delayed` on the y-axis
+# chart2 = alt.Chart(delays_by_day.reset_index()).mark_bar().encode(
+#     x=alt.X('Day:O', title='Day'),
+#     y=alt.Y('Delayed:Q', title='Proportion of Delayed Buses'),
+#     tooltip=['Day', 'Delayed']
+# ).properties(
+#     title='Proportion of Delayed Buses by Day'
+# ).interactive()
+
+# # Create a bar plot of `delays_by_incident` with `Incident` on the x-axis and `Delayed` on the y-axis
+# chart3 = alt.Chart(delays_by_incident.reset_index()).mark_bar().encode(
+#     x=alt.X('Incident:N', title='Incident'),
+#     y=alt.Y('Delayed:Q', title='Proportion of Delayed Buses'),
+#     tooltip=['Incident', 'Delayed']
+# ).properties(
+#     title='Proportion of Delayed Buses by Incident'
+# ).interactive()
+
+# # Save the charts
+# chart1.save('./OutPlots/delays_by_hour_line_chart.html')
+# chart2.save('./OutPlots/delays_by_day_bar_chart.html')
+# chart3.save('./OutPlots/delays_by_incident_bar_chart.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # Load the dataset
+# filePath = 'finding_donors_for_charity.csv'
+# df_donors = load_file(filePath)
+# analyze_dataframe(df_donors)
+
+# print(df_donors['income'].unique())
+
+# # There is only two types of income: <=50k and >50k. I need the latter 
+
+# # Count the number of peeps with an income exceeding 50k
+# income_exceeding_50k_count = df_donors[df_donors['income'] == '>50K'].shape[0]
+# print('Number of peeps with an income exceeding 50k:', income_exceeding_50k_count)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# filePath = 'Real Estate Mumbai Database - Rgdcvvvh.csv'
+# df_real_estate = load_file(filePath)
+# analyze_dataframe(df_real_estate)
+
+# # Convert 'PROPERTY STREET' and 'PROPERTY ADDRESS' to string type
+# # df_real_estate['PROPERTY STREET'] = df_real_estate['PROPERTY STREET'].astype(str)
+# df_real_estate['PROPERTY ADDRESS'] = df_real_estate['PROPERTY ADDRESS'].astype(str)
+
+# # Collapse the 'PROPERTY STREET' and 'PROPERTY ADDRESS' columns into one column
+# # Create a new column 'PROPERTY FULL ADDRESS' by concatenating 'PROPERTY STREET' and 'PROPERTY ADDRESS'
+# df_real_estate['PROPERTY FULL ADDRESS'] = df_real_estate['PROPERTY STREET'] + ', ' + df_real_estate['PROPERTY ADDRESS']
+
+
+# '''APPROACH 2'''
+
+# df_real_estate['PROPERTY FULL ADDRESS'] = df_real_estate['PROPERTY STREET'] + ', ' + df_real_estate['PROPERTY ADDRESS'].astype(str)
+
+# # Drop the original 'PROPERTY STREET' and 'PROPERTY ADDRESS' columns
+# df_real_estate = df_real_estate.drop(columns=['PROPERTY STREET', 'PROPERTY ADDRESS'])
+
+# print("AFTER")
+# analyze_dataframe(df_real_estate)
+
+# # Display the first few rows of the updated dataframe
+# print(df_real_estate.head())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # Load the dataset
+# df_book_sales = load_file('Book_Sales.csv')
+# analyze_dataframe(df_book_sales)
+
+# print(df_book_sales['Zone'].unique())
+
+# # Clean up the ' Total Sales' column
+# # NOTE: this also takes care of the quotes implicitly!
+# df_book_sales[' Total Sales'] = df_book_sales[' Total Sales'].replace({',': '', '€': ''}, regex=True).astype(float)
+# df_book_sales[' Unit Price'] = df_book_sales[' Unit Price'].replace({',': '', '€': ''}, regex=True).astype(float)
+
+# # Create a new column 'Region' to categorize orders as 'Europe' or 'Rest of the World' based on the 'Zone' column
+# df_book_sales['Region'] = df_book_sales['Zone'].apply(lambda x: 'Europe' if 'Europe' in x else 'Rest of the World')
+
+# # Group by 'Region' and calculate the total number of orders, total sales, and average unit price
+# region_summary = df_book_sales.groupby('Region').agg({'Order ID': 'count', 
+#                                                       ' Total Sales': 'sum', 
+#                                                       ' Unit Price': 'mean',
+#                                                       'units': 'sum'}).reset_index()
+
+# print(region_summary)
+
+# # Verify the changes
+# print("AFTER")
+# print(df_book_sales[[' Total Sales']].head())
+# analyze_dataframe(df_book_sales)
+
+# # Group by 'Region' and calculate the total number of orders and total sales
+# region_summary = df_book_sales.groupby('Zone').agg({' Total Sales': 'sum'}).reset_index()
+
+# print(region_summary)
+
+
+
+
+
+
+
+
+# # Load the dataset
+# df = load_file('Book_Sales.csv')
+# analyze_dataframe(df)
+
+# df[' Total Sales'] = df[' Total Sales'].astype(str).str.replace('€', '', regex=False).str.replace(',', '', regex=False)
+
+# # Convert ` Total Sales` column to numeric
+# df[' Total Sales'] = pd.to_numeric(df[' Total Sales'])
+
+# # Create a `Non-Europe` zone by filtering all rows where `Zone` column is not equal to 'Europe'
+# df['Zone'] = df['Zone'].apply(lambda x: 'Non-Europe' if x != 'Europe' else x)
+# print("AFTER")
+# analyze_dataframe(df)
+
+# # Group by `Zone` column and calculate the sum of ` Total Sales` and `units` columns, and count of distinct values of `Order ID` column
+# df_agg = df.groupby('Zone').agg(
+#     Total_Sales_Amount=(' Total Sales', 'sum'),
+#     Total_Units_Sold=('units', 'sum'),
+#     Total_Number_of_Orders=('Order ID', 'nunique')
+# ).reset_index()
+
+# print("\nSALES AND UNITS SOLD:\n")
+# print(df_agg['Total_Sales_Amount'])
+# print(df_agg['Total_Units_Sold'])
+
+# # Divide the sum of ` Total Sales` by sum of `units` to get the average unit price
+# df_agg['Average Unit Price'] = df_agg['Total_Sales_Amount'] / df_agg['Total_Units_Sold']
+
+# # Print the above calculated metrics for `Europe` and `Non-Europe` zones
+# print(df_agg)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # Load the dataset
+# import pandas as pd
+
+# filePath = 'last60.csv'
+# df_last60 = load_file(filePath)
+# analyze_dataframe(df_last60)
+
+# # Gather all records that have missing values in the 'MapPrice' column
+# missing_mapprice_records = df_last60[df_last60['MapPrice'].isna()]
+
+# print(missing_mapprice_records.head())
+# print('Total records with missing MapPrice:', missing_mapprice_records.shape[0])
+
+
+'''2ND APPROACH'''
+# # Filter the DataFrame to only include rows where `MapPrice` has missing values
+# filtered_df = df_last60[df_last60['MapPrice'].isnull()]
+# print('Total records with missing MapPrice:', filtered_df.shape[0])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+
+# fPath = 'business_unit_system_cash_flow.csv'
+# df_cash_flow = load_file(fPath)
+# analyze_dataframe(df_cash_flow)
+# print(df_cash_flow['Unidad de Negocio'].unique())
+
+# # Plot the relationship
+# plt.figure(figsize=(12, 6))
+# sns.scatterplot(data=df_cash_flow, x='Efectivo', y='Banco', hue='Unidad de Negocio', s=100)
+# plt.title('Relationship between Cash Balances and Bank Balances for Each Business Unit')
+# plt.xlabel('Cash Balance (Efectivo)')
+# plt.ylabel('Bank Balance (Banco)')
+# plt.legend(title='Business Unit', bbox_to_anchor=(1.05, 1), loc='upper left')
+# plt.grid(True)
+# plt.show()
+
+
+# # Group by 'Unidad de Negocio' and calculate the mean of 'Efectivo' and 'Banco'
+# business_unit_summary = df_cash_flow.groupby('Unidad de Negocio').agg({'Efectivo': 'mean', 'Banco': 'mean'}).reset_index()
+
+# # Plot the relationship
+# plt.figure(figsize=(12, 6))
+# sns.scatterplot(data=business_unit_summary, x='Efectivo', y='Banco', hue='Unidad de Negocio', s=100)
+# plt.title('Relationship between Cash Balances and Bank Balances for Each Business Unit')
+# plt.xlabel('Average Cash Balance (Efectivo)')
+# plt.ylabel('Average Bank Balance (Banco)')
+# plt.legend(title='Business Unit', bbox_to_anchor=(1.05, 1), loc='upper left')
+# plt.grid(True)
+# plt.show()
+
+# print(business_unit_summary.head())
+
+
+
+
+
+# import altair as alt
+
+# # Group the data by `Unidad de Negocio` and sum the `Efectivo` and `Banco` columns
+# grouped_df = df_cash_flow.groupby('Unidad de Negocio')[['Efectivo', 'Banco']].sum().reset_index()
+
+# # Create a scatter plot with `Efectivo` on the x-axis and `Banco` on the y-axis.
+# # Color the points by `Unidad de Negocio`.
+# chart = alt.Chart(grouped_df).mark_circle().encode(
+#     x='Efectivo',
+#     y='Banco',
+#     color='Unidad de Negocio',
+#     tooltip=['Efectivo', 'Banco', 'Unidad de Negocio']
+# ).properties(
+#     title='Relationship between Cash Balances and Bank Balances by Business Unit'
+# ).interactive()
+
+# # Add a line of best fit to the plot.
+# chart += chart.transform_regression('Efectivo', 'Banco').mark_line()
+
+# # Save the chart
+# chart.save('./OutPlots/cash_balances_vs_bank_balances_scatter_plot4.html')
+
+# # Group by `Unidad de Negocio` and calculate the correlation between `Efectivo` and `Banco`.
+# correlations = df_cash_flow.groupby('Unidad de Negocio')[['Efectivo', 'Banco']].corr().unstack().iloc[:, 1]
+
+# # Sort the results in descending order by correlation.
+# correlations = correlations.sort_values(ascending=False)
+
+# # Display the first 10 rows
+# print(correlations.head(10))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Load the dataset
+import pandas as pd
+import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Load the trapiche_ingenio_nv.csv dataset
-df_trapiche = pd.read_csv('./CSVs/trapiche_ingenio_nv.csv', encoding='ascii')
+fPath = 'current_accounts.csv'
+df_current_accounts = load_file(fPath)
 
-# Strip leading and trailing spaces from column names
-df_trapiche.columns = df_trapiche.columns.str.strip()
+analyze_dataframe(df_current_accounts)
+print(df_current_accounts['Voucher Type'].unique())
 
-print(df_trapiche.info(verbose=1))
-print(df_trapiche['Fecha'].unique())
+# Convert the `Credit` column to numeric, using errors='coerce' to convert non-numeric values to NaN
+df_current_accounts['Credit'] = pd.to_numeric(df_current_accounts['Credit'], errors='coerce')
+df_current_accounts['Debit'] = pd.to_numeric(df_current_accounts['Debit'], errors='coerce')
 
-# Convert the 'Fecha' column to datetime, but ONLY use the date, not the timestamp
-df_trapiche['Fecha'] = pd.to_datetime(df_trapiche['Fecha']).dt.date
+# Replace missing values in `Credit` with 0
+df_current_accounts['Credit'] = df_current_accounts['Credit'].fillna(0)
+df_current_accounts['Debit'] = df_current_accounts['Debit'].fillna(0)
+
+filtered_df = df_current_accounts[(df_current_accounts['Debit'] > 0) & (df_current_accounts['Credit'] > 0)]
 
 print("AFTER")
-print(df_trapiche['Fecha'].unique())
+analyze_dataframe(df_current_accounts)
+analyze_dataframe(filtered_df)
 
-# Group by 'Fecha' and calculate the sum of 'Bruto' and 'Neto' columns
-sum_bruto_neto_by_date = df_trapiche.groupby('Fecha')[['Bruto', 'Neto']].sum()
 
-# Plot the bar chart
-plt.figure(figsize=(14, 8))
-sum_bruto_neto_by_date.plot(kind='bar', stacked=False)
-plt.title('Sum of Bruto and Neto by Date')
-plt.xlabel('Date')
-plt.ylabel('Sum')
-plt.xticks(rotation=45)
-plt.legend(['Bruto', 'Neto'])
-plt.show()
+# # Drop rows with missing values in 'Debit' or 'Credit' columns
+# df_current_accounts_clean = df_current_accounts.dropna(subset=['Debit', 'Credit'])
+
+# # Calculate the correlation
+# correlation = df_current_accounts_clean[['Debit', 'Credit']].corr()
+
+# # Plot the relationship
+# plt.figure(figsize=(10, 6))
+# sns.scatterplot(data=df_current_accounts_clean, x='Debit', y='Credit', hue='Voucher Type')
+# plt.title('Relationship between Debit and Credit Amounts for Different Vouchers')
+# plt.xlabel('Debit Amount')
+# plt.ylabel('Credit Amount')
+# plt.legend(title='Voucher Type', bbox_to_anchor=(1.05, 1), loc='upper left')
+# plt.grid(True)
+# plt.show()
+
+# print('Correlation between Debit and Credit amounts:')
+# print(correlation)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

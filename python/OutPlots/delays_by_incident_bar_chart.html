@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-24409cdf9e4ae455ccc2427c5ca77917"}, "mark": {"type": "bar"}, "encoding": {"tooltip": [{"field": "Incident", "type": "nominal"}, {"field": "Delayed", "type": "quantitative"}], "x": {"field": "Incident", "title": "Incident", "type": "nominal"}, "y": {"field": "Delayed", "title": "Proportion of Delayed Buses", "type": "quantitative"}}, "params": [{"name": "param_3", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "title": "Proportion of Delayed Buses by Incident", "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-24409cdf9e4ae455ccc2427c5ca77917": [{"Incident": "Cleaning - Disinfection", "Delayed": 1.0}, {"Incident": "Cleaning - Unsanitary", "Delayed": 0.9928825622775801}, {"Incident": "Collision - TTC", "Delayed": 0.8754799780581459}, {"Incident": "Diversion", "Delayed": 0.9301032565528197}, {"Incident": "Emergency Services", "Delayed": 0.7872531418312387}, {"Incident": "General Delay", "Delayed": 0.8022782750203418}, {"Incident": "Held By", "Delayed": 0.946236559139785}, {"Incident": "Investigation", "Delayed": 0.8606356968215159}, {"Incident": "Late Entering Service", "Delayed": 1.0}, {"Incident": "Mechanical", "Delayed": 0.9898483519237999}, {"Incident": "Operations - Operator", "Delayed": 0.9895331798199707}, {"Incident": "Road Blocked - NON-TTC Collision", "Delayed": 0.956386292834891}, {"Incident": "Security", "Delayed": 0.8882611424984307}, {"Incident": "Utilized Off Route", "Delayed": 0.9555555555555556}, {"Incident": "Vision", "Delayed": 0.996742671009772}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

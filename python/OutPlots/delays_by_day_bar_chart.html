@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-30c54287c46efa7b744c17449c71936e"}, "mark": {"type": "bar"}, "encoding": {"tooltip": [{"field": "Day", "type": "nominal"}, {"field": "Delayed", "type": "quantitative"}], "x": {"field": "Day", "title": "Day", "type": "ordinal"}, "y": {"field": "Delayed", "title": "Proportion of Delayed Buses", "type": "quantitative"}}, "params": [{"name": "param_2", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "title": "Proportion of Delayed Buses by Day", "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-30c54287c46efa7b744c17449c71936e": [{"Day": "Friday", "Delayed": 0.9590888987173817}, {"Day": "Monday", "Delayed": 0.9434664021819985}, {"Day": "Saturday", "Delayed": 0.9561730163276998}, {"Day": "Sunday", "Delayed": 0.9419354838709677}, {"Day": "Thursday", "Delayed": 0.9538885065381968}, {"Day": "Tuesday", "Delayed": 0.9494505494505494}, {"Day": "Wednesday", "Delayed": 0.9622512010981469}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

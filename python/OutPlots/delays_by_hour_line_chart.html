@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-5a568239b7f86504d81440ca640cdbd7"}, "mark": {"type": "line", "point": true}, "encoding": {"tooltip": [{"field": "Hour", "type": "quantitative"}, {"field": "Delayed", "type": "quantitative"}], "x": {"field": "Hour", "title": "Hour", "type": "ordinal"}, "y": {"field": "Delayed", "title": "Proportion of Delayed Buses", "type": "quantitative"}}, "params": [{"name": "param_1", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "title": "Proportion of Delayed Buses by Hour", "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-5a568239b7f86504d81440ca640cdbd7": [{"Hour": 0, "Delayed": 0.9363817097415507}, {"Hour": 1, "Delayed": 0.9104803493449781}, {"Hour": 2, "Delayed": 0.8537117903930131}, {"Hour": 3, "Delayed": 0.8646864686468647}, {"Hour": 4, "Delayed": 0.8299319727891157}, {"Hour": 5, "Delayed": 0.9293089753772835}, {"Hour": 6, "Delayed": 0.9652338811630847}, {"Hour": 7, "Delayed": 0.9472727272727273}, {"Hour": 8, "Delayed": 0.9585296889726673}, {"Hour": 9, "Delayed": 0.9441666666666667}, {"Hour": 10, "Delayed": 0.936150234741784}, {"Hour": 11, "Delayed": 0.9498031496062992}, {"Hour": 12, "Delayed": 0.9594594594594594}, {"Hour": 13, "Delayed": 0.9723926380368099}, {"Hour": 14, "Delayed": 0.9729344729344729}, {"Hour": 15, "Delayed": 0.9611984282907662}, {"Hour": 16, "Delayed": 0.9660759493670886}, {"Hour": 17, "Delayed": 0.966529351184346}, {"Hour": 18, "Delayed": 0.9715189873417721}, {"Hour": 19, "Delayed": 0.957092819614711}, {"Hour": 20, "Delayed": 0.9574247144340602}, {"Hour": 21, "Delayed": 0.964021164021164}, {"Hour": 22, "Delayed": 0.9598278335724534}, {"Hour": 23, "Delayed": 0.9461172741679873}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>
