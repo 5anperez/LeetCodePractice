@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-af8ad04719a04ea572bc29b6ab23ad2c"}, "mark": {"type": "rect"}, "encoding": {"color": {"aggregate": "mean", "field": "Mode Premium", "type": "quantitative"}, "tooltip": [{"field": "Age Group", "type": "quantitative"}, {"field": "Tobacco Use?", "type": "nominal"}, {"aggregate": "mean", "field": "Mode Premium", "type": "quantitative"}], "x": {"field": "Age Group", "type": "ordinal"}, "y": {"field": "Tobacco Use?", "type": "ordinal"}}, "title": "Mean Mode Premium by Age Group and Tobacco Use", "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-af8ad04719a04ea572bc29b6ab23ad2c": [{"Age Group": 10, "Tobacco Use?": false, "Mode Premium": 33.9475}, {"Age Group": 20, "Tobacco Use?": false, "Mode Premium": 11.957500000000001}, {"Age Group": 30, "Tobacco Use?": false, "Mode Premium": 8.15}, {"Age Group": 30, "Tobacco Use?": true, "Mode Premium": 11.45}, {"Age Group": 40, "Tobacco Use?": false, "Mode Premium": 13.17625}, {"Age Group": 40, "Tobacco Use?": true, "Mode Premium": 36.82}, {"Age Group": 50, "Tobacco Use?": false, "Mode Premium": 13.191999999999998}, {"Age Group": 50, "Tobacco Use?": true, "Mode Premium": 51.515}, {"Age Group": 60, "Tobacco Use?": false, "Mode Premium": 8.485}, {"Age Group": 60, "Tobacco Use?": true, "Mode Premium": 44.59}, {"Age Group": 70, "Tobacco Use?": false, "Mode Premium": 3.7600000000000002}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

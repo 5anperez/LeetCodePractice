@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "vconcat": [{"layer": [{"mark": {"type": "rect"}, "encoding": {"color": {"field": "mean_bmi", "scale": {"range": "heatmap"}, "title": "Mean BMI", "type": "quantitative"}, "tooltip": [{"field": "gender", "type": "nominal"}, {"field": "smoking_status", "type": "nominal"}, {"field": "mean_bmi", "type": "quantitative"}, {"field": "mean_stroke", "type": "quantitative"}], "x": {"axis": {"title": "Gender"}, "field": "gender", "type": "nominal"}, "y": {"axis": {"title": "Smoking Status"}, "field": "smoking_status", "type": "nominal"}}}, {"mark": {"type": "text"}, "encoding": {"color": {"value": "black"}, "text": {"field": "mean_bmi", "format": ".2f", "type": "quantitative"}, "tooltip": [{"field": "gender", "type": "nominal"}, {"field": "smoking_status", "type": "nominal"}, {"field": "mean_bmi", "type": "quantitative"}, {"field": "mean_stroke", "type": "quantitative"}], "x": {"axis": {"title": "Gender"}, "field": "gender", "type": "nominal"}, "y": {"axis": {"title": "Smoking Status"}, "field": "smoking_status", "type": "nominal"}}}]}, {"layer": [{"mark": {"type": "rect"}, "encoding": {"color": {"field": "mean_stroke", "scale": {"range": "heatmap"}, "title": "Mean Stroke", "type": "quantitative"}, "tooltip": [{"field": "gender", "type": "nominal"}, {"field": "smoking_status", "type": "nominal"}, {"field": "mean_bmi", "type": "quantitative"}, {"field": "mean_stroke", "type": "quantitative"}], "x": {"axis": {"title": "Gender"}, "field": "gender", "type": "nominal"}, "y": {"axis": {"title": "Smoking Status"}, "field": "smoking_status", "type": "nominal"}}}, {"mark": {"type": "text"}, "encoding": {"color": {"value": "black"}, "text": {"field": "mean_stroke", "format": ".2f", "type": "quantitative"}, "tooltip": [{"field": "gender", "type": "nominal"}, {"field": "smoking_status", "type": "nominal"}, {"field": "mean_bmi", "type": "quantitative"}, {"field": "mean_stroke", "type": "quantitative"}], "x": {"axis": {"title": "Gender"}, "field": "gender", "type": "nominal"}, "y": {"axis": {"title": "Smoking Status"}, "field": "smoking_status", "type": "nominal"}}}]}], "data": {"name": "data-426d6de29039ac81c1ccc0b3323b894a"}, "title": "Mean BMI and Stroke by Gender and Smoking Status", "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-426d6de29039ac81c1ccc0b3323b894a": [{"gender": "Female", "smoking_status": "formerly smoked", "mean_bmi": 29.949137931034482, "mean_stroke": 0.07327586206896551}, {"gender": "Female", "smoking_status": "never smoked", "mean_bmi": 29.37386934673367, "mean_stroke": 0.051926298157453935}, {"gender": "Female", "smoking_status": "smokes", "mean_bmi": 30.051020408163264, "mean_stroke": 0.04308390022675737}, {"gender": "Male", "smoking_status": "formerly smoked", "mean_bmi": 30.650868486352355, "mean_stroke": 0.08933002481389578}, {"gender": "Male", "smoking_status": "never smoked", "mean_bmi": 29.644875776397516, "mean_stroke": 0.04192546583850932}, {"gender": "Male", "smoking_status": "smokes", "mean_bmi": 30.141194029850745, "mean_stroke": 0.06865671641791045}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

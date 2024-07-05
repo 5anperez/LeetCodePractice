@@ -14202,7 +14202,7 @@ def analyze_dataframe(df):
 
 import pandas as pd
 
-def load_file(file_name, file_type='csv'):
+def load_file(file_name, file_type='csv', skiprows=0):
     """
     Load a file from the "./CSVs/" directory and return a DataFrame.
 
@@ -14221,17 +14221,26 @@ def load_file(file_name, file_type='csv'):
 
     def try_loading_file(encoding=None):
         if file_type == 'csv':
-            return pd.read_csv(file_path, encoding=encoding)
+            return pd.read_csv(file_path, encoding=encoding, skiprows=skiprows)
+        elif file_type == 'tsv':
+            return pd.read_csv(file_path, delimiter='\t', encoding=encoding, skiprows=skiprows)
         elif file_type == 'excel':
-            return pd.read_excel(file_path, encoding=encoding)
+            return pd.read_excel(file_path, skiprows=skiprows)
         elif file_type == 'multi':
-            return pd.ExcelFile(file_path, encoding=encoding)
+            return pd.ExcelFile(file_path, skiprows=skiprows)
         else:
-            raise ValueError("Unsupported file type. Use 'csv', 'excel', or 'multi'.")
+            raise ValueError("Unsupported file type. Use 'csv', 'tsv', 'excel', or 'multi'.")
 
     # Try to load the file without specifying an encoding first
     try:
         df = try_loading_file()
+    # If the file doesnt exist
+    # NOTE: NEEDS A MORE ELEGANT SOLUTE... IS THIS EVEN NEEDED? BC THE CODE KEEPS GOING SINCE IT RETURNS NONE
+    except FileNotFoundError as e:
+        print(f"Error: {e}")
+        print("The specified file was not found. Please check the file path and try again.")
+        return None
+    # If decoding was the issue
     except Exception as e:
         print(f"Failed to load file without specifying encoding: {e}")
         for encoding in encodings:
@@ -15592,30 +15601,30 @@ def load_file(file_name, file_type='csv'):
 
 
 
-# Load the dataset
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
+# # Load the dataset
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib.pyplot as plt
 
-fPath = 'current_accounts.csv'
-df_current_accounts = load_file(fPath)
+# fPath = 'current_accounts.csv'
+# df_current_accounts = load_file(fPath)
 
-analyze_dataframe(df_current_accounts)
-print(df_current_accounts['Voucher Type'].unique())
+# analyze_dataframe(df_current_accounts)
+# print(df_current_accounts['Voucher Type'].unique())
 
-# Convert the `Credit` column to numeric, using errors='coerce' to convert non-numeric values to NaN
-df_current_accounts['Credit'] = pd.to_numeric(df_current_accounts['Credit'], errors='coerce')
-df_current_accounts['Debit'] = pd.to_numeric(df_current_accounts['Debit'], errors='coerce')
+# # Convert the `Credit` column to numeric, using errors='coerce' to convert non-numeric values to NaN
+# df_current_accounts['Credit'] = pd.to_numeric(df_current_accounts['Credit'], errors='coerce')
+# df_current_accounts['Debit'] = pd.to_numeric(df_current_accounts['Debit'], errors='coerce')
 
-# Replace missing values in `Credit` with 0
-df_current_accounts['Credit'] = df_current_accounts['Credit'].fillna(0)
-df_current_accounts['Debit'] = df_current_accounts['Debit'].fillna(0)
+# # Replace missing values in `Credit` with 0
+# df_current_accounts['Credit'] = df_current_accounts['Credit'].fillna(0)
+# df_current_accounts['Debit'] = df_current_accounts['Debit'].fillna(0)
 
-filtered_df = df_current_accounts[(df_current_accounts['Debit'] > 0) & (df_current_accounts['Credit'] > 0)]
+# filtered_df = df_current_accounts[(df_current_accounts['Debit'] > 0) & (df_current_accounts['Credit'] > 0)]
 
-print("AFTER")
-analyze_dataframe(df_current_accounts)
-analyze_dataframe(filtered_df)
+# print("AFTER")
+# analyze_dataframe(df_current_accounts)
+# analyze_dataframe(filtered_df)
 
 
 # # Drop rows with missing values in 'Debit' or 'Credit' columns
@@ -15636,6 +15645,653 @@ analyze_dataframe(filtered_df)
 
 # print('Correlation between Debit and Credit amounts:')
 # print(correlation)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE I COMPARE THREE VARIABLES AND ONE IS SMOKING STATUS, WHICH HAS FOUR UNIQUES, SO I MAP THE STATUSES TO SPECIFIC COLORS BC NONSMOKERS SHOULD BE DISTINCT AND NOT A HUE. THE OTHER THRE CAN BE HUES SINCE THEY ARE SUBSETS OF SMOKERS.
+'''
+
+'''WITHOUT DISTINCT NONSMOKERS'''
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+
+# # Load the full_data.csv file
+# fPath = 'full_data.csv'
+# df = load_file(fPath)
+
+# # Display the head of the dataframe to understand its structure
+# analyze_dataframe(df)
+# print(df['gender'].unique())
+# print(df['smoking_status'].unique())
+# print(df['stroke'].unique())
+
+# # Create visualizations to compare BMI and smoking status effects on 
+# # health (stroke incidence) in males vs females
+# plt.figure(figsize=(14, 6))
+
+# # Plot 1: BMI vs Stroke by Gender
+# plt.subplot(1, 2, 1)
+# sns.boxplot(x='stroke', 
+#             y='bmi', 
+#             hue='gender', 
+#             data=df)
+# plt.title('BMI vs Stroke by Gender')
+
+# # Plot 2: Smoking Status vs Stroke by Gender
+# plt.subplot(1, 2, 2)
+# sns.countplot(x='stroke', 
+#               hue='smoking_status', 
+#               data=df[df['gender'] == 'Male'], 
+#               palette='Blues', 
+#               alpha=0.7)
+# sns.countplot(x='stroke', 
+#               hue='smoking_status', 
+#               data=df[df['gender'] == 'Female'], 
+#               palette='Reds', 
+#               alpha=0.5)
+# plt.title('Smoking Status vs Stroke by Gender')
+
+# Create a scatter plot to illustrate the relationship between smoking status, gender, and BMI
+
+# plt.figure(figsize=(10, 6))
+
+# # Scatter plot: BMI vs Smoking Status by Gender
+# sns.scatterplot(x='bmi', y='smoking_status', hue='gender', style='stroke', data=df, alpha=0.7)
+# plt.title('BMI vs Smoking Status by Gender and Stroke Incidence')
+# plt.xlabel('BMI')
+# plt.ylabel('Smoking Status')
+# plt.legend(title='Gender')
+
+# # Show the plot
+# plt.tight_layout()
+# plt.show()
+
+'''APPLY THIS TO GET DISTINCT NONSMOKERS'''
+
+# # Define custom color palette
+# # NOTE: these were default gpt, change them to make sense!
+# custom_palette = {
+#     'formerly smoked': '#1f77b4',  # Blue
+#     'never smoked': '#ff7f0e',     # Orange
+#     'smokes': '#2ca02c',           # Green
+#     'Unknown': '#d62728'           # Red
+# }
+
+# # Plot 2: Smoking Status vs Stroke by Gender
+# plt.figure(figsize=(14, 6))
+
+# plt.subplot(1, 2, 1)
+# sns.countplot(x='stroke', 
+#               hue='smoking_status', 
+#               data=df[df['gender'] == 'Male'], 
+#               palette=custom_palette, 
+#               alpha=0.7)
+# plt.title('Smoking Status vs Stroke by Gender (Male)')
+
+# plt.subplot(1, 2, 2)
+# sns.countplot(x='stroke', 
+#               hue='smoking_status', 
+#               data=df[df['gender'] == 'Female'], 
+#               palette=custom_palette, 
+#               alpha=0.5)
+# plt.title('Smoking Status vs Stroke by Gender (Female)')
+
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+'''MB'''
+
+# import altair as alt
+
+# # Group the data by `gender` and `smoking_status` and calculate the mean `bmi` for each group
+# mean_bmi = df.groupby(['gender', 'smoking_status'])['bmi'].mean().reset_index()
+
+# # Create two subplots: one for males and one for females
+# male_chart = alt.Chart(df[df['gender'] == 'Male'], title='Male').mark_bar().encode(
+#     x=alt.X('bmi:Q', bin=True, title='BMI'),
+#     y=alt.Y('count()', title='Count'),
+#     color=alt.Color('stroke:N', scale={'range': ['blue', 'red']}, legend=alt.Legend(title='Stroke')),
+#     tooltip=[alt.Tooltip('bmi:Q', bin=True, title='BMI'), 'count()', 'stroke']
+# ).properties(
+#     width=300,
+#     height=200
+# )
+
+# female_chart = alt.Chart(df[df['gender'] == 'Female'], title='Female').mark_bar().encode(
+#     x=alt.X('bmi:Q', bin=True, title='BMI'),
+#     y=alt.Y('count()', title='Count'),
+#     color=alt.Color('stroke:N', scale={'range': ['blue', 'red']}, legend=alt.Legend(title='Stroke')),
+#     tooltip=[alt.Tooltip('bmi:Q', bin=True, title='BMI'), 'count()', 'stroke']
+# ).properties(
+#     width=300,
+#     height=200
+# )
+
+'''
+    THIS IS AN INTERESTING PLOT BC IVE NEVER SEEN THE BLACK VERTICAL LINES BEFORE. 
+'''
+
+# # Add a vertical line to each subplot indicating the mean `bmi` for each group
+# for gender in ['Male', 'Female']:
+#     for smoking_status in df['smoking_status'].unique():
+#         mean_bmi_value = mean_bmi[(mean_bmi['gender'] == gender) & (mean_bmi['smoking_status'] == smoking_status)]['bmi'].values[0]
+#         rule = alt.Chart(pd.DataFrame({'x': [mean_bmi_value]})).mark_rule(color='black').encode(
+#             x='x:Q'
+#         )
+#         if gender == 'Male':
+#             male_chart = male_chart + rule
+#         else:
+#             female_chart = female_chart + rule
+
+# # Combine the subplots
+# fig = alt.hconcat(male_chart, female_chart)
+
+# # Display the plots
+# fig.save('./OutPlots/bmi_smoking_stroke_histograms.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    SIMULATE CHANGES IN OUTCOME
+'''
+
+# import pandas as pd
+
+# fPath = 'business_unit_system_cash_flow.csv'
+# df_cash_flow = load_file(fPath)
+# analyze_dataframe(df_cash_flow)
+
+# print(df_cash_flow['Unidad de Negocio'].unique())
+# print(df_cash_flow['Período'].unique())
+# impact_df = df_cash_flow.copy()
+
+# # Apply a 10% increase in Ingresos
+# impact_df['Ingresos_10%_increase'] = impact_df['Ingresos'] * 1.10
+# impact_df['Total_10%_increase'] = impact_df['Ingresos_10%_increase'] - impact_df['Egresos']
+
+# # Apply a 5% decrease in Egresos
+# impact_df['Egresos_5%_decrease'] = impact_df['Egresos'] * 0.95
+# impact_df['Total_5%_decrease'] = impact_df['Ingresos'] - impact_df['Egresos_5%_decrease']
+
+# # Apply both changes simultaneously
+# impact_df['Ingresos_10%_increase_Egresos_5%_decrease'] = impact_df['Ingresos'] * 1.10
+# impact_df['Egresos_5%_decrease_simultaneous'] = impact_df['Egresos'] * 0.95
+# impact_df['Total_simultaneous'] = impact_df['Ingresos_10%_increase_Egresos_5%_decrease'] - impact_df['Egresos_5%_decrease_simultaneous']
+
+# # Create the final table
+# final_table = pd.DataFrame({
+#     'change': ['10% increase in Ingresos', '5% decrease in Egresos', 'Both changes'],
+#     'ingresos': [impact_df['Ingresos_10%_increase'].mean(), impact_df['Ingresos'].mean(), impact_df['Ingresos_10%_increase_Egresos_5%_decrease'].mean()],
+#     'egresos': [impact_df['Egresos'].mean(), impact_df['Egresos_5%_decrease'].mean(), impact_df['Egresos_5%_decrease_simultaneous'].mean()],
+#     'total': [impact_df['Total_10%_increase'].mean(), impact_df['Total_5%_decrease'].mean(), impact_df['Total_simultaneous'].mean()]
+# })
+
+# print(final_table)
+
+
+
+
+
+
+
+
+
+
+
+'''MB: TRANSLATE SPANISH MONTH NAMES'''
+# import altair as alt
+
+
+# # Create a dictionary to map the Spanish month names to English month names
+# month_map = {
+#     'Enero': 'January',
+#     'Febrero': 'February',
+#     'Marzo': 'March',
+#     'Abril': 'April',
+#     'Mayo': 'May',
+#     'Junio': 'June',
+#     'Julio': 'July',
+#     'Agosto': 'August',
+#     'Septiembre': 'September',
+#     'Octubre': 'October',
+#     'Noviembre': 'November',
+#     'Diciembre': 'December'
+# }
+
+# # Replace the Spanish month names in the `Período` column with the corresponding English month names
+# df_cash_flow['Período'] = df_cash_flow['Período'].astype(str).replace(month_map, regex=True)
+
+# # Convert the `Período` column to datetime
+# df_cash_flow['Período'] = pd.to_datetime(df_cash_flow['Período'], format='%B %Y')
+
+# # Calculate the net cash flow
+# df_cash_flow['Net Cash Flow'] = df_cash_flow['Ingresos'] - df_cash_flow['Egresos']
+
+# # Group the data by `Unidad de Negocio` and `Período` and calculate the sum of `Net Cash Flow` for each group
+# df_grouped = df_cash_flow.groupby(['Unidad de Negocio', 'Período'])['Net Cash Flow'].sum().reset_index()
+
+# # Sort the data by `Unidad de Negocio` and `Período` in ascending order
+# df_grouped = df_grouped.sort_values(['Unidad de Negocio', 'Período'])
+
+# # Calculate the percentage change in `Net Cash Flow` for each `Unidad de Negocio` over time
+# df_grouped['% Change in Net Cash Flow'] = df_grouped.groupby('Unidad de Negocio')['Net Cash Flow'].pct_change() * 100
+
+# # Display the first 5 rows of the final dataframe
+# print(df_grouped.head())
+
+# # Create a line plot with `Período` on the x-axis and `% Change in Net Cash Flow` on the y-axis
+# chart = alt.Chart(df_grouped).mark_line().encode(
+#     x=alt.X('Período:T', axis=alt.Axis(title='Period')),
+#     y=alt.Y('% Change in Net Cash Flow:Q', axis=alt.Axis(title='% Change in Net Cash Flow')),
+#     color=alt.Color('Unidad de Negocio:N', legend=alt.Legend(title='Business Unit')),
+#     tooltip=['Unidad de Negocio', 'Período', '% Change in Net Cash Flow']
+# ).properties(
+#     title='% Change in Net Cash Flow Over Time by Business Unit'
+# ).interactive()
+
+# # Save the chart in a json file
+# chart.save('./OutPlots/percent_change_in_net_cash_flow_over_time_by_business_unit.html')
+
+
+
+
+
+
+
+
+
+
+'''MA: A BETTER WAY TO TRANSLATE THE SPANISH MONTH NAMES'''
+# import altair as alt
+# import locale
+
+# # Set the locale to Spanish
+# locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+
+# df_cash_flow['Período'] = pd.to_datetime(df_cash_flow['Período'], format='%B %Y')
+# print("\nAFTER")
+# analyze_dataframe(df_cash_flow)
+
+# # Create the multiple line series plot over time.
+# chart = (
+#    alt.Chart(
+#        df_cash_flow
+#    ).mark_line()
+#    .encode(
+#        # Set `Período` on the x-axis. Sort it
+#        x=alt.X('Período', sort='x', axis=alt.Axis(labelAngle=-45)),
+#        # Set `Total` on the y-axis and add appropriate title to the axis
+#        y=alt.Y('Total'),
+#        # Have a different color for each `Unidad de Negocio`
+#        color='Unidad de Negocio',
+#        # Add tooltips for the relevant features to show details on hover
+#        tooltip=[alt.Tooltip('Período', title='Period'), 'Total', 'Unidad de Negocio'],
+#    )
+#    .properties(title='Total Cash Flow Over Time by Business Unit')
+#    .interactive() # Add interactive features for zoom and pan
+# )
+# Save the chart in a JSON file
+# chart.save('./OutPlots/total_cash_flow_over_time_by_business_unit_line_chart2.html')
+
+
+
+# # Calculate `Total` as the difference between `Ingresos` and `Egresos`
+# df_cash_flow['Total'] = df_cash_flow['Ingresos'] - df_cash_flow['Egresos']
+
+# # Group by `Unidad de Negocio` and calculate the mean of `Ingresos`, `Egresos`, and `Total`
+# grouped_df = df_cash_flow.groupby('Unidad de Negocio')[['Ingresos', 'Egresos', 'Total']].mean().reset_index()
+
+# # Sort the results in descending order of mean `Total`
+# grouped_df = grouped_df.sort_values(by='Total', ascending=False)
+
+# # Display the first 3 rows
+# print(grouped_df.head(3).to_markdown(index=False, numalign="left", stralign="left"))
+
+
+# # Create a new dataframe `changes_df` with columns `Change`, `Ingresos`, `Egresos`, and `Total`
+# changes_df = pd.DataFrame(columns=['Change', 'Ingresos', 'Egresos', 'Total'])
+
+# # Add rows to `changes_df` to represent different scenarios of changes in `Ingresos` and `Egresos`
+# changes_df = pd.concat([changes_df, pd.DataFrame({'Change': '10% increase in Ingresos', 'Ingresos': 0.1, 'Egresos': 0, 'Total': 0}, index=[0])])
+# changes_df = pd.concat([changes_df, pd.DataFrame({'Change': '5% decrease in Egresos', 'Ingresos': 0, 'Egresos': -0.05, 'Total': 0}, index=[0])])
+# changes_df = pd.concat([changes_df, pd.DataFrame({'Change': '10% increase in Ingresos and 5% decrease in Egresos', 'Ingresos': 0.1, 'Egresos': -0.05, 'Total': 0}, index=[0])])
+
+# # For each scenario, calculate the new `Total` based on the changes in `Ingresos` and `Egresos`
+
+# for index, row in changes_df.iterrows():
+#     changes_df.at[index, 'Total'] = (1 + row['Ingresos']) * grouped_df['Ingresos'].mean() - (1 + row['Egresos']) * grouped_df['Egresos'].mean()
+
+# # Display the `changes_df` DataFrame
+# print(changes_df)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Load the dataset
+# etsy_statement_path = 'Avidproducts financials - Big Dave.xlsx - etsy_statement_2024_1.tsv'
+# df_etsy = load_file(etsy_statement_path, 'tsv')
+# analyze_dataframe(df_etsy)
+# print(df_etsy['Type'].unique())
+
+# # Extract refund-related data
+# refund_data = df_etsy[df_etsy['Type'].str.contains('refund', case=False)]
+
+# print("There are", refund_data.shape[0], "refunds.")
+# # Save the refund data to a new TSV file
+# refund_data.to_csv('./OutCSVs/refund_data.tsv', sep='\t', index=False)
+
+# print('Refund data extracted and saved to refund_data.tsv')
+
+
+
+# Filter all rows where the `Type` column contains 'refund'
+# refund_df = df[df['Type'].str.contains('refund', case=False)]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# # Load the dataset
+# fPath = 'Top_1000_Bollywood_Movies.csv'
+# bollywood_df = load_file(fPath)
+# analyze_dataframe(bollywood_df)
+# print(bollywood_df['Verdict'].unique())
+
+# # Create the scatterplot
+# plt.figure(figsize=(14, 14))
+
+# # Use seaborn for better aesthetics
+# scatter_plot = sns.scatterplot(data=bollywood_df, 
+#                                x='India Net', 
+#                                y='Overseas', 
+#                                hue='Verdict', 
+#                                size=bollywood_df['Budget'] / 1000000, 
+#                                sizes=(100, 500), 
+#                                alpha=0.7, 
+#                                palette='viridis')
+
+# # Set the title and labels
+# scatter_plot.set_title('Scatterplot of Bollywood Movies: India Net vs Overseas', fontsize=20)
+# scatter_plot.set_xlabel('India Net', fontsize=15)
+# scatter_plot.set_ylabel('Overseas', fontsize=15)
+
+# # Adjust the legend
+# plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+
+# # Show the plot
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Load the dataset
+# fPath = 'FAL Projects NY - office NY - FAL Proyectos.xlsx'
+# fal_projects_df = load_file(fPath, 'excel', 9) # NOTE: fix the load method such that it deduces the file type to omit one arg.
+# analyze_dataframe(fal_projects_df)
+
+# # Summarize the data characteristics
+# num_transactions = fal_projects_df.shape[0]
+# transaction_date_range = (fal_projects_df['Create Date:'].min(), fal_projects_df['Create Date:'].max())
+# unique_vendors = fal_projects_df['Vendor Name:'].nunique()
+
+# # Print the summary
+# print('Number of transactions:', num_transactions)
+# print('Range of transaction dates:', transaction_date_range)
+# print('Variety of vendors:', unique_vendors)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+
+# # Load the dataset
+# fPath = 'LIFE INS ISSUE AGE AUDIT.xlsx'
+# life_ins_df = load_file(fPath, 'excel')
+# analyze_dataframe(life_ins_df)
+
+# # Create age groups based on decades
+# life_ins_df['Age Group'] = (life_ins_df['Issue Age'] // 10) * 10
+
+# # Create a pivot table for the heatmap
+# pivot_table = life_ins_df.pivot_table(index='Age Group', 
+#                                       columns='Tobacco Use?', 
+#                                       values='Mode Premium', 
+#                                       aggfunc='mean')
+
+# # Create the heatmap
+# plt.figure(figsize=(12, 8))
+# heatmap = sns.heatmap(pivot_table, 
+#                       annot=True, 
+#                       fmt='.2f', 
+#                       cmap='coolwarm')
+
+# # Set the title and labels
+# heatmap.set_title('Heatmap of Premiums by Age Group and Tobacco Use', fontsize=20)
+# heatmap.set_xlabel('Tobacco Use', fontsize=15)
+# heatmap.set_ylabel('Age Group', fontsize=15)
+
+# # Show the plot
+# plt.show()
+
+
+
+
+
+# import altair as alt
+
+# fPath = 'LIFE INS ISSUE AGE AUDIT.xlsx'
+# df_life_ins = load_file(fPath, 'excel')
+# analyze_dataframe(df_life_ins)
+
+# # Drop rows with missing values in the `Issue Age` column of the `df_life_ins` dataframe.
+# # df_life_ins.dropna(subset=['Issue Age'], inplace=True)
+
+# # Create a new column `Age Group` in the `df_life_ins` dataframe by dividing the `Issue Age` by 10, converting it to an integer, and then multiplying by 10 to get the decade.
+# df_life_ins['Age Group'] = (df_life_ins['Issue Age'] // 10 * 10).astype(int)
+
+# # Group the `df_life_ins` dataframe by `Age Group` and `Tobacco Use?`, and calculate the mean of `Mode Premium`. Store the result in `grouped_data`.
+# grouped_data = df_life_ins.groupby(['Age Group', 'Tobacco Use?'])['Mode Premium'].mean().reset_index()
+
+# # Create a pivot table from `grouped_data` with `Age Group` as the index, `Tobacco Use?` as the columns, and `Mode Premium` as the values. Store the result in `pivot_table`.
+# pivot_table = grouped_data.pivot(index='Age Group', columns='Tobacco Use?', values='Mode Premium')
+
+# # Create a heatmap using Seaborn with `Age Group` on the x-axis, `Tobacco Use?` on the y-axis, and the mean `Mode Premium` as the color intensity.
+# chart = alt.Chart(grouped_data).mark_rect().encode(
+#     x='Age Group:O',
+#     y='Tobacco Use?:O',
+#     color='mean(Mode Premium):Q',
+#     tooltip=['Age Group', 'Tobacco Use?', 'mean(Mode Premium)']
+# ).properties(
+#     title='Mean Mode Premium by Age Group and Tobacco Use'
+# )
+
+# chart.save('./OutPlots/mean_mode_premium_by_age_group_and_tobacco_use_heatmap2.html')
+
+
+
+
+
 
 
 
