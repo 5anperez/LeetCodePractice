@@ -2,21 +2,82 @@
 
 
 
-import math
 
-def arctan_sum(angles):
-    def arctan_add(x, y):
-        return math.atan((x + y) / (1 - x * y))
+
+
+import numpy as np
+
+# Create a 5x5 identity matrix
+identity_matrix = np.eye(5)
+
+# Display the matrix
+print(identity_matrix)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import math
+
+# def arctan_sum(angles):
+#     def arctan_add(x, y):
+#         return math.atan((x + y) / (1 - x * y))
     
-    result = 0
-    for angle in angles:
-        result = arctan_add(result, math.tan(angle))
-    return result
+#     result = 0
+#     for angle in angles:
+#         result = arctan_add(result, math.tan(angle))
+#     return result
 
-# Example usage:
-angles = [1, 0.5, (1/3)]  # these should be in radians
-result = arctan_sum(angles)
-print(f"The sum of the arctangents is: {result} radians, which is {math.degrees(result)} degrees.")
+# # Example usage:
+# angles = [1, 0.5, (1/3)]  # these should be in radians
+# result = arctan_sum(angles)
+# print(f"The sum of the arctangents is: {result} radians, which is {math.degrees(result)} degrees.")
 
 
 

@@ -16106,9 +16106,9 @@ def load_file(file_name, file_type='csv', skiprows=0):
 
 
 
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
 
 # # Load the dataset
 # fPath = 'Top_1000_Bollywood_Movies.csv'
@@ -16287,6 +16287,781 @@ import seaborn as sns
 # )
 
 # chart.save('./OutPlots/mean_mode_premium_by_age_group_and_tobacco_use_heatmap2.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Creating the initial table with the relevant columns extracted from the provided data.
+# data = {
+#     'Condition': ['Asthma', 'Type 1 diabetes', 'Obesity/BMI', 'Type 2 diabetes', 
+#                   'Atrial fibrillation', 'Breast cancer', 'Chronic kidney disease', 'Colorectal cancer', 
+#                   'Coronary heart disease', 'Hypercholesterolemia', 'Prostate cancer'],
+#     'Genes Considered': [None, None, None, None, 
+#                          'LMNA', 'BRCA1, BRCA2, PALB2, PTEN, TP53, STK11', 
+#                          None, 'EPCAM, MLH1, MSH2, MSH6, PMS2, STK11, PTEN, TP53', 'APOB, LDLR, LDLRAP1, PCSK9', 
+#                          'APOB, LDLR, LDLRAP1, PCSK9', 'BRCA1, BRCA2, EPCAM, MLH1, MSH2, MSH6, PMS2'],
+#     'Relatives': [None, None, None, None, 
+#                   'Parents <75 y', 'First and second degree', 'First degree', 
+#                   None, 'First degree', None, 'First degree males']
+# }
+
+# df = pd.DataFrame(data)
+
+# # Creating tables x and y
+# x = df[['Condition', 'Genes Considered']]
+# y = df[['Condition', 'Relatives']]
+
+# '''MA's incorrect approch'''
+# # Extract `Condition` and `Genes Considered` columns
+# table_x = [ [row[0], row[1]] for row in data.values() ]
+
+# # Extract `Condition` and `Relatives` columns
+# table_y = [ [row[0], row[2]] for row in data.values() ]
+# '''MA's incorrect approch'''
+
+# # Merging x and y using the 'Condition' column as the key
+# merged_df = pd.merge(x, y, on='Condition')
+# print(merged_df)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# pFile1 = 'Hospital_Survey_Data_Alcohol_Drug_Abuse.xlsx'
+# pFile2 = 'Hospital_Survey_Data_Speticemia.csv'
+# alcohol_drug_abuse_df = load_file(pFile1, 'excel', 1)
+# septicemia_df = load_file(pFile2, 'csv', 1)
+
+# analyze_dataframe(alcohol_drug_abuse_df)
+# analyze_dataframe(septicemia_df)
+
+# # Create the 'Location' column in both datasets and cast the int to string to match dtypes
+# alcohol_drug_abuse_df['Location'] = alcohol_drug_abuse_df['Provider City'] + ', ' + alcohol_drug_abuse_df['Provider State'] + ' ' + alcohol_drug_abuse_df['Provider Zip Code'].astype(str)
+# septicemia_df['Location'] = septicemia_df['Provider City'] + ', ' + septicemia_df['Provider State'] + ' ' + septicemia_df['Provider Zip Code'].astype(str)
+
+# # New columns get appended as the last column and they always print with head
+# print(alcohol_drug_abuse_df.head())
+# print(septicemia_df.head())
+
+
+
+# pFile2 = 'Hospital_Survey_Data_Speticemia.csv'
+# septicemia_df = load_file(pFile2, 'csv')
+
+
+# '''MA's approach'''
+# # selects the first row of the DataFrame 
+# septicemia_df.columns = septicemia_df.iloc[0]  
+
+# # assigns this first row to be the new column headers, 
+# # which means that its no longer data, but metadata i.e., names  
+# septicemia_df = septicemia_df[1:]  
+
+# # NOTE: when you assign the first row of a DataFrame as the column headers, 
+# # all columns' data types are implicitly converted to object
+# '''MA's approach'''
+
+
+# # Creating the new 'Location' column by combining 'Provider City', 'Provider State', and 'Provider Zip Code'
+# septicemia_df['Location'] = septicemia_df['Provider City'] + ", " + septicemia_df['Provider State'] + " " + septicemia_df['Provider Zip Code']
+
+# analyze_dataframe(septicemia_df)
+# print(septicemia_df.head(n=20))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import numpy as np
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Load the dataset
+# fPath = 'EQUIP-CHEMICALS.csv'
+# df = load_file(fPath)
+# analyze_dataframe(df)
+
+# # Extract the "Total Price" column
+# total_price = df['Total Price'].dropna().astype(float)
+# # print(total_price.shape[0])
+
+# # Generate a Gaussian distribution based on the "Total Price" column
+# mean = total_price.mean()
+# std = total_price.std()
+
+# gaussian_dist = np.random.normal(mean, std, len(total_price))
+
+# # Calculate the weights for each entry, x, in the "Total Price" column:
+# # f(x) = (1 / (std_dev * sqrt(2 * pi))) * exp(-0.5 * ((x - mean) / std_dev) ** 2)
+# weights = (1 / (std * np.sqrt(2 * np.pi))) * np.exp(-0.5 * ((total_price - mean) / std) ** 2)
+
+# # Add the weights to the dataframe
+# df['Weights'] = weights
+
+# # Display the first few rows of the dataframe with the weights
+# print(df.head(n=20))
+
+# # Plot the Gaussian distribution and the "Total Price" column for comparison
+# plt.figure(figsize=(10, 6))
+# sns.histplot(total_price, kde=True, color='blue', label='Total Price')
+# sns.histplot(gaussian_dist, kde=True, color='red', label='Gaussian Distribution')
+# plt.legend()
+# plt.title('Total Price vs Gaussian Distribution')
+# plt.xlabel('Total Price')
+# plt.ylabel('Frequency')
+# plt.show()
+
+# import matplotlib.pyplot as plt
+
+# # Apply log transformation to the "Total Price" column
+# log_transformed_prices = np.log(total_price + 1)  # Adding 1 to avoid log(0)
+
+# # Normalize the log-transformed data
+# log_mean = log_transformed_prices.mean()
+# log_std = log_transformed_prices.std()
+# normalized_log_prices = (log_transformed_prices - log_mean) / log_std
+
+# # Calculate Gaussian weights for the log-transformed data
+# log_weights = np.exp(-0.5 * (normalized_log_prices ** 2))
+
+# # Create a DataFrame to display the original and log-transformed weights
+# log_weights_df = pd.DataFrame({
+#     'Total Price': total_price,
+#     'Log Transformed Price': log_transformed_prices,
+#     'Log Weight': log_weights
+# })
+
+# # Plot the original and log-transformed distributions
+# plt.figure(figsize=(12, 6))
+
+# plt.subplot(1, 2, 1)
+# plt.hist(total_price, bins=30, edgecolor='k', alpha=0.7)
+# plt.title('Original Total Price Distribution')
+# plt.xlabel('Total Price')
+# plt.ylabel('Frequency')
+
+# plt.subplot(1, 2, 2)
+# plt.hist(log_transformed_prices, bins=30, edgecolor='k', alpha=0.7)
+# plt.title('Log-Transformed Total Price Distribution')
+# plt.xlabel('Log-Transformed Total Price')
+# plt.ylabel('Frequency')
+
+# plt.tight_layout()
+# plt.show()
+
+# print(log_weights_df.head())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Load the dataset
+# fPath = 'Wild_by_Aura_Final.xlsx'
+# df_wild = load_file(fPath, 'excel')
+# analyze_dataframe(df_wild)
+# print(df_wild['Type of Clothing'].unique())
+# print(df_wild['Size of Clothing'].unique())
+
+# # Calculate frequency count for unique entries
+# print("\nUniques and their count:\n")
+# frequency_count1 = df_wild['Type of Clothing'].value_counts().reset_index()
+# frequency_count1.columns = ['Type of Clothing', 'Frequency1']
+
+# frequency_count2 = df_wild['Size of Clothing'].value_counts().reset_index()
+# frequency_count2.columns = ['Size of Clothing', 'Frequency2']
+# print(frequency_count1)
+# print(frequency_count2)
+
+# # Convert entries to string
+# df_wild['Type of Clothing'] = df_wild['Type of Clothing'].astype(str)
+# df_wild['Size of Clothing'] = df_wild['Size of Clothing'].astype(str)
+# df_wild['Payment Method'] = df_wild['Payment Method'].astype(str)
+# df_wild['Shopping Platform'] = df_wild['Shopping Platform'].astype(str)
+
+# # Replace 'nan' with an empty string for cleaner formatting
+# df_wild['Type of Clothing'] = df_wild['Type of Clothing'].replace('nan', '-')
+# df_wild['Size of Clothing'] = df_wild['Size of Clothing'].replace('nan', '-')
+# df_wild['Payment Method'] = df_wild['Payment Method'].replace('nan', '-')
+# df_wild['Shopping Platform'] = df_wild['Shopping Platform'].replace('nan', '-')
+
+# # Combine the columns with '/' separator
+# df_wild['Payment Method and Shopping Platform'] = df_wild['Payment Method'] + '/' + df_wild['Shopping Platform']
+# df_wild['Clothing Type and Size'] = df_wild['Type of Clothing'] + '/' + df_wild['Size of Clothing']
+
+# # Display the update to confirm the transformation
+# print(df_wild.head(n=20))
+# analyze_dataframe(df_wild)
+
+
+# # Create a new table with the count of 'Customer ID' by 'Platform/Channel where they learnt about the business'
+# platform_counts = df_wild.groupby('Platform/Channel where they learnt about the business')['Customer ID'].count().reset_index()
+# platform_counts.columns = ['Platform/Channel where they learnt about the business', 'Customer ID Count']
+
+# # # Display the new table
+# # print(platform_counts.head(n=20))
+# # analyze_dataframe(platform_counts)
+
+# # Create a new table with 'Customer ID', 'Age', and 'Platform/Channel where they learnt about the business'
+# customer_info = df_wild[['Customer ID', 'Age', 'Platform/Channel where they learnt about the business']]
+
+# # Display the new table
+# print(customer_info.head(n=20))
+# analyze_dataframe(customer_info)
+
+# # Merge the two tables using 'Platform/Channel where they learnt about the business' as the key
+# merged_table = pd.merge(customer_info, 
+#                         platform_counts, 
+#                         on='Platform/Channel where they learnt about the business')
+
+# # Display the merged table
+# print(merged_table.head(n=20))
+# analyze_dataframe(merged_table)
+# print(merged_table.shape[0])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+To determine the best platform for putting up an ad, we will analyze key performance metrics such as Ad Impressions, 
+Ad Clicks, CTR (Click-Through Rate), and ROAS (Return on Ad Spend) by platform.
+'''
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# fPath = 'paid-ads-top-campaigns-table_2023-11-30_2023-12-29.csv'
+# df_ads = load_file(fPath)
+# analyze_dataframe(df_ads)
+
+# # CTR (Click-Through Rate)
+# df_ads['CTR'] = df_ads['CTR'].str.replace('%', '').astype(float)
+# # ROAS (Return on Ad Spend)
+# df_ads['ROAS'] = df_ads['ROAS'].str.replace('%', '').astype(float)
+
+# # Group by 'Platform' and calculate the mean of key performance metrics
+# platform_analysis = df_ads.groupby('Platform').agg({
+#     'Ad impressions': 'mean',
+#     'Ad clicks': 'mean',
+#     'CTR': 'mean',
+#     'ROAS': 'mean'
+# }).reset_index()
+
+# # Display the analysis
+# print(platform_analysis)
+
+# # Determine the best platform based on the highest CTR
+# best_platform = platform_analysis.loc[platform_analysis['CTR'].idxmax()]
+# print('Best Platform for Ads:', best_platform['Platform'])
+# print('CTR:', best_platform['CTR'])
+
+
+# # Create a scatter plot using CPC and CTR
+# plt.figure(figsize=(10, 6))
+# plt.scatter(df_ads['CPC'], df_ads['CTR'], alpha=0.6)
+# plt.title('Scatter Plot of CPC vs CTR')
+# plt.xlabel('Cost Per Click (CPC)')
+# plt.ylabel('Click Through Rate (CTR)')
+# plt.grid(True)
+# plt.show()
+
+# # Calculate the correlation between CPC and CTR
+# correlation = df_ads[['CPC', 'CTR']].corr().iloc[0, 1]
+# print(correlation)
+
+
+
+# # Convert CTR to numeric format for calculations and plotting
+# df_ads['CTR'] = (
+#     df_ads['CTR']
+#     .astype(str)
+#     .str.replace('%', '', regex=False)
+#     .str.replace(',', '.', regex=False)
+#     .astype(float)
+#     / 100
+# )
+# # Create a scatter plot
+# plt.figure(figsize=(8, 6))
+# scatter = plt.scatter(df_ads['CPC'], df_ads['CTR'], c=df_ads['Amount spent'], cmap='viridis', s=100)
+# plt.xlabel('CPC', fontsize=12)
+# plt.ylabel('CTR', fontsize=12)
+# plt.title('Relationship Between CPC and CTR with Amount Spent', fontsize=14)
+# plt.grid(axis='y', alpha=0.5)
+# # Add colorbar for 'Amount Spent'
+# cbar = plt.colorbar(scatter)
+# cbar.set_label('Amount Spent', fontsize=12)
+
+# # Show the plot
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# file_path = 'dataset.xls'
+# df_dataset = load_file(file_path, 'excel')
+# analyze_dataframe(df_dataset)
+# print(df_dataset['Lifecycle Status'].unique())
+
+# # Generate a bar graph based on price and lifecycle status
+# plt.figure(figsize=(12, 8))
+# sns.barplot(data=df_dataset, 
+#             x='Lifecycle Status', 
+#             y='List Price', 
+#             estimator=sum)
+# plt.title('Total List Price by Lifecycle Status')
+# plt.xlabel('Lifecycle Status')
+# plt.ylabel('Total List Price')
+# plt.xticks(rotation=45)
+# plt.grid(True)
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Load the Chainmaille_by_Yael_– Customer_Data_(2023).csv file
+# file_path = 'Chainmaille_by_Yael_–\xa0Customer_Data_(2023).csv'
+# df_chainmaille = load_file(file_path)
+# analyze_dataframe(df_chainmaille)
+
+# print(df_chainmaille['Purchase Date'].unique())
+
+# # Convert the 'Purchase Date' column to datetime format
+# df_chainmaille['Purchase Date'] = pd.to_datetime(df_chainmaille['Purchase Date'])
+
+# # Calculate frequency count for unique entries
+# print("\nUniques and their count:\n")
+# frequency_count1 = df_chainmaille['Purchase Date'].value_counts().reset_index()
+# frequency_count1.columns = ['Date', 'Frequency']
+# print(frequency_count1)
+
+# # Clean the 'Price' column to ensure all values are numeric
+# df_chainmaille['Price'] = df_chainmaille['Price'].replace('[\$,€]', '', regex=True).astype(float)
+# print("AFTER")
+# analyze_dataframe(df_chainmaille)
+
+# total_spent = df_chainmaille['Price'].sum()
+
+# # Filter the dataframe for purchases on or after 06/25/2023
+# filtered_df = df_chainmaille[df_chainmaille['Purchase Date'] >= '2023-06-25']
+# # print(filtered_df['Price'])
+
+# # Count the number of purchases
+# purchase_count = filtered_df.shape[0]
+# print('Count of purchases on or after 06/25/2023:', purchase_count)
+
+# # Recalculate the total amount spent on purchases on or after 06/25/2023
+# total_amount_spent = filtered_df['Price'].sum()
+# print('Total amount spent on purchases on or after 06/25/2023:', total_amount_spent)
+# print('Grand total:', total_spent)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # Load the Invoices Dic - Facturas.tsv file
+# file_path = 'Invoices Dic - Facturas.tsv'
+# df_invoices = load_file(file_path, 'tsv')
+# analyze_dataframe(df_invoices)
+
+# print(df_invoices['Sales Team'].unique())
+
+# # Filter the dataframe for entries with the date '2023-12-29'
+# df_invoices['Date'] = pd.to_datetime(df_invoices['Date'], format='mixed')
+# df_1229_invoices = df_invoices[df_invoices['Date'] == '2023-12-29 00:00:00']
+# analyze_dataframe(df_1229_invoices)
+
+# # Calculate the median Total Amount for each Sales Team
+# df_1229_invoices['Total Amount'] = pd.to_numeric(df_1229_invoices['Total Amount'].str.replace(',', ''))
+# median_total_amount = df_1229_invoices.groupby('Sales Team')['Total Amount'].median().reset_index()
+# median_total_amount.columns = ['Sales Team', 'Median Total Amount']
+# print(median_total_amount.head())
+
+# # Merge the median total amount with the 12/29 invoices dataframe
+# df_1229_invoices = pd.merge(df_1229_invoices, median_total_amount, on='Sales Team', how='left')
+
+# # Select only the required columns for the final table
+# df_1229_invoices = df_1229_invoices[['Sales Team', 'Origin', 'Invoice Status','Median Total Amount']]
+# print(df_1229_invoices)
+
+# # Join the 12/29 invoices with the original table, including only the Origin and Invoice Status columns
+# df_joined = pd.merge(df_1229_invoices, df_invoices[['reference', 'Origin', 'Invoice Status']], on='reference', how='left', suffixes=('', '_original'))
+
+# print(df_joined)
+
+# # Save the final table to a new CSV file
+# df_joined.to_csv('12_29_Invoices.csv', index=False)
+# print('12/29 Invoices saved to 12_29_Invoices.csv')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# fPath = 'uk_universities.csv'
+# df_univ = load_file(fPath)
+# analyze_dataframe(df_univ)
+
+# # Melt the dataframe to collapse 
+# df_melted = df_univ.melt(id_vars=['University_name'], 
+#                          value_vars=['UG_average_fees_(in_pounds)', 
+#                                      'PG_average_fees_(in_pounds)', 
+#                                      'Estimated_cost_of_living_per_year_(in_pounds)'], 
+#                          var_name='Cost_Type', 
+#                          value_name='Costs')
+
+# print(df_melted)
+
+# # Save the melted dataframe to a new CSV file
+# df_melted.to_csv('./OutCSVs/uk_universities_collapsed_costs.csv', index=False)
+
+
+
+# # Make a variable for the column names with cost
+# cost_columns = ['UG_average_fees_(in_pounds)', 'PG_average_fees_(in_pounds)', 'Estimated_cost_of_living_per_year_(in_pounds)']
+
+# # Remove '£' and ',' from the columns in cost_columns
+# for col in cost_columns:
+#     # Remove '£' and ',' from the columns
+#     df[col] =  df[col].astype(str).str.replace('[£,]', '',regex = True)
+
+#     # Convert the columns to numeric datatype
+#     df[col] = pd.to_numeric(df[col],errors='coerce')
+
+# # Create a new column `Costs` by adding all the columns in cost_columns
+# df['Costs'] = df[cost_columns].sum(axis=1,skipna=True,min_count=1).fillna(0)
+
+# # Display the first 5 rows
+# print(df.head().to_markdown(index = False, numalign="left", stralign="left"))
+
+# # Print the column names and their data types
+# print(df.info())
+
+
+
+# fPath = 'uk_universities.csv'
+# df = load_file(fPath)
+# analyze_dataframe(df)
+
+# # Create a new 'Costs' column and set the column to NaN
+# df['Costs'] = 'NA'
+
+# # Combine the costs with a comma separator for each row
+# df['Costs'] = df['UG_average_fees_(in_pounds)'].astype(str) + ", " + df['PG_average_fees_(in_pounds)'].astype(str) + ", " + df['Estimated_cost_of_living_per_year_(in_pounds)'].astype(str)
+
+# # Drop the old costs columns
+# df = df.drop(columns=['UG_average_fees_(in_pounds)', 'PG_average_fees_(in_pounds)', 'Estimated_cost_of_living_per_year_(in_pounds)'])
+
+# # Print the updated DataFrame
+# print(df)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
