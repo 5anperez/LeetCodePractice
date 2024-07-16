@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-59a5ff5c3a1f79776c01fe280297b2a1"}, "mark": {"type": "boxplot"}, "encoding": {"color": {"field": "Available Data", "type": "ordinal"}, "x": {"field": "Available Data", "type": "ordinal"}, "y": {"field": "Mental Health Status", "type": "ordinal"}}, "title": "Mental Health Status by Available Data", "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-59a5ff5c3a1f79776c01fe280297b2a1": [{"Available Data": "True", "Mental Health Status": "Good"}, {"Available Data": "False", "Mental Health Status": "Fair"}, {"Available Data": "True", "Mental Health Status": "Excellent"}, {"Available Data": "False", "Mental Health Status": "Poor"}, {"Available Data": "True", "Mental Health Status": "Good"}, {"Available Data": "False", "Mental Health Status": "Fair"}, {"Available Data": "True", "Mental Health Status": "Excellent"}, {"Available Data": "False", "Mental Health Status": "Poor"}, {"Available Data": "True", "Mental Health Status": "Good"}, {"Available Data": "False", "Mental Health Status": "Fair"}, {"Available Data": "True", "Mental Health Status": "Excellent"}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

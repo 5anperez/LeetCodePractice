@@ -17066,6 +17066,986 @@ Ad Clicks, CTR (Click-Through Rate), and ROAS (Return on Ad Spend) by platform.
 
 
 
+# import pandas as pd
+
+# # Load the CSV file
+# fPath = 'Real Estate Mumbai Database - Rgdcvvvh.csv'
+# df = load_file(fPath)
+# analyze_dataframe(df)
+
+# # Combine "PROPERTY STREET" and "PROPERTY ADDRESS" into one column
+# df['PROPERTY FULL ADDRESS'] = df['PROPERTY STREET'] + ', ' + df['PROPERTY ADDRESS'].astype(str)
+
+# # Drop the original columns
+# df = df.drop(columns=['PROPERTY STREET', 'PROPERTY ADDRESS'])
+
+# # Display the first few rows of the modified dataframe
+# print(df.head())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+perform an exploratory data analysis to find any noteworthy trends or patterns. Pay particular attention to the factors that influence the decision to expand phone storage.
+'''
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+
+# # Load the dataset
+# file_path = 'phone_buying_preference1.xlsx'
+# df = load_file(file_path, 'excel')
+# analyze_dataframe(df)
+
+# # To reveal entries that need to be cleaned
+# print(df['Is previous phone still fuctional or faulty and unfunctional'].unique())
+# print(df['Do you consider the year of manufacture of the phone when buying?'].unique())
+# print(df['Age bracket'].unique())
+
+# # There is a typo in the two cols: typo in the 1st and trailing whitespace in the 2nd
+# # NOTE: this should also be done to the headers!
+# # Correct the misspelling in the 'Is previous phone still functional or faulty and unfunctional' column
+# df['Is previous phone still fuctional or faulty and unfunctional'] = df['Is previous phone still fuctional or faulty and unfunctional'].replace('unfuctional', 'unfunctional')
+# # Strip trailing white spaces in the 'Do you consider the year of manufacture of the phone when buying?' column
+# df['Do you consider the year of manufacture of the phone when buying?'] = df['Do you consider the year of manufacture of the phone when buying?'].str.strip()
+
+# # Modify the 'Age bracket' column to combine '30-40' entries with '30-39'
+# df['Age bracket'] = df['Age bracket'].replace('30-40', '30-39')
+# df['Age bracket'] = df['Age bracket'].replace('50-60', '50-59')
+
+# # To confirm the entries are cleaned
+# print(df['Is previous phone still fuctional or faulty and unfunctional'].unique())
+# print(df['Do you consider the year of manufacture of the phone when buying?'].unique())
+# print(df['Age bracket'].unique())
+
+# # Perform EDA:
+
+# # Check the distribution of the 'Phone internal storage increased, decreased or remain the same compared to previous phone' column
+# storage_distribution = df['Phone internal storage increased, decreased or remain the same compared to previous phone'].value_counts()
+# print(storage_distribution)
+
+
+
+
+'''MA's'''
+
+# # Analyze and display value counts for object columns
+# for col in df.select_dtypes(include=['object']).columns:
+#     print(f"Column: {col}")
+#     print(df[col].value_counts())
+#     print("\n")
+
+# # Analyze 'How often do you usually change phone in months'
+# print("Descriptive statistics for 'How often do you usually change phone in months':")
+# print(df['How often do you usually change phone in months'].describe())
+# print("\n")
+
+# # Analyze 'on a scale of 1 to 5 rate your current phone compared to the previous'
+# print("Descriptive statistics for 'on a scale of 1 to 5 rate your current phone compared to the previous':")
+# print(df['on a scale of 1 to 5 rate your current phone compared to the previous'].describe())
+# print("\n")
+
+# # Filter for increased storage
+# df_increased_storage = df[df['Phone internal storage increased, decreased or remain the same compared to previous phone'] == 'Increase']
+
+# # Analyze and display value counts for object columns in filtered dataframe
+# for col in df_increased_storage.select_dtypes(include=['object']).columns:
+#     print(f"Column (Increased Storage): {col}")
+#     print(df_increased_storage[col].value_counts())
+#     print("\n")
+
+'''MA's'''
+
+# # Plot the distribution
+# plt.figure(figsize=(10, 6))
+# sns.countplot(data=df, x='Phone internal storage increased, decreased or remain the same compared to previous phone')
+# plt.title('Distribution of Phone Internal Storage Changes')
+# plt.xlabel('Phone Internal Storage Change')
+# plt.ylabel('Count')
+# plt.show()
+
+# # Analyze the factors influencing the decision to expand phone storage
+# # We will look at the relationship between storage change and other factors like age, phone functionality, price, data transfer, manufacturer change, camera quality, and year of manufacture
+
+# # Plot the relationship between storage change and age bracket
+# plt.figure(figsize=(10, 6))
+# sns.countplot(data=df, x='Age bracket', hue='Phone internal storage increased, decreased or remain the same compared to previous phone')
+# plt.title('Phone Storage Change by Age Bracket')
+# plt.xlabel('Age Bracket')
+# plt.ylabel('Count')
+# plt.legend(title='Storage Change')
+# plt.show()
+
+# # Plot the relationship between storage change and phone functionality
+# # 
+# plt.figure(figsize=(10, 6))
+# sns.countplot(data=df, x='Is previous phone still fuctional or faulty and unfunctional', hue='Phone internal storage increased, decreased or remain the same compared to previous phone')
+# plt.title('Phone Storage Change by Previous Phone Functionality')
+# plt.xlabel('Previous Phone Functionality')
+# plt.ylabel('Count')
+# plt.legend(title='Storage Change')
+# plt.show()
+
+# # Plot the relationship between storage change and price change
+# plt.figure(figsize=(10, 6))
+# sns.countplot(data=df, x='Was the price to acquire new phone higher, lower or unchanged ', hue='Phone internal storage increased, decreased or remain the same compared to previous phone')
+# plt.title('Phone Storage Change by Price Change')
+# plt.xlabel('Price Change')
+# plt.ylabel('Count')
+# plt.legend(title='Storage Change')
+# plt.show()
+
+# # Plot the relationship between storage change and data transfer
+# plt.figure(figsize=(10, 6))
+# sns.countplot(data=df, x='Did You transfer your data from the previous phone', hue='Phone internal storage increased, decreased or remain the same compared to previous phone')
+# plt.title('Phone Storage Change by Data Transfer')
+# plt.xlabel('Data Transfer')
+# plt.ylabel('Count')
+# plt.legend(title='Storage Change')
+# plt.show()
+
+# # Plot the relationship between storage change and manufacturer change
+# plt.figure(figsize=(10, 6))
+# sns.countplot(data=df, x='Did you change the phone manufacturer', hue='Phone internal storage increased, decreased or remain the same compared to previous phone')
+# plt.title('Phone Storage Change by Manufacturer Change')
+# plt.xlabel('Manufacturer Change')
+# plt.ylabel('Count')
+# plt.legend(title='Storage Change')
+# plt.show()
+
+# # Plot the relationship between storage change and camera quality consideration
+# plt.figure(figsize=(10, 6))
+# sns.countplot(data=df, x='Did you consider the improvement of the camera quality', hue='Phone internal storage increased, decreased or remain the same compared to previous phone')
+# plt.title('Phone Storage Change by Camera Quality Consideration')
+# plt.xlabel('Camera Quality Consideration')
+# plt.ylabel('Count')
+# plt.legend(title='Storage Change')
+# plt.show()
+
+# # Plot the relationship between storage change and year of manufacture consideration
+# plt.figure(figsize=(10, 6))
+# sns.countplot(data=df, x='Do you consider the year of manufacture of the phone when buying?', hue='Phone internal storage increased, decreased or remain the same compared to previous phone')
+# plt.title('Phone Storage Change by Year of Manufacture Consideration')
+# plt.xlabel('Year of Manufacture Consideration')
+# plt.ylabel('Count')
+# plt.legend(title='Storage Change')
+# plt.show()
+
+# print('EDA completed.')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # Load the necessary libraries
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+
+# # Load the dataset
+# file_path = 'LIFE INS ISSUE AGE AUDIT.xlsx'
+# df_life_ins = load_file(file_path, 'excel')
+# analyze_dataframe(df_life_ins)
+
+# # Create a heatmap visualizing the average mode premium for each age category broken down by Additional insurance
+
+# # Convert 'Additional Insurance with Company' to a categorical variable
+# # Create a pivot table to calculate the average mode premium for each age category broken down by Additional insurance
+# pivot_table = df_life_ins.pivot_table(values='Mode Premium', 
+#                                       index='Issue Age', 
+#                                       columns='Additional Insurance with Company', 
+#                                       aggfunc='mean')
+
+# # Plot the heatmap
+# plt.figure(figsize=(12, 8))
+# sns.heatmap(pivot_table, 
+#             annot=True, 
+#             fmt='.2f', 
+#             cmap='coolwarm', 
+#             cbar_kws={'label': 'Average Mode Premium'})
+# plt.title('Average Mode Premium by Age Category and Additional Insurance')
+# plt.xlabel('Additional Insurance with Company')
+# plt.ylabel('Issue Age')
+# plt.show()
+
+# print('Heatmap created.')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import numpy as np
+
+# file_path = 'Ventas_Julio-Octubre-wines.xlsxcsv-Julio-Octubre.csv'
+# df = load_file(file_path)
+# analyze_dataframe(df)
+
+# # Find customer identifiers
+# print(df['Cliente - País - Cód.'].unique())
+# num_returns = (df['Ítem - Impte. Fact. Loc.'] < 0).sum()
+# print(f"Number of times we needed to return money to a customer: {num_returns}")
+
+# # Create a table with each customer and their respective total amount and total refund
+# customer_summary = df.groupby('Cliente - País - Cód.').agg({
+#     'Ítem - Impte. Fact. Loc.': lambda x: (x[x > 0].sum(), x[x < 0].sum())
+# })
+
+# print("Customer Summary:\n", customer_summary)
+
+# # Calculate total amount spent by each customer
+# # Assuming "Ítem - Impte. Fact. Loc." is the amount spent per transaction
+# customer_total_spent = df.groupby('Cliente - País - Cód.')['Ítem - Impte. Fact. Loc.'].sum().reset_index()
+# customer_total_spent.rename(columns={'Ítem - Impte. Fact. Loc.': 'Total Spent'}, inplace=True)
+
+# # Check the top entries to ensure the calculation is correct
+# print(customer_total_spent.head(n=20))
+
+# # For simplicity, assuming negative amounts represent returns
+# # Adjusting the calculation to handle cases where there are returns (negative values)
+# # Separating positive (spends) and negative (returns) amounts
+# spends = df[df['Ítem - Impte. Fact. Loc.'] > 0].groupby('Cliente - País - Cód.')['Ítem - Impte. Fact. Loc.'].sum()
+# returns = df[df['Ítem - Impte. Fact. Loc.'] < 0].groupby('Cliente - País - Cód.')['Ítem - Impte. Fact. Loc.'].sum().abs()
+
+# # Merging spends and returns dataframes
+# relationship_score_df = pd.merge(spends, returns, on='Cliente - País - Cód.', how='left', suffixes=('_spent', '_returned'))
+# relationship_score_df['Total_Returned'] = relationship_score_df['Ítem - Impte. Fact. Loc._returned'].fillna(0)
+
+# # Calculating relationship score as a percentage: (Spent - Returned) / Spent * 100
+# relationship_score_df['Relationship_Score'] = ((relationship_score_df['Ítem - Impte. Fact. Loc._spent'] - relationship_score_df['Total_Returned']) / relationship_score_df['Ítem - Impte. Fact. Loc._spent']) * 100
+
+# relationship_score_df = relationship_score_df.rename(columns={'Ítem - Impte. Fact. Loc._spent': 'Total_Spent'}).drop(columns=['Ítem - Impte. Fact. Loc._returned'])
+# relationship_score_df.reset_index(inplace=True)
+
+# print(relationship_score_df.head(n=20))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Creating the dataframe
+# data = {
+#     'Entity Name': ['United States', 'Canada', 'Mexico', 'Brazil', 'Argentina', 'Colombia', 'Chile'],
+#     'Country Code': ['US', 'CA', 'MX', 'BR', 'AR', 'CO', 'CL'],
+#     'Year': [2023] * 7,
+#     'Cellular Subscriptions': [250, 200, 150, 100, 75, 50, 25],
+#     'Internet Users Percentage': [90, 80, 70, 50, 40, 30, 20],
+#     'Number of Internet Users': [225, 160, 105, 50, 30, 15, 10],
+#     'Broadband Subscriptions': [150, 100, 75, 50, 35, 25, 15]
+# }
+
+# df = pd.DataFrame(data)
+
+# # Plotting the scatter plot
+# plt.figure(figsize=(10, 6))
+# plt.scatter(df['Cellular Subscriptions'], 
+#             df['Broadband Subscriptions'], 
+#             color='blue')
+
+# # Adding titles and labels
+# plt.title('Broadband Subscriptions vs. Cellular Subscriptions (2023)')
+# plt.xlabel('Cellular Subscriptions (in millions)')
+# plt.ylabel('Broadband Subscriptions (in millions)')
+
+# # Adding annotations for each country
+# for i, row in df.iterrows():
+#     plt.annotate(row['Entity Name'], 
+#                  (row['Cellular Subscriptions'], row['Broadband Subscriptions']))
+
+# plt.grid(True)
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Creating the dataframe
+# data = {
+#     'store_name': ['Store 1', 'Store 2', 'Store 3', 'Store 4', 'Store 5', 'Store 6', 'Store 7'],
+#     'day_of_week': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+#     'total_sales': [1000, 500, 750, 1200, 1000, 500, 750],
+#     'is_holiday': [False, False, False, False, True, True, True],
+#     'average_temperature': [65, 70, 60, 75, 80, 70, 60],
+#     'fuel_price': [3.5, 2.5, 3.0, 2.5, 3.0, 2.5, 3.0],
+#     'consumer_price_index': [120, 110, 130, 120, 110, 100, 110],
+#     'unemployment_rate': [4.5, 5.0, 3.5, 4.0, 4.5, 5.0, 3.5]
+# }
+
+# df = pd.DataFrame(data)
+
+# # Calculating the difference in total sales between Store 1 and Store 2
+# store_1_sales = df[df['store_name'] == 'Store 1']['total_sales'].values[0]
+# store_2_sales = df[df['store_name'] == 'Store 2']['total_sales'].values[0]
+# sales_difference = store_1_sales - store_2_sales
+
+# print('The difference in total sales between Store 1 and Store 2 is:', sales_difference)
+
+
+
+
+'''
+    HERE I USE A NEW AND INTERESTING F(X). THE 'StringIO' METHOD ALLOWS THE STRING TO BE TREATED AS AN OBJECT FOR THE DF CONVERSION.
+'''
+
+# import pandas as pd
+# import io
+
+# # Assuming the data is provided as a string, we first need to convert it to a DataFrame
+# data = """
+# store_name	day_of_week	total_sales	is_holiday	average_temperature	fuel_price	consumer_price_index	unemployment_rate
+# Store 1	Monday	1000	False	65	3.5	120	4.5
+# Store 2	Tuesday	500	False	70	2.5	110	5.0
+# Store 3	Wednesday	750	False	60	3.0	130	3.5
+# Store 4	Thursday	1200	False	75	2.5	120	4.0
+# Store 5	Friday	1000	True	80	3.0	110	4.5
+# Store 6	Saturday	500	True	70	2.5	100	5.0
+# Store 7	Sunday	750	True	60	3.0	110	3.5
+# """
+
+# df = pd.read_csv(io.StringIO(data), delimiter='\t')
+
+# # Filter data for Store 1 and Store 2
+# filtered_df = df[df['store_name'].isin(['Store 1', 'Store 2'])]
+
+# # Calculate total sales for Store 1
+# store1_sales = filtered_df[filtered_df['store_name'] == 'Store 1']['total_sales'].values[0]
+
+# # Calculate total sales for Store 2
+# store2_sales = filtered_df[filtered_df['store_name'] == 'Store 2']['total_sales'].values[0]
+
+# # Calculate and print the difference in sales
+# sales_difference = store1_sales - store2_sales
+# print(f"The difference in sales between Store 1 and Store 2 is: {sales_difference}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Creating the dataframe
+# data = {
+#     'Available Data': [True, False, True, False, True, False, True, False, True, False, True],
+#     'Affordable Housing Units': [1000, 500, 1500, 2000, 1000, 500, 1500, 2000, 1000, 500, 1500],
+#     'Educational Quality Score': [80, 70, 90, 60, 70, 80, 90, 60, 70, 80, 90],
+#     'Trust in Police': [70, 60, 80, 50, 60, 70, 80, 50, 60, 70, 80],
+#     'Road Quality': [90, 80, 100, 70, 80, 90, 100, 70, 80, 90, 100],
+#     'Community Events Attendance': [500, 200, 600, 300, 400, 100, 600, 300, 400, 100, 600],
+#     'Mental Health Status': ['Good', 'Fair', 'Excellent', 'Poor', 'Good', 'Fair', 'Excellent', 'Poor', 'Good', 'Fair', 'Excellent']
+# }
+
+# df = pd.DataFrame(data)
+
+# '''
+#     Creates a new categorical column in the DataFrame df named 'Road Quality Category' by categorizing the values in the 'Road Quality' column based on specified bins. I.e., each 'road quality' entry will have a corresponding good/bad descriptor.
+
+#     - Bad: Values from 0 to 80 (inclusive of 0 and exclusive of 80).
+#     - Good: Values from 81 to 100 (inclusive of 79 and 100).
+
+#     The pd.cut() function segments and sorts data values into bins. It takes three primary arguments here:
+# '''
+
+# df['Road Quality Category'] = pd.Categorical(pd.cut(df['Road Quality'], bins=[0, 81, 100], labels=['Bad', 'Good']))
+
+# # Grouping by road quality category and mental health status
+# mental_health_status = df.groupby(['Road Quality Category', 'Mental Health Status']).size().unstack(fill_value=0)
+
+# print(mental_health_status)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+
+# data = {
+#     'Available Data': [True, False, True, False, True, False, True, False, True, False, True],
+#     'Affordable Housing Units': [1000, 500, 1500, 2000, 1000, 500, 1500, 2000, 1000, 500, 1500],
+#     'Educational Quality Score': [80, 70, 90, 60, 70, 80, 90, 60, 70, 80, 90],
+#     'Trust in Police': [70, 60, 80, 50, 60, 70, 80, 50, 60, 70, 80],
+#     'Road Quality': [90, 80, 100, 70, 80, 90, 100, 70, 80, 90, 100],
+#     'Community Events Attendance': [500, 200, 600, 300, 400, 100, 600, 300, 400, 100, 600],
+#     'Mental Health Status': ['Good', 'Fair', 'Excellent', 'Poor', 'Good', 'Fair', 'Excellent', 'Poor', 'Good', 'Fair', 'Excellent']
+# }
+
+# df = pd.DataFrame(data)
+
+# # Mapping Mental Health Status to numerical values for box plot
+# mental_health_mapping = {'Poor': 1, 'Fair': 2, 'Good': 3, 'Excellent': 4}
+# df['Mental Health Status Value'] = df['Mental Health Status'].map(mental_health_mapping)
+
+# # Creating the box plot
+# plt.figure(figsize=(10, 6))
+# sns.boxplot(x='Available Data', 
+#             y='Mental Health Status Value', 
+#             data=df)
+# plt.title('Box Plot of Mental Health Status Values for Different Available Data Categories')
+# plt.xlabel('Available Data')
+# plt.ylabel('Mental Health Status Value')
+# plt.xticks([0, 1], ['False', 'True'])
+# plt.grid(True)
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Creating the dataframe
+data = {
+    'patient_identifier': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    'age_in_years': [20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
+    'gender': ['female', 'male', 'female', 'male', 'female', 'male', 'female', 'male', 'female', 'male', 'female'],
+    'body_weight_in_kg': [50, 70, 60, 80, 90, 100, 110, 120, 130, 140, 150],
+    'height_in_cm': [160, 180, 170, 190, 200, 210, 220, 230, 240, 250, 260],
+    'body_mass_index': [25, 28, 26, 30, 32, 34, 36, 38, 40, 42, 44],
+    'case_number': [12345, 45678, 78901, 23456, 56789, 89012, 34567, 67890, 90123, 12345, 45678],
+    'follow_up_period_in_days': [30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330],
+    'clinical_status': ['active', 'recovered', 'deceased', 'active', 'recovered', 'deceased', 'active', 'recovered', 'deceased', 'active', 'recovered']
+}
+
+df = pd.DataFrame(data)
+
+# Dropping non-numerical columns
+df_numerical = df.drop(columns=['patient_identifier', 'gender', 'clinical_status'])
+
+# Calculating the correlation matrix
+correlation_matrix = df_numerical.corr()
+
+# Creating the heatmap
+plt.figure(figsize=(10, 8))
+sns.heatmap(correlation_matrix, 
+            annot=True, 
+            cmap='coolwarm', 
+            linewidths=0.5)
+plt.title('Correlation Heatmap of Patient Data')
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
