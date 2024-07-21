@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-bb9d3e07e181385597dc29bf1304e7c8"}, "mark": {"type": "bar"}, "encoding": {"tooltip": [{"field": "Brand", "type": "nominal"}, {"field": "Sales (Million Units)", "type": "quantitative"}], "x": {"field": "Brand", "type": "nominal"}, "y": {"field": "Sales (Million Units)", "type": "quantitative"}}, "params": [{"name": "param_1", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "title": "Top 10 Car Brands by Sales (2024 YTD - July)", "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-bb9d3e07e181385597dc29bf1304e7c8": [{"Brand": "Toyota", "Sales (Million Units)": 3.6}, {"Brand": "Volkswagen Group", "Sales (Million Units)": 1.9}, {"Brand": "Honda", "Sales (Million Units)": 1.6}, {"Brand": "Ford", "Sales (Million Units)": 1.5}, {"Brand": "Hyundai", "Sales (Million Units)": 1.5}, {"Brand": "Nissan", "Sales (Million Units)": 1.3}, {"Brand": "General Motors (Chevrolet)", "Sales (Million Units)": 1.3}, {"Brand": "Kia", "Sales (Million Units)": 1.2}, {"Brand": "BYD", "Sales (Million Units)": 1.1}, {"Brand": "Stellantis (Fiat Chrysler)", "Sales (Million Units)": 1.0}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

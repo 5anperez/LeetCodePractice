@@ -17740,45 +17740,38 @@ perform an exploratory data analysis to find any noteworthy trends or patterns. 
 
 
 
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
 
-# Creating the dataframe
-data = {
-    'patient_identifier': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-    'age_in_years': [20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
-    'gender': ['female', 'male', 'female', 'male', 'female', 'male', 'female', 'male', 'female', 'male', 'female'],
-    'body_weight_in_kg': [50, 70, 60, 80, 90, 100, 110, 120, 130, 140, 150],
-    'height_in_cm': [160, 180, 170, 190, 200, 210, 220, 230, 240, 250, 260],
-    'body_mass_index': [25, 28, 26, 30, 32, 34, 36, 38, 40, 42, 44],
-    'case_number': [12345, 45678, 78901, 23456, 56789, 89012, 34567, 67890, 90123, 12345, 45678],
-    'follow_up_period_in_days': [30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330],
-    'clinical_status': ['active', 'recovered', 'deceased', 'active', 'recovered', 'deceased', 'active', 'recovered', 'deceased', 'active', 'recovered']
-}
 
-df = pd.DataFrame(data)
 
-# Dropping non-numerical columns
-df_numerical = df.drop(columns=['patient_identifier', 'gender', 'clinical_status'])
 
-# Calculating the correlation matrix
-correlation_matrix = df_numerical.corr()
 
-# Creating the heatmap
-plt.figure(figsize=(10, 8))
-sns.heatmap(correlation_matrix, 
-            annot=True, 
-            cmap='coolwarm', 
-            linewidths=0.5)
-plt.title('Correlation Heatmap of Patient Data')
-plt.show()
 
+'''
+Checks if the DataFrame df contains both 'genres' and 'imdb_score' columns. If either of these columns is missing, it prints a message indicating that the necessary columns are not present.
+If both columns are present, it processes the genres column to handle entries with multiple genres.
+It uses apply with a lambda function to convert genre strings into lists using eval, which evaluates the string as a Python expression. If an entry is not a string, it replaces it with an empty list.
+The explode function is then used to transform each list of genres into separate rows. This means each row in the original DataFrame that had multiple genres will now have multiple rows, each with a single genre.
+Then, it calculates the average IMDb score for each genre. The exploded DataFrame is grouped by the genres column. It calculates the mean IMDb score for each genre. The resulting series is sorted in descending order based on the average IMDb score.
+'''
 
 
+# import pandas as pd
 
+# # Load the dataset
+# fName = '46.csv'
+# df = load_file(fName)
+# analyze_dataframe(df)
 
+# print(df['genres'].unique())
 
+# if 'genres' in df.columns and 'imdb_score' in df.columns:
+#     # Explode the genres column to handle multiple genres per content
+#     df['genres'] = df['genres'].apply(lambda x: eval(x) if isinstance(x, str) else [])
+#     df_exploded = df.explode('genres')
+#     genre_ratings = df_exploded.groupby('genres')['imdb_score'].mean().sort_values(ascending=False)
+#     print(genre_ratings.head())
+# else:
+#     print("The dataset does not contain 'genres' and 'imdb_score' columns.")
 
 
 
@@ -17845,15 +17838,35 @@ plt.show()
 
 
 
+'''
+    FIND OUT WHY THE BELOW DIDNT WORK TO FIND THE 'Sodium hydroxide NaOH' WITH THE HIGHEST CONCENTRATION. IT WAS SUPPOSED TO LOOK FOR THE PELLETS VERSION.
+'''
 
 
+# import pandas as pd
 
+# # Load the dataset
+# file_path = 'EQUIP-CHEMICALS.csv'
+# df = load_file(file_path)
+# analyze_dataframe(df)
 
+# # Filter for 'Sodium hydroxide NaOH'
+# sodium_hydroxide_df = df[df['Reagent'].str.contains('Sodium hydroxide NaOH', case=False, na=False)]
 
+# # Convert Concentration to a string to handle any non-numeric issues
+# sodium_hydroxide_df['Concentration'] = sodium_hydroxide_df['Concentration'].astype(str)
 
+# # Extract numeric part of the concentration for comparison
+# sodium_hydroxide_df['Concentration_value'] = sodium_hydroxide_df['Concentration'].str.extract('(\d+)').astype(float)
 
+# # Find the row with the highest concentration
+# highest_concentration_row = sodium_hydroxide_df.loc[sodium_hydroxide_df['Concentration_value'].idxmax()]
 
+# # Extract the total price and vendor information
+# total_price = highest_concentration_row['Total Price']
+# vendor = highest_concentration_row['Vendor']
 
+# print(total_price, vendor)
 
 
 
@@ -17877,6 +17890,24 @@ plt.show()
 
 
 
+def clean_headers(df):
+    """
+    Cleans the headers of the dataframe by:
+    - Removing quotes and new lines
+    - Replacing spaces with underscores
+    
+    Args:
+    df (pd.DataFrame): The dataframe whose headers need to be cleaned.
+    
+    Returns:
+    pd.DataFrame: The dataframe with cleaned headers.
+    """
+    # Remove quotes, new lines and replace spaces with underscores in the column names
+    df.columns = df.columns.str.replace('"', '')\
+                            .str.replace("'", '')\
+                            .str.replace('\n', '')\
+                            .str.replace(' ', '_')
+    return df
 
 
 
@@ -17893,14 +17924,41 @@ plt.show()
 
 
 
+'''
+create a pie chart showing the sales percentage per customer.
+'''
 
+# import pandas as pd
+# import matplotlib.pyplot as plt
 
+# # Load the dataset
+# file_path = 'Sales-PrintingOffice2023v1-Sheet1.csv'
+# df = load_file(file_path)
+# analyze_dataframe(df)
+# print(df['Customer'].unique())
 
+# # The column headers were ill-formed
+# clean_headers(df)
 
+# # Remove rows with missing 'Customer' or 'Total price'
+# df = df.dropna(subset=['Customer', 'Total_price'])
 
+# # Remove any non-numeric characters from 'Total price' and convert to float
+# df['Total_price'] = df['Total_price'].replace('[\$,]', '', regex=True).astype(float)
 
+# print("AFTER")
+# analyze_dataframe(df)
+# print(df['Customer'].unique())
 
+# # Group by 'Customer' and sum the 'Total price'
+# sales_per_customer = df.groupby('Customer')['Total_price'].sum()
 
+# # Plot a pie chart
+# plt.figure(figsize=(10, 7))
+# sales_per_customer.plot.pie(autopct='%1.1f%%', startangle=140)
+# plt.title('Sales Percentage per Customer')
+# plt.ylabel('')  # Hide the y-label
+# plt.show()
 
 
 
@@ -17930,14 +17988,48 @@ plt.show()
 
 
 
+# import pandas as pd
 
+# fPath1 = 'FAL Projects NY - West SM.tsv'
+# fPath2 = 'FAL Projects NY - office NY - FAL Proyectos.xlsx'
 
+# # The first few rows is metadata, so they can be skipped
+# west_sm_df = load_file(fPath1, 'tsv', 9)
+# office_ny_df = load_file(fPath2, 'excel', 9)
 
+# analyze_dataframe(west_sm_df)
+# analyze_dataframe(office_ny_df)
 
+# # Print the column names for both dataframes to identify the discrepancy
+# print('West SM DataFrame Columns:', west_sm_df.columns.tolist())
+# print('Office NY DataFrame Columns:', office_ny_df.columns.tolist())
 
+# # Function to calculate tax percentage
+# def calculate_tax_percentage(row):
+#     try:
+#         # Handle both string and float inputs
+#         order_sub_total = float(str(row['Order Sub Total:']).replace('$', '').replace(',', '').strip())
+#         shipping_handling = float(str(row.get('Shipping/ Handling:', row.get('Shipping/\
+# Handling:'))).replace('$', '').replace(',', '').strip())
+#         tax = float(str(row['Tax:']).replace('$', '').replace(',', '').strip())
+#         total = order_sub_total + shipping_handling
+#         if total == 0:
+#             return 0
+#         return (tax / total) * 100
+#     except ValueError:
+#         return None
 
+# # Apply the function to both dataframes
+# west_sm_df['Tax Percentage'] = west_sm_df.apply(calculate_tax_percentage, axis=1)
+# office_ny_df['Tax Percentage'] = office_ny_df.apply(calculate_tax_percentage, axis=1)
 
+# print("AFTER")
+# analyze_dataframe(west_sm_df)
+# analyze_dataframe(office_ny_df)
 
+# # Display the head of the dataframes to confirm the changes
+# print(west_sm_df.head())
+# print(office_ny_df.head())
 
 
 
@@ -17946,16 +18038,42 @@ plt.show()
 
 
 
+# import pandas as pd
 
+# fPath1 = 'FAL Projects NY - West SM.tsv'
+# fPath2 = 'FAL Projects NY - office NY - FAL Proyectos.xlsx'
 
+# # The first few rows is metadata, so they can be skipped
+# west_sm_df = load_file(fPath1, 'tsv', 9)
+# office_ny_df = load_file(fPath2, 'excel', 9)
 
+# analyze_dataframe(west_sm_df)
+# analyze_dataframe(office_ny_df)
 
+# # Correct the column names and calculate the tax percentage
+# office_ny_df.rename(columns={'Shipping/\nHandling:': 'Shipping and Handling Fees', 'Tax:': 'Tax'}, inplace=True)
 
+# # Convert the 'Tax:', 'Order Sub Total:', and 'Shipping/ Handling:' columns to numeric types
+# west_sm_df['Tax:'] = pd.to_numeric(west_sm_df['Tax:'].str.replace('$', '').str.replace(',', ''), errors='coerce')
+# west_sm_df['Order Sub Total:'] = pd.to_numeric(west_sm_df['Order Sub Total:'].str.replace('$', '').str.replace(',', '').str.replace('€', ''), errors='coerce')
+# west_sm_df['Shipping/ Handling:'] = pd.to_numeric(west_sm_df['Shipping/ Handling:'].str.replace('$', '').str.replace(',', ''), errors='coerce')
 
+# # Calculate the tax as a percentage of the Order Sub Total plus shipping and handling fees
+# west_sm_df['Total Before Tax'] = west_sm_df['Order Sub Total:'] + west_sm_df['Shipping/ Handling:']
+# west_sm_df['Tax Percentage'] = (west_sm_df['Tax:'] / west_sm_df['Total Before Tax']) * 100
 
+# # Calculate the tax as a percentage of the Order Sub Total plus shipping and handling fees
+# office_ny_df['Total Before Tax'] = office_ny_df['Order Sub Total:'] + office_ny_df['Shipping and Handling Fees']
+# office_ny_df['Tax Percentage'] = (office_ny_df['Tax'] / office_ny_df['Total Before Tax']) * 100
 
 
+# # Display the first few rows to verify the new column
+# # print(west_sm_df.head())
+# print(west_sm_df['Tax Percentage'].unique())
 
+# # Display the first few rows to verify the new column
+# # print(office_ny_df.head())
+# print(office_ny_df['Tax Percentage'].unique())
 
 
 
@@ -17970,6 +18088,2788 @@ plt.show()
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Load the dataset
+# file_path = 'Retail Store Performance and Capacity Metrics - EXO2E Crypto - cccvvv.tsv'
+# df = load_file(file_path, 'tsv')
+# analyze_dataframe(df)
+
+# # Calculate the Installed Capacity Difference
+# if 'Installed Capacity 20' in df.columns and 'Installed Capacity 30' in df.columns:
+#     df['Installed Capacity Difference'] = df['Installed Capacity 30'] - df['Installed Capacity 20']
+
+#     # Move the new column to the right of 'Installed Capacity 30' (index 11)
+#     col = df.pop('Installed Capacity Difference')
+#     df.insert(12, 'Installed Capacity Difference', col)
+# else:
+#     print('Required columns are not present in the dataset')
+
+# # Save the new dataframe to a CSV file
+# output_file = './OutCSVs/Retail_store_performance_installed_difference3.csv'
+# df.to_csv(output_file, index=False)
+
+# # Display the head of the new dataframe to confirm the changes
+# print(df.head())
+# print('New table saved as', output_file)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE IS AN INTERESTING TASK WHERE I HAD THE DATASET BELOW WITH SOME ENTRIES THAT ARE LISTS. THEREFORE, TO PLOT THE DISTRO, I HAD TO PARSE THOSE LISTS TO TREAT THE LIST'S ENTRIES INDIVIDUALLY.
+'''
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# # Load US phone carrier, their coverage area, and price data in a pandas dataframe
+# data = {
+#     'Carrier': ['Verizon', 'AT&T', 'T-Mobile', 'UScellular', 'Mint Mobile', 'Visible'],
+#     'Coverage area': ['99% of the US population', '98% of the US population', '98% of the US population', '95% of the US population', '99% of the US population (uses T-Mobile\'s network)', '99% of the US population (uses Verizon\'s network)'],
+#     'Price': ["$50-$180", "$40-$165", "$30-$135", "$30-$120", "$15-$40", "$40"],
+#     'Network type': ['CDMA and LTE', 'GSM and LTE', 'GSM and LTE', 'GSM and LTE', 'GSM and LTE', 'CDMA and LTE'],
+#     'Data speeds': ['Up to 1 Gbps', 'Up to 1 Gbps', 'Up to 1 Gbps', 'Up to 1 Gbps', 'Up to 1 Gbps', 'Up to 1 Gbps'],
+#     'Customer service': [4.5, 4.0, 3.5, 4.0, 4.0, 3.5],
+#     'Features': ['HD calling, Wi-Fi calling, international roaming, hotspot tethering', 'HD calling, Wi-Fi calling, international roaming, hotspot tethering', 'HD calling, Wi-Fi calling, international roaming, hotspot tethering', 'HD calling, Wi-Fi calling, international roaming, hotspot tethering', 'HD calling, Wi-Fi calling, international roaming, hotspot tethering', 'HD calling, Wi-Fi calling, international roaming, hotspot tethering'],
+#     'Contract options': ['Month-to-month, 1-year, and 2-year contracts', 'Month-to-month, 1-year, and 2-year contracts', 'Month-to-month, 1-year, and 2-year contracts', 'Month-to-month, 1-year, and 2-year contracts', 'Month-to-month only', 'Party pay only'],
+#     'Family plans': ['Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes'],
+#     'Device discounts': ['Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes'],
+#     'Promotions': ['Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes']
+# }
+
+# df = pd.DataFrame(data)
+# analyze_dataframe(df)
+# print(df['Contract options'].unique())
+
+# # Split the 'Contract options' column into individual options
+# contract_options = df['Contract options'].str.split(', ').explode()
+
+# # Count the occurrences of each contract option
+# contract_counts = contract_options.value_counts()
+
+# # Plot the pie chart
+# plt.figure(figsize=(10, 7))
+# plt.pie(contract_counts, labels=contract_counts.index, autopct='%1.1f%%', startangle=140)
+# plt.title('Distribution of Contract Options Among Carriers')
+# plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+# plt.show()
+
+
+
+
+'''MA: This is the altair version of the plot, so use one or the other exclusively bc they manip the col.'''
+# import pandas as pd
+# import altair as alt
+
+# # Create a dataframe `df_contract_options` using the `Contract options` column from the dataframe `df`.
+# df_contract_options = df[['Contract options']]
+
+# # Create a new column `Contract option` by splitting the `Contract options` column on ',' and then exploding the column.
+# df_contract_options['Contract option'] = df_contract_options['Contract options'].str.split(',')
+# df_contract_options = df_contract_options.explode('Contract option')
+
+# # Remove the ' ' from the `Contract option` column.
+# df_contract_options['Contract option'] = df_contract_options['Contract option'].str.strip()
+
+# # Create a pie chart using the `Contract option` column from the dataframe `df_contract_options`.
+# base = alt.Chart(df_contract_options).encode(theta=alt.Theta('count()', stack=True)).properties(title='Distribution of Contract Options Among Carriers')
+
+# # Create a pie chart by specifying the type of mark as an arc.
+# # Specify the outer radius of the arcs and encode color based on the `Contract option` column.
+# pie = base.mark_arc(outerRadius=120).encode(
+#     color=alt.Color('Contract option:N'),
+#     # Order the arcs by `count()` in descending order.
+#     order=alt.Order('count()', sort='descending'),
+#     # Add tooltips for additional information.
+#     tooltip=['Contract option', 'count()'],
+# )
+
+# text = base.mark_text(radius=140).encode(
+#     text=alt.Text('count()'),
+#     # Order of the text should match the order of the arcs.
+#     order=alt.Order('count()', sort='descending'),
+#     color=alt.value('black')  # Set the color of the labels to black
+# )
+
+# chart = pie + text
+
+# # Save the chart in a JSON file
+# chart.save('./OutPlots/contract_options_pie_chart.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # Load the data into a pandas dataframe and calculate the correlation between data accessibility and subjective well-being
+# import pandas as pd
+
+# # Define the data
+# data = {
+#     'Data Accessibility': ['Good', 'Fair', 'Excellent', 'Poor', 'Good'],
+#     'Housing Affordability': ['High', 'Low', 'High', 'Low', 'Medium'],
+#     'Education Quality': ['Good', 'Fair', 'Excellent', 'Poor', 'Good'],
+#     'Police Legitimacy': ['High', 'Low', 'High', 'Low', 'Medium'],
+#     'Street Infrastructure': ['Good', 'Fair', 'Excellent', 'Poor', 'Good'],
+#     'Community Events': ['Many', 'Few', 'Many', 'Few', 'Some'],
+#     'Subjective Well-Being': ['High', 'Medium', 'Very High', 'Low', 'Medium']
+# }
+
+# df = pd.DataFrame(data)
+
+# # Convert categorical data to numerical data for correlation calculation
+# mapping = {
+#     'Poor': 1,
+#     'Fair': 2,
+#     'Good': 3,
+#     'Excellent': 4,
+#     'Low': 1,
+#     'Medium': 2,
+#     'High': 3,
+#     'Very High': 4,
+#     'Few': 1,
+#     'Some': 2,
+#     'Many': 3
+# }
+
+# df = df.map(lambda x: mapping.get(x, x))
+
+# # Calculate the correlation matrix
+# correlation_matrix = df.corr()
+
+# # Extract the correlation between 'Data Accessibility' and 'Subjective Well-Being'
+# correlation = correlation_matrix.loc['Data Accessibility', 'Subjective Well-Being']
+
+# print('Correlation between Data Accessibility and Subjective Well-Being:', correlation)
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''MA'S APPROACH'''
+# # Map the `Data Accessibility` column to a numeric scale
+# data_accessibility_mapping = {'Poor': 1, 'Fair': 2, 'Good': 3, 'Excellent': 4}
+# df['Data Accessibility'] = df['Data Accessibility'].map(data_accessibility_mapping)
+
+# # Map the `Subjective Well-Being` column to a numeric scale
+# subjective_well_being_mapping = {'Low': 1, 'Medium': 2, 'High': 3, 'Very High': 4}
+# df['Subjective Well-Being'] = df['Subjective Well-Being'].map(subjective_well_being_mapping)
+
+# # Calculate the correlation between `Data Accessibility` and `Subjective Well-Being`
+# correlation = df['Data Accessibility'].corr(df['Subjective Well-Being'])
+
+# # Print the correlation coefficient
+# print("Correlation between Data Accessibility and Subjective Well-Being:", correlation)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''GPT APPROACH'''
+# import matplotlib.pyplot as plt
+# import pandas as pd
+# import re
+
+# # Define the data
+# data = """
+# 1 Paedophryne amauensis (frog) 0.11 inches (2.9 mm)
+# 2 Bee hummingbird (bird) 2.2 inches (5.6 cm)
+# 3 Paedocypris progenetica (fish) 0.3 inches (8.4 mm)
+# 4 Etruscan shrew (mammal) 1.8 inches (4.5 cm)
+# 5 Kitti's hog-nosed bat (mammal) 1.1 inches (2.9 cm)
+# 6 Slender blind snake (reptile) 6.3 inches (16 cm)
+# 7 Speckled padloper tortoise (reptile) 3.5 inches (9 cm)
+# 8 Madame Berthe's mouse lemur (primate) 3.5 inches (9 cm)
+# 9 Pygmy marmoset (primate) 6 inches (15 cm)
+# 10 Dwarf three-toed jerboa (rodent) 4.5 inches (11.5 cm)
+# 11 Brookesia micra chameleon (reptile) 1 inch (2.6 cm)
+# 12 Bumblebee bat (mammal) 1.1 inches (2.9 cm)
+# 13 Pygmy rabbit (mammal) 9.4–11.4 inches (24–29 cm)
+# 14 Pygmy seahorse (fish) 0.6 inches (1.5 cm)
+# 15 Least weasel (mammal) 5.9–7.8 inches (15–20 cm)
+# 16 Bumblebee shrimp (invertebrate) 0.3 inches (8.4 mm)
+# 17 Pea crab (invertebrate) 0.2 inches (5.1 mm)
+# 18 Plankton (invertebrate) 0.0004 inches (0.01 mm)
+# 19 Water bear (invertebrate) 0.004 inches (0.1 mm)
+# 20 Bacteria (bacteria) 0.000004 inches (0.0001 mm)
+# """
+
+# # Extract animal names and sizes using regular expressions
+# pattern = re.compile(r'\d+ (.*?) \((.*?)\) ([\d\.]+(?:–[\d\.]+)?) inches \(([\d\.]+) (mm|cm)\)')
+# matches = pattern.findall(data)
+
+# # Convert to DataFrame
+# animals = []
+# sizes_in_inches = []
+# for match in matches:
+#     name = match[0]
+#     size_in_inches = float(match[2].split('–')[0])  # Consider only the smallest size in range if range is given
+#     if match[4] == 'cm':
+#         size_in_inches = size_in_inches / 2.54  # Convert cm to inches
+#     animals.append(name)
+#     sizes_in_inches.append(size_in_inches)
+
+# df = pd.DataFrame({
+#     'Animal': animals,
+#     'Size (inches)': sizes_in_inches
+# })
+
+# # Calculate percent change relative to the first animal
+# first_animal_size = df['Size (inches)'].iloc[0]
+# df['Percent Change'] = ((first_animal_size - df['Size (inches)']) / first_animal_size) * 100
+
+# # Sort by size in descending order
+# df_sorted = df.sort_values(by='Size (inches)', ascending=False)
+
+# # Plot the data by size
+# plt.figure(figsize=(10, 8))
+# plt.barh(df_sorted['Animal'], df_sorted['Size (inches)'], color='skyblue')
+# plt.xlabel('Size (inches)')
+# plt.ylabel('Animal')
+# plt.title('Sizes of the Top 20 Smallest Animals')
+# plt.gca().invert_yaxis()  # Largest animals on top, smallest on the bottom
+# plt.show()
+
+# # Plot the data by difference percentage in size
+# plt.figure(figsize=(10, 8))
+# plt.barh(df_sorted['Animal'], df_sorted['Percent Change'], color='skyblue')
+# plt.xlabel('Percent Change (%)')
+# plt.ylabel('Animal')
+# plt.title('Percent Change in Size of the Top 20 Smallest Animals Relative to Paedophryne amauensis')
+# plt.gca().invert_yaxis()  # Largest animals on top, smallest on the bottom
+# plt.show()
+
+
+
+
+
+
+
+'''JULES APPROACH'''
+# Modify the plot to show the percent change in the size of the top 20 smallest animals relative to the size of the first animal in the list
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import re
+
+# # Define the data
+# data = [
+#     "Paedophryne amauensis (frog) 0.11 inches (2.9 mm)",
+#     "Bee hummingbird (bird) 2.2 inches (5.6 cm)",
+#     "Paedocypris progenetica (fish) 0.3 inches (8.4 mm)",
+#     "Etruscan shrew (mammal) 1.8 inches (4.5 cm)",
+#     "Kitti's hog-nosed bat (mammal) 1.1 inches (2.9 cm)",
+#     "Slender blind snake (reptile) 6.3 inches (16 cm)",
+#     "Speckled padloper tortoise (reptile) 3.5 inches (9 cm)",
+#     "Madame Berthe's mouse lemur (primate) 3.5 inches (9 cm)",
+#     "Pygmy marmoset (primate) 6 inches (15 cm)",
+#     "Dwarf three-toed jerboa (rodent) 4.5 inches (11.5 cm)",
+#     "Brookesia micra chameleon (reptile) 1 inch (2.6 cm)",
+#     "Bumblebee bat (mammal) 1.1 inches (2.9 cm)",
+#     "Pygmy rabbit (mammal) 9.4–11.4 inches (24–29 cm)",
+#     "Pygmy seahorse (fish) 0.6 inches (1.5 cm)",
+#     "Least weasel (mammal) 5.9–7.8 inches (15–20 cm)",
+#     "Bumblebee shrimp (invertebrate) 0.3 inches (8.4 mm)",
+#     "Pea crab (invertebrate) 0.2 inches (5.1 mm)",
+#     "Plankton (invertebrate) 0.0004 inches (0.01 mm)",
+#     "Water bear (invertebrate) 0.004 inches (0.1 mm)",
+#     "Bacteria (bacteria) 0.000004 inches (0.0001 mm)"
+# ]
+
+# # Extract animal names and sizes
+# animals = []
+# sizes = []
+# for entry in data:
+#     match = re.match(r"(.*) (\d+\.?\d*) inches", entry)
+#     if match:
+#         animals.append(match.group(1))
+#         sizes.append(float(match.group(2)))
+
+# # Create a dataframe
+# animal_data = pd.DataFrame({'Animal': animals, 'Size (inches)': sizes})
+
+# # Sort the dataframe by size in descending order
+# animal_data = animal_data.sort_values(by='Size (inches)', ascending=False)
+
+# # Calculate the percent change relative to the size of the first animal in the list
+# first_animal_size = animal_data['Size (inches)'].iloc[0]
+# animal_data['Percent Change'] = (animal_data['Size (inches)'] / first_animal_size - 1) * 100
+
+# # Plot the data by size
+# plt.figure(figsize=(10, 8))
+# plt.barh(animal_data['Animal'], animal_data['Size (inches)'], color='skyblue')
+# plt.xlabel('Size (inches)')
+# plt.title('Sizes of the Top 20 Smallest Animals (in descending order)')
+# plt.gca().invert_yaxis()  # Largest animals on top
+# plt.show()
+
+# # Plot the data by the difference percentage in size relative to the biggest animal
+# plt.figure(figsize=(10, 8))
+# plt.barh(animal_data['Animal'], animal_data['Percent Change'], color='skyblue')
+# plt.xlabel('Percent Change (%)')
+# plt.title('Percent Change in Size of the Top 20 Smallest Animals Relative to the Largest Animal')
+# plt.gca().invert_yaxis()  # Largest animals on top
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Create the dataset
+# data = {
+#     "Data Availability": [1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1],
+#     "Affordable Housing Units": [100, 200, 300, 100, 200, 300, 100, 200, 300, 100, 200, 300, 100, 200],
+#     "Educational Quality Rating": [8, 7, 6, 9, 8, 7, 8, 7, 6, 9, 8, 7, 8, 7],
+#     "Police Trust": [90, 80, 70, 80, 70, 60, 90, 80, 70, 80, 70, 60, 90, 80],
+#     "Road Quality": [7, 8, 9, 6, 7, 8, 7, 8, 9, 6, 7, 8, 7, 8],
+#     "Community Event Participation": [50, 60, 70, 40, 50, 60, 50, 60, 70, 40, 50, 60, 50, 60],
+#     "Mental Health Status": [3, 2, 1, 4, 3, 2, 3, 2, 1, 4, 3, 2, 3, 2]
+# }
+
+# df = pd.DataFrame(data)
+
+# # Calculate the correlation between data availability and mental health status
+# correlation = df["Data Availability"].corr(df["Mental Health Status"])
+
+# # Display the correlation
+# print(f"Correlation between Data Availability and Mental Health Status: {correlation}")
+
+
+'''2ND APPROACH'''
+
+# # Calculate the correlation matrix
+# correlation_matrix = df.corr()
+
+# # Extract the correlation between 'Data Availability' and 'Mental Health Status'
+# correlation = correlation_matrix.loc['Data Availability', 'Mental Health Status']
+
+# print('Correlation between Data Availability and Mental Health Status:', correlation)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import matplotlib.pyplot as plt
+# import pandas as pd
+# import re
+
+# data = """
+# Rank Animal Maximum speed
+# 1 Peregrine falcon 389 km/h (242 mph)
+# 2 Golden eagle 240–320 km/h (150–200 mph)
+# 3 White-throated needletail swift 169 km/h (105 mph)
+# 4 Eurasian hobby 160 km/h (100 mph)
+# 5 Frigatebird 153 km/h (95 mph)
+# 6 Spur-winged goose 142 km/h (88 mph)
+# 7 Cheetah 120 km/h (75 mph)
+# 8 Sailfish 112 km/h (70 mph)
+# 9 Pronghorn antelope 88.5 km/h (55 mph)
+# 10 Marlin 80.5 km/h (50 mph)
+# """
+
+# # Extract the animal names and speeds using regular expressions
+# pattern = re.compile(r'\d+ (.*?) (\d+(\.\d+)?) km/h')
+# matches = pattern.findall(data)
+
+# # Create a DataFrame
+# animals = []
+# speeds = []
+# for match in matches:
+#     animals.append(match[0])
+#     speeds.append(float(match[1]))
+
+# df = pd.DataFrame({
+#     'Animal': animals,
+#     'Speed (km/h)': speeds
+# })
+
+# # Plot the data
+# plt.figure(figsize=(14, 8))
+# plt.plot(
+#     df['Animal'], 
+#     df['Speed (km/h)'], 
+#     marker='o', 
+#     linestyle='-', 
+#     color='red', 
+#     linewidth=2
+# )
+
+# # Add labels to each data point
+# for i, txt in enumerate(df['Speed (km/h)']):
+#     plt.annotate(
+#         txt, 
+#         (
+#             df['Animal'].iloc[i], 
+#             df['Speed (km/h)'].iloc[i]
+#         ), 
+#         textcoords="offset points", 
+#         xytext=(0,5), 
+#         ha='center', 
+#         fontsize=12
+#     )
+
+# # Customize the plot
+# plt.xlabel("Animal")
+# plt.ylabel("Speed (km/h)")
+# plt.title("Speeds of the Fastest Animals in the World")
+# plt.xticks(rotation=45)
+# plt.grid(True)
+# plt.tight_layout()
+
+# # Show the plot
+# plt.show()
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import re
+
+# # Define the data
+# data = [
+#     "Peregrine falcon 389 km/h (242 mph)",
+#     "Golden eagle 240–320 km/h (150–200 mph)",
+#     "White-throated needletail swift 169 km/h (105 mph)",
+#     "Eurasian hobby 160 km/h (100 mph)",
+#     "Frigatebird 153 km/h (95 mph)",
+#     "Spur-winged goose 142 km/h (88 mph)",
+#     "Cheetah 120 km/h (75 mph)",
+#     "Sailfish 112 km/h (70 mph)",
+#     "Pronghorn antelope 88.5 km/h (55 mph)",
+#     "Marlin 80.5 km/h (50 mph)"
+# ]
+
+# # Extract animal names and speeds
+# animals = []
+# speeds = []
+# for entry in data:
+#     match = re.match(r"(.*) (\d+\.?\d*) km/h", entry)
+#     if match:
+#         animals.append(match.group(1))
+#         speeds.append(float(match.group(2)))
+
+# # Create a dataframe
+# animal_data = pd.DataFrame({'Animal': animals, 'Speed (km/h)': speeds})
+
+# # Create a line chart
+# plt.figure(figsize=(12, 6))
+# plt.plot(
+#     animal_data['Animal'], 
+#     animal_data['Speed (km/h)'], 
+#     marker='o', 
+#     linestyle='-', 
+#     color='r', 
+#     linewidth=2
+# )
+
+# # Add labels to the data points
+# for i, txt in enumerate(animal_data['Speed (km/h)']):
+#     plt.annotate(
+#         txt, 
+#         (
+#             animal_data['Animal'][i], 
+#             animal_data['Speed (km/h)'][i]
+#         ), 
+#         textcoords="offset points", 
+#         xytext=(0,10), 
+#         ha='center', 
+#         fontsize=10
+#     )
+
+# plt.xlabel('Animal')
+# plt.ylabel('Speed (km/h)')
+# plt.title('Speeds of the Fastest Animals in the World')
+# plt.xticks(rotation=45, ha='right')
+# plt.grid(True)
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import matplotlib.pyplot as plt
+
+# # Age groups
+# age_groups = ["18-29", "30+"]
+
+# # Weekly playtime ranges (in hours)
+# playtime_ranges = [[1, 5], [1, 3], [4, 6]]  # Relaxation / Moderate benefits, Social connection / Mental stimulation
+
+# # Create a bar chart
+# plt.figure(figsize=(10, 6))
+# bars = plt.bar(age_groups, playtime_ranges[0], color='skyblue', label='Relaxation, Social connection')
+# plt.bar(age_groups, playtime_ranges[1], bottom=playtime_ranges[0], color='lightgreen', label='Moderate benefits')
+# plt.bar(age_groups, playtime_ranges[2], bottom=[sum(x) for x in zip(playtime_ranges[0], playtime_ranges[1])], color='coral', label='Potential for issues (>10 hrs)')
+
+# # Add labels and title
+# plt.xlabel("Age Group")
+# plt.ylabel("Weekly Playtime (hours)")
+# plt.title("Healthy Video Game Time for Adults (per Week)")
+
+# # Add legend
+# plt.legend()
+
+# # Rotate x-axis labels for better readability
+# plt.xticks(rotation=0)
+
+# # Show the chart
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Define the dataset
+# data = {
+#     "Data Availability": ["Good", "Good", "Good", "Bad", "Bad", "Good", "Good", "Good", "Bad"],
+#     "Affordable Housing": ["Yes", "Yes", "No", "Yes", "No", "Yes", "No", "Yes", "No"],
+#     "Educational Quality": ["High", "Medium", "Low", "High", "Medium", "High", "Medium", "Low", "High"],
+#     "Police Trustworthiness": ["High", "Medium", "Low", "High", "Medium", "High", "Medium", "Low", "High"],
+#     "Road Conditions": ["Good", "Good", "Poor", "Good", "Poor", "Good", "Good", "Poor", "Good"],
+#     "Community Event Attendance Rate": ["High", "Medium", "Low", "High", "Medium", "High", "Medium", "Low", "High"],
+#     "Mental Health": ["Good", "Good", "Poor", "Good", "Poor", "Good", "Good", "Poor", "Good"]
+# }
+
+# # Convert to DataFrame
+# df = pd.DataFrame(data)
+
+# # Convert categorical data to numerical data
+# df['Data Availability'] = df['Data Availability'].map({'Good': 1, 'Bad': 0})
+# df['Mental Health'] = df['Mental Health'].map({'Good': 1, 'Poor': 0})
+
+# # Calculate the correlation
+# correlation = df['Data Availability'].corr(df['Mental Health'])
+
+# print("Correlation between Data Availability and Mental Health: ", correlation)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''MA'S APPROACH'''
+# import pandas as pd
+# from scipy.stats import pearsonr
+
+# # Creating the dataframe
+# df = pd.DataFrame({
+#     'Data Availability': ['Good', 'Good', 'Good', 'Bad', 'Bad', 'Good', 'Good', 'Good', 'Bad'],
+#     'Affordable Housing': ['Yes', 'Yes', 'No', 'Yes', 'No', 'Yes', 'No', 'Yes', 'No'],
+#     'Educational Quality': ['High', 'Medium', 'Low', 'High', 'Medium', 'High', 'Medium', 'Low', 'High'],
+#     'Police Trustworthiness': ['High', 'Medium', 'Low', 'High', 'Medium', 'High', 'Medium', 'Low', 'High'],
+#     'Road Conditions': ['Good', 'Good', 'Poor', 'Good', 'Poor', 'Good', 'Good', 'Poor', 'Good'],
+#     'Community Event Attendance Rate': ['High', 'Medium', 'Low', 'High', 'Medium', 'High', 'Medium', 'Low', 'High'],
+#     'Mental Health': ['Good', 'Good', 'Poor', 'Good', 'Poor', 'Good', 'Good', 'Poor', 'Good']
+# })
+
+# # Dictionary mappings for `Data Availability` and `Mental Health`
+# data_availability_mapping = {'Good': 1, 'Bad': 0}
+# mental_health_mapping = {'Good': 1, 'Poor': 0}
+
+# # Mapping the dictionaries to the corresponding columns
+# df['Data Availability'] = df['Data Availability'].map(data_availability_mapping)
+# df['Mental Health'] = df['Mental Health'].map(mental_health_mapping)
+
+# # Calculating the Pearson Correlation between `Data Availability` and `Mental Health`
+# correlation = pearsonr(df['Data Availability'], df['Mental Health'])[0]
+
+# # Printing the correlation
+# print(f"The Pearson Correlation between Data Availability and Mental Health is: {correlation:.3f}")
+
+
+
+
+
+
+
+
+'''MB's APPROACH: CONVERT WITH ONE-HOT ENCODING'''
+# import pandas as pd
+
+# # Create a DataFrame with the data provided in the objective with the columns `Data Availability` and `Mental Health`.
+# df = pd.DataFrame(
+#     {
+#         "Data Availability": [
+#             "Good",
+#             "Good",
+#             "Good",
+#             "Bad",
+#             "Bad",
+#             "Good",
+#             "Good",
+#             "Good",
+#             "Bad",
+#         ],
+#         "Affordable Housing": [
+#             "Yes",
+#             "Yes",
+#             "No",
+#             "Yes",
+#             "No",
+#             "Yes",
+#             "No",
+#             "Yes",
+#             "No",
+#         ],
+#         "Educational Quality": [
+#             "High",
+#             "Medium",
+#             "Low",
+#             "High",
+#             "Medium",
+#             "High",
+#             "Medium",
+#             "Low",
+#             "High",
+#         ],
+#         "Police Trustworthiness": [
+#             "High",
+#             "Medium",
+#             "Low",
+#             "High",
+#             "Medium",
+#             "High",
+#             "Medium",
+#             "Low",
+#             "High",
+#         ],
+#         "Road Conditions": [
+#             "Good",
+#             "Good",
+#             "Poor",
+#             "Good",
+#             "Poor",
+#             "Good",
+#             "Good",
+#             "Poor",
+#             "Good",
+#         ],
+#         "Community Event Attendance Rate": [
+#             "High",
+#             "Medium",
+#             "Low",
+#             "High",
+#             "Medium",
+#             "High",
+#             "Medium",
+#             "Low",
+#             "High",
+#         ],
+#         "Mental Health": ["Good", "Good", "Poor", "Good", "Poor", "Good", "Good", "Poor", "Good"],
+#     }
+# )
+
+# # Apply one-hot encoding to handle the non-numeric values in the columns `Data Availability` and `Mental Health`.
+# df = pd.get_dummies(df, columns=['Data Availability','Mental Health'])
+
+# # Print the correlation between `Data Availability` and `Mental Health`.
+# print(df[['Data Availability_Good','Mental Health_Good']].corr())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# data = {
+#     "body_part": ["Chest", "Back", "Shoulders", "Triceps", "Biceps", "Legs", "Hamstrings", "Calves", "Abs"],
+#     "muscle_group": ["Pectoralis Major", "Latissimus Dorsi", "Deltoids", "Triceps Brachii", "Biceps Brachii", "Quadriceps", "Hamstrings", "Gastrocnemius", "Rectus Abdominis"],
+#     "exercise": ["Bench Press", "Pull-Ups", "Overhead Press", "Close-Grip Bench Press", "Bicep Curls", "Squats", "Deadlifts", "Calf Raises", "Crunches"],
+#     "sets": [3, 3, 3, 3, 3, 3, 3, 3, 3],
+#     "reps": [10, 8, 12, 10, 12, 10, 8, 15, 20]
+# }
+
+# df = pd.DataFrame(data)
+
+# # Calculate the total number of sets and reps performed for each exercise
+# df['total'] = df['sets'] * df['reps']
+
+# # Sort the exercises by the total number of sets and reps performed in descending order
+# top_exercises = df.sort_values(by='total', ascending=False).head(5)
+
+# print(top_exercises[['exercise', 'total']])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE IS A COOL GRAPG WITH EACH BAR A UNIQUE COLOR AND THE VALUE OF EACH BAR DISPLAYED ON TOP OF THE CORRESPONDING BAR, WHICH INCREASE READABILITY.
+'''
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Create a fictional sample dataset
+# data = {
+#     'Brand': ['Toyota', 'Volkswagen', 'Ford', 'Honda', 'Chevrolet', 
+#               'Nissan', 'Hyundai', 'Kia', 'Mercedes-Benz', 'BMW'],
+#     'Sales': [10500000, 9300000, 8700000, 7800000, 7200000, 
+#               6800000, 6200000, 5800000, 5400000, 5000000]
+# }
+
+# df = pd.DataFrame(data)
+
+# # Sort the dataframe by sales in descending order and then create the bar plot
+# df = df.sort_values('Sales', ascending=False)
+# plt.figure(figsize=(12, 6))
+# sns.barplot(x='Brand', y='Sales', data=df, palette='viridis')
+# plt.title('Top 10 Car Brands by Sales', fontsize=16)
+# plt.xlabel('Brand', fontsize=12)
+# plt.ylabel('Sales', fontsize=12)
+# plt.xticks(rotation=45, ha='right')
+
+# # Format y-axis labels to millions
+# plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f'{x/1e6:.1f}M'))
+
+# # Add value labels on top of each bar
+# for i, v in enumerate(df['Sales']):
+#     plt.text(i, v, f'{v/1e6:.1f}M', ha='center', va='bottom')
+
+# plt.tight_layout()
+# plt.show()
+
+# print("Plot generated successfully.")
+
+
+
+
+
+
+
+
+
+
+
+
+'''MA'''
+# import pandas as pd
+# import altair as alt
+
+# # Create a DataFrame with the provided data with the columns `Brand` and `Sales (Million Units)`.
+# data = {
+#     'Brand': ['Toyota', 'Volkswagen Group', 'Honda', 'Ford', 'Hyundai', 'Nissan', 'General Motors (Chevrolet)', 'Kia', 'BYD (China)', 'Stellantis (Fiat Chrysler)'],
+#     'Sales (Million Units)': [3.6, 1.9, 1.6, 1.5, 1.5, 1.3, 1.3, 1.2, 1.1, 1.0]
+# }
+
+# # Create a DataFrame from the data.
+# df = pd.DataFrame(data)
+
+# # Create a bar chart.
+# chart = alt.Chart(df).mark_bar().encode(
+#     x=alt.X('Brand:N', title='Brand', sort='-y'),
+#     y=alt.Y('Sales (Million Units):Q', title='Sales (Million Units)'),
+#     tooltip=['Brand', 'Sales (Million Units)']
+# ).properties(
+#     title='Distribution of Top 10 Car Brands by Sales'
+# ).interactive()
+
+# # Save the plot.
+# chart.save('./OutPlots/distribution_of_top_10_car_brands_by_sales.html')
+
+
+
+
+
+
+
+
+'''MB'''
+# import pandas as pd
+# import altair as alt
+
+# # Define the data using a dictionary
+# data = {
+#     'Brand': ['Toyota', 'Volkswagen Group', 'Honda', 'Ford', 'Hyundai', 'Nissan', 'General Motors (Chevrolet)', 'Kia', 'BYD', 'Stellantis (Fiat Chrysler)'],
+#     'Sales (Million Units)': [3.6, 1.9, 1.6, 1.5, 1.5, 1.3, 1.3, 1.2, 1.1, 1.0]
+# }
+
+# # Create a dataframe
+# df = pd.DataFrame(data)
+
+# # Create a bar plot
+# chart = alt.Chart(df).mark_bar().encode(
+#     x='Brand',
+#     y='Sales (Million Units)',
+#     tooltip=['Brand', 'Sales (Million Units)']
+# ).properties(
+#     title='Top 10 Car Brands by Sales (2024 YTD - July)'
+# ).interactive()
+
+# # Save the chart
+# chart.save('./OutPlots/top_10_car_brands_by_sales_bar_chart.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Create the dataframe
+# data = {
+#     'car_model': ['Tesla Model 3', 'Toyota Camry', 'Honda Civic', 'Ford F-150', 'Chevy Silverado', 
+#                   'Toyota Corolla', 'Honda Accord', 'Nissan Altima', 'Hyundai Sonata', 'Kia Optima'],
+#     'fuel_economy_mpg': [39, 30, 31, 18, 19, 33, 32, 34, 35, 36],
+#     'engine_displacement_liters': [0.28, 2.50, 1.50, 3.50, 5.30, 1.80, 2.00, 2.50, 2.40, 2.40],
+#     'engine_displacement_cubic_inches': [140, 150, 99, 281, 355, 121, 159, 182, 178, 178],
+#     'horsepower': [286, 181, 158, 375, 420, 139, 192, 188, 178, 178],
+#     'weight_lbs': [3500, 3300, 2700, 6000, 6200, 2500, 3200, 3000, 3100, 3100],
+#     'acceleration_0_to_60_seconds': [5.1, 7.9, 8.2, 6.2, 6.0, 9.0, 8.4, 8.6, 8.8, 8.8],
+#     'manufacturing_year': [2017, 2022, 2023, 2022, 2023, 2022, 2023, 2022, 2023, 2022],
+#     'country_of_origin': ['USA', 'Japan', 'Japan', 'USA', 'USA', 'Japan', 'Japan', 'Japan', 'South Korea', 'South Korea']
+# }
+
+# df = pd.DataFrame(data)
+
+# # Create the histogram
+# plt.figure(figsize=(10, 6))
+# sns.histplot(
+#     data=df, 
+#     x='fuel_economy_mpg', 
+#     bins=10, 
+#     kde=True
+# )
+# plt.title('Distribution of Fuel Economy (MPG)', fontsize=16)
+# plt.xlabel('Fuel Economy (MPG)', fontsize=12)
+# plt.ylabel('Frequency', fontsize=12)
+
+# # Add mean line
+# mean_mpg = df['fuel_economy_mpg'].mean()
+# plt.axvline(mean_mpg, color='red', linestyle='dashed', linewidth=2, label=f'Mean: {mean_mpg:.2f} MPG')
+# plt.legend()
+# plt.tight_layout()
+# plt.show()
+
+# print(f"Mean Fuel Economy: {mean_mpg:.2f} MPG")
+# print(f"Median Fuel Economy: {df['fuel_economy_mpg'].median():.2f} MPG")
+# print(f"Standard Deviation: {df['fuel_economy_mpg'].std():.2f} MPG")
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''MA'''
+# import pandas as pd
+# import altair as alt
+
+# # Load the data into a dataframe
+# df = pd.DataFrame({
+#     'car_model': ['Tesla Model 3', 'Toyota Camry', 'Honda Civic', 'Ford F-150', 'Chevy Silverado', 'Toyota Corolla', 'Honda Accord', 'Nissan Altima', 'Hyundai Sonata', 'Kia Optima'],
+#     'fuel_economy_mpg': [39, 30, 31, 18, 19, 33, 32, 34, 35, 36],
+#     'engine_displacement_liters': [0.28, 2.50, 1.50, 3.50, 5.30, 1.80, 2.00, 2.50, 2.40, 2.40],
+#     'engine_displacement_cubic_inches': [140, 150, 99, 281, 355, 121, 159, 182, 178, 178],
+#     'horsepower': [286, 181, 158, 375, 420, 139, 192, 188, 178, 178],
+#     'weight_lbs': [3500, 3300, 2700, 6000, 6200, 2500, 3200, 3000, 3100, 3100],
+#     'acceleration_0_to_60_seconds': [5.1, 7.9, 8.2, 6.2, 6.0, 9.0, 8.4, 8.6, 8.8, 8.8],
+#     'manufacturing_year': [2017, 2022, 2023, 2022, 2023, 2022, 2023, 2022, 2023, 2022],
+#     'country_of_origin': ['USA', 'Japan', 'Japan', 'USA', 'USA', 'Japan', 'Japan', 'Japan', 'South Korea', 'South Korea']
+# })
+
+# # Create a histogram of the `fuel_economy_mpg` column
+# chart = alt.Chart(df).mark_bar().encode(
+#     alt.X('fuel_economy_mpg:Q', bin=True, title='Fuel Economy (MPG)'),
+#     alt.Y('count()', title='Count'),
+#     tooltip=[alt.Tooltip('fuel_economy_mpg:Q', bin=True, title='Fuel Economy (MPG)'), 'count()']
+# ).properties(title='Distribution of Fuel Economy (MPG)').interactive()
+
+# # Save the chart as a json file
+# chart.save('./OutPlots/fuel_economy_histogram.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    HERE WE PLOT A MATH FUNCTION
+'''
+
+# import numpy as np
+# import matplotlib.pyplot as plt
+
+# # Define the function
+# def f(x):
+#     return x**3 - x**2 + x
+
+# # Create a range of x values
+# x = np.linspace(-3, 3, 1000)
+# y = f(x)
+
+# # Create the plot and add x and y axes
+# plt.figure(figsize=(10, 6))
+# plt.plot(x, y, 'b-', label='y = x^3 - x^2 + x')
+# plt.axhline(y=0, color='k', linestyle='-', linewidth=0.5)
+# plt.axvline(x=0, color='k', linestyle='-', linewidth=0.5)
+# plt.xlabel('x')
+# plt.ylabel('y')
+# plt.title('Graph of y = x^3 - x^2 + x')
+# plt.grid(True, linestyle='--', alpha=0.7)
+# plt.legend()
+# plt.show()
+# print('Plot of y = x^3 - x^2 + x has been generated.')
+
+
+
+
+
+
+
+
+
+'''MA'''
+# import numpy as np
+# import matplotlib.pyplot as plt
+
+# # Define the function y
+# def y(x):
+#   return x**3 - x**2 + x
+
+# # Generate x values
+# x = np.linspace(-3, 3, 1000)
+
+# # Generate y values
+# y_values = y(x)
+
+# # Plot the x and y values
+# plt.plot(x, y_values)
+
+# # Add labels and title
+# plt.xlabel('x')
+# plt.ylabel('y')
+# plt.title('Plot of y = x^3 - x^2 + x')
+
+# # Display the plot
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Create the dataframe
+# data = {
+#     'country_name': ['United States', 'China', 'India', 'Japan', 'Germany', 'United Kingdom', 'France', 'Brazil', 'Russia'],
+#     'country_code': ['US', 'CN', 'IN', 'JP', 'DE', 'UK', 'FR', 'BR', 'RU'],
+#     'year': [2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023],
+#     'cellular_subscriptions': [333, 111, 7777, 5555, 4444, 3333, 222, 1111, 889],
+#     'internet_users_percentage': [88.88, 55.55, 33.33, 22.22, 18.18, 13.89, 10.00, 5.56, 4.44],
+#     'number_of_internet_users': [299.99, 100.00, 75.00, 50.00, 40.00, 30.00, 20.00, 10.00, 8.00],
+#     'broadband_subscriptions': [222, 9999, 6667, 4444, 3333, 2222, 1111, 898, 667]
+# }
+
+# df = pd.DataFrame(data)
+
+# # Create the histogram and add a mean line
+# plt.figure(figsize=(10, 6))
+# sns.histplot(data=df, x='broadband_subscriptions', bins=10, kde=True)
+# plt.title('Distribution of Broadband Subscriptions Across All Countries', fontsize=16)
+# plt.xlabel('Broadband Subscriptions', fontsize=12)
+# plt.ylabel('Frequency', fontsize=12)
+# mean_broadband = df['broadband_subscriptions'].mean()
+# plt.axvline(mean_broadband, color='red', linestyle='dashed', linewidth=2, label=f'Mean: {mean_broadband:.2f}')
+# plt.legend()
+# plt.tight_layout()
+# plt.show()
+
+# print(f"Mean Broadband Subscriptions: {mean_broadband:.2f}")
+# print(f"Median Broadband Subscriptions: {df['broadband_subscriptions'].median():.2f}")
+# print(f"Standard Deviation: {df['broadband_subscriptions'].std():.2f}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import matplotlib.pyplot as plt
+
+# # Data for US debt vs tax revenue 2021
+# labels = ['US Debt', 'US Tax Revenue']
+# values = [28.43, 4.05]  # in trillions of dollars
+# colors = ['#ff9999','#66b3ff']
+
+# # Create the pie chart
+# plt.figure(figsize=(8, 8))
+# plt.pie(
+#     values, 
+#     labels=labels, 
+#     colors=colors, 
+#     autopct='%1.1f%%', 
+#     startangle=140
+# )
+# plt.title('US Debt vs Tax Revenue 2021')
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Load the TSV file
+# fileName = 'Invoices Dic - Facturas.tsv'
+# df = load_file(fileName, 'tsv')
+# analyze_dataframe(df)
+
+# # Get the types of sales teams to create cohorts based on them
+# print(df['Sales Team'].unique())
+
+# # Convert Date column to datetime
+# df['Date'] = pd.to_datetime(df['Date'])
+
+# # Convert Amount Untaxed to numeric, removing commas and converting to float
+# df['Amount Untaxed'] = df['Amount Untaxed'].str.replace(',', '').astype(float)
+
+# # Create a cohort based on the week of the invoice
+# df['Cohort'] = df['Date'].dt.to_period('W')
+
+# # Calculate the overall average Amount Untaxed for each Sales Team
+# overall_avg = df.groupby('Sales Team')['Amount Untaxed'].mean().sort_values(ascending=False)
+
+# print("Overall Average Amount Untaxed by Sales Team:")
+# print(overall_avg)
+
+# # Visualize the overall average Amount Untaxed by Sales Team
+# plt.figure(figsize=(12, 6))
+# overall_avg.plot(kind='bar')
+# plt.title('Overall Average Amount Untaxed by Sales Team')
+# plt.xlabel('Sales Team')
+# plt.ylabel('Average Amount Untaxed')
+# plt.xticks(rotation=45, ha='right')
+# plt.tight_layout()
+# plt.savefig('overall_avg_amount_untaxed.png')
+# plt.close()
+
+# # Calculate average Amount Untaxed by Cohort and Sales Team
+# cohort_data = df.groupby(['Cohort', 'Sales Team'])['Amount Untaxed'].mean().unstack(level='Sales Team')
+
+# # Visualize the cohort analysis for all Sales Teams
+# plt.figure(figsize=(15, 10))
+# for team in cohort_data.columns:
+#     cohort_data[team].plot(label=team)
+
+# plt.title('Cohort Analysis: Average Amount Untaxed Over Time')
+# plt.xlabel('Cohort (Week)')
+# plt.ylabel('Average Amount Untaxed')
+# plt.legend(title='Sales Team')
+# plt.tight_layout()
+# plt.savefig('cohort_analysis_all_teams.png')
+# plt.close()
+
+# print("Analysis complete. Two visualizations have been saved: 'overall_avg_amount_untaxed.png' and 'cohort_analysis_all_teams.png'")
+
+# # Display some summary statistics
+# print("\
+# Summary Statistics for Amount Untaxed by Sales Team:")
+# print(df.groupby('Sales Team')['Amount Untaxed'].describe())
+
+# # Calculate the total Amount Untaxed for each Sales Team
+# total_amount = df.groupby('Sales Team')['Amount Untaxed'].sum().sort_values(ascending=False)
+# print("\
+# Total Amount Untaxed by Sales Team:")
+# print(total_amount)
+
+# # Calculate the number of invoices for each Sales Team
+# invoice_count = df['Sales Team'].value_counts()
+# print("\
+# Number of Invoices by Sales Team:")
+# print(invoice_count)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Load the TSV file
+# df = pd.read_csv('Invoices Dic - Facturas.tsv', sep='\	')
+
+# # Convert Date column to datetime
+# df['Date'] = pd.to_datetime(df['Date'])
+
+# # Convert Amount Untaxed to numeric, removing commas and converting to float
+# df['Amount Untaxed'] = df['Amount Untaxed'].str.replace(',', '').astype(float)
+
+# # Create a cohort based on the week of the invoice
+# df['Cohort'] = df['Date'].dt.to_period('W')
+
+# # Calculate the overall average Amount Untaxed for each Sales Team
+# overall_avg = df.groupby('Sales Team')['Amount Untaxed'].mean().sort_values(ascending=False)
+
+# print("\
+# Overall Average Amount Untaxed by Sales Team:")
+# print(overall_avg)
+
+# # Visualize the overall average Amount Untaxed by Sales Team
+# plt.figure(figsize=(12, 6))
+# overall_avg.plot(kind='bar')
+# plt.title('Overall Average Amount Untaxed by Sales Team')
+# plt.xlabel('Sales Team')
+# plt.ylabel('Average Amount Untaxed')
+# plt.xticks(rotation=45, ha='right')
+# plt.tight_layout()
+# plt.savefig('overall_avg_amount_untaxed.png')
+# plt.close()
+
+# # Calculate average Amount Untaxed by Cohort and Sales Team
+# cohort_data = df.groupby(['Cohort', 'Sales Team'])['Amount Untaxed'].mean().unstack(level='Sales Team')
+
+# # Visualize the cohort analysis for all Sales Teams
+# plt.figure(figsize=(15, 10))
+# cohort_data.plot(kind='bar', stacked=True)
+# plt.title('Cohort Analysis: Average Amount Untaxed Over Time (Weekly)')
+# plt.xlabel('Cohort (Week)')
+# plt.ylabel('Average Amount Untaxed')
+# plt.legend(title='Sales Team')
+# plt.tight_layout()
+# plt.savefig('cohort_analysis_all_teams_weekly.png')
+# plt.close()
+
+# print("Analysis complete. Two visualizations have been saved: 'overall_avg_amount_untaxed.png' and 'cohort_analysis_all_teams_weekly.png'")
+
+# # Display some summary statistics
+# print("\
+# Summary Statistics for Amount Untaxed by Sales Team:")
+# print(df.groupby('Sales Team')['Amount Untaxed'].describe())
+
+# # Calculate the total Amount Untaxed for each Sales Team
+# total_amount = df.groupby('Sales Team')['Amount Untaxed'].sum().sort_values(ascending=False)
+# print("\
+# Total Amount Untaxed by Sales Team:")
+# print(total_amount)
+
+# # Calculate the number of invoices for each Sales Team
+# invoice_count = df['Sales Team'].value_counts()
+# print("\
+# Number of Invoices by Sales Team:")
+# print(invoice_count)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    a plot that shows the distributions of the median age of the countries that have an urban population below 70% with each one of them a color and display a legend showing the density and the World Share. Finally, make sure to sort the histogram alphabetically by country names.
+'''
+
+
+# import pandas as pd
+# import numpy as np
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Read the CSV file
+# fileName = 'world-population-by-country-2020.csv'
+# df = load_file(fileName)
+# analyze_dataframe(df)
+
+# # Replace 'N.A.' with NaN and convert columns to appropriate data types
+# df['Urban Pop %'] = df['Urban Pop %'].replace('N.A.', np.nan).str.rstrip('%').astype('float') / 100.0
+# df['World Share'] = df['World Share'].replace('N.A.', np.nan).str.rstrip('%').astype('float') / 100.0
+# df['Med. Age'] = df['Med. Age'].replace('N.A.', np.nan).astype('float')
+# # df['Density  (P/Km²)'] = df['Density  (P/Km²)'].replace('N.A.', np.nan).str.rstrip('\'').astype('float')
+
+# # Clean the 'Density (P/Km²)' column
+# df['Density  (P/Km²)'] = df['Density  (P/Km²)'].replace('N.A.', np.nan)  # Replace 'N.A.' with NaN
+# df['Density  (P/Km²)'] = df['Density  (P/Km²)'].str.replace(',', '')  # Remove any commas
+# df['Density  (P/Km²)'] = df['Density  (P/Km²)'].str.replace('"', '')  # Remove any quotes
+# df['Density  (P/Km²)'] = pd.to_numeric(df['Density  (P/Km²)'])  # Convert to numeric
+
+# # Filter countries with urban population below 70%
+# df_filtered = df[df['Urban Pop %'] < 0.70].sort_values('Country (or dependency)')
+
+# print("AFTER")
+# analyze_dataframe(df)
+# analyze_dataframe(df_filtered)
+
+# # Create a color map based on population density
+# color_map = plt.colormaps.get_cmap('viridis')
+# colors = color_map(df_filtered['Density  (P/Km²)'] / df_filtered['Density  (P/Km²)'].max())
+
+# # Create the histogram
+# plt.figure(figsize=(15, 10))
+# n, bins, patches = plt.hist(
+#     df_filtered['Med. Age'], 
+#     bins=20, 
+#     edgecolor='black'
+# )
+# # Color the bars based on population density
+# for patch, color in zip(patches, colors):
+#     patch.set_facecolor(color)
+# plt.title('Distribution of Median Age for Countries with Urban Population < 70%', fontsize=16)
+# plt.xlabel('Median Age', fontsize=12)
+# plt.ylabel('Number of Countries', fontsize=12)
+# plt.xticks(rotation=45)
+
+# # Add a colorbar to show density
+# sm = plt.cm.ScalarMappable(
+#     cmap=color_map, 
+#     norm=plt.Normalize(
+#         vmin=df_filtered['Density  (P/Km²)'].min(), 
+#         vmax=df_filtered['Density  (P/Km²)'].max()
+#     )
+# )
+# sm.set_array([])
+# cbar = plt.colorbar(sm, ax=plt.gca())
+# cbar.set_label('Population Density (P/Km²)', fontsize=10)
+
+# # Add a second axis for World Share
+# ax2 = plt.twinx()
+# ax2.scatter(
+#     df_filtered['Med. Age'], 
+#     df_filtered['World Share'], 
+#     color='red', 
+#     alpha=0.5, 
+#     s=20
+# )
+# ax2.set_ylabel('World Share', color='red', fontsize=12)
+# ax2.tick_params(axis='y', labelcolor='red')
+# plt.tight_layout()
+# plt.savefig('./OutPlots/median_age_distribution.png')
+# plt.close()
+
+# print("Plot has been created and saved as 'median_age_distribution.png'")
+
+# # Display some statistics about the filtered data
+# print("Statistics for countries with Urban Population < 70%:")
+# print(df_filtered[['Med. Age', 'Density  (P/Km²)', 'World Share']].describe())
+
+# # Display the first few rows of the filtered data
+# print("First few rows of the filtered data:")
+# print(df_filtered[['Country (or dependency)', 'Med. Age', 'Urban Pop %', 'Density  (P/Km²)', 'World Share']].head())
+
+# # Count of countries in the filtered dataset
+# print(f"Number of countries with Urban Population < 70%: {len(df_filtered)}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# analyze the distribution of balances for different suppliers and dates?
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# fileName = 'current_accounts.csv'
+# df = load_file(fileName)
+# analyze_dataframe(df)
+
+# # Clean the relevant columns
+# df['Date'] = pd.to_datetime(df['Date'], format='%d/%m/%Y')
+# df['Balance'] = pd.to_numeric(df['Balance'].str.replace(',', ''))
+# df['Supplier'] = df['Supplier'].str.replace(r'\s*\(.*?\)\s*', '', regex=True)
+
+# # Calculate summary statistics for Balance
+# print("Summary statistics for Balance:")
+# print(df['Balance'].describe())
+
+# # Get the top 10 suppliers by total balance
+# top_suppliers = df.groupby('Supplier')['Balance'].sum().sort_values(ascending=False).head(10)
+# print("Top 10 suppliers by total balance:")
+# print(top_suppliers)
+
+# # Create a box plot of Balance distribution by top 5 suppliers
+# plt.figure(figsize=(12, 10))
+# sns.boxplot(
+#     x='Supplier', 
+#     y='Balance', 
+#     data=df[df['Supplier'].isin(top_suppliers.index[:5])]
+# )
+# plt.xticks(rotation=45, ha='right')
+# plt.title('Balance Distribution for Top 5 Suppliers')
+# plt.tight_layout()
+# plt.savefig('./OutPlots/balance_distribution_top5_suppliers.png')
+# # plt.show()
+# plt.close()
+
+# # Create a line plot of total balance over time
+# df_grouped = df.groupby('Date')['Balance'].sum().reset_index()
+# plt.figure(figsize=(12, 6))
+# plt.plot(df_grouped['Date'], df_grouped['Balance'])
+# plt.title('Total Balance Over Time')
+# plt.xlabel('Date')
+# plt.ylabel('Total Balance')
+# plt.xticks(rotation=45)
+# plt.tight_layout()
+# plt.savefig('./OutPlots/total_balance_over_time.png')
+# # plt.show()
+# plt.close()
+
+# print("\
+# Plots have been created and saved as 'balance_distribution_top5_suppliers.png' and 'total_balance_over_time.png'")
+
+
+
+
+
+
+
+'''MA'''
+# # Convert `Date` to datetime
+# df['Date'] = pd.to_datetime(df['Date'], dayfirst=True)
+
+# # Remove ',' from `Balance` column and convert it to numeric
+# df['Balance'] = df['Balance'].astype(str).str.replace(',', '', regex=False)
+# df['Balance'] = pd.to_numeric(df['Balance'])
+
+# # Group by `Supplier` and `Date` and calculate the sum of `Balance`
+# grouped_df = df.groupby(['Supplier', 'Date'])['Balance'].sum().reset_index()
+
+# # Print the resultant data.
+# print(grouped_df.head().to_markdown(index=False, numalign="left", stralign="left"))
+
+# # Print the column names and their data types
+# print(grouped_df.info())
+
+# import altair as alt
+
+# # Create a box plot for `Balance` against `Supplier`
+# chart1 = alt.Chart(grouped_df).mark_boxplot().encode(
+#     x=alt.X('Supplier', title='Supplier'),
+#     y=alt.Y('Balance', title='Balance')
+# ).properties(
+#     title='Balance by Supplier'
+# ).interactive()
+
+# # Rotate x-axis labels by 45 degrees
+# chart1 = chart1.configure_axis(labelAngle=-45)
+
+# # Save the chart
+# chart1.save('./OutPlots/balance_by_supplier_box_plot.html')
+
+# # Create a box plot for `Balance` against `Date`
+# chart2 = alt.Chart(grouped_df).mark_boxplot().encode(
+#     x=alt.X('Date', title='Date'),
+#     y=alt.Y('Balance', title='Balance')
+# ).properties(
+#     title='Balance by Date'
+# ).interactive()
+
+# # Rotate x-axis labels by 45 degrees
+# chart2 = chart2.configure_axis(labelAngle=-45)
+
+# # Save the chart
+# chart2.save('./OutPlots/balance_by_date_box_plot.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    Here, the pd.cut function is used to segment and sort data values into bins or intervals. In this case, the 'Gross Sales' column is being divided into 10 equal-width bins. The heatmap thats generated has intervals on the x axis like (6.9, 49.3], (49.3, 91.2], ...etc. Same with the service charge.
+'''
+
+
+
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+
+# # Read the CSV file
+# fileName = 'transactions-2023-12-01-2024-01-01.csv'
+# df = load_file(fileName)
+# analyze_dataframe(df)
+
+# # Convert 'Gross Sales' and 'Service Charges' to numeric, removing the dollar sign
+# df['Gross Sales'] = df['Gross Sales'].str.replace('$', '').astype(float)
+# df['Service Charges'] = df['Service Charges'].str.replace('$', '').astype(float)
+# print("AFTER")
+# analyze_dataframe(df)
+
+# print(df['Service Charges'].unique())
+# print(df['Gross Sales'].unique())
+
+# # Create 10 bins for Gross Sales and Service Charges
+# # This will create 10 intervals based on the values encountered.
+# gross_sales_bins = pd.cut(df['Gross Sales'], bins=10)
+# service_charges_bins = pd.cut(df['Service Charges'], bins=10)
+
+# # Create a cross-tabulation of the binned data
+# heatmap_data = pd.crosstab(service_charges_bins, gross_sales_bins)
+
+# # Create the heatmap
+# plt.figure(figsize=(12, 8))
+# sns.heatmap(heatmap_data, annot=False, cmap='YlOrRd', fmt='d')
+# plt.title('Heatmap: Relationship between Gross Sales and Service Charges')
+# plt.xlabel('Service Charges')
+# plt.ylabel('Gross Sales')
+# plt.tight_layout()
+# plt.show()
+
+# # Display some basic statistics
+# print("Basic statistics:")
+# print(df[['Gross Sales', 'Service Charges']].describe())
+
+# # Calculate correlation
+# correlation = df['Gross Sales'].corr(df['Service Charges'])
+# print(f"Correlation between Gross Sales and Service Charges: {correlation:.4f}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import numpy as np
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Read the CSV file
+# fileName = 'projects.csv'
+# df = load_file(fileName)
+# analyze_dataframe(df)
+
+# # Overview of the dataset
+# print("Dataset Overview:")
+# print(f"Total number of records: {len(df)}")
+# print(f"Columns in the dataset: {', '.join(df.columns)}")
+
+# # Check for missing values
+# print("Missing values:")
+# print(df.isnull().sum())
+
+# # Data types of each column
+# print("Data types of each column:")
+# print(df.dtypes)
+
+# # Unique categories in categorical columns
+# categorical_columns = df.select_dtypes(include=['object']).columns
+# for col in categorical_columns:
+#     print(f"Unique categories in {col}:")
+#     print(df[col].value_counts())
+
+# # Summary statistics for numerical columns
+# print("Summary statistics for numerical columns:")
+# print(df.describe())
+
+# # Perform the IQR analysis on all three amount bill columns
+# def identify_outliers(column):
+#     Q1 = column.quantile(0.25)
+#     Q3 = column.quantile(0.75)
+#     IQR = Q3 - Q1
+#     lower_bound = Q1 - 1.5 * IQR
+#     upper_bound = Q3 + 1.5 * IQR
+#     outliers = column[(column < lower_bound) | (column > upper_bound)]
+#     return outliers
+
+# # Identify outliers for each AMOUNT_BILL column
+# for col in ['AMOUNT_BILL_1', 'AMOUNT_BILL_2', 'AMOUNT_BILL_3']:
+#     outliers = identify_outliers(df[col])
+#     print(f"Outliers in {col}:")
+#     print(f"Number of outliers: {len(outliers)}")
+#     print("Top 5 outliers:")
+#     print(outliers.sort_values(ascending=False).head())
+    
+#     # Create box plot
+#     plt.figure(figsize=(10, 6))
+#     sns.boxplot(x=df[col])
+#     plt.title(f'Box Plot of {col}')
+#     plt.savefig(f'./OutPlots/{col}_boxplot.png')
+#     plt.close()
+    
+#     print(f"Box plot for {col} has been saved as '{col}_boxplot.png'")
+
+# # Display summary statistics for all three columns
+# print("Summary statistics for AMOUNT_BILL columns:")
+# print(df[['AMOUNT_BILL_1', 'AMOUNT_BILL_2', 'AMOUNT_BILL_3']].describe())
+
+# # Calculate and display correlations between AMOUNT_BILL columns
+# print("Correlations between AMOUNT_BILL columns:")
+# print(df[['AMOUNT_BILL_1', 'AMOUNT_BILL_2', 'AMOUNT_BILL_3']].corr())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import numpy as np
+# import matplotlib.pyplot as plt
+
+# # Read the CSV file
+# fileName = 'pajamasupload_-_pajamasupload.csv'
+# df = load_file(fileName)
+# analyze_dataframe(df)
+
+# # Filter out rows where 'Type' or 'Variant Price' is NaN
+# df = df.dropna(subset=['Type', 'Variant Price'])
+
+# # Calculate average 'Variant Price' for each 'Type'
+# avg_price_by_type = df.groupby('Type')['Variant Price'].mean().sort_values(ascending=False)
+
+# print("Average 'Variant Price' for each 'Type':")
+# print(avg_price_by_type)
+
+# # Plotting
+# plt.figure(figsize=(12, 6))
+# avg_price_by_type.plot(kind='bar')
+# plt.title('Average Variant Price by Type')
+# plt.xlabel('Type')
+# plt.ylabel('Average Price')
+# plt.xticks(rotation=45, ha='right')
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Read the CSV file
+# fileName = 'microservice_company_customer_survey_data.csv'
+# df_survey = load_file(fileName)
+# analyze_dataframe(df_survey)
+# print(df_survey['Age Range'].unique())
+
+# # Calculate the average 'User Satisfaction Score' by 'Age Range'
+# avg_satisfaction_by_age = df_survey.groupby('Age Range')['Microservice Platform - User Satisfaction Score'].mean().reset_index()
+
+# print("Average 'User Satisfaction Score' by 'Age Range':")
+# print(avg_satisfaction_by_age)
+
+# # Save the result to a CSV file
+# avg_satisfaction_by_age.to_csv('./OutCSVs/avg_satisfaction_by_age.csv', index=False)
+# print("The aggregated table has been saved as 'avg_satisfaction_by_age.csv'")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  
 
 
 

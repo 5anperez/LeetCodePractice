@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "layer": [{"mark": {"type": "arc", "outerRadius": 120}, "encoding": {"color": {"field": "Contract option", "type": "nominal"}, "order": {"aggregate": "count", "sort": "descending", "type": "quantitative"}, "theta": {"aggregate": "count", "stack": true, "type": "quantitative"}, "tooltip": [{"field": "Contract option", "type": "nominal"}, {"aggregate": "count", "type": "quantitative"}]}, "title": "Distribution of Contract Options Among Carriers"}, {"mark": {"type": "text", "radius": 140}, "encoding": {"color": {"value": "black"}, "order": {"aggregate": "count", "sort": "descending", "type": "quantitative"}, "text": {"aggregate": "count", "type": "quantitative"}, "theta": {"aggregate": "count", "stack": true, "type": "quantitative"}}, "title": "Distribution of Contract Options Among Carriers"}], "data": {"name": "data-f834f53591147fd6455245debe3beb8c"}, "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-f834f53591147fd6455245debe3beb8c": [{"Contract options": "Month-to-month, 1-year, and 2-year contracts", "Contract option": "Month-to-month"}, {"Contract options": "Month-to-month, 1-year, and 2-year contracts", "Contract option": "1-year"}, {"Contract options": "Month-to-month, 1-year, and 2-year contracts", "Contract option": "and 2-year contracts"}, {"Contract options": "Month-to-month, 1-year, and 2-year contracts", "Contract option": "Month-to-month"}, {"Contract options": "Month-to-month, 1-year, and 2-year contracts", "Contract option": "1-year"}, {"Contract options": "Month-to-month, 1-year, and 2-year contracts", "Contract option": "and 2-year contracts"}, {"Contract options": "Month-to-month, 1-year, and 2-year contracts", "Contract option": "Month-to-month"}, {"Contract options": "Month-to-month, 1-year, and 2-year contracts", "Contract option": "1-year"}, {"Contract options": "Month-to-month, 1-year, and 2-year contracts", "Contract option": "and 2-year contracts"}, {"Contract options": "Month-to-month, 1-year, and 2-year contracts", "Contract option": "Month-to-month"}, {"Contract options": "Month-to-month, 1-year, and 2-year contracts", "Contract option": "1-year"}, {"Contract options": "Month-to-month, 1-year, and 2-year contracts", "Contract option": "and 2-year contracts"}, {"Contract options": "Month-to-month only", "Contract option": "Month-to-month only"}, {"Contract options": "Party pay only", "Contract option": "Party pay only"}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

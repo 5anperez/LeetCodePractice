@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-940fecfd37fd1453bf97eabdb3921527"}, "mark": {"type": "bar"}, "encoding": {"tooltip": [{"bin": true, "field": "fuel_economy_mpg", "title": "Fuel Economy (MPG)", "type": "quantitative"}, {"aggregate": "count", "type": "quantitative"}], "x": {"bin": true, "field": "fuel_economy_mpg", "title": "Fuel Economy (MPG)", "type": "quantitative"}, "y": {"aggregate": "count", "title": "Count", "type": "quantitative"}}, "params": [{"name": "param_1", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "title": "Distribution of Fuel Economy (MPG)", "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-940fecfd37fd1453bf97eabdb3921527": [{"car_model": "Tesla Model 3", "fuel_economy_mpg": 39, "engine_displacement_liters": 0.28, "engine_displacement_cubic_inches": 140, "horsepower": 286, "weight_lbs": 3500, "acceleration_0_to_60_seconds": 5.1, "manufacturing_year": 2017, "country_of_origin": "USA"}, {"car_model": "Toyota Camry", "fuel_economy_mpg": 30, "engine_displacement_liters": 2.5, "engine_displacement_cubic_inches": 150, "horsepower": 181, "weight_lbs": 3300, "acceleration_0_to_60_seconds": 7.9, "manufacturing_year": 2022, "country_of_origin": "Japan"}, {"car_model": "Honda Civic", "fuel_economy_mpg": 31, "engine_displacement_liters": 1.5, "engine_displacement_cubic_inches": 99, "horsepower": 158, "weight_lbs": 2700, "acceleration_0_to_60_seconds": 8.2, "manufacturing_year": 2023, "country_of_origin": "Japan"}, {"car_model": "Ford F-150", "fuel_economy_mpg": 18, "engine_displacement_liters": 3.5, "engine_displacement_cubic_inches": 281, "horsepower": 375, "weight_lbs": 6000, "acceleration_0_to_60_seconds": 6.2, "manufacturing_year": 2022, "country_of_origin": "USA"}, {"car_model": "Chevy Silverado", "fuel_economy_mpg": 19, "engine_displacement_liters": 5.3, "engine_displacement_cubic_inches": 355, "horsepower": 420, "weight_lbs": 6200, "acceleration_0_to_60_seconds": 6.0, "manufacturing_year": 2023, "country_of_origin": "USA"}, {"car_model": "Toyota Corolla", "fuel_economy_mpg": 33, "engine_displacement_liters": 1.8, "engine_displacement_cubic_inches": 121, "horsepower": 139, "weight_lbs": 2500, "acceleration_0_to_60_seconds": 9.0, "manufacturing_year": 2022, "country_of_origin": "Japan"}, {"car_model": "Honda Accord", "fuel_economy_mpg": 32, "engine_displacement_liters": 2.0, "engine_displacement_cubic_inches": 159, "horsepower": 192, "weight_lbs": 3200, "acceleration_0_to_60_seconds": 8.4, "manufacturing_year": 2023, "country_of_origin": "Japan"}, {"car_model": "Nissan Altima", "fuel_economy_mpg": 34, "engine_displacement_liters": 2.5, "engine_displacement_cubic_inches": 182, "horsepower": 188, "weight_lbs": 3000, "acceleration_0_to_60_seconds": 8.6, "manufacturing_year": 2022, "country_of_origin": "Japan"}, {"car_model": "Hyundai Sonata", "fuel_economy_mpg": 35, "engine_displacement_liters": 2.4, "engine_displacement_cubic_inches": 178, "horsepower": 178, "weight_lbs": 3100, "acceleration_0_to_60_seconds": 8.8, "manufacturing_year": 2023, "country_of_origin": "South Korea"}, {"car_model": "Kia Optima", "fuel_economy_mpg": 36, "engine_displacement_liters": 2.4, "engine_displacement_cubic_inches": 178, "horsepower": 178, "weight_lbs": 3100, "acceleration_0_to_60_seconds": 8.8, "manufacturing_year": 2022, "country_of_origin": "South Korea"}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>
