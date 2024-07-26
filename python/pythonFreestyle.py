@@ -20807,6 +20807,134 @@ create a pie chart showing the sales percentage per customer.
 
 
 
+'''
+    BELOW WE HAVE THE WRONG WAY AND THE CORRECT WAY TO CREATE A STACKED BAR PLOT WITH ALTAIR AND SET A SPECIFIC STACK ORDER
+'''
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# # Read the CSV file
+# fileName = 'trapiche_ingenio_nv.csv'
+# df = load_file(fileName)
+# analyze_dataframe(df)
+
+# # Convert 'Fecha' to datetime
+# df['Fecha'] = pd.to_datetime(df['Fecha'])
+
+# print("AFTER")
+# analyze_dataframe(df)
+# print(df['Fecha'].unique())
+
+# # Group by date and sum 'Neto' and 'Trash' columns
+# daily_data = df.groupby('Fecha')[['Neto', 'Trash']].sum().reset_index()
+
+# # Create the stacked bar chart
+# plt.figure(figsize=(12, 6))
+# sns.set_style("whitegrid")
+
+# # Plot the stacked bars
+# plt.bar(
+#     daily_data['Fecha'], 
+#     daily_data['Neto'], 
+#     label='Neto'
+# )
+# plt.bar(
+#     daily_data['Fecha'], 
+#     daily_data['Trash'], 
+#     bottom=daily_data['Neto'], 
+#     label='Trash'
+# )
+# plt.title('Daily Sum of Neto and Trash')
+# plt.xlabel('Date')
+# plt.ylabel('Sum')
+# plt.legend()
+# plt.xticks(rotation=45, ha='right')
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''MA: WRONG WAY (IT DOESNT EVEN ATTEMPT TO SET THE STACK ORDER)'''
+# import altair as alt
+
+# # Convert `Fecha` to datetime type
+# df['Fecha'] = pd.to_datetime(df['Fecha'])
+
+# # Group by `Fecha` and calculate the sum for `Neto` and `Trash` columns
+# df_plot = df.groupby('Fecha')[['Neto', 'Trash']].sum().reset_index()
+
+# # Melt the DataFrame to long format for Altair
+# df_plot = df_plot.melt(id_vars='Fecha', var_name='Category', value_name='Value')
+
+# # Create a stacked bar chart
+# chart = alt.Chart(df_plot).mark_bar().encode(
+#     x=alt.X('Fecha'),
+#     y=alt.Y('Value', title='Sum'),
+#     color='Category',
+#     tooltip=['Fecha', 'Value', 'Category']
+# ).properties(
+#     title='Stacked Bar Chart of Neto and Trash by Fecha'
+# ).interactive()
+
+# chart.save('./OutPlots/neto_trash_stacked_bar_chart.html')
+
+# # Print the resultant data.
+# print(df_plot.head().to_markdown(index=False, numalign="left", stralign="left"))
+
+# # Print the column names and their data types
+# print(df_plot.info())
+
+
+
+
+
+
+
+'''RIGHT WAY'''
+# import altair as alt
+
+
+# # Convert `Fecha` to datetime type
+# df['Fecha'] = pd.to_datetime(df['Fecha'])
+
+# # Group by `Fecha` and calculate the sum for `Neto` and `Trash` columns
+# df_plot = df.groupby('Fecha')[['Neto', 'Trash']].sum().reset_index()
+
+# # Melt the DataFrame to long format for Altair
+# df_plot = df_plot.melt(id_vars='Fecha', var_name='Category', value_name='Value')
+
+# # Ensure the correct stacking order by setting the order of the 'Category' field
+# category_order = ['Neto', 'Trash']
+# df_plot['Category'] = pd.Categorical(df_plot['Category'], categories=category_order, ordered=True)
+
+# # Create a stacked bar chart
+# chart = alt.Chart(df_plot).mark_bar().encode(
+#     x=alt.X('Fecha:T', title='Date'),
+#     y=alt.Y('Value:Q', title='Sum'),
+#     color=alt.Color('Category:N', scale=alt.Scale(domain=category_order)),
+#     order=alt.Order('Category:N', sort='ascending'),  # Ensure 'Neto' is at the bottom and 'Trash' is on top
+#     tooltip=['Fecha:T', 'Value:Q', 'Category:N']
+# ).properties(
+#     title='Stacked Bar Chart of Neto and Trash by Fecha'
+# ).interactive()
+
+# chart.save('./OutPlots/neto_trash_stacked_bar_chart4.html')
 
 
 
@@ -20842,6 +20970,178 @@ create a pie chart showing the sales percentage per customer.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Read the CSV file
+# fileName = 'mobile-phone-brands-by-country.csv'
+# df = load_file(fileName)
+# analyze_dataframe(df)
+
+# # Clean the country names
+# df['Country'] = df['Country'].str.strip()
+
+# # Filter for Asia region and count unique countries
+# asia_countries = df[df['Region'] == 'Asia']['Country'].nunique()
+
+# print(f"Number of countries in Asia with registered mobile phone brands: {asia_countries}")
+
+# # Display unique countries in Asia for additional context
+# print("Unique countries in Asia with registered mobile phone brands:")
+# print(df[df['Region'] == 'Asia']['Country'].unique())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+# import numpy as np
+
+# # Function to clean 'Trade Adjustment:' column
+# def clean_trade_adjustment(value):
+#     if pd.isna(value):
+#         return np.nan
+#     if isinstance(value, str):
+#         # Trim whitespace
+#         cleaned_value = value.strip()
+#         # Convert ' $ -' to '0'
+#         if cleaned_value == '$ -' or cleaned_value == ' -':
+#             return 0.0
+#         # Remove dollar sign and parentheses, convert to float
+#         cleaned_value = cleaned_value.replace('$', '').replace('(', '-').replace(')', '').replace(',', '')
+#         return float(cleaned_value)
+#     return value  # If it's already a float, return it as is
+
+
+# # Load the Excel file, skipping the first 9 rows
+# fileName1 = 'FAL Projects NY - office NY - FAL Proyectos.xlsx'
+# df_office = load_file(fileName1, 'excel', 9)
+# analyze_dataframe(df_office)
+
+# # Load the TSV file, skipping the first 9 rows
+# fileName2 = 'FAL Projects NY - West SM.tsv'
+# df_west = load_file(fileName2, 'tsv', 9)
+# analyze_dataframe(df_west)
+
+# print(df_office['Trade Adjustment:'].unique())
+# print(df_west['Trade Adjustment:'].unique())
+
+# print(df_office['Vendor Name:'].unique())
+# print(df_west['Vendor Name:'].unique())
+
+# # Convert to numeric types
+# df_west['Grand Total:'] = df_west['Grand Total:'].apply(clean_trade_adjustment)
+
+# # Apply the function 
+# df_west['Trade Adjustment:'] = df_west['Trade Adjustment:'].apply(clean_trade_adjustment)
+
+# # Clean and process the data
+# df_office = df_office.dropna(subset=['Vendor Name:', 'Grand Total:'])
+# df_west = df_west.dropna(subset=['Vendor Name:', 'Grand Total:'])
+
+# print("AFTER")
+# analyze_dataframe(df_office)
+# analyze_dataframe(df_west)
+
+# print(df_office['Trade Adjustment:'].unique())
+# print(df_west['Trade Adjustment:'].unique())
+
+# print(df_office['Grand Total:'].unique())
+# print(df_west['Grand Total:'].unique())
+
+# combined_valid_df = pd.concat([df_office, df_west]).dropna(subset=['Trade Adjustment:'])
+
+# # Group by Vendor Name to calculate required metrics
+# vendor_stats_valid = combined_valid_df.groupby('Vendor Name:').agg({
+#     'PO/ Order #:': 'count',
+#     'Grand Total:': 'mean',
+#     'Trade Adjustment:': 'sum'
+# }).reset_index()
+
+# # Rename columns for clarity
+# vendor_stats_valid.columns = ['Vendor', 'Order Count', 'AOV', 'Total Trade Adjustment']
+
+# # Plot the bubble chart
+# plt.figure(figsize=(12, 8))
+# bubble = plt.scatter(
+#     vendor_stats_valid['Vendor'],
+#     vendor_stats_valid['Order Count'],
+#     s=vendor_stats_valid['AOV'] * 1,  # Scale AOV for better visibility
+#     c=vendor_stats_valid['Total Trade Adjustment'],
+#     cmap='viridis',
+#     alpha=0.6,
+#     edgecolors="w",
+#     linewidth=2
+# )
+
+# plt.colorbar(bubble, label='Total Trade Adjustment')
+# plt.xlabel('Vendor')
+# plt.ylabel('Order Count')
+# plt.title('Vendor Orders with AOV and Trade Adjustments')
+# plt.xticks(rotation=90)
+# plt.grid(True)
+# plt.show()
 
 
 

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-389871729f536fd13209abc7da8e9813"}, "mark": {"type": "bar"}, "encoding": {"color": {"field": "Category", "type": "nominal"}, "tooltip": [{"field": "Date", "type": "temporal"}, {"field": "Category", "type": "nominal"}, {"field": "Total", "type": "quantitative"}], "x": {"axis": {"title": "Date"}, "field": "Date", "type": "temporal"}, "y": {"axis": {"title": "Total"}, "field": "Total", "type": "quantitative"}}, "params": [{"name": "param_1", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "title": "Neto and Trash by Date", "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-389871729f536fd13209abc7da8e9813": [{"Date": "2023-07-21T00:00:00", "Category": "Neto", "Total": 39198}, {"Date": "2023-07-22T00:00:00", "Category": "Neto", "Total": 310783}, {"Date": "2023-07-23T00:00:00", "Category": "Neto", "Total": 317025}, {"Date": "2023-07-24T00:00:00", "Category": "Neto", "Total": 312720}, {"Date": "2023-07-25T00:00:00", "Category": "Neto", "Total": 215353}, {"Date": "2023-07-26T00:00:00", "Category": "Neto", "Total": 278015}, {"Date": "2023-07-27T00:00:00", "Category": "Neto", "Total": 353873}, {"Date": "2023-07-28T00:00:00", "Category": "Neto", "Total": 229904}, {"Date": "2023-07-29T00:00:00", "Category": "Neto", "Total": 433076}, {"Date": "2023-07-30T00:00:00", "Category": "Neto", "Total": 214470}, {"Date": "2023-07-31T00:00:00", "Category": "Neto", "Total": 362934}, {"Date": "2023-08-01T00:00:00", "Category": "Neto", "Total": 434504}, {"Date": "2023-08-02T00:00:00", "Category": "Neto", "Total": 353194}, {"Date": "2023-08-03T00:00:00", "Category": "Neto", "Total": 349310}, {"Date": "2023-08-04T00:00:00", "Category": "Neto", "Total": 544180}, {"Date": "2023-08-05T00:00:00", "Category": "Neto", "Total": 286196}, {"Date": "2023-08-06T00:00:00", "Category": "Neto", "Total": 325120}, {"Date": "2023-08-07T00:00:00", "Category": "Neto", "Total": 265848}, {"Date": "2023-08-08T00:00:00", "Category": "Neto", "Total": 597545}, {"Date": "2023-08-09T00:00:00", "Category": "Neto", "Total": 818793}, {"Date": "2023-08-10T00:00:00", "Category": "Neto", "Total": 483432}, {"Date": "2023-07-21T00:00:00", "Category": "Trash", "Total": 2502}, {"Date": "2023-07-22T00:00:00", "Category": "Trash", "Total": 19837}, {"Date": "2023-07-23T00:00:00", "Category": "Trash", "Total": 20235}, {"Date": "2023-07-24T00:00:00", "Category": "Trash", "Total": 19960}, {"Date": "2023-07-25T00:00:00", "Category": "Trash", "Total": 13747}, {"Date": "2023-07-26T00:00:00", "Category": "Trash", "Total": 17745}, {"Date": "2023-07-27T00:00:00", "Category": "Trash", "Total": 22587}, {"Date": "2023-07-28T00:00:00", "Category": "Trash", "Total": 14676}, {"Date": "2023-07-29T00:00:00", "Category": "Trash", "Total": 27644}, {"Date": "2023-07-30T00:00:00", "Category": "Trash", "Total": 13690}, {"Date": "2023-07-31T00:00:00", "Category": "Trash", "Total": 23166}, {"Date": "2023-08-01T00:00:00", "Category": "Trash", "Total": 67616}, {"Date": "2023-08-02T00:00:00", "Category": "Trash", "Total": 56226}, {"Date": "2023-08-03T00:00:00", "Category": "Trash", "Total": 53350}, {"Date": "2023-08-04T00:00:00", "Category": "Trash", "Total": 89040}, {"Date": "2023-08-05T00:00:00", "Category": "Trash", "Total": 44884}, {"Date": "2023-08-06T00:00:00", "Category": "Trash", "Total": 51740}, {"Date": "2023-08-07T00:00:00", "Category": "Trash", "Total": 38372}, {"Date": "2023-08-08T00:00:00", "Category": "Trash", "Total": 93555}, {"Date": "2023-08-09T00:00:00", "Category": "Trash", "Total": 127647}, {"Date": "2023-08-10T00:00:00", "Category": "Trash", "Total": 69588}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>
