@@ -14200,67 +14200,67 @@ def analyze_dataframe(df):
 
 
 
-import pandas as pd
+# import pandas as pd
 
-def load_file(file_name, file_type='csv', skiprows=0):
-    """
-    Load a file from the "./CSVs/" directory and return a DataFrame.
+# def load_file(file_name, file_type='csv', skiprows=0):
+#     """
+#     Load a file from the "./CSVs/" directory and return a DataFrame.
 
-    Parameters:
-    file_name (str): The name of the file to load.
-    file_type (str): The type of the file ('csv', 'excel', 'multi'). Default is 'csv'.
+#     Parameters:
+#     file_name (str): The name of the file to load.
+#     file_type (str): The type of the file ('csv', 'excel', 'multi'). Default is 'csv'.
 
-    Returns:
-    pd.DataFrame: The loaded DataFrame.
-    """
-    # Construct the full file path
-    file_path = f"./CSVs/{file_name}"
+#     Returns:
+#     pd.DataFrame: The loaded DataFrame.
+#     """
+#     # Construct the full file path
+#     file_path = f"./CSVs/{file_name}"
 
-    # List of common encodings to try
-    encodings = ['utf-8', 'latin-1', 'utf-16', 'cp1252', 'iso-8859-1']
+#     # List of common encodings to try
+#     encodings = ['utf-8', 'latin-1', 'utf-16', 'cp1252', 'iso-8859-1']
 
-    def try_loading_file(encoding=None):
-        if file_type == 'csv':
-            return pd.read_csv(file_path, encoding=encoding, skiprows=skiprows)
-        elif file_type == 'tsv':
-            return pd.read_csv(file_path, delimiter='\t', encoding=encoding, skiprows=skiprows)
-        elif file_type == 'excel':
-            return pd.read_excel(file_path, skiprows=skiprows)
-        elif file_type == 'multi':
-            return pd.ExcelFile(file_path, skiprows=skiprows)
-        else:
-            raise ValueError("Unsupported file type. Use 'csv', 'tsv', 'excel', or 'multi'.")
+#     def try_loading_file(encoding=None):
+#         if file_type == 'csv':
+#             return pd.read_csv(file_path, encoding=encoding, skiprows=skiprows)
+#         elif file_type == 'tsv':
+#             return pd.read_csv(file_path, delimiter='\t', encoding=encoding, skiprows=skiprows)
+#         elif file_type == 'excel':
+#             return pd.read_excel(file_path, skiprows=skiprows)
+#         elif file_type == 'multi':
+#             return pd.ExcelFile(file_path, skiprows=skiprows)
+#         else:
+#             raise ValueError("Unsupported file type. Use 'csv', 'tsv', 'excel', or 'multi'.")
 
-    # Try to load the file without specifying an encoding first
-    try:
-        df = try_loading_file()
-    # If the file doesnt exist
-    # NOTE: NEEDS A MORE ELEGANT SOLUTE... IS THIS EVEN NEEDED? BC THE CODE KEEPS GOING SINCE IT RETURNS NONE
-    except FileNotFoundError as e:
-        print(f"Error: {e}")
-        print("The specified file was not found. Please check the file path and try again.")
-        return None
-    # If decoding was the issue
-    except Exception as e:
-        print(f"Failed to load file without specifying encoding: {e}")
-        for encoding in encodings:
-            try:
-                print(f"Trying to load file with encoding: {encoding}")
-                df = try_loading_file(encoding=encoding)
-                print("File loaded successfully with encoding:", encoding)
-                break
-            except Exception as e:
-                print(f"Failed to load file with encoding {encoding}: {e}")
-        else:
-            raise ValueError("Failed to load file with all attempted encodings.")
+#     # Try to load the file without specifying an encoding first
+#     try:
+#         df = try_loading_file()
+#     # If the file doesnt exist
+#     # NOTE: NEEDS A MORE ELEGANT SOLUTE... IS THIS EVEN NEEDED? BC THE CODE KEEPS GOING SINCE IT RETURNS NONE
+#     except FileNotFoundError as e:
+#         print(f"Error: {e}")
+#         print("The specified file was not found. Please check the file path and try again.")
+#         return None
+#     # If decoding was the issue
+#     except Exception as e:
+#         print(f"Failed to load file without specifying encoding: {e}")
+#         for encoding in encodings:
+#             try:
+#                 print(f"Trying to load file with encoding: {encoding}")
+#                 df = try_loading_file(encoding=encoding)
+#                 print("File loaded successfully with encoding:", encoding)
+#                 break
+#             except Exception as e:
+#                 print(f"Failed to load file with encoding {encoding}: {e}")
+#         else:
+#             raise ValueError("Failed to load file with all attempted encodings.")
 
-    if file_type == 'multi':
-        sheets = df.sheet_names
-        print("The file has the following sheets:", sheets)
+#     if file_type == 'multi':
+#         sheets = df.sheet_names
+#         print("The file has the following sheets:", sheets)
     
-    print("\nLOADING THE DATA...\n")
+#     print("\nLOADING THE DATA...\n")
 
-    return df
+#     return df
 
 # Example usage:
 # df_csv = load_file('example.csv', 'csv')
@@ -21169,6 +21169,316 @@ create a pie chart showing the sales percentage per customer.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# from io import StringIO
+
+# # Create the dataset string
+# data = """
+# body_part,muscle_group,exercise,sets,reps
+# Chest,Pectoralis Major,Bench Press,3,10
+# Back,Latissimus Dorsi,Pull-Ups,3,8
+# Shoulders,Deltoids,Overhead Press,3,12
+# Triceps,Triceps Brachii,Close-Grip Bench Press,3,10
+# Biceps,Biceps Brachii,Bicep Curls,3,12
+# Legs,Quadriceps,Squats,3,10
+# Hamstrings,Hamstrings,Deadlifts,3,8
+# Calves,Gastrocnemius,Calf Raises,3,15
+# Abs,Rectus Abdominis,Crunches,3,20
+# """
+
+# # Use the StringIO method to read and convert 
+# # the dataset into a dataframe.
+# df = pd.read_csv(StringIO(data))
+
+# analyze_dataframe(df)
+
+# # Calculate the average sets and reps
+# average_sets = df['sets'].mean()
+# average_reps = df['reps'].mean()
+
+# print("Average sets: ", average_sets)
+# print("Average reps: ", average_reps)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Create a heatmap to show the correlation between different birth data columns
+
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+# from io import StringIO
+
+# # Create the dataset string
+# data = '''
+# state,state_code,year,sex,education,education_code,birth_count,average_mother_age,average_birth_weight
+# California,CA,2023,Female,High School Diploma,10,1000,25,7.50
+# Texas,TX,2023,Male,Bachelor's Degree,12,1500,30,8.00
+# Florida,FL,2023,Female,Some College,11,1200,27,7.75
+# New York,NY,2023,Male,High School Diploma,10,1000,25,7.50
+# Illinois,IL,2023,Female,Master's Degree,13,1700,32,8.25
+# Pennsylvania,PA,2023,Male,Some College,11,1200,27,7.75
+# Ohio,OH,2023,Female,High School Diploma,10,1000,25,7.50
+# Michigan,MI,2023,Male,Bachelor's Degree,12,1500,30,8.00
+# '''
+
+# # Use the StringIO method to read and convert 
+# # the data into a dataframe.
+# df = pd.read_csv(StringIO(data))
+# analyze_dataframe(df)
+
+# # Select only the numerical columns for correlation
+# numerical_df = df[['education_code', 'birth_count', 'average_mother_age', 'average_birth_weight']]
+
+# # Calculate the correlation matrix, 
+# # then create the heatmap.
+# correlation_matrix = numerical_df.corr()
+# plt.figure(figsize=(10, 8))
+# sns.heatmap(
+#     correlation_matrix, 
+#     annot=True, 
+#     cmap='coolwarm', 
+#     linewidths=0.5
+# )
+# plt.title('Correlation Heatmap of Birth Data')
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import matplotlib.pyplot as plt
+
+# # Example data for the pie chart
+# tasks = ['Dusting and Wiping Surfaces', 'Vacuuming and Mopping Floors', 'Bathroom Cleaning', 
+#          'Kitchen Cleaning', 'Laundry and Organizing', 'Windows and Mirrors']
+# time_allocation = [20, 25, 15, 20, 15, 5]
+
+# # Custom colors for each task slice
+# colors = ['#FF9999', '#66B2FF', '#99FF99', '#FFCC99', '#FF99CC', '#99CCFF']
+
+# # Create the pie chart
+# plt.figure(figsize=(10, 8))
+# plt.pie(
+#     time_allocation, 
+#     labels=tasks, 
+#     colors=colors, 
+#     autopct='%1.1f%%', 
+#     startangle=90
+# )
+# plt.title('Effective House Cleaning: Time Allocation', fontsize=16)
+
+# # Add a circle at the center to make it a donut 
+# center_circle = plt.Circle((0,0), 0.70, fc='white')
+# fig = plt.gcf()
+# fig.gca().add_artist(center_circle)
+# plt.axis('equal')
+# plt.tight_layout()
+# plt.show()
+
+# print("Pie chart of effective house cleaning time allocation has been created.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# data = {
+#     'Animal': ['Blue whale', 'Fin whale', 'Bowhead whale', 'North Pacific right whale', 
+#                'North Atlantic right whale', 'Southern right whale', 'Sperm whale', 
+#                'Humpback whale', 'Sei whale', 'Gray whale', 'African elephant', 
+#                'Asian elephant', 'Hippopotamus', 'White rhinoceros', 'Indian rhinoceros', 
+#                'Black rhinoceros', 'Javan rhinoceros', 'Giraffe', 'Bison', 'Kodiak bear'],
+#     'Weight (metric tons)': [180, 120, 120, 120, 110, 110, 57, 48, 45, 45, 6, 5, 4.5, 
+#                              4.5, 4, 2.9, 2.3, 2, 1.8, 1.5]
+# }
+
+# df = pd.DataFrame(data)
+
+# # Sort the dataframe by weight in descending order
+# df = df.sort_values('Weight (metric tons)', ascending=False)
+
+# # Create the line chart
+# plt.figure(figsize=(14, 8))
+# plt.plot(
+#     df['Animal'], 
+#     df['Weight (metric tons)'], 
+#     marker='o', 
+#     linestyle='-', 
+#     color='b'
+# )
+
+# plt.title('Top 20 Largest Animals on Earth by Weight', fontsize=16)
+# plt.xlabel('Animal', fontsize=12)
+# plt.ylabel('Weight (metric tons)', fontsize=12)
+# plt.xticks(rotation=90)
+# plt.grid(True)
+# plt.tight_layout()
+# plt.show()
+
+# print("Line chart of the top 20 largest animals by weight has been created.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                   
 
 
@@ -21193,6 +21503,22 @@ create a pie chart showing the sales percentage per customer.
 
 
 
+# import pandas as pd
+
+# data = {
+#     'country_name': ['United States', 'China', 'India', 'Japan', 'Germany', 'United Kingdom'],
+#     'country_code': ['US', 'CN', 'IN', 'JP', 'DE', 'UK'],
+#     'year': [2023, 2023, 2023, 2023, 2023, 2023],
+#     'mobile_users_count': [2.74e+02, 1.45938e+09, 7.52e+02, 1.27e+02, 8.3e+01, 6.7e+01],
+#     'internet_users_per_hundred_people': [93.8, 70.0, 39.0, 90.0, 92.0, 90.0],
+#     'total_internet_users_count': [3.3e+02, 1.496e+09, 8.1e+02, 1.35e+02, 9.0e+01, 7.0e+01],
+#     'fixed_broadband_users_count': [2.3e+02, 1.22e+09, 5.2e+02, 1.0e+02, 7.5e+01, 6.0e+01]
+# }
+
+# df = pd.DataFrame(data)
+# correlation = df['mobile_users_count'].corr(df['fixed_broadband_users_count'])
+
+# print("The correlation between mobile users and fixed broadband users is: ", correlation)
 
 
 
@@ -21225,6 +21551,397 @@ create a pie chart showing the sales percentage per customer.
 
 
 
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import numpy as np
+
+# data = {
+#     'Available_Data': [True, False, True, False, True, False, True, False, True, False, True],
+#     'Affordable_Housing_Units': [1000, 500, 1500, 2000, 1000, 500, 1500, 2000, 1000, 500, 1500],
+#     'Educational_Quality_Score': [80, 70, 90, 60, 70, 80, 90, 60, 70, 80, 90],
+#     'Trust_in_Police': [70, 60, 80, 50, 60, 70, 80, 50, 60, 70, 80],
+#     'Road_Quality': [90, 80, 100, 70, 80, 90, 100, 70, 80, 90, 100],
+#     'Community_Events_Attendance': [500, 200, 600, 300, 400, 100, 600, 300, 400, 100, 600],
+#     'Mental_Health_Status': ['Good', 'Fair', 'Excellent', 'Poor', 'Good', 'Fair', 'Excellent', 'Poor', 'Good', 'Fair', 'Excellent']
+# }
+
+# df = pd.DataFrame(data)
+# analyze_dataframe(df)
+
+# # Define high "trust" in police to be equal to or above the median
+# median_trust = df['Trust_in_Police'].median()
+# high_trust = df[df['Trust_in_Police'] >= median_trust]
+
+# # Calculate average attendance for high trust communities
+# avg_attendance = high_trust['Community_Events_Attendance'].mean()
+
+# print(f"Median trust in police score: {median_trust}")
+# print(f"Number of communities with high trust in police: {len(high_trust)}")
+# print(f"Average community events attendance for communities with high trust in police: {avg_attendance:.2f}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import re
+
+# data = {
+#     'Carrier': ['Verizon', 'AT&T', 'T-Mobile', 'UScellular', 'Mint Mobile', 'Visible'],
+#     'Coverage_area': ['99% of the US population', '98% of the US population', '98% of the US population', '95% of the US population', '99% of the US population (uses T-Mobile\'s network)', '99% of the US population (uses Verizon\'s network)'],
+#     'Price': ['$50-$180 per month', '$40-$165 per month', '$30-$135 per month', '$30-$120 per month', '$15-$40 per month', '$40 per month'],
+#     'Network_type': ['CDMA and LTE', 'GSM and LTE', 'GSM and LTE', 'GSM and LTE', 'GSM and LTE', 'CDMA and LTE'],
+#     'Data_speeds': ['Up to 1 Gbps', 'Up to 1 Gbps', 'Up to 1 Gbps', 'Up to 1 Gbps', 'Up to 1 Gbps', 'Up to 1 Gbps'],
+#     'Customer_service': [4.5, 4, 3.5, 4, 4, 3.5],
+#     'Features': ['HD calling, Wi-Fi calling, international roaming, hotspot tethering', 'HD calling, Wi-Fi calling, international roaming, hotspot tethering', 'HD calling, Wi-Fi calling, international roaming, hotspot tethering', 'HD calling, Wi-Fi calling, international roaming, hotspot tethering', 'HD calling, Wi-Fi calling, international roaming, hotspot tethering', 'HD calling, Wi-Fi calling, international roaming, hotspot tethering'],
+#     'Contract_options': ['Month-to-month, 1-year, and 2-year contracts', 'Month-to-month, 1-year, and 2-year contracts', 'Month-to-month, 1-year, and 2-year contracts', 'Month-to-month, 1-year, and 2-year contracts', 'Month-to-month only', 'Party pay only'],
+#     'Family_plans': ['Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes'],
+#     'Device_discounts': ['Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes'],
+#     'Promotions': ['Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes']
+# }
+
+# df = pd.DataFrame(data)
+# analyze_dataframe(df)
+
+# # Function to extract average price
+# def extract_average_price(price_range):
+#     numbers = re.findall(r'\d+', price_range)
+#     if len(numbers) == 2:
+#         return (int(numbers[0]) + int(numbers[1])) / 2
+#     elif len(numbers) == 1:
+#         return int(numbers[0])
+#     else:
+#         return None
+
+# # Calculate average prices
+# df['Average_Price'] = df['Price'].apply(extract_average_price)
+
+# # Create the horizontal bar chart
+# plt.figure(figsize=(12, 6))
+# bars = plt.barh(df['Carrier'], df['Average_Price'], color='lightgreen')
+
+# # Add titles and labels
+# plt.title('Average Monthly Price for US Phone Carriers', fontsize=16)
+# plt.xlabel('Average Price ($)', fontsize=12)
+# plt.ylabel('Carrier', fontsize=12)
+
+# # Add value labels on the bars
+# for bar in bars:
+#     width = bar.get_width()
+#     plt.text(width, bar.get_y() + bar.get_height()/2.,
+#              f'${width:.2f}',
+#              ha='left', va='center')
+
+# # Adjust layout and display the chart
+# plt.tight_layout()
+# plt.show()
+
+# print("Horizontal bar chart of average monthly prices for each carrier has been created.")
+# print("Average prices for each carrier:")
+# print(df[['Carrier', 'Average_Price']].to_string(index=False))
+
+
+
+
+
+
+
+
+# import pandas as pd
+
+# # Load data in a pandas dataframe
+# data = {
+#     'Carrier': ['Verizon', 'AT&T', 'T-Mobile', 'UScellular', 'Mint Mobile', 'Visible'],
+#     'Coverage area': ['99% of the US population', '98% of the US population', '98% of the US population', '95% of the US population', '99% of the US population (uses T-Mobile\'s network)', '99% of the US population (uses Verizon\'s network)'],
+#     'Price': ["$50-$180", "$40-$165", "$30-$135", "$30-$120", "$15-$40", "$40"],
+#     'Network type': ['CDMA and LTE', 'GSM and LTE', 'GSM and LTE', 'GSM and LTE', 'GSM and LTE', 'CDMA and LTE'],
+#     'Data speeds': ['Up to 1 Gbps', 'Up to 1 Gbps', 'Up to 1 Gbps', 'Up to 1 Gbps', 'Up to 1 Gbps', 'Up to 1 Gbps'],
+#     'Customer service': [4.5, 4.0, 3.5, 4.0, 4.0, 3.5],
+#     'Features': ['HD calling, Wi-Fi calling, international roaming, hotspot tethering', 'HD calling, Wi-Fi calling, international roaming, hotspot tethering', 'HD calling, Wi-Fi calling, international roaming, hotspot tethering', 'HD calling, Wi-Fi calling, international roaming, hotspot tethering', 'HD calling, Wi-Fi calling, international roaming, hotspot tethering', 'HD calling, Wi-Fi calling, international roaming, hotspot tethering'],
+#     'Contract options': ['Month-to-month, 1-year, and 2-year contracts', 'Month-to-month, 1-year, and 2-year contracts', 'Month-to-month, 1-year, and 2-year contracts', 'Month-to-month, 1-year, and 2-year contracts', 'Month-to-month only', 'Party pay only'],
+#     'Family plans': ['Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes'],
+#     'Device discounts': ['Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes'],
+#     'Promotions': ['Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes']
+# }
+
+# df = pd.DataFrame(data)
+
+# # Extract numerical values from the price range and calculate the average
+# # NOTE that the print statements are for debugging.
+# average_prices = []
+# for price_range in df['Price']:
+#     print("Current elt:", price_range)
+#     price_values = [int(price.strip('$')) for price in price_range.split('-')]
+#     print("After split:", price_values)
+#     average_price = sum(price_values) / len(price_values)
+#     print("Avg. price", average_price)
+#     average_prices.append(average_price)
+
+# # Calculate the mean of the average prices
+# average_price_all_carriers = sum(average_prices) / len(average_prices)
+
+# # Print the average price across all carriers
+# print(f"The average price across all carriers is: ${average_price_all_carriers:.2f}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import numpy as np
+
+# data = {
+#     'state': ['California', 'Texas', 'Florida', 'New York', 'Illinois', 'Pennsylvania', 'Ohio', 'Michigan'],
+#     'state_code': ['CA', 'TX', 'FL', 'NY', 'IL', 'PA', 'OH', 'MI'],
+#     'year': [2023] * 8,
+#     'sex': ['Female', 'Male', 'Female', 'Male', 'Female', 'Male', 'Female', 'Male'],
+#     'education': ['High School Diploma', "Bachelor's Degree", 'Some College', 'High School Diploma', "Master's Degree", 'Some College', 'High School Diploma', "Bachelor's Degree"],
+#     'education_code': [10, 12, 11, 10, 13, 11, 10, 12],
+#     'birth_count': [1000, 1500, 1200, 1000, 1700, 1200, 1000, 1500],
+#     'average_mother_age': [25, 30, 27, 25, 32, 27, 25, 30],
+#     'average_birth_weight': [7.50, 8.00, 7.75, 7.50, 8.25, 7.75, 7.50, 8.00]
+# }
+
+# df = pd.DataFrame(data)
+# analyze_dataframe(df)
+
+# # Filter the dataframe for mothers with a high school diploma
+# high_school_df = df[df['education'] == 'High School Diploma']
+
+# # Calculate the average birth weight 
+# average_birth_weight_hs = high_school_df['average_birth_weight'].mean()
+# print(f"The average birth weight for all mothers with a high school diploma is: {average_birth_weight_hs:.2f} pounds")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# data = {
+#     'Year': list(range(2000, 2020 + 1)),
+#     'ARS/USD (average)': [1.00, 1.00, 3.06, 2.90, 2.92, 2.90, 3.05, 3.09, 3.14, 3.71, 3.89, 4.11, 4.54, 5.46, 8.08, 9.23, 14.76, 16.56, 28.09, 48.15, 70.54]
+# }
+# df = pd.DataFrame(data)
+
+# # Plotting the line chart
+# plt.figure(figsize=(10, 6))
+# plt.plot(df['Year'], df['ARS/USD (average)'], marker='o', linestyle='-', color='b')
+# plt.title('Historical Exchange Rate: ARS/USD (2000-2020)')
+# plt.xlabel('Year')
+# plt.ylabel('ARS/USD (average)')
+# plt.grid(True)
+# plt.xticks(df['Year'], rotation=45)
+# plt.tight_layout()
+
+# # Plotting the bar chart
+# plt.figure(figsize=(10, 6))
+# plt.bar(df['Year'], df['ARS/USD (average)'], color='b')
+# plt.title('Historical Exchange Rate: ARS/USD (2000-2020)')
+# plt.xlabel('Year')
+# plt.ylabel('ARS/USD (average)')
+# plt.grid(True, axis='y')
+# plt.xticks(df['Year'], rotation=45)
+# plt.tight_layout()
+# # plt.show()
+
+# # Calculating the percentage change in the exchange rate from one year to the next
+# df['Percentage Change'] = df['ARS/USD (average)'].pct_change() * 100
+
+# # Calculating the cumulative percentage change
+# df['Cumulative Percentage Change'] = (df['ARS/USD (average)'] / df['ARS/USD (average)'].iloc[0] - 1) * 100
+
+# # Calculating the maximum exchange rate
+# max_exchange_rate = df['ARS/USD (average)'].max()
+
+# print(f"The maximum exchange rate for the period 2000 to 2020 was: {max_exchange_rate} ARS/USD")
+
+# # Finding the year of the maximum exchange rate
+# year_of_max = df.loc[df['ARS/USD (average)'] == max_exchange_rate, 'Year'].values[0]
+
+# print(f"This maximum rate occurred in the year {year_of_max}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# This code will calculate the correlation between police trust and mental health status.
+
+import pandas as pd
+
+data = {
+    'Data Availability': [1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1],
+    'Affordable Housing Units': [100, 200, 300, 100, 200, 300, 100, 200, 300, 100, 200, 300, 100, 200],
+    'Educational Quality Rating': [8, 7, 6, 9, 8, 7, 8, 7, 6, 9, 8, 7, 8, 7],
+    'Police Trust': [90, 80, 70, 80, 70, 60, 90, 80, 70, 80, 70, 60, 90, 80],
+    'Road Quality': [7, 8, 9, 6, 7, 8, 7, 8, 9, 6, 7, 8, 7, 8],
+    'Community Event Participation': [50, 60, 70, 40, 50, 60, 50, 60, 70, 40, 50, 60, 50, 60],
+    'Mental Health Status': [3, 2, 1, 4, 3, 2, 3, 2, 1, 4, 3, 2, 3, 2]
+}
+df = pd.DataFrame(data)
+
+# Calculating the correlation between Police Trust and Mental Health Status
+correlation = df['Police Trust'].corr(df['Mental Health Status'])
+
+print(f"The correlation between Police Trust and Mental Health Status is: {correlation}")
 
 
 

@@ -1,3 +1,262 @@
+
+
+
+
+// MA
+#include <iostream>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+const unsigned int SCREEN_WIDTH = 800;
+const unsigned int SCREEN_HEIGHT = 600;
+
+// Define the vertices of the complex shape
+struct Vertex {
+  glm::vec3 position;
+  glm::vec3 color;
+};
+
+const Vertex vertices[] = {
+  {glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
+  {glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f)},
+  {glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 1.0f)},
+  {glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 1.0f)},
+  // Add more vertices to define the complex shape
+  {glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 1.0f)},
+  {glm::vec3(0.5f, 0.5f, 1.0f), glm::vec3(1.0f, 0.5f, 1.0f)},
+  {glm::vec3(1.0f, 0.5f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f)},
+  {glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.5f, 1.0f, 1.0f)},
+  {glm::vec3(0.5f, 1.0f, 1.0f), glm::vec3(0.5f, 0.5f, 1.0f)},
+};
+
+const unsigned int vertex_count = sizeof(vertices) / sizeof(vertices[0]);
+
+int main() {
+  // Initialize GLFW
+  glfwInit();
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+  // Create a window
+  GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Complex Shape Rendering", nullptr, nullptr);
+  if (window == nullptr) {
+    std::cout << "Failed to create GLFW window" << std::endl;
+    glfwTerminate();
+    return -1;
+  }
+  glfwMakeContextCurrent(window);
+
+  // Initialize GLEW
+  if (glewInit() != GLEW_OK) {
+    std::cout << "Failed to initialize GLEW" << std::endl;
+    glfwTerminate();
+    return -1;
+  }
+
+  // Create a VAO
+  unsigned int VAO;
+  glGenVertexArrays(1, &VAO);
+
+  // Create a VBO
+  unsigned int VBO;
+  glGenBuffers(1, &VBO);
+
+  // Allocate memory for vertex data
+  unsigned int vertex_buffer_size = sizeof(Vertex) * vertex_count;
+  glBindBuffer(GL_ARRAY_BUFFER, VBO);
+  glBufferData(GL_ARRAY_BUFFER, vertex_buffer_size, nullptr, GL_STATIC_DRAW);
+
+  // Copy the vertex data to the GPU
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  glBindVertexArray(0);
+
+  // Create an index buffer
+  unsigned int index_buffer_size = sizeof(unsigned int) * 6; // For a triangle strip
+  unsigned int indices[] = {
+    0, 1, 2,
+    0, 2, 3,
+    // Add more indices to define the complex shape
+    4, 5, 6,
+    4, 6, 7,
+  };
+
+  unsigned int index_buffer;
+  glGenBuffers(1, &index_buffer);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_size, indices, GL_STATIC_DRAW);
+
+  // Define the vertex shader
+  const char* vertex_shader_source = "#version 330 core\n"
+                                    "layout (location = 0) in vec3 aPos;\n"
+                                    "layout (location = 1) in vec3 aColor;\n"
+                                    "out vec3 ourColor;\n"
+                                    "void main()\n"
+                                    "{\n"
+                                    "  gl_Position = vec4(aPos, 1.0);\n"
+                                    "  ourColor = aColor;\n"
+                                    "}";
+
+  // Define the fragment shader
+  const char* fragment_shader_source = "#version 330 core\n"
+                                      "out vec3 FragColor;\n"
+                                      "void main()\n"
+                                      "{\n"
+                                      "  FragColor = ourColor;\n"
+                                      "}";
+
+  // Compile the shaders
+  GLuint vertex_shader, fragment_shader;
+  if (glCreateShader(GL_VERTEX_SHADER, vertex_shader_source, nullptr, &vertex_shader) != GL_TRUE) {
+    std::cout << "Failed to create vertex shader" << std::endl;
+    glDeleteBuffers(1, &VBO);
+    glDeleteVertexArrays(1, &VAO);
+    glfwTerminate();
+    return -1;
+  }
+
+  if (glCreateShader(GL_FRAGMENT_SHADER, fragment_shader_source, nullptr, &fragment_shader) != GL_TRUE) {
+    std::cout << "Failed to create fragment shader" << std::endl;
+    glDeleteBuffers(1, &VBO);
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteShader(vertex_shader);
+    glDeleteShader(fragment_shader);
+    glfwTerminate();
+    return -1;
+  }
+
+  // Link the shader program
+  GLuint shader_program;
+  if (glCreateProgram() != GL_TRUE) {
+    std::cout << "Failed to create shader program" << std::endl;
+    glDeleteShader(vertex_shader);
+    glDeleteShader(fragment_shader);
+    glDeleteBuffers(1, &VBO);
+    glDeleteVertexArrays(1, &VAO);
+    glfwTerminate();
+    return -1;
+  }
+
+  if (glAttachShader(shader_program, vertex_shader) != GL_TRUE) {
+    std::cout << "Failed to attach vertex shader" << std::endl;
+    glDeleteProgram(shader_program);
+    glDeleteBuffers(1, &VBO);
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteShader(vertex_shader);
+    glDeleteShader(fragment_
+
+
+
+
+
+
+
+
+
+
+
+// MB
+// #include <SDL2/SDL.h>
+// #include <SDL2/SDL_image.h>
+// #include <SDL2/SDL_ttf.h>
+
+// #include <iostream>
+// #include <cmath>
+
+// int main(int argc, char* argv[]) {
+//     // Initialize SDL
+//     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+//         std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
+//         return -1;
+//     }
+
+//     // Create window
+//     SDL_Window* window = SDL_CreateWindow("Complex Shape Rendering", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
+//     if (window == NULL) {
+//         std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+//         return -1;
+//     }
+
+//     // Create renderer
+//     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+//     if (renderer == NULL) {
+//         std::cout << "Renderer could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+//         return -1;
+//     }
+
+//     // Set texture filtering to linear
+//     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+
+//     // Load image
+//     SDL_Surface* imageSurface = IMG_Load("path/to/your/image.png");
+//     if (imageSurface == NULL) {
+//         std::cout << "Unable to load image: " << SDL_GetError() << std::endl;
+//         return -1;
+//     }
+
+//     // Create texture from surface
+//     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, imageSurface);
+//     SDL_FreeSurface(imageSurface);
+
+//     // Set the position of the texture
+//     SDL_Rect rect = { 100, 100, imageSurface->w, imageSurface->h };
+
+//     // Render the texture
+//     SDL_RenderCopy(renderer, texture, NULL, &rect);
+
+//     // Clean up
+//     SDL_DestroyTexture(texture);
+//     SDL_DestroyRenderer(renderer);
+//     SDL_DestroyWindow(window);
+//     SDL_Quit();
+
+//     return 0;
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
     ~ PROBLEM: 1143. Longest Common Subsequence
 
@@ -101,59 +360,57 @@
 
 
 /*  MB  */
-#include <stdio.h>
-#include <string.h>
+// #include <stdio.h>
+// #include <string.h>
 
-int intersectInOrder(char set1[], char set2[]) {
-    int m = strlen(set1);
-    int n = strlen(set2);
-    int dp[m + 1][n + 1]; 
+// int intersectInOrder(char set1[], char set2[]) {
+//     int m = strlen(set1);
+//     int n = strlen(set2);
+//     int dp[m + 1][n + 1]; 
 
-    // Base case: empty strings have no intersection
-    for (int i = 0; i <= m; i++) {
-        dp[i][0] = 0;
-    }
-    for (int j = 0; j <= n; j++) {
-        dp[0][j] = 0;
-    }
+//     // Base case: empty strings have no intersection
+//     for (int i = 0; i <= m; i++) {
+//         dp[i][0] = 0;
+//     }
+//     for (int j = 0; j <= n; j++) {
+//         dp[0][j] = 0;
+//     }
 
-    // Dynamic programming to find longest common subsequence (LCS)
-    for (int i = 1; i <= m; i++) {
-        for (int j = 1; j <= n; j++) {
-            if (set1[i - 1] == set2[j - 1]) {
-                dp[i][j] = dp[i - 1][j - 1] + 1;
-            } else {
-                dp[i][j] = (dp[i - 1][j] > dp[i][j - 1]) ? dp[i - 1][j] : dp[i][j - 1];
-            }
-        }
-    }
+//     // Dynamic programming to find longest common subsequence (LCS)
+//     for (int i = 1; i <= m; i++) {
+//         for (int j = 1; j <= n; j++) {
+//             if (set1[i - 1] == set2[j - 1]) {
+//                 dp[i][j] = dp[i - 1][j - 1] + 1;
+//             } else {
+//                 dp[i][j] = (dp[i - 1][j] > dp[i][j - 1]) ? dp[i - 1][j] : dp[i][j - 1];
+//             }
+//         }
+//     }
 
-    // Backtrack to extract the intersection string
-    int length = dp[m][n]; // Length of the intersection
-    char intersection[length + 1]; // Array to store the intersection
-    intersection[length] = '\0'; // Null-terminate the string
+//     // Backtrack to extract the intersection string
+//     int length = dp[m][n]; // Length of the intersection
+//     char intersection[length + 1]; // Array to store the intersection
+//     intersection[length] = '\0'; // Null-terminate the string
 
-    int i = m, j = n;
-    while (i > 0 && j > 0) {
-        if (set1[i - 1] == set2[j - 1]) {
-            intersection[length - 1] = set1[i - 1];
-            i--;
-            j--;
-            length--;
-        } else if (dp[i - 1][j] > dp[i][j - 1]) {
-            i--;
-        } else {
-            j--;
-        }
-    }
+//     int i = m, j = n;
+//     while (i > 0 && j > 0) {
+//         if (set1[i - 1] == set2[j - 1]) {
+//             intersection[length - 1] = set1[i - 1];
+//             i--;
+//             j--;
+//             length--;
+//         } else if (dp[i - 1][j] > dp[i][j - 1]) {
+//             i--;
+//         } else {
+//             j--;
+//         }
+//     }
 
-    // Print (or use) the intersection string 
-    printf("Intersection: %s\n", intersection); 
+//     // Print (or use) the intersection string 
+//     printf("Intersection: %s\n", intersection); 
 
-    return dp[m][n]; // Return the length of the intersection
-}
-
-
+//     return dp[m][n]; // Return the length of the intersection
+// }
 
 
 
@@ -164,18 +421,20 @@ int intersectInOrder(char set1[], char set2[]) {
 
 
 
-// Test the function
-int main() {
-    char set1[] = "rabcd";
-    char set2[] = "race";
-    printf("Longest common subsequence length: %d\n", intersectInOrder(set1, set2)); // Expected output: 3
 
-    char set1_2[] = "abc";
-    char set2_2[] = "def";
-    printf("Longest common subsequence length: %d\n", intersectInOrder(set1_2, set2_2)); // Expected output: 0
 
-    return 0;
-}
+// // Test the function
+// int main() {
+//     char set1[] = "rabcd";
+//     char set2[] = "race";
+//     printf("Longest common subsequence length: %d\n", intersectInOrder(set1, set2)); // Expected output: 3
+
+//     char set1_2[] = "abc";
+//     char set2_2[] = "def";
+//     printf("Longest common subsequence length: %d\n", intersectInOrder(set1_2, set2_2)); // Expected output: 0
+
+//     return 0;
+// }
 
 
 

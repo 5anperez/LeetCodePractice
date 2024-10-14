@@ -5,17 +5,382 @@
 
 
 
-import numpy as np
-
-# Create a 5x5 identity matrix
-identity_matrix = np.eye(5)
-
-# Display the matrix
-print(identity_matrix)
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# GPT
+# def loves_me(n_petals):
+#     phrases = []
+#     for i in range(1, n_petals + 1):
+#         if i % 2 != 0:
+#             phrase = "Loves me"
+#         else:
+#             phrase = "Loves me not"
+#         # Emphasize the last phrase
+#         if i == n_petals:
+#             phrase = phrase.upper()
+#         else:
+#             phrase = phrase.lower()
+#         phrases.append(phrase)
+#     # Output the result
+#     print(', '.join(phrases))
+    
+# loves_me(6)
+    
+
+
+
+
+
+
+
+# MA
+# def loves_me_loves_me_not(petals):
+#     player1 = "Player 1"
+#     player2 = "Player 2"
+    
+#     while petals > 0:
+#         print(f"\nIt's {player1}'s turn!")
+#         player1_input = input("Enter 'loves me' or 'loves me not': ")
+        
+#         if player1_input == "loves me":
+#             petals -= 1
+#             print(f"{player1} picked a petal. There are {petals} petals left.")
+#         elif player1_input == "loves me not":
+#             petals -= 2
+#             print(f"{player1} pulled off two petals. There are {petals} petals left.")
+#         else:
+#             print("Please enter 'loves me' or 'loves me not'.")
+#             continue
+        
+#         if petals == 0:
+#             print(f"\n{player1} wins!")
+#             break
+        
+#         print(f"It's {player2}'s turn!\n")
+#         player2_input = input("Enter 'loves me' or 'loves me not': ")
+        
+#         if player2_input == "loves me":
+#             petals -= 1
+#             print(f"{player2} picked a petal. There are {petals} petals left.")
+#         elif player2_input == "loves me not":
+#             petals -= 2
+#             print(f"{player2} pulled off two petals. There are {petals} petals left.")
+#         else:
+#             print("Please enter 'loves me' or 'loves me not'.")
+#             continue
+        
+#         if petals == 0:
+#             print(f"\n{player2} wins!")
+#             break
+        
+#     print("\nThe game is over!")
+    
+loves_me_loves_me_not(6)
+
+
+
+
+
+
+
+
+
+
+
+
+# MB
+# def loves_me_loves_me_not(petals):
+#     while petals > 0:
+#         print("Pull a petal:")
+#         petals -= 1
+#         print("Petals left:", petals)
+#         if petals == 0:
+#             print("No more petals left!")
+#             break
+#         print("Result:", "Loves Me" if petals % 2 == 0 else "Loves Me Not")
+
+# # Run the function with the number of petals in the flower
+# loves_me_loves_me_not(6)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# GPT
+# def find_longest_word():
+#     # Read words from the user, one per line, until an empty line is entered
+#     print("Enter words (press Enter on an empty line to finish):")
+#     words = []
+#     while True:
+#         word = input()
+#         if word == '':
+#             break
+#         words.append(word)
+    
+#     # Find the longest word
+#     longest_word = max(words, key=len)
+#     print("The longest word is " + longest_word)
+    
+# find_longest_word()
+
+
+
+
+
+# MA
+# def longest_word(word1, word2, word3, word4):
+#     if len(word1) > len(word2) and len(word1) > len(word3) and len(word1) > len(word4):
+#         longest_word = word1
+#     elif len(word2) > len(word1) and len(word2) > len(word3) and len(word2) > len(word4):
+#         longest_word = word2
+#     elif len(word3) > len(word1) and len(word3) > len(word2) and len(word3) > len(word4):
+#         longest_word = word3
+#     else:
+#         longest_word = word4
+#     print("The longest word is " + longest_word)
+
+# longest_word("secret", "secretary", "secretariat", "secretaries")
+
+
+
+
+
+
+
+
+
+# # MB
+# def longest_word(words):
+#     longest_word = ""
+#     for word in words:
+#         if len(word) > len(longest_word):
+#             longest_word = word
+#     print("The longest word is", longest_word)
+
+# # Define the words
+# words = ["secretagogue", "secretary", "secretariat", "secretaire"]
+
+# # Call the function
+# longest_word(words)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+A BOOLEAN array current_values= {true, false, false, false}
+An empty BOOLEAN array future_values = new boolean[4]
+array_location = 0
+FOR (i = length of current_values to i=0, i–)
+	future_values[i] = !(current_values[array_location])
+	array_location ++
+
+'''
+
+# curr_vals = [True, False, False, False]
+# fut_vals = [0] * 4
+# a = 0
+# for i in range(len(curr_vals)-1, -1, -1):
+#     fut_vals[i] = not (curr_vals[a])
+#     a += 1
+    
+# print(fut_vals)
+
+
+
+
+
+'''
+FUNCTION input_cleaner(button_input_list)
+//accepts a list of button inputs (AA B AAAA XXX YY BB YYY)
+//outputs a text file containing unique sequential characters
+	
+button_input_list = CONVERT STRING button_input_list TO a zero-indexed array of characters
+	index = 1
+	
+	WHILE (index < the length of button_input_list)
+		IF button_input_list[index] == button_input_list[index-1]
+			REMOVE element at index from button_input_list
+		index = index + 1 
+	OUTPUT button_input_list as log_file.text
+'''
+
+# test_data = ['A','A','B','A','A','A','A','X','X','X','Y','Y','B','B','Y','Y','Y']
+# i = 1
+# while i < (len(test_data)):
+#     if test_data[i] == test_data[i-1]:
+#         test_data[i] = -1
+#     i += 1
+    
+# j = 0
+# while j < (len(test_data)):
+#     if test_data[j] != -1:
+#         print(test_data[j])
+#     j += 1
+        
+# print("DONE!")
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+FUNCTION 2D_array_calculator(input_array)
+//accepts an input array which is a two-dimensional array of positive integers
+//outputs an integer value
+
+    total_value = 0
+    index = 0
+    current sum = 0
+
+    FOR each sub-array in input_array
+    
+        FOR (index = 0, index LESS THAN (the length of the sub-array-1), index++)
+        
+        		Add the value of sub-array[index] to current_sum
+		        total_value = current_sum MULTIPLIED BY sub-array[index]
+
+    PRINT total_value
+    
+    
+    
+input_array = {{4,8,10,6},
+               {5,3,7,2},
+               {1,12,9,11}}
+'''
+    
+# total_value = 0
+# index = 0
+# current_sum = 0
+
+# input_array = [[4,8,10,6],
+#                [5,3,7,2],
+#                [1,12,9,11]]
+
+# for i in range(0, 3):
+#     for j in range(0, 3):
+#         print("Curr sum:")
+#         current_sum += input_array[i][j]
+#         print(current_sum)
+#         total_value = current_sum * input_array[i][j]
+#         print("curr total: ", total_value)
+#         print("Current i and j:", i, j)
+        
+# print("Total = ", total_value)
 
 
 
