@@ -5,9 +5,749 @@
 
 
 
+# gpt
+# def removeUnbalancedParens(eq: str) -> str:
+#     """
+#     Removes unbalanced parentheses from the input string and returns a balanced string.
+    
+#     Args:
+#         eq (str): A string consisting only of '(' and ')'.
+        
+#     Returns:
+#         str: A balanced parentheses string with unmatched parentheses removed.
+#     """
+#     stack = []
+#     to_remove = set()
+
+#     # First pass: Identify indices of unmatched '('
+#     for i, char in enumerate(eq):
+#         if char == '(':
+#             stack.append(i)
+#         elif char == ')':
+#             if stack:
+#                 stack.pop()  # There's a matching '(' so it's valid
+#             else:
+#                 to_remove.add(i)  # Unmatched ')'
+
+#     # Any unmatched '(' left in the stack are unbalanced
+#     to_remove = to_remove.union(set(stack))
+
+#     # Second pass: Build the balanced string
+#     balanced_eq = ''.join([char for i, char in enumerate(eq) if i not in to_remove])
+#     return balanced_eq
 
 
 
+
+
+
+# def retOuterLengthAndDepth(eq: str, clean_up: bool = False) -> tuple[int, int]:
+#     """
+#     Returns the length of the longest well-formed parentheses substring and the maximum nesting depth, 
+#     or the balanced version of the string if clean_up is True.
+    
+#     Args:
+#         eq (str): A string consisting only of '(' and ')'.
+#         clean_up (bool): If True, returns the balanced version of the string; otherwise, 
+#                          returns the length and max depth of well-formed parentheses.
+    
+#     Returns:
+#         tuple[int, int] or str: 
+#             - If clean_up is False: (length of the longest well-formed substring, maximum depth of nested parentheses).
+#             - If clean_up is True: A balanced parentheses string with unmatched parentheses removed.
+#     """
+    
+#     # Clean-up mode
+#     if clean_up:
+#         return removeUnbalancedParens(eq)
+
+#     # Otherwise, compute max length and depth
+#     stack = []
+#     longest_length = 0
+#     last_invalid_index = -1  # Tracks the position just after the last invalid parentheses
+#     current_depth = 0
+#     max_depth = 0
+
+#     for i, char in enumerate(eq):
+#         if char == '(':
+#             # Push the index of '(' onto the stack
+#             stack.append(i)
+#             current_depth += 1  # Increase depth for every opening parenthesis
+#             max_depth = max(max_depth, current_depth)  # Update the maximum depth
+#         else:  # char == ')'
+#             if stack:
+#                 # A matching '(' is found, so pop from the stack
+#                 stack.pop()
+#                 current_depth -= 1  # Decrease depth when closing parenthesis is found
+
+#                 if stack:
+#                     # Current valid substring is between the last unmatched '(' and current ')'
+#                     longest_length = max(longest_length, i - stack[-1])
+#                 else:
+#                     # Current valid substring starts after the last invalid ')'
+#                     longest_length = max(longest_length, i - last_invalid_index)
+#             else:
+#                 # Unmatched ')', mark this as the last invalid index
+#                 last_invalid_index = i
+
+#     return longest_length, max_depth if current_depth == 0 else max_depth - current_depth
+
+
+
+
+
+
+# def removeUnbalancedParens(eq: str) -> str:
+#     """
+#     Removes unbalanced parentheses from the input string and returns a balanced string.
+    
+#     Args:
+#         eq (str): A string consisting only of '(' and ')'.
+        
+#     Returns:
+#         str: A balanced parentheses string with unmatched parentheses removed.
+#     """
+#     stack = []
+#     to_remove = set()
+
+#     # First pass: Identify indices of unmatched '('
+#     for i, char in enumerate(eq):
+#         if char == '(':
+#             stack.append(i)
+#         elif char == ')':
+#             if stack:
+#                 stack.pop()  # There's a matching '(' so it's valid
+#             else:
+#                 to_remove.add(i)  # Unmatched ')'
+
+#     # Any unmatched '(' left in the stack are unbalanced
+#     to_remove = to_remove.union(set(stack))
+
+#     # Second pass: Build the balanced string
+#     balanced_eq = ''.join([char for i, char in enumerate(eq) if i not in to_remove])
+#     return balanced_eq
+
+
+
+
+
+
+
+# ma
+def removeUnbalancedParens(eq: str) -> str:
+    """
+    This function takes a string of parentheses and returns a balanced string
+    by removing any extra or unmatched parentheses.
+
+    Args:
+        eq: The string of parentheses.
+
+    Returns:
+        The balanced string of parentheses.
+    """
+    stack = []
+    balanced_indices = set()
+
+    for i, char in enumerate(eq):
+        if char == '(':
+            stack.append(i)
+        elif char == ')' and stack:
+            open_index = stack.pop()
+            balanced_indices.add(open_index)
+            balanced_indices.add(i)
+
+    balanced_string = "".join([char for i, char in enumerate(eq) if i in balanced_indices])
+    return balanced_string
+
+
+
+
+
+
+
+
+
+
+
+# mb
+# def removeUnbalancedParens(eq: str) -> str:
+#     """
+#     Removes unbalanced parentheses from a string and returns the balanced version.
+
+#     Args:
+#         eq: The string of parentheses to balance.
+
+#     Returns:
+#         The balanced string.
+#     """
+
+#     stack = []
+#     balanced_eq = ""
+
+#     for char in eq:
+#         if char == '(':
+#             stack.append(char)  # Push opening parenthesis onto stack
+#             balanced_eq += char
+#         elif char == ')':
+#             if stack:  # If there's a matching '(' on the stack
+#                 stack.pop()
+#                 balanced_eq += char
+#             # Else ignore the imbalanced ')'
+
+#     # Deal with remaining unmatched opening parentheses by removing from the end.
+#     while stack:
+#         stack.pop()
+#         balanced_eq = balanced_eq[:-1] # Remove the last character
+
+
+#     return balanced_eq
+
+
+
+
+
+
+
+tenChars = "(()()(()))"
+threeChars = "(()"
+print("\nExpected:", tenChars, "\nActual:", removeUnbalancedParens(eq=tenChars))
+print("\n")
+threeChars = "(()"
+print("Expected: ()\nActual:", removeUnbalancedParens(eq=threeChars))
+print("\n")
+
+# Example Usage:
+eq = "(()(()))"
+print(f"Expected: {eq}\nActual:", removeUnbalancedParens(eq=eq))
+print("\n")
+
+eq = ")(()(()))"
+print(f"Expected: (()(()))\nActual:", removeUnbalancedParens(eq=eq))
+print("\n")
+
+
+eq = "(()(()))()"
+print(f"Expected: {eq}\nActual:", removeUnbalancedParens(eq=eq))
+print("\n")
+
+
+eq = "(()(()))" 
+print(f"Expected: {eq}\nActual:", removeUnbalancedParens(eq=eq))
+print("\n")
+
+eq = ")(()(()))("
+print(f"Expected: (()(()))\nActual:", removeUnbalancedParens(eq=eq))
+print("\n")
+
+eq = "(()((()))"
+print(f"Expected: ()((()))\nActual:", removeUnbalancedParens(eq=eq))
+print("\n")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# gpt
+# def retOuterLengthAndDepth(eq: str) -> tuple[int, int]:
+#     """
+#     Returns the length of the longest well-formed parentheses substring and the maximum nesting depth, 
+#     ignoring unbalanced parentheses.
+    
+#     Args:
+#         eq (str): A string consisting only of '(' and ')'.
+        
+#     Returns:
+#         tuple[int, int]: 
+#             - The length of the longest well-formed substring of parentheses.
+#             - The maximum depth of nested parentheses.
+#     """
+#     stack = []
+#     longest_length = 0
+#     last_invalid_index = -1  # Tracks the position just after the last invalid parentheses
+#     current_depth = 0
+#     max_depth = 0
+
+#     for i, char in enumerate(eq):
+#         if char == '(':
+#             # Push the index of '(' onto the stack
+#             stack.append(i)
+#             current_depth += 1  # Increase depth for every opening parenthesis
+#             max_depth = max(max_depth, current_depth)  # Update the maximum depth
+#         else:  # char == ')'
+#             if stack:
+#                 # A matching '(' is found, so pop from the stack
+#                 stack.pop()
+#                 current_depth -= 1  # Decrease depth when closing parenthesis is found
+
+#                 if stack:
+#                     # Current valid substring is between the last unmatched '(' and current ')'
+#                     longest_length = max(longest_length, i - stack[-1])
+#                 else:
+#                     # Current valid substring starts after the last invalid ')'
+#                     longest_length = max(longest_length, i - last_invalid_index)
+#             else:
+#                 # Unmatched ')', mark this as the last invalid index
+#                 last_invalid_index = i
+
+#     return longest_length, max_depth if current_depth == 0 else max_depth - current_depth
+
+
+
+
+
+
+
+
+# mb
+# def retOuterLengthAndDepth(eq: str) -> tuple[int, int]:
+#     """
+#     This function takes a string of parentheses and returns the length of the
+#     longest well-formed parentheses substring and the maximum nesting depth.
+
+#     Args:
+#         eq: The string of parentheses.
+
+#     Returns:
+#         A tuple containing the maximum length and the maximum nesting depth.
+#     """
+
+#     max_len = 0
+#     max_depth = 0
+#     current_depth = 0
+#     stack = []
+#     start = -1
+
+#     for i, char in enumerate(eq):
+#         if char == '(':
+#             stack.append(i)
+#             current_depth += 1
+#             max_depth = max(max_depth, current_depth)  # Update max_depth
+#         elif char == ')':
+#             if stack:
+#                 stack.pop()
+#                 current_depth -= 1
+#                 if stack:
+#                     max_len = max(max_len, i - stack[-1])
+#                 else:
+#                     max_len = max(max_len, i - start)
+#             else:
+#                 start = i
+
+
+#     return max_len, max_depth if not current_depth else (max_depth - current_depth)
+
+
+
+
+
+
+
+
+# def longestValidParentheses(eq: str) -> int:
+
+#         """
+#         This function takes a string consisting only of '(' and ')' characters and
+#         returns the length of the longest well-formed parentheses substring.
+
+#         Args:
+#             eq: A string consisting only of '(' and ')' characters.
+
+#         Returns:
+#             The length of the longest well-formed parentheses substring.
+#         """
+#         stack = []
+#         max_len = 0
+#         start = -1
+
+#         for i, char in enumerate(eq):
+#             if char == '(':
+#                 stack.append(i)
+#             elif char == ')':
+#                 if stack:
+#                     stack.pop()
+#                     if stack:
+#                         max_len = max(max_len, i - stack[-1])
+#                     else:
+#                         max_len = max(max_len, i - start)
+#                 else:
+#                     start = i
+
+#         return max_len
+
+
+
+
+
+
+
+
+# Example Usage:
+# Assume 'self' is an instance of a class where this function is defined.
+# length, depth = retOuterLengthAndDepth("(()()(()))")  # length will be 6, depth will be 2
+# print("\nExpected Length: 10, Expected Depth: 3")
+# print(f"Actual Length: {length}, Actual Depth: {depth}")
+
+# length, depth = retOuterLengthAndDepth("(()")  # length will be 6, depth will be 2
+# print("\nExpected Length: 2, Expected Depth: 1")
+# print(f"Actual Length: {length}, Actual Depth: {depth}\n")
+
+
+
+
+# # Example Usage:
+# eq = "(()(()))"
+# max_length, max_depth = retOuterLengthAndDepth(eq)
+# print("\nExpected Length: 8, Expected Depth: 3")
+# print(f"Max Length: {max_length}, Max Depth: {max_depth}")
+
+# eq = ")(()(()))"
+# max_length, max_depth = retOuterLengthAndDepth(eq)  
+# print("\nExpected Length: 8, Expected Depth: 3")
+# print(f"Max Length: {max_length}, Max Depth: {max_depth}")
+
+
+# eq = "(()(()))()"
+# max_length, max_depth = retOuterLengthAndDepth(eq)
+# print("\nExpected Length: 10, Expected Depth: 3")
+# print(f"Max Length: {max_length}, Max Depth: {max_depth}")
+
+
+# eq = "(()((()))" # Imbalanced, but longest valid substring is (8
+# max_length, max_depth = retOuterLengthAndDepth(eq) 
+# print("\nExpected Length: 8, Expected Depth: 3")
+# print(f"Max Length: {max_length}, Max Depth: {max_depth}")
+
+
+
+
+
+
+
+
+# length = longestValidParentheses("(()()(()))")  # length will be 6, depth will be 2
+# print("\nExpected Length: 10\n")
+# print(f"Actual Length: {length}")
+
+# length = longestValidParentheses("(()")  # length will be 6, depth will be 2
+# print("\nExpected Length: 2\n")
+# print(f"Actual Length: {length}\n")
+
+
+
+
+# Example Usage:
+# eq = "(()(()))"
+# max_length = longestValidParentheses(eq)  # Returns (8, 2)
+# print(f"Max Length: {max_length}")
+
+# eq = ")(()(()))"
+# max_length = longestValidParentheses(eq)  # Returns (8, 2) - Ignores initial ')'
+# print(f"Max Length: {max_length}")
+
+
+# eq = "(()(()))()"
+# max_length = longestValidParentheses(eq)  # Returns (8, 2) - Ignores last '('
+# print(f"Max Length: {max_length}")
+
+
+# eq = "(()((()))" # Imbalanced, but longest valid substring is (8
+# max_length = longestValidParentheses(eq)  # Returns (8, 3)
+# print(f"Max Length: {max_length}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    Well, in the future, I will want a companion function that takes the string of parenthesis and delete any open/closed parens that make the string unbalanced. So, in that context, should this maxNestingDepth function just ignore the imbalanced parens?
+    
+'''
+
+# gpt
+# def maxNestingDepth(eq: str) -> int:
+#     """
+#     Returns the maximum depth of nested parentheses in the string.
+    
+#     Args:
+#         eq (str): A string consisting only of '(' and ')'.
+        
+#     Returns:
+#         int: The maximum depth of nested parentheses.
+#     """
+#     max_depth = 0
+#     current_depth = 0
+
+#     for char in eq:
+#         if char == '(':
+#             current_depth += 1
+#             max_depth = max(max_depth, current_depth)
+#         elif char == ')':
+#             current_depth -= 1
+
+#     return max_depth
+
+
+
+
+
+
+
+
+
+
+
+
+# gpt
+# def retOuterLength(eq: str) -> tuple[int, int]:
+#     """
+#     Returns the length of the longest well-formed parentheses substring and the maximum nesting depth, 
+#     ignoring unbalanced parentheses.
+    
+#     Args:
+#         eq (str): A string consisting only of '(' and ')'.
+        
+#     Returns:
+#         tuple[int, int]: 
+#             - The length of the longest well-formed substring of parentheses.
+#             - The maximum depth of nested parentheses.
+#     """
+#     stack = []
+#     longest_length = 0
+#     last_invalid_index = -1  # Tracks the position just after the last invalid parentheses
+#     current_depth = 0
+#     max_depth = 0
+
+#     for i, char in enumerate(eq):
+#         if char == '(':
+#             # Push the index of '(' onto the stack
+#             stack.append(i)
+#             current_depth += 1  # Increase depth for every opening parenthesis
+#             max_depth = max(max_depth, current_depth)  # Update the maximum depth
+#         else:  # char == ')'
+#             if stack:
+#                 # A matching '(' is found, so pop from the stack
+#                 stack.pop()
+#                 current_depth -= 1  # Decrease depth when closing parenthesis is found
+
+#                 if stack:
+#                     # Current valid substring is between the last unmatched '(' and current ')'
+#                     longest_length = max(longest_length, i - stack[-1])
+#                 else:
+#                     # Current valid substring starts after the last invalid ')'
+#                     longest_length = max(longest_length, i - last_invalid_index)
+#             else:
+#                 # Unmatched ')', mark this as the last invalid index
+#                 last_invalid_index = i
+
+#     return longest_length, max_depth if current_depth == 0 else max_depth - current_depth
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    Can you generate a Python function that accepts a string made up of only two characters, namely, the open parenthesis '(' and its counter part, the closed parenthesis ')', as an argument 'eq'? The function, name it "def retOuterLength(self, eq: str) -> int:", should return the length of the longest well-formed parentheses substring. This function will be apart of a larger program used to disect math equations and enumerate their corresponding order of operations. By the time this method gets the 'eq' argument, it would have been stripped down to only open and closed parens and the lengths of all its layers will then be extracted. 
+'''
+
+
+# # gpt
+# def retOuterLength(eq: str) -> int:
+#     """
+#     Returns the length of the longest well-formed parentheses substring in eq.
+    
+#     Args:
+#         eq (str): A string consisting only of '(' and ')'.
+        
+#     Returns:
+#         int: Length of the longest well-formed substring of parentheses.
+#     """
+#     stack = []
+#     longest_length = 0
+#     last_invalid_index = -1  # Tracks the position just after the last invalid parentheses
+
+#     for i, char in enumerate(eq):
+#         if char == '(':
+#             # Push the index of '(' onto the stack
+#             stack.append(i)
+#         else:  # char == ')'
+#             if stack:
+#                 # A matching '(' is found, so pop from the stack
+#                 stack.pop()
+
+#                 if stack:
+#                     # Current valid substring is between the last unmatched '(' and current ')'
+#                     longest_length = max(longest_length, i - stack[-1])
+#                 else:
+#                     # Current valid substring starts after the last invalid ')'
+#                     longest_length = max(longest_length, i - last_invalid_index)
+#             else:
+#                 # Unmatched ')', mark this as the last invalid index
+#                 last_invalid_index = i
+
+#     return longest_length
+
+
+
+
+
+# # ma
+# def retOuterLength(eq: str) -> int:
+#     """
+#     This function takes a string consisting only of '(' and ')' characters and
+#     returns the length of the longest well-formed parentheses substring.
+
+#     Args:
+#         eq: A string consisting only of '(' and ')' characters.
+
+#     Returns:
+#         The length of the longest well-formed parentheses substring.
+#     """
+#     stack = []
+#     max_len = 0
+#     start = -1
+
+#     for i, char in enumerate(eq):
+#         if char == '(':
+#             stack.append(i)
+#         elif char == ')':
+#             if stack:
+#                 stack.pop()
+#                 if stack:
+#                     max_len = max(max_len, i - stack[-1])
+#                 else:
+#                     max_len = max(max_len, i - start)
+#             else:
+#                 start = i
+
+#     return max_len
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# tenChars = "(()()(()))"
+# print("\nExpected: (10, 3)\nActual:", retOuterLength(eq=tenChars))
+# print("\n")
+# threeChars = "(()"
+# print("Expected: (2, 1)\nActual:", retOuterLength(eq=threeChars))
+# print("\n")
+
+
+# print("\nExpected: 3\nActual:", maxNestingDepth(eq=tenChars))
+# print("\n")
+# threeChars = "(()"
+# print("Expected: 1\nActual:", maxNestingDepth(eq=threeChars))
+# print("\n")
+
+
+# print("\nExpected: ", tenChars, "\nActual:", removeUnbalancedParens(eq=tenChars))
+# print("\n")
+# threeChars = "(()"
+# print("Expected: ()\nActual:", removeUnbalancedParens(eq=threeChars))
+# print("\n")
 
 
 
@@ -112,7 +852,7 @@
         
 #     print("\nThe game is over!")
     
-loves_me_loves_me_not(6)
+# loves_me_loves_me_not(6)
 
 
 
