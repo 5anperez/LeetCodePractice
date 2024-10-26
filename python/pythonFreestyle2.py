@@ -1,4 +1,1311 @@
 
+'''
+
+    I need a program that can help in finding the optimal data packet, network route quickly. My network routers must be updated frequently as routes change, nodes go down, or traffic conditions evolve; I use binary search trees to manage routing tables efficiently, so assume that the program will be a component within a larger class, and will utilize a TreeNode class that has three members: left child, right child, and node value. These routing tables store the packet data routes used to travel across networks, and using binary search trees provides a method to organize routing entries such that binary search capabilities are maximized. Therefore, the program must generate and return all the possible unique ways of organizing the routing entries, the entries being the nodes in the bst. Note that the size of the routing tables need to be accepted by the program and it should be capable of handling several in sequence such that each table is handled individually, e.g., processed and executed to return the result before moving on to the next routing table; these size integer arguments will each be on their own line and delimited with blank lines.
+
+
+
+
+
+    table_size (int): The number of entries in the routing table, which translates to the number of nodes that should make up each binary search tree. If multiple table sizes are input, then they should be delimited by single new lines. Constraints: 1 <= table_size
+
+    unique_bsts (list[list[TreeNode]]): The list of all unique binary search trees where each tree is made up of TreeNode elements. Each BST version's size should be equal to table_size.
+
+    Unit Test 1 Input
+    tableSize = 1
+    Unit Test 1 Output
+    numUniqueBSTs = 1
+
+    Unit Test 2 Input
+    tableSize = 3
+    Unit Test 2 Output
+    numUniqueBSTs = 5
+
+'''
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+def generate_trees(start, end):
+    if start > end:
+        return [None]
+    
+    all_trees = []
+    for i in range(start, end + 1):
+        # Get the correct range of node values
+        left_trees = generate_trees(start, i - 1)
+        right_trees = generate_trees(i + 1, end)
+
+        for left in left_trees:
+            for right in right_trees:
+                current_tree = TreeNode(i)
+                current_tree.left = left
+                current_tree.right = right
+                all_trees.append(current_tree)
+    return all_trees
+
+
+def unique_bsts(n):
+    """Generates all unique BSTs for a given size and returns them as a list of TreeNode objects."""
+    uniq_trees = generate_trees(1, n)
+    return uniq_trees
+
+
+def extract_and_print_bsts(root):
+    """Unpack the tree's elements using levelorder traversal."""
+    if not root:
+        return None
+    else:
+        result = []
+        queue = [root]
+        while queue:
+            node = queue.pop(0)
+            if node:
+                result.append(node.val)
+                queue.append(node.left)
+                queue.append(node.right)
+            else:
+                result.append(None)
+        
+        # Trim trailing None values for a clean output
+        while result and result[-1] is None:
+            result.pop()
+        
+        return result
+
+
+def main():
+    import sys
+
+    # Read all lines from stdin
+    input_data = sys.stdin.read().strip().splitlines()
+
+    # Process each routing table size
+    for line in input_data:
+        
+        # Process only if the line is not empty
+        if line.strip():  
+            n = int(line.strip())
+
+            # Generate all possible unique binary search trees
+            bsts = unique_bsts(n)
+
+            unique_tree_structures = [extract_and_print_bsts(tree) for tree in bsts]
+            
+            print(f"All unique BSTs for n = {n}:")
+            print(unique_tree_structures) 
+            print()
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+# m1
+'''
+
+In this program, the `generate_bsts` function generates all possible unique binary search trees with `n` nodes. It uses a recursive approach to generate all possible left and right subtrees and combines them with the current node.
+
+The `print_bst` function prints the binary search tree in inorder traversal.
+
+The `main` function reads input from stdin, processes each routing table size, generates all possible unique binary search trees, and prints each binary search tree.
+
+To use this program, simply pipe the input into the program. For example:
+
+
+$ cat input.txt
+3
+
+2
+
+1
+
+$ python program.py < input.txt
+
+
+This will process each routing table size in the input file and print all possible unique binary search trees for each size.
+
+Example use case:
+
+Input:
+
+3
+
+2
+
+1
+
+
+Output:
+
+BST 1:  1 2 3 
+BST 2:  1 3 2 
+BST 3:  2 1 3 
+BST 4:  3 1 2 
+BST 5:  3 2 1 
+
+BST 1:  1 2 
+BST 2:  2 1 
+
+BST 1:  1 
+'''
+
+# class TreeNode:
+#     def __init__(self, value):
+#         self.value = value
+#         self.left = None
+#         self.right = None
+
+# def generate_bsts(n):
+#     """
+#     Generate all possible unique binary search trees with n nodes.
+
+#     Args:
+#     n (int): The number of nodes in the binary search tree.
+
+#     Returns:
+#     list: A list of root nodes of all possible unique binary search trees.
+#     """
+#     if n == 0:
+#         return [None]
+
+#     bsts = []
+#     for i in range(1, n + 1):
+#         # Generate all possible left and right subtrees
+#         left_bsts = generate_bsts(i - 1)
+#         right_bsts = generate_bsts(n - i)
+
+#         # Combine left and right subtrees with the current node
+#         for left_bst in left_bsts:
+#             for right_bst in right_bsts:
+#                 root = TreeNode(i)
+#                 root.left = left_bst
+#                 root.right = right_bst
+#                 bsts.append(root)
+
+#     return bsts
+
+# def print_bst(root):
+#     """
+#     Print the binary search tree in inorder traversal.
+
+#     Args:
+#     root (TreeNode): The root node of the binary search tree.
+#     """
+#     if root is None:
+#         return
+
+#     print_bst(root.left)
+#     print(root.value, end=' ')
+#     print_bst(root.right)
+
+# def main():
+#     import sys
+
+#     # Read input from stdin
+#     lines = sys.stdin.readlines()
+
+#     # Process each routing table size
+#     for line in lines:
+#         n = int(line.strip())
+
+#         if n == 0:
+#             continue
+
+#         # Generate all possible unique binary search trees
+#         bsts = generate_bsts(n)
+
+#         # Print each binary search tree
+#         for i, bst in enumerate(bsts):
+#             print(f"BST {i + 1}: ", end='')
+#             print_bst(bst)
+#             print()
+
+# if __name__ == "__main__":
+#     main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# m2
+# class TreeNode:
+#     """Represents a node in a binary tree."""
+#     def __init__(self, value):
+#         self.value = value
+#         self.left = None
+#         self.right = None
+
+# def generate_unique_bsts(n):
+#     """
+#     Generates all unique binary search trees given a size n.
+
+#     Args:
+#     n (int): The size of the routing table.
+
+#     Returns:
+#     list: A list of all unique binary search trees.
+#     """
+#     if n == 0:
+#         return [None]
+    
+#     unique_bsts = []
+#     for i in range(1, n + 1):
+#         left_bsts = generate_unique_bsts(i - 1)
+#         right_bsts = generate_unique_bsts(n - i)
+        
+#         for left_bst in left_bsts:
+#             for right_bst in right_bsts:
+#                 root = TreeNode(i)
+#                 root.left = left_bst
+#                 root.right = right_bst
+#                 unique_bsts.append(root)
+    
+#     return unique_bsts
+
+# def print_bst(root):
+#     """Prints a binary tree using inorder traversal."""
+#     if root is None:
+#         return
+    
+#     print_bst(root.left)
+#     print(root.value, end=' ')
+#     print_bst(root.right)
+
+# def main():
+#     while True:
+#         try:
+#             size = int(input())
+#         except ValueError:
+#             break
+        
+#         unique_bsts = generate_unique_bsts(size)
+#         print(f"Number of unique BSTs for size {size}: {len(unique_bsts)}")
+        
+#         for i, bst in enumerate(unique_bsts):
+#             print(f"BST {i + 1}:")
+#             print_bst(bst)
+#             print()
+        
+#         print()
+
+# if __name__ == "__main__":
+#     main()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+# m3
+# Here is a Python solution that generates all possible unique binary search trees given a size.
+
+# ```python
+# class TreeNode:
+#     def __init__(self, value):
+#         self.value = value
+#         self.left = None
+#         self.right = None
+
+# def generate_bsts(n):
+#     """
+#     Generate all possible unique binary search trees of size n.
+
+#     Args:
+#     n (int): The size of the binary search tree.
+
+#     Returns:
+#     list: A list of all possible unique binary search trees.
+#     """
+#     if n == 0:
+#         return [None]
+    
+#     bsts = []
+#     for i in range(1, n + 1):
+#         # Generate all possible left and right subtrees
+#         left_bsts = generate_bsts(i - 1)
+#         right_bsts = generate_bsts(n - i)
+        
+#         # Combine each possible left and right subtree
+#         for left_bst in left_bsts:
+#             for right_bst in right_bsts:
+#                 # Create a new tree with i as the root
+#                 bst = TreeNode(i)
+#                 bst.left = left_bst
+#                 bst.right = right_bst
+                
+#                 # Add the new tree to the list
+#                 bsts.append(bst)
+    
+#     return bsts
+
+# def print_bst(bst, level=0):
+#     """
+#     Print a binary search tree.
+
+#     Args:
+#     bst (TreeNode): The root of the binary search tree.
+#     level (int): The current level of the tree.
+#     """
+#     if bst is not None:
+#         print_bst(bst.right, level + 1)
+#         print('  ' * level + str(bst.value))
+#         print_bst(bst.left, level + 1)
+
+# def main():
+#     # Read the size of each routing table
+#     while True:
+#         try:
+#             size = int(input())
+#         except ValueError:
+#             # Stop reading input if a blank line is encountered
+#             break
+        
+#         # Generate all possible unique binary search trees
+#         bsts = generate_bsts(size)
+        
+#         # Print each binary search tree
+#         for i, bst in enumerate(bsts):
+#             print(f"BST {i + 1}:")
+#             print_bst(bst)
+#             print()
+
+# if __name__ == "__main__":
+#     main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+
+This program predicts the potential spread of a forest fire by calculating the largest continuous area of flammable material from input maps.
+
+**Input Format**
+----------------
+
+The program accepts maps as binary checkerboards, where each board row is on its own line and each row element is a character delimited with whitespace. Multiple maps can be input, separated by an empty line.
+
+**Example Use Case**
+--------------------
+
+Input:
+```
+1 1 1 0 0
+1 1 1 0 0
+0 0 0 1 1
+0 0 0 1 1
+
+1 0 1 0 1
+0 1 0 1 0
+1 0 1 0 1
+0 1 0 1 0
+```
+Output:
+```
+Map 1: Largest subsection dimensions = (3, 2)
+Map 2: Largest subsection dimensions = (1, 4)
+```
+Note: The program assumes that the input maps are rectangular and that the input string is well-formed. You may want to add error handling to handle invalid inputs.
+
+'''
+
+# def largest_subsection(map_data):
+#     """
+#     Compute the dimensions of the largest box-shaped subsection of the map.
+
+#     Args:
+#         map_data (list): 2D list representing the map, where 1's are flammable and 0's are safe.
+
+#     Returns:
+#         tuple: Dimensions (width, height) of the largest box-shaped subsection.
+#     """
+#     rows, cols = len(map_data), len(map_data[0])
+#     max_area = 0
+#     max_dimensions = (0, 0)
+
+#     # Initialize a 2D table to store the maximum width of flammable subsections
+#     width_table = [[0] * cols for _ in range(rows)]
+
+#     # Populate the width table
+#     for i in range(rows):
+#         for j in range(cols):
+#             if map_data[i][j] == 1:
+#                 if j == 0:
+#                     width_table[i][j] = 1
+#                 else:
+#                     width_table[i][j] = width_table[i][j-1] + 1
+
+#     # Compute the maximum area and dimensions
+#     for i in range(rows):
+#         for j in range(cols):
+#             if map_data[i][j] == 1:
+#                 width = width_table[i][j]
+#                 for k in range(i, -1, -1):
+#                     width = min(width, width_table[k][j])
+#                     area = width * (i - k + 1)
+#                     if area > max_area:
+#                         max_area = area
+#                         max_dimensions = (width, i - k + 1)
+
+#     return max_dimensions
+
+# def parse_input_maps(input_str):
+#     """
+#     Parse the input string into a list of 2D maps.
+
+#     Args:
+#         input_str (str): Input string containing the maps.
+
+#     Returns:
+#         list: List of 2D maps, where each map is a list of lists.
+#     """
+#     maps = []
+#     map_data = []
+#     for line in input_str.splitlines():
+#         if line.strip() == "":
+#             if map_data:
+#                 maps.append(map_data)
+#                 map_data = []
+#         else:
+#             map_data.append([int(x) for x in line.split()])
+#     if map_data:
+#         maps.append(map_data)
+#     return maps
+
+# def main():
+#     input_str = ""
+#     while True:
+#         line = input()
+#         if line.strip() == "":
+#             break
+#         input_str += line + "\n"
+
+#     maps = parse_input_maps(input_str)
+#     for i, map_data in enumerate(maps):
+#         dimensions = largest_subsection(map_data)
+#         print(f"Map {i+1}: Largest subsection dimensions = {dimensions}")
+
+# if __name__ == "__main__":
+#     main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+
+Here's a Python program that uses dynamic programming to calculate the minimum number of transformations (place, exchange, omit) required to transform the source string `src` into the probable string `prob`. This is also known as the Levenshtein distance.
+
+This program uses a dynamic programming approach to calculate the Levenshtein distance between the source string `src` and the probable string `prob`. The Levenshtein distance is a measure of the minimum number of single-character edits (insertions, deletions, or substitutions) required to change one string into another.
+
+The program initializes a matrix `dp` to store the Levenshtein distances between substrings of `src` and `prob`. It then fills in the matrix using a bottom-up dynamic programming approach, calculating the minimum number of transformations required to transform each substring of `src` into each substring of `prob`.
+
+Finally, the program returns the minimum number of transformations required to transform the entire source string `src` into the entire probable string `prob`, which is stored in the bottom-right corner of the matrix.
+
+You can use this program to assist your chatbot in matching user input to predefined responses by calculating the Levenshtein distance between the user's input and each predefined response, and selecting the response with the minimum distance.
+
+'''
+
+# m1
+# def levenshtein_distance(src, prob):
+#     """
+#     Calculate the minimum number of transformations (place, exchange, omit) 
+#     required to transform the source string `src` into the probable string `prob`.
+    
+#     Args:
+#     src (str): The source string.
+#     prob (str): The probable string.
+    
+#     Returns:
+#     int: The minimum number of transformations required.
+#     """
+    
+#     # Initialize a matrix to store the Levenshtein distances between substrings of src and prob
+#     m, n = len(src), len(prob)
+#     dp = [[0] * (n + 1) for _ in range(m + 1)]
+    
+#     # Initialize the base cases
+#     for i in range(m + 1):
+#         dp[i][0] = i
+#     for j in range(n + 1):
+#         dp[0][j] = j
+    
+#     # Fill in the rest of the matrix
+#     for i in range(1, m + 1):
+#         for j in range(1, n + 1):
+#             # Calculate the cost of substitution (exchange)
+#             cost = 0 if src[i - 1] == prob[j - 1] else 1
+            
+#             # Calculate the minimum number of transformations
+#             dp[i][j] = min(
+#                 dp[i - 1][j] + 1,      # Omit a character from src
+#                 dp[i][j - 1] + 1,      # Place a character into src
+#                 dp[i - 1][j - 1] + cost  # Exchange a character in src with a character in prob
+#             )
+    
+#     # The minimum number of transformations is stored in the bottom-right corner of the matrix
+#     return dp[m][n]
+
+# # Example usage:
+# src = "kitten"
+# prob = "sitting"
+# distance = levenshtein_distance(src, prob)
+# print(f"The minimum number of transformations required to transform '{src}' into '{prob}' is {distance}.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    Prob: 63. Unique Paths 2
+    
+    Same problem statement as 62, but with the added constaraint of having to detect and avoid obstacles. Also, instead of accepting the map's dimensions as arguments, this version just accepts the map.
+    
+    Prompt:
+    
+    You must design a program that simulates a drone making deliveries while also detecting objects and avoiding them to determine how many unique routes are possible. Every delivery mission will be with respect to a residential map, which will be provided, where the mission will take place, so the map represents the relevant neighborhood with obstacles, and all neighborhoods are structured like a checkerboard where East and West spanning roads are represented by the board's rows and the map's North and South spanning roads are represented by the board's columns with obstacles denoted either by a '1', for yes there is an obstacle, or '0' for no obstacle. The drone will always begin its delivery mission on the map's very first coordinate while its target will always be at the map's very last coordinate, and since the drone's battery is so constrained, the drone must never move in a direction that heads away from the target. 
+'''
+
+# gpt
+# def count_paths_with_obstacles(grid):
+#     if not grid or grid[0][0] == 1:
+#         return 0  # No way to start or grid is empty.
+
+#     m, n = len(grid), len(grid[0])
+#     dp = [[0] * n for _ in range(m)]
+    
+#     # Initialize the start point
+#     dp[0][0] = 1 if grid[0][0] == 0 else 0
+
+#     # Fill the dp table
+#     for i in range(m):
+#         for j in range(n):
+#             if grid[i][j] == 1:
+#                 dp[i][j] = 0
+#             else:
+#                 if i > 0:
+#                     dp[i][j] += dp[i-1][j]
+#                 if j > 0:
+#                     dp[i][j] += dp[i][j-1]
+
+#     return dp[m-1][n-1]  # The number of unique paths to the bottom-right corner
+
+
+
+# neighborhood1 = [
+#         [0, 0, 0],
+#         [0, 1, 0],
+#         [0, 0, 0]
+# ]
+
+# drone_delivery1 = count_paths_with_obstacles(neighborhood1)
+# print("Expected: 2")
+# print("Actual:", drone_delivery1)
+
+# neighborhood2 = [
+#         [1]
+# ]
+
+# drone_delivery2 = count_paths_with_obstacles(neighborhood2)
+# print("\nExpected: 0")
+# print("Actual:", drone_delivery2)
+
+
+
+
+
+
+
+
+
+# m1
+# def count_unique_routes(map):
+#     """
+#     Count the number of unique routes from the top-left to the bottom-right
+#     of the map while avoiding obstacles.
+
+#     Args:
+#     map (list of lists): A 2D list representing the neighborhood map.
+#                          '1' denotes an obstacle, '0' denotes a clear path.
+
+#     Returns:
+#     int: The number of unique routes.
+#     """
+#     rows, cols = len(map), len(map[0])
+#     dp = [[0] * cols for _ in range(rows)]
+
+#     # Initialize the first cell
+#     dp[0][0] = 1
+
+#     # Fill the first row
+#     for j in range(1, cols):
+#         if map[0][j] == 0:
+#             dp[0][j] = dp[0][j-1]
+
+#     # Fill the first column
+#     for i in range(1, rows):
+#         if map[i][0] == 0:
+#             dp[i][0] = dp[i-1][0]
+
+#     # Fill the rest of the map
+#     for i in range(1, rows):
+#         for j in range(1, cols):
+#             if map[i][j] == 0:
+#                 dp[i][j] = dp[i-1][j] + dp[i][j-1]
+
+#     return dp[-1][-1]
+
+
+   
+# neighborhood1 = [
+#         [0, 0, 0],
+#         [0, 1, 0],
+#         [0, 0, 0]
+# ]
+
+# drone_delivery1 = count_unique_routes(neighborhood1)
+# print("Expected: 2")
+# print("Actual:", drone_delivery1)
+
+# neighborhood2 = [
+#         [1]
+# ]
+
+# drone_delivery2 = count_unique_routes(neighborhood2)
+# print("\nExpected: 0")
+# print("Actual:", drone_delivery2)
+
+
+
+
+'''
+
+    This program simulates a drone making deliveries in a residential neighborhood while detecting and avoiding obstacles. The neighborhood is represented by a checkerboard map where rows and columns denote East/West and North/South spanning roads, respectively. The drone starts at the first coordinate and targets the last coordinate, always moving towards the target due to battery constraints.
+
+    This program uses dynamic programming to count the number of unique routes. The `count_unique_routes` function initializes a 2D array `dp` with the same dimensions as the input map. The `dp` array stores the number of unique routes to each cell.
+
+    The function first initializes the first cell to 1, indicating that there is only one way to reach the starting point. Then, it fills the first row and column of the `dp` array based on the presence of obstacles in the corresponding cells of the map.
+
+    Finally, the function fills the rest of the `dp` array by summing the number of unique routes to the cell above and the cell to the left, but only if the current cell is not an obstacle. The number of unique routes to the target cell (bottom-right corner) is stored in the last cell of the `dp` array.
+
+    ### Time Complexity
+
+    The time complexity of this program is O(rows  cols), where rows and cols are the dimensions of the input map.
+
+    ### Space Complexity
+
+    The space complexity of this program is O(rows  cols), as it requires a 2D array of the same dimensions as the input map to store the number of unique routes to each cell.
+
+'''
+
+
+
+
+
+
+
+
+
+# m2
+# def count_routes(map):
+#     """
+#     Counts the number of unique routes from the top-left to the bottom-right of the map while avoiding obstacles.
+
+#     Args:
+#     map (list of lists): A 2D list representing the map, where '1' denotes an obstacle and '0' denotes a clear path.
+
+#     Returns:
+#     int: The number of unique routes possible.
+#     """
+
+#     # Get the dimensions of the map
+#     rows, cols = len(map), len(map[0])
+
+#     # Create a 2D array to store the number of unique routes to each cell
+#     routes = [[0] * cols for _ in range(rows)]
+
+#     # Initialize the first cell as 1, since there's only one way to reach it (by starting there)
+#     routes[0][0] = 1
+
+#     # Fill in the first row
+#     for col in range(1, cols):
+#         # If there's no obstacle in the current cell and the previous cell has a route, add a route to the current cell
+#         if map[0][col] == '0' and routes[0][col - 1] > 0:
+#             routes[0][col] = routes[0][col - 1]
+
+#     # Fill in the first column
+#     for row in range(1, rows):
+#         # If there's no obstacle in the current cell and the previous cell has a route, add a route to the current cell
+#         if map[row][0] == '0' and routes[row - 1][0] > 0:
+#             routes[row][0] = routes[row - 1][0]
+
+#     # Fill in the rest of the map
+#     for row in range(1, rows):
+#         for col in range(1, cols):
+#             # If there's no obstacle in the current cell, add the routes from the top and left cells
+#             if map[row][col] == '0':
+#                 routes[row][col] = routes[row - 1][col] + routes[row][col - 1]
+
+#     # The number of unique routes is stored in the bottom-right cell
+#     return routes[rows - 1][cols - 1]
+
+
+# neighborhood1 = [
+#         [0, 0, 0],
+#         [0, 1, 0],
+#         [0, 0, 0]
+# ]
+
+# drone_delivery1 = count_routes(neighborhood1)
+# print("Expected: 2")
+# print("Actual:", drone_delivery1)
+
+# neighborhood2 = [
+#         [1]
+# ]
+
+# drone_delivery2 = count_routes(neighborhood2)
+# print("\nExpected: 0")
+# print("Actual:", drone_delivery2)
+
+
+# neighborhood3 = [
+#         [0,0,0],
+#         [0,0,0],
+#         [0,0,0]
+# ]
+
+# drone_delivery3 = count_routes(neighborhood3)
+# print("\nExpected: 6")
+# print("Actual:", drone_delivery3)
+
+
+
+
+
+'''
+
+This program uses dynamic programming to build up a 2D array of the number of unique routes to each cell, starting from the top-left and working its way down to the bottom-right. It takes into account obstacles and only counts routes that do not move away from the target. The final result is stored in the bottom-right cell of the array.
+
+Please note that this program assumes that the input map is a list of lists, where each inner list represents a row of the map, and each element is either '0' (no obstacle) or '1' (obstacle). You may need to adjust the program to match the format of your input data.
+
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+# m3
+# def count_routes(map):
+#     """
+#     Counts the number of unique routes from the top-left to the bottom-right of the map,
+#     avoiding obstacles and never moving away from the target.
+
+#     Args:
+#         map (list of lists): A 2D list representing the neighborhood map, where '1' denotes an obstacle and '0' denotes an empty space.
+
+#     Returns:
+#         int: The number of unique routes.
+#     """
+
+#     # Get the dimensions of the map
+#     rows, cols = len(map), len(map[0])
+
+#     # Create a 2D array to store the number of routes to each cell
+#     routes = [[0] * cols for _ in range(rows)]
+
+#     # Base case: there is only one way to reach the starting cell (if it's not an obstacle)
+#     if map[0][0] == '0':
+#         routes[0][0] = 1
+
+#     # Fill in the first row
+#     for col in range(1, cols):
+#         if map[0][col] == '0':
+#             routes[0][col] = routes[0][col - 1]
+
+#     # Fill in the first column
+#     for row in range(1, rows):
+#         if map[row][0] == '0':
+#             routes[row][0] = routes[row - 1][0]
+
+#     # Fill in the rest of the map
+#     for row in range(1, rows):
+#         for col in range(1, cols):
+#             if map[row][col] == '0':
+#                 # The number of routes to this cell is the sum of the routes to the cell above and the cell to the left
+#                 routes[row][col] = routes[row - 1][col] + routes[row][col - 1]
+
+#     # The number of unique routes is stored in the bottom-right cell
+#     return routes[rows - 1][cols - 1]
+
+
+
+
+# neighborhood1 = [
+#         [0, 0, 0],
+#         [0, 1, 0],
+#         [0, 0, 0]
+# ]
+
+# drone_delivery1 = count_routes(neighborhood1)
+# print("Expected: 2")
+# print("Actual:", drone_delivery1)
+
+# neighborhood2 = [
+#         [1]
+# ]
+
+# drone_delivery2 = count_routes(neighborhood2)
+# print("\nExpected: 0")
+# print("Actual:", drone_delivery2)
+
+# neighborhood3 = [
+#         [0,0,0],
+#         [0,0,0],
+#         [0,0,0]
+# ]
+
+# drone_delivery3 = count_routes(neighborhood3)
+# print("\nExpected: 6")
+# print("Actual:", drone_delivery3)
+
+
+'''
+    This program simulates a drone making deliveries in a residential neighborhood while avoiding obstacles. The neighborhood is represented as a checkerboard, where rows are East-West roads and columns are North-South roads. Obstacles are denoted by '1' and empty spaces by '0'. The drone starts at the first coordinate and targets the last coordinate, always moving towards the target.
+
+    This program uses dynamic programming to count the number of unique routes from the top-left to the bottom-right of the map. It creates a 2D array `routes` to store the number of routes to each cell, and fills it in row by row and column by column. The number of routes to each cell is the sum of the routes to the cell above and the cell to the left, unless the cell is an obstacle, in which case there are no routes to it. The final answer is stored in the bottom-right cell of the `routes` array.
+
+    The time complexity of this program is O(rows cols), where rows and cols are the dimensions of the map. The space complexity is also O(rows cols), as we need to store the `routes` array.
+
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    62. Unique Paths
+    
+    Prob: There is a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). The robot can only move either down or right at any point in time. Given the two integers m and n, return the number of possible unique paths that the robot can take to reach the bottom-right corner. The test cases are generated so that the answer will be less than or equal to 2*10^9.
+    
+    Prompt: So I have a python function that simulates a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]) and it tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). However, the robot can only move either down or right at any point in time. So the function takes two integers m and n as arguments, and then returns the number of possible unique paths that the robot can take to reach the bottom-right corner. Are there any other domains that this function will be useful in, or any other applications that I can use this function for?
+    
+    Can you generate a python helper method that will be assisting my drone in executing delivery missions? Every delivery mission will be with respect to a residential map where the mission will take place, so the map represents the relevant neighborhood, and all neighborhoods are structured like a checkerboard. The map's roads, denoted 'ew', represent East and West spanning roads while the map's North and South spanning roads are denoted 'ns'; the drone will always begin its delivery mission on the map's very first coordinate while its target will always be at the map's very last coordinate, and since the drone's battery is so constrained, the drone must never move in a direction that heads away from the target. To use the helper, it must be passed the number of roads, i.e., the size of 'ew' and 'ns', seperately, therefore, the method's signature should be the following: "def getNumRoutesHelper(self, ew: int, ns: int) -> int:". The function must then simulate the drone making a delivery and calculate how many unique routes there are before returning the value. Please provide comprehensive documentation and make sure to comment the code succinctly.
+'''
+
+
+# gpt
+# class DronePathFinder:
+#     def numRoutes(self, ew: int, ns: int) -> int:
+#         """
+#         Calculate the number of unique paths from the top-left corner to the bottom-right corner
+#         of a grid representing a neighborhood structured like a checkerboard.
+
+#         The drone can only move right (East) or down (South), mimicking the restrictions
+#         due to battery constraints which prevent it from moving away from the target.
+
+#         Args:
+#         ew (int): Number of East-West spanning roads (columns).
+#         ns (int): Number of North-South spanning roads (rows).
+
+#         Returns:
+#         int: Total number of unique paths the drone can take to reach the destination.
+
+#         Example:
+#         >>> drone = DronePathFinder()
+#         >>> drone.numRoutes(3, 3)
+#         20
+#         """
+#         # Create a 2D array to store the number of paths to each point on the grid.
+#         # Since the drone can only move right or down, each cell in the grid is reached
+#         # either from the cell directly to the left or directly above.
+#         grid = [[0] * (ew + 1) for _ in range(ns + 1)]
+
+#         # Initialize the starting position, as the drone starts here.
+#         grid[0][0] = 1
+
+#         # Fill in the grid using the dynamic programming approach.
+#         for i in range(ns + 1):
+#             for j in range(ew + 1):
+#                 # If moving down is within bounds, add the paths from above.
+#                 if i > 0:
+#                     grid[i][j] += grid[i - 1][j]
+#                 # If moving right is within bounds, add the paths from the left.
+#                 if j > 0:
+#                     grid[i][j] += grid[i][j - 1]
+
+#         # The last cell contains the total paths from the start to the destination.
+#         return grid[ns][ew]
+
+# import math
+# class DronePathFinder:
+#     def foo(self, m: int, n: int) -> int:
+#         # Calculate the binomial coefficient C(m+n-2, m-1)
+#         result = math.comb(m + n - 2, m - 1)
+#         return result
+    
+    
+
+# # Example usage:
+# drone = DronePathFinder()
+# print("Expected: 6")
+# print("Actual: ", drone.foo(3, 3))  # Output will be 20 for a 4x4 grid (3+1, 3+1).
+
+
+
+
+
+
+
+# ma
+# import math
+
+# class DroneDelivery:
+#     def getNumRoutesHelper(self, ew: int, ns: int) -> int:
+#         """
+#         Calculate the number of unique routes for the drone to deliver a package.
+
+#         The drone starts at the top-left corner (0, 0) and must reach the bottom-right
+#         corner (ew, ns) of a checkerboard-structured neighborhood map. The drone can
+#         only move east ('ew') or south ('ns') and must never move in a direction that
+#         heads away from the target.
+
+#         Parameters:
+#         ew (int): Number of east-west spanning roads.
+#         ns (int): Number of north-south spanning roads.
+
+#         Returns:
+#         int: The number of unique routes the drone can take to reach the target.
+#         """
+#         # The total number of moves required to reach the target is ew + ns
+#         total_moves = ew + ns
+
+#         # The number of 'ew' moves required
+#         ew_moves = ew
+
+#         # Calculate the binomial coefficient C(total_moves, ew_moves)
+#         # This represents the number of ways to choose ew_moves out of total_moves
+#         num_routes = math.comb(total_moves, ew_moves)
+
+#         return num_routes
+
+# # Example usage:
+# drone = DroneDelivery()
+# ew_roads = 3
+# ns_roads = 3
+# print(drone.getNumRoutesHelper(ew_roads, ns_roads))  # Output: 20
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# mb
+# import math
+
+# class DroneDelivery:
+#     def getNumRoutesHelper(self, ew: int, ns: int) -> int:
+#         """
+#         Calculate the number of unique routes for a drone delivery mission.
+
+#         Args:
+#         ew (int): Number of East-West spanning roads.
+#         ns (int): Number of North-South spanning roads.
+
+#         Returns:
+#         int: The number of unique routes the drone can take to reach the target.
+#         """
+
+#         # The drone must move 'ew' steps to the right and 'ns' steps down.
+#         # The total number of steps is '(ew - 1) + (ns - 1)'.
+#         ew_moves = (ew - 1)
+#         ns_moves = (ns - 1)
+#         total_steps = ew_moves + ns_moves
+
+#         # The number of unique routes is given by the binomial coefficient C(total_steps - 2, ew - 1).
+#         # This is the number of ways to choose 'ew' right steps out of 'total_steps'.
+#         num_routes = math.comb(total_steps, ew_moves)
+
+#         return num_routes
+
+# # Example usage:
+# if __name__ == "__main__":
+#     drone = DroneDelivery()
+#     ew = 3
+#     ns = 3
+#     # Output: 6
+#     print(f"Number of unique routes: {drone.getNumRoutesHelper(ew, ns)}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -134,30 +1441,30 @@
 
 
 # ma
-def removeUnbalancedParens(eq: str) -> str:
-    """
-    This function takes a string of parentheses and returns a balanced string
-    by removing any extra or unmatched parentheses.
+# def removeUnbalancedParens(eq: str) -> str:
+#     """
+#     This function takes a string of parentheses and returns a balanced string
+#     by removing any extra or unmatched parentheses.
 
-    Args:
-        eq: The string of parentheses.
+#     Args:
+#         eq: The string of parentheses.
 
-    Returns:
-        The balanced string of parentheses.
-    """
-    stack = []
-    balanced_indices = set()
+#     Returns:
+#         The balanced string of parentheses.
+#     """
+#     stack = []
+#     balanced_indices = set()
 
-    for i, char in enumerate(eq):
-        if char == '(':
-            stack.append(i)
-        elif char == ')' and stack:
-            open_index = stack.pop()
-            balanced_indices.add(open_index)
-            balanced_indices.add(i)
+#     for i, char in enumerate(eq):
+#         if char == '(':
+#             stack.append(i)
+#         elif char == ')' and stack:
+#             open_index = stack.pop()
+#             balanced_indices.add(open_index)
+#             balanced_indices.add(i)
 
-    balanced_string = "".join([char for i, char in enumerate(eq) if i in balanced_indices])
-    return balanced_string
+#     balanced_string = "".join([char for i, char in enumerate(eq) if i in balanced_indices])
+#     return balanced_string
 
 
 
@@ -208,40 +1515,40 @@ def removeUnbalancedParens(eq: str) -> str:
 
 
 
-tenChars = "(()()(()))"
-threeChars = "(()"
-print("\nExpected:", tenChars, "\nActual:", removeUnbalancedParens(eq=tenChars))
-print("\n")
-threeChars = "(()"
-print("Expected: ()\nActual:", removeUnbalancedParens(eq=threeChars))
-print("\n")
+# tenChars = "(()()(()))"
+# threeChars = "(()"
+# print("\nExpected:", tenChars, "\nActual:", removeUnbalancedParens(eq=tenChars))
+# print("\n")
+# threeChars = "(()"
+# print("Expected: ()\nActual:", removeUnbalancedParens(eq=threeChars))
+# print("\n")
 
-# Example Usage:
-eq = "(()(()))"
-print(f"Expected: {eq}\nActual:", removeUnbalancedParens(eq=eq))
-print("\n")
+# # Example Usage:
+# eq = "(()(()))"
+# print(f"Expected: {eq}\nActual:", removeUnbalancedParens(eq=eq))
+# print("\n")
 
-eq = ")(()(()))"
-print(f"Expected: (()(()))\nActual:", removeUnbalancedParens(eq=eq))
-print("\n")
-
-
-eq = "(()(()))()"
-print(f"Expected: {eq}\nActual:", removeUnbalancedParens(eq=eq))
-print("\n")
+# eq = ")(()(()))"
+# print(f"Expected: (()(()))\nActual:", removeUnbalancedParens(eq=eq))
+# print("\n")
 
 
-eq = "(()(()))" 
-print(f"Expected: {eq}\nActual:", removeUnbalancedParens(eq=eq))
-print("\n")
+# eq = "(()(()))()"
+# print(f"Expected: {eq}\nActual:", removeUnbalancedParens(eq=eq))
+# print("\n")
 
-eq = ")(()(()))("
-print(f"Expected: (()(()))\nActual:", removeUnbalancedParens(eq=eq))
-print("\n")
 
-eq = "(()((()))"
-print(f"Expected: ()((()))\nActual:", removeUnbalancedParens(eq=eq))
-print("\n")
+# eq = "(()(()))" 
+# print(f"Expected: {eq}\nActual:", removeUnbalancedParens(eq=eq))
+# print("\n")
+
+# eq = ")(()(()))("
+# print(f"Expected: (()(()))\nActual:", removeUnbalancedParens(eq=eq))
+# print("\n")
+
+# eq = "(()((()))"
+# print(f"Expected: ()((()))\nActual:", removeUnbalancedParens(eq=eq))
+# print("\n")
 
 
 
@@ -1709,109 +3016,109 @@ statement to create the new list via list comprehension!'''
 
 
 '''
-Q: Is the following dp solute derived from a reccurance relation?
+    Q: Is the following dp solute derived from a reccurance relation?
 
-Yes, the solution using dynamic programming for counting permutations that sum up to a target is derived from a recurrence relation. Here's a detailed explanation of how the recurrence relation is formulated and how it leads to the dynamic programming solution:
+    Yes, the solution using dynamic programming for counting permutations that sum up to a target is derived from a recurrence relation. Here's a detailed explanation of how the recurrence relation is formulated and how it leads to the dynamic programming solution:
 
-### Recurrence Relation
+    ### Recurrence Relation
 
-The recurrence relation for this problem can be derived based on the idea that for each target sum `i`, you can form this sum by adding a number `num` from the list `nums` to a smaller sum `i - num`. Therefore, the number of ways to form the target sum `i` is the sum of the ways to form each of the sums `i - num` for every `num` in `nums`.
+    The recurrence relation for this problem can be derived based on the idea that for each target sum `i`, you can form this sum by adding a number `num` from the list `nums` to a smaller sum `i - num`. Therefore, the number of ways to form the target sum `i` is the sum of the ways to form each of the sums `i - num` for every `num` in `nums`.
 
-### Recurrence Formula
+    ### Recurrence Formula
 
-Let's define `dp[i]` as the number of ways to achieve the target sum `i`. The recurrence relation can be expressed as follows:
+    Let's define `dp[i]` as the number of ways to achieve the target sum `i`. The recurrence relation can be expressed as follows:
 
-\[ dp[i] = \sum_{num \in nums} dp[i - num] \]
+    
 
-This means that to find the number of ways to get the sum `i`, you look at all possible numbers `num` in `nums` and add the number of ways to get the sum `i - num`.
+    This means that to find the number of ways to get the sum `i`, you look at all possible numbers `num` in `nums` and add the number of ways to get the sum `i - num`.
 
-### Base Case
+    ### Base Case
 
-The base case is:
+    The base case is:
 
-\[ dp[0] = 1 \]
+     dp[0] = 1 
 
-This is because there is exactly one way to achieve the sum of 0, which is by using no elements at all.
+    This is because there is exactly one way to achieve the sum of 0, which is by using no elements at all.
 
-### Dynamic Programming Approach
+    ### Dynamic Programming Approach
 
-Using the recurrence relation, we can iteratively fill out the `dp` array to compute the number of ways to achieve each target sum up to the given target. Here's the step-by-step process:
+    Using the recurrence relation, we can iteratively fill out the `dp` array to compute the number of ways to achieve each target sum up to the given target. Here's the step-by-step process:
 
-1. **Initialization**: Initialize a `dp` array of length `target + 1` with all elements set to 0, and set `dp[0]` to 1.
+    1. **Initialization**: Initialize a `dp` array of length `target + 1` with all elements set to 0, and set `dp[0]` to 1.
 
-2. **Filling the DP Array**: Use nested loops to fill in the `dp` array:
-   - The outer loop iterates over each target sum `i` from 1 to `target`.
-   - The inner loop iterates over each number `num` in `nums`.
-   - For each combination of `i` and `num`, if `num` is less than or equal to `i`, update `dp[i]` by adding the value of `dp[i - num]`.
+    2. **Filling the DP Array**: Use nested loops to fill in the `dp` array:
+    - The outer loop iterates over each target sum `i` from 1 to `target`.
+    - The inner loop iterates over each number `num` in `nums`.
+    - For each combination of `i` and `num`, if `num` is less than or equal to `i`, update `dp[i]` by adding the value of `dp[i - num]`.
 
-3. **Result**: The value of `dp[target]` gives the number of ways to achieve the target sum using permutations of the numbers in `nums`.
+    3. **Result**: The value of `dp[target]` gives the number of ways to achieve the target sum using permutations of the numbers in `nums`.
 
-### Example Implementation
+    ### Example Implementation
 
-Here is the implementation based on the recurrence relation:
+    Here is the implementation based on the recurrence relation:
 
-```python
-def combinationSum4(nums, target):
-    # Initialize the dp array with 0s and set dp[0] to 1
-    dp = [0] * (target + 1)
-    dp[0] = 1
+    ```python
+    def combinationSum4(nums, target):
+        # Initialize the dp array with 0s and set dp[0] to 1
+        dp = [0] * (target + 1)
+        dp[0] = 1
 
-    # Fill the dp array using the recurrence relation
-    for i in range(1, target + 1):
-        for num in nums:
-            if i >= num:
-                dp[i] += dp[i - num]
+        # Fill the dp array using the recurrence relation
+        for i in range(1, target + 1):
+            for num in nums:
+                if i >= num:
+                    dp[i] += dp[i - num]
 
-    # The result is the number of ways to achieve the target sum
-    return dp[target]
+        # The result is the number of ways to achieve the target sum
+        return dp[target]
 
-# Example usage:
-nums = [1, 2, 3]
-target = 4
-print(combinationSum4(nums, target))  # Output: 7
-```
+    # Example usage:
+    nums = [1, 2, 3]
+    target = 4
+    print(combinationSum4(nums, target))  # Output: 7
+    ```
 
-### Example Walkthrough
+    ### Example Walkthrough
 
-Let's go through the example `nums = [1, 2, 3]` and `target = 4` step by step:
+    Let's go through the example `nums = [1, 2, 3]` and `target = 4` step by step:
 
-1. **Initialization**:
-   ```python
-   dp = [1, 0, 0, 0, 0]
-   ```
+    1. **Initialization**:
+    ```python
+    dp = [1, 0, 0, 0, 0]
+    ```
 
-2. **Filling the DP Array**:
-   - For `i = 1`:
-     - `num = 1`: `i - num = 0`, `dp[1] += dp[0]` → `dp[1] = 1`
-     - `num = 2` and `num = 3` are not considered because they are greater than `i`.
-     ```python
-     dp = [1, 1, 0, 0, 0]
-     ```
-   - For `i = 2`:
-     - `num = 1`: `i - num = 1`, `dp[2] += dp[1]` → `dp[2] = 1`
-     - `num = 2`: `i - num = 0`, `dp[2] += dp[0]` → `dp[2] = 2`
-     - `num = 3` is not considered because it is greater than `i`.
-     ```python
-     dp = [1, 1, 2, 0, 0]
-     ```
-   - For `i = 3`:
-     - `num = 1`: `i - num = 2`, `dp[3] += dp[2]` → `dp[3] = 2`
-     - `num = 2`: `i - num = 1`, `dp[3] += dp[1]` → `dp[3] = 3`
-     - `num = 3`: `i - num = 0`, `dp[3] += dp[0]` → `dp[3] = 4`
-     ```python
-     dp = [1, 1, 2, 4, 0]
-     ```
-   - For `i = 4`:
-     - `num = 1`: `i - num = 3`, `dp[4] += dp[3]` → `dp[4] = 4`
-     - `num = 2`: `i - num = 2`, `dp[4] += dp[2]` → `dp[4] = 6`
-     - `num = 3`: `i - num = 1`, `dp[4] += dp[1]` → `dp[4] = 7`
-     ```python
-     dp = [1, 1, 2, 4, 7]
-     ```
+    2. **Filling the DP Array**:
+    - For `i = 1`:
+        - `num = 1`: `i - num = 0`, `dp[1] += dp[0]` → `dp[1] = 1`
+        - `num = 2` and `num = 3` are not considered because they are greater than `i`.
+        ```python
+        dp = [1, 1, 0, 0, 0]
+        ```
+    - For `i = 2`:
+        - `num = 1`: `i - num = 1`, `dp[2] += dp[1]` → `dp[2] = 1`
+        - `num = 2`: `i - num = 0`, `dp[2] += dp[0]` → `dp[2] = 2`
+        - `num = 3` is not considered because it is greater than `i`.
+        ```python
+        dp = [1, 1, 2, 0, 0]
+        ```
+    - For `i = 3`:
+        - `num = 1`: `i - num = 2`, `dp[3] += dp[2]` → `dp[3] = 2`
+        - `num = 2`: `i - num = 1`, `dp[3] += dp[1]` → `dp[3] = 3`
+        - `num = 3`: `i - num = 0`, `dp[3] += dp[0]` → `dp[3] = 4`
+        ```python
+        dp = [1, 1, 2, 4, 0]
+        ```
+    - For `i = 4`:
+        - `num = 1`: `i - num = 3`, `dp[4] += dp[3]` → `dp[4] = 4`
+        - `num = 2`: `i - num = 2`, `dp[4] += dp[2]` → `dp[4] = 6`
+        - `num = 3`: `i - num = 1`, `dp[4] += dp[1]` → `dp[4] = 7`
+        ```python
+        dp = [1, 1, 2, 4, 7]
+        ```
 
-### Conclusion
+    ### Conclusion
 
-The dynamic programming approach is derived directly from the recurrence relation. It ensures that each subproblem is solved optimally by breaking the problem into smaller subproblems and building up the solution using previously computed results. This method provides an efficient way to count the number of permutations that sum to the target, leveraging the properties of dynamic programming.
+    The dynamic programming approach is derived directly from the recurrence relation. It ensures that each subproblem is solved optimally by breaking the problem into smaller subproblems and building up the solution using previously computed results. This method provides an efficient way to count the number of permutations that sum to the target, leveraging the properties of dynamic programming.
 '''
 
 
