@@ -1,4 +1,810 @@
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+
+    Prob: 122. Best time to buy and sell stock 2
+    
+    You are given an integer array prices where prices[i] is the price of a given stock on the ith day. On each day, you may decide to buy and/or sell the stock. You can only hold at most one share of the stock at any time. However, you can buy it then immediately sell it on the same day. Find and return the maximum profit you can achieve.
+    
+    Prompt:    
+    
+    My friend works at a dealership where he repairs cars, and recently, he has figured out how they are making so much money. This resulted in him wanting to start his own dealership on the side, and he is starting from his one car garage. The dealership's secret is that they acquire vintage automobiles with a discription of being damaged and fix them then flip them; since he already knows how to repair cars, he will simply buy the damaged vehicles, repair them and post them online to a different auction, until he can get his own lot and open his own dealership. However, he only has room for one at a time in his garage; also, since he is a new father, his time is scarce, so Im helping him automate some of his work flow. It usually takes him days to travel to car auctions in different cities to search for the best deal, so to save him the trips, I have trained a machine learning model on historical vehicle appraisal data, but now I need a function to process the model's predictions i.e. that will tell him when to acquire and when to post the vehicl, and I need your help finishing it. Generate a python function that will accept a list of appraisals, which will represent the fluctuationg value of one vintage automobile he is interested in; it should then maximize the theoretical gain, even if it can be acquired and flipped several times. Name the function "def calcGain(appraisals):" and make it return the gain, the index of the aquisition(s) and the index of when to post online, in list form and in the order I just specified, which is very important; that should be three values in the list. This way, it will fit nicely into the larger program.   
+
+'''
+
+
+
+
+
+# # gpt
+# def calcGain(appraisals):
+#     """
+#     Calculates the maximum total gain from multiple buy-sell transactions, ensuring no overlapping 
+#     transactions, given that only one car can be acquired and posted at a time.
+
+#     Args:
+#     appraisals (list of int/float): A list of fluctuating appraisal values.
+
+#     Returns:
+#     list: A list containing the total gain and a list of each transaction 
+#           in the form [gain, acquisition_index, posting_index].
+#     """
+#     if not appraisals or len(appraisals) < 2:
+#         return [0, []]  # No gain possible with less than 2 appraisals
+
+#     transactions = []  # Stores all valid transactions [gain, acquisition_index, posting_index]
+#     total_gain = 0  # Tracks total gain across all transactions
+
+#     i = 0
+#     while i < len(appraisals) - 1:
+#         # Find the lowest price to buy
+#         while i < len(appraisals) - 1 and appraisals[i] >= appraisals[i + 1]:
+#             i += 1
+#         acquisition_index = i
+#         min_price = appraisals[i]
+
+#         # Find the highest price to sell after the acquisition
+#         while i < len(appraisals) - 1 and appraisals[i] <= appraisals[i + 1]:
+#             i += 1
+#         posting_index = i
+#         max_price = appraisals[i]
+
+#         # Calculate gain for this transaction and store it
+#         gain = max_price - min_price
+#         if gain > 0:
+#             transactions.append([gain, acquisition_index, posting_index])
+#             total_gain += gain
+
+#         i += 1  # Move to the next potential acquisition point
+
+#     return [total_gain, transactions]
+#     return total_gain
+
+
+
+
+# # Example usage:
+# print()
+# appraisals0 = [5000, 7000, 6000, 8000, 5500, 9500]
+# result = calcGain(appraisals0)
+# print(result) # Expected Gain: 8000 
+# print()
+
+# appraisals1 = [1000, 1100, 900, 1200, 1000, 1300, 1500]
+# result = calcGain(appraisals1)
+# print(result) # Expected Gain: 900
+# print()
+
+# appraisals2 = [700, 100, 500, 300, 600, 400]
+# result = calcGain(appraisals2)
+# print(result) # Expected Gain: 700
+# print()
+
+# appraisals3 = [1000.45, 1500.7, 1350, 2000, 1800.99, 2201, 2100, 1919]
+# result = calcGain(appraisals3)
+# print(result) # Expected Gain: 1550.26
+# print()
+
+
+
+
+
+
+
+
+
+
+
+# ma
+# def calcGain(appraisals):
+#     if not appraisals:
+#         return [0, [], [], []]
+
+#     max_gain = 0
+#     min_price_index = 0
+#     max_price_index = 0
+#     current_gain = 0
+#     current_min_price_index = 0
+
+#     for i in range(1, len(appraisals)):
+#         if appraisals[i] < appraisals[current_min_price_index]:
+#             current_min_price_index = i
+#             current_gain = 0
+#         else:
+#             current_gain = appraisals[i] - appraisals[current_min_price_index]
+#             if current_gain > max_gain:
+#                 max_gain = current_gain
+#                 min_price_index = current_min_price_index
+#                 max_price_index = i
+
+#     return [max_gain, [min_price_index], [max_price_index]]
+
+# print()
+# appraisals0 = [5000, 7000, 6000, 8000, 5500, 9500]
+# result = calcGain(appraisals0)
+# print(result) # Expected Gain: 8000 
+# print()
+
+# appraisals1 = [1000, 1100, 900, 1200, 1000, 1300, 1500]
+# result = calcGain(appraisals1)
+# print(result) # Expected Gain: 900
+# print()
+
+# appraisals2 = [700, 100, 500, 300, 600, 400]
+# result = calcGain(appraisals2)
+# print(result) # Expected Gain: 700
+# print()
+
+# appraisals3 = [1000.45, 1500.7, 1350, 2000, 1800.99, 2201, 2100, 1919]
+# result = calcGain(appraisals3)
+# print(result) # Expected Gain: 1550.26
+# print()
+
+
+
+
+
+
+
+
+
+
+
+
+
+# mb
+# def calcGain(appraisals):
+#     if not appraisals:
+#         return [0, [], []]
+    
+#     n = len(appraisals)
+#     max_gain = 0
+#     acquisition_indices = []
+#     posting_indices = []
+    
+#     # Dynamic programming arrays
+#     dp = [0] * n
+#     acquisition_dp = [-1] * n
+#     posting_dp = [-1] * n
+    
+#     for i in range(1, n):
+#         for j in range(i):
+#             if appraisals[i] > appraisals[j]:
+#                 gain = appraisals[i] - appraisals[j]
+#                 if gain + dp[j] > dp[i]:
+#                     dp[i] = gain + dp[j]
+#                     acquisition_dp[i] = j
+#                     posting_dp[i] = i
+    
+#     max_gain = max(dp)
+#     if max_gain == 0:
+#         return [0, [], []]
+    
+#     # Backtrack to find the indices of acquisition and posting
+#     i = dp.index(max_gain)
+#     while i >= 0:
+#         if acquisition_dp[i] != -1:
+#             acquisition_indices.append(acquisition_dp[i])
+#             posting_indices.append(i)
+#         i = acquisition_dp[i]
+    
+#     acquisition_indices.reverse()
+#     posting_indices.reverse()
+    
+#     return [max_gain, acquisition_indices, posting_indices]
+
+# print()
+# appraisals0 = [5000, 7000, 6000, 8000, 5500, 9500]
+# result = calcGain(appraisals0)
+# print(result) # Expected Gain: 8000 
+# print()
+
+# appraisals1 = [1000, 1100, 900, 1200, 1000, 1300, 1500]
+# result = calcGain(appraisals1)
+# print(result) # Expected Gain: 900
+# print()
+
+# appraisals2 = [700, 100, 500, 300, 600, 400]
+# result = calcGain(appraisals2)
+# print(result) # Expected Gain: 700
+# print()
+
+# appraisals3 = [1000.45, 1500.7, 1350, 2000, 1800.99, 2201, 2100, 1919]
+# result = calcGain(appraisals3)
+# print(result) # Expected Gain: 1550.26
+# print()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+**********  WHENEVER THE MAMOUT UNIT TESTS PROJECT COMES BACK, USE THIS. THIS PROBLEM IS WHERE YOU LEFT OFF AT. LAST TIME YOU WERE WORKING ON IT, YOU HAD SUBMITTED ONE TASK, WHICH TOOK APPROX 3.34 HOURS.MIN AND STARTED WORKING ON THIS ONE BUT COULDNT GET THE PROMPT WORDED RIGHT BC YOU WERE TIRED SO YOU LEFT IT AS-IS AND STOPPED WORKING. AT THAT TIME, THE TIMER WAS 5.57, AND YOU NEVER SUBMITTED TIME, SO MIGHT HAVE TO LET THE FIRST ONE GO FOR FREE AND SUBTRACT THAT 3.34 FROM THE 5.57 TO GET THE TIME FOR THIS ONE ISOLATED...
+
+    Prob: 120. Triangle
+    
+    Given a triangle array, return the minimum path sum from top to bottom. For each step, you may move to an adjacent number of the row below. More formally, if you are on index i on the current row, you may move to either index i or index i + 1 on the next row.
+    
+    Prompt: 
+    
+    I am adding a new feature to a construction project-planning and management application I developed, which generates workflows for a construction company. It seperates levels of decision making and describes the successive decision points in a simplified way to create an organized, layered plan; the company is using it for a new building project they have taken on. Sequencial steps within the many layers of the building construction depend on specific materials and/or methods from prior stages, and only a couple of logical options exist at each layer. Therefore, the app generates what we call a "dependency pyramid," which illustrates how each choice naturally limits future options; the pyramid is created via systematic methods of constraint generation and dependency mapping. However, once it is generated, the company must reduce the set of viable next steps down to a concrete road map that needs to be executed, which is the tricky part. It is taking several employees to extract the optimal road map because while there are limited choices, the options still leave room for sub-optimal decisions, and this is resulting in random outcomes where half the time, the road map successfully minimizes cost based on material compatibility and structural dependencies, but other times the opposite happens, i.e., compatibility and dependencies yield an increase in cost; this defeats the purpose of the software. Can you help me resolve this? Your task is to generate a feature for this dependency pyramid software that generates road maps that have very high levels of certainty. It must ensure that only feasible paths are evaluated, focusing on the minimal cost paths through the constraints. 
+
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+
+    Prob: 115. Distinct Subsequences
+    
+    Prompt:
+
+    Ive implemented a robot called "The Scara Lab Assistant" which is a mobile scara (a type of robotic arm) robot focused on assisting in scientific laboratory tasks, mainly tasks that are repetitive. However, in lab automation, it is essential that the robot executes efficient actions to preserve battery life. The robot has been performing real tasks for the lab it is at, and all the while, I have been collecting data and monitoring its energy usage. I have also compared that data with data collected on throughput, i.e., the work and number of task completed daily. Needless to say, now I have an algorithm that can optimize its energy usage by streamlining its workflow. The robot's control signals are interleaved in a sequence to perform actions concurrently; these commands, movement and operational, are mapped onto symbols represented by English alphabetic characters, e.g., m = move_to(test_tube1), a = aspirate(), and e = exit() to name a few; this way, we can package an entire control sequence in the string "fusedSigs" (e.g., fusedSigs = "ma...e"). This is where you come in... I need a helper application to pair with the optimization algorithm I mentioned earlier. The app, which I need you to generate, needs to report how many unique optimized control sequences can be generated from the original control sequence. My optimization algorithm takes the original control sequence and trims all the fat, that is, all the commands that can be omitted such that the amount and quality of the daily work throughput is not negatively affected. There are usually several ways to optimize, and your app will report exactly how many are possible. Your app will take the original control sequence "fusedSigs" and the lean version "leanSigs" and return the magnitude of the set that represents all the unique subsequences.
+    
+    
+    BELOW, WE HAVE TWO DIFF. SOLUTES: 1. THE RECURSIVE APPROACH (DFS), AND 2. THE DP APPROACH
+
+'''
+
+
+
+# def count_unique_subsequences(fusedSigs: str, leanSigs: str) -> int:
+#     """
+#     Counts all unique ways to derive the leanSigs sequence as a subsequence of the original fusedSigs sequence.
+    
+#     Args:
+#     fusedSigs (str): The original control sequence.
+#     leanSigs (str): The optimized control sequence.
+    
+#     Returns:
+#     int: The count of unique subsequences of fusedSigs that match leanSigs.
+#     """
+    
+#     # Memoization dictionary to store computed results for each (i, j) pair
+#     memo = {}
+
+#     def dfs(i: int, j: int) -> int:
+#         # Check if this subproblem has already been solved
+#         if (i, j) in memo:
+#             return memo[(i, j)]
+        
+#         # Base case: if leanSigs is fully matched
+#         if j == len(leanSigs):
+#             return 1
+#         # Base case: if fusedSigs is exhausted without fully matching leanSigs
+#         if i == len(fusedSigs):
+#             return 0
+        
+#         # Option 1: Skip the current character in fusedSigs
+#         count = dfs(i + 1, j)
+        
+#         # Option 2: Use the current character if it matches leanSigs[j]
+#         if fusedSigs[i] == leanSigs[j]:
+#             count += dfs(i + 1, j + 1)
+        
+#         # Store the result in memo before returning
+#         memo[(i, j)] = count
+#         return count
+    
+#     return dfs(0, 0)
+
+# # Example usage:
+# fusedSigs = "maema"
+# leanSigs = "mae"
+# result = count_unique_subsequences(fusedSigs, leanSigs)
+# print(f"Number of unique optimized control sequences: {result}")
+
+
+
+
+
+
+
+
+
+
+
+# m2
+'''I can provide you with a Python solution to calculate the number of unique optimized control sequences. We will use dynamic programming to solve this problem.
+
+### Unique Optimized Control Sequences Calculator
+
+#### Problem Statement
+
+Given an original control sequence `fusedSigs` and its lean version `leanSigs`, calculate the number of unique optimized control sequences that can be generated from `fusedSigs` while maintaining the same throughput as `leanSigs`.
+
+This application uses dynamic programming to calculate the number of unique optimized control sequences. The `count_unique_subsequences` function takes the original control sequence `fusedSigs` and its lean version `leanSigs` as input and returns the number of unique optimized control sequences.
+
+In the example usage, we have an original control sequence `fusedSigs = "maeme"` and its lean version `leanSigs = "mae"`. The application calculates and prints the number of unique optimized control sequences that can be generated from `fusedSigs` while maintaining the same throughput as `leanSigs`.
+
+Note that this solution assumes that the lean version `leanSigs` is a subsequence of the original control sequence `fusedSigs`. If this is not the case, the solution may not work correctly.
+
+'''
+
+
+# def count_unique_subsequences(fusedSigs, leanSigs):
+#     """
+#     Calculate the number of unique optimized control sequences.
+
+#     Args:
+#     fusedSigs (str): The original control sequence.
+#     leanSigs (str): The lean version of the control sequence.
+
+#     Returns:
+#     int: The number of unique optimized control sequences.
+#     """
+#     m, n = len(fusedSigs), len(leanSigs)
+#     dp = [[0] * (n + 1) for _ in range(m + 1)]
+
+#     # Initialize the base case
+#     for i in range(m + 1):
+#         dp[i][0] = 1
+
+#     for i in range(1, m + 1):
+#         for j in range(1, min(i + 1, n + 1)):
+#             # If the current characters in fusedSigs and leanSigs match,
+#             # we have two options: include the current character in fusedSigs
+#             # in the subsequence or not.
+#             if fusedSigs[i - 1] == leanSigs[j - 1]:
+#                 dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j]
+#             # If the current characters do not match, we cannot include the
+#             # current character in fusedSigs in the subsequence.
+#             else:
+#                 dp[i][j] = dp[i - 1][j]
+
+#     return dp[m][n]
+
+
+# # Example usage
+# fusedSigs = "maeme"
+# leanSigs = "mae"
+# print("Number of unique optimized control sequences:", count_unique_subsequences(fusedSigs, leanSigs))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+
+    Prob: 97. Interleaving
+    
+    Given strings s1, s2, and s3, find whether s3 is formed by an interleaving of s1 and s2. An interleaving of two strings s and t is a configuration where s and t are divided into n and m substrings respectively, such that: s = s1 + s2 + ... + sn, t = t1 + t2 + ... + tm, |n - m| <= 1, and The interleaving is s1 + t1 + s2 + t2 + s3 + t3 + ... or t1 + s1 + t2 + s2 + t3 + s3 + ...
+    
+    Prompt: 
+    
+    I am working on a new robot called "The Scara Lab Assistant" which is a mobile scara (a type of robotic arm) robot focused on assisting in scientific laboratory tasks, mainly tasks that are repetitive. However, in lab automation, it is essential that the robot executes precise actions, especially if it is moving in between specimens and chemicals, so I need some failsafes and validation methods implemented... lets focus on the latter, for now. Currently, I am testing a new framework where the robot's control signals are interleaved in a sequence to perform actions concurrently; since the control signals for movement and operational commands come from different sources and must be interleaved evenly, I need a way to validate the structure of these fused signals to ensure smooth coordination. Generate a program that helps me validate this. The commands, movement and operational, are mapped to symbols for brevity, therefore, the program simply needs to determine whether the fused signals are evenly interwoven or not. The signals are mapped onto symbols represented by English alphabetic characters, e.g., m = move_to(test_tube1) and a = aspirate to name a few; this way, we can package an entire control sequence in the string "fusedSigs". Similarly, the movement signals are packaged within the string "moveSigs" and the operational signals are packaged within the "opSigs" string. The program should report if 'fusedSigs' is a valid fusion of 'moveSigs' and 'opSigs' by returning a helpful boolean.
+
+'''
+
+
+
+# # gpt
+def is_valid(moveSigs, opSigs, fusedSigs):
+    """
+    Validate the fused signals are an interwoven string of movement and operational signals (substrings).
+
+    Args:
+        fusedSigs (str): The fused signal sequence to be validated.
+        moveSigs (str): The movement signal sequence.
+        opSigs (str): The operational signal sequence.
+
+    Returns:
+        valid (bool): True if the fused signals are a valid fusion of movement and operational signals, False otherwise.
+    """
+    # Get the lengths for comparison.
+    m, n = len(moveSigs), len(opSigs)
+    
+    # Return variable to deliver the result.
+    VALID = False
+    
+    # If the lengths don't add up, it cannot be a valid interleaving.
+    if m + n != len(fusedSigs):
+        return VALID
+    
+    # Create a 2D table to store solutions of subproblems.
+    # Use the valid variable since it is still false here.
+    dp = [[VALID] * (n + 1) for _ in range(m + 1)]
+    
+    # Empty strings can interleave to form an empty string.
+    dp[0][0] = not VALID # Reduces to true
+    
+    # Initialize first column (only moveSigs contributes to interleaving).
+    for i in range(1, m + 1):
+        dp[i][0] = dp[i - 1][0] and moveSigs[i - 1] == fusedSigs[i - 1]
+    
+    # Initialize first row (only opSigs contributes to interleaving).
+    for j in range(1, n + 1):
+        dp[0][j] = dp[0][j - 1] and opSigs[j - 1] == fusedSigs[j - 1]
+    
+    # Fill dp table: if the first i chars of moveSig and the first j chars of 
+    # opSig can fuse together to form a valid interwoven |i+j| segment of 
+    # fusedSig, then set to true, false o/w.
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            dp[i][j] = (dp[i - 1][j] and moveSigs[i - 1] == fusedSigs[i + j - 1]) or \
+                       (dp[i][j - 1] and opSigs[j - 1] == fusedSigs[i + j - 1])
+                       
+    # Extract the final result.
+    VALID = dp[m][n]
+    return VALID
+
+
+
+# import sys
+
+# def parse_helper():
+#     """
+#     Continuously reads lines from stdin. Each line is expected to contain exactly
+#     three whitespace-delimited strings. Each set of strings is passed to the 'is_valid' method,
+#     and the result is printed. Processing stops when there are no more lines to read.
+#     """
+#     for line in sys.stdin:
+#         line = line.strip()
+#         if line:  # Ensure the line is not empty
+#             parts = line.split()
+#             if len(parts) == 3:
+#                 result = is_valid(parts[0], parts[1], parts[2])
+#                 print(result)
+#             else:
+#                 print("Error: Each line must contain exactly three whitespace-delimited strings.")
+                
+                
+# if __name__ == "__main__":
+#     parse_helper()
+
+
+
+
+
+# # TEST CASES:
+# # true
+# moveSigs1 = "sspp"
+# opSigs1 = "xxzz"
+# fusedSigs1 = "sxsxpzpz"
+
+# # false: missing one char
+# moveSigs2 = "mmoa"
+# opSigs2 = "mmoa"
+# fusedSigs2 = "mmommoa"
+
+# # false: one extra char
+# moveSigs3 = "mmoa"
+# opSigs3 = "aamo"
+# fusedSigs3 = "mamoamooa"
+
+# # true
+# moveSigs4 = "sspee"
+# opSigs4 = "xppes"
+# fusedSigs4 = "ssxppepese"
+
+# #true
+# moveSigs5 = "mmoa"
+# opSigs5 = "aamo"
+# fusedSigs5 = "mamoamoa"
+
+# # false (not even)
+# moveSigs6 = "mmoo"
+# opSigs6 = "aamo"
+# fusedSigs6 = "maamamo"
+
+# # false (not even)
+# moveSigs7 = "mmooo"
+# opSigs7 = "aamoa"
+# fusedSigs7 = "mmamamooomo"
+
+# print("Expected validity: True")
+# print("Actual validity:", is_valid(moveSigs1, opSigs1, fusedSigs1))
+# print()
+# print("Expected validity: False")
+# print("Actual validity:", is_valid(moveSigs2, opSigs2, fusedSigs2))
+# print()
+# print("Expected validity: False")
+# print("Actual validity:", is_valid(moveSigs3, opSigs3, fusedSigs3))
+# print()
+# print("Expected validity: True")
+# print("Actual validity:", is_valid(moveSigs4, opSigs4, fusedSigs4))
+# print()
+# print("Expected validity: True")
+# print("Actual validity:", is_valid(moveSigs5, opSigs5, fusedSigs5))
+# print()
+# print("Expected validity: False")
+# print("Actual validity:", is_valid(moveSigs6, opSigs6, fusedSigs6))
+# print()
+# print("Expected validity: False")
+# print("Actual validity:", is_valid(moveSigs7, opSigs7, fusedSigs7))
+# print()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 '''
 
     I need a program that can help in finding the optimal data packet, network route quickly. My network routers must be updated frequently as routes change, nodes go down, or traffic conditions evolve; I use binary search trees to manage routing tables efficiently, so assume that the program will be a component within a larger class, and will utilize a TreeNode class that has three members: left child, right child, and node value. These routing tables store the packet data routes used to travel across networks, and using binary search trees provides a method to organize routing entries such that binary search capabilities are maximized. Therefore, the program must generate and return all the possible unique ways of organizing the routing entries, the entries being the nodes in the bst. Note that the size of the routing tables need to be accepted by the program and it should be capable of handling several in sequence such that each table is handled individually, e.g., processed and executed to return the result before moving on to the next routing table; these size integer arguments will each be on their own line and delimited with blank lines.
@@ -24,85 +830,85 @@
 '''
 
 
-class TreeNode:
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
 
-def generate_trees(start, end):
-    if start > end:
-        return [None]
+# def generate_trees(start, end):
+#     if start > end:
+#         return [None]
     
-    all_trees = []
-    for i in range(start, end + 1):
-        # Get the correct range of node values
-        left_trees = generate_trees(start, i - 1)
-        right_trees = generate_trees(i + 1, end)
+#     all_trees = []
+#     for i in range(start, end + 1):
+#         # Get the correct range of node values
+#         left_trees = generate_trees(start, i - 1)
+#         right_trees = generate_trees(i + 1, end)
 
-        for left in left_trees:
-            for right in right_trees:
-                current_tree = TreeNode(i)
-                current_tree.left = left
-                current_tree.right = right
-                all_trees.append(current_tree)
-    return all_trees
-
-
-def unique_bsts(n):
-    """Generates all unique BSTs for a given size and returns them as a list of TreeNode objects."""
-    uniq_trees = generate_trees(1, n)
-    return uniq_trees
+#         for left in left_trees:
+#             for right in right_trees:
+#                 current_tree = TreeNode(i)
+#                 current_tree.left = left
+#                 current_tree.right = right
+#                 all_trees.append(current_tree)
+#     return all_trees
 
 
-def extract_and_print_bsts(root):
-    """Unpack the tree's elements using levelorder traversal."""
-    if not root:
-        return None
-    else:
-        result = []
-        queue = [root]
-        while queue:
-            node = queue.pop(0)
-            if node:
-                result.append(node.val)
-                queue.append(node.left)
-                queue.append(node.right)
-            else:
-                result.append(None)
+# def unique_bsts(n):
+#     """Generates all unique BSTs for a given size and returns them as a list of TreeNode objects."""
+#     uniq_trees = generate_trees(1, n)
+#     return uniq_trees
+
+
+# def extract_and_print_bsts(root):
+#     """Unpack the tree's elements using levelorder traversal."""
+#     if not root:
+#         return None
+#     else:
+#         result = []
+#         queue = [root]
+#         while queue:
+#             node = queue.pop(0)
+#             if node:
+#                 result.append(node.val)
+#                 queue.append(node.left)
+#                 queue.append(node.right)
+#             else:
+#                 result.append(None)
         
-        # Trim trailing None values for a clean output
-        while result and result[-1] is None:
-            result.pop()
+#         # Trim trailing None values for a clean output
+#         while result and result[-1] is None:
+#             result.pop()
         
-        return result
+#         return result
 
 
-def main():
-    import sys
+# def main():
+#     import sys
 
-    # Read all lines from stdin
-    input_data = sys.stdin.read().strip().splitlines()
+#     # Read all lines from stdin
+#     input_data = sys.stdin.read().strip().splitlines()
 
-    # Process each routing table size
-    for line in input_data:
+#     # Process each routing table size
+#     for line in input_data:
         
-        # Process only if the line is not empty
-        if line.strip():  
-            n = int(line.strip())
+#         # Process only if the line is not empty
+#         if line.strip():  
+#             n = int(line.strip())
 
-            # Generate all possible unique binary search trees
-            bsts = unique_bsts(n)
+#             # Generate all possible unique binary search trees
+#             bsts = unique_bsts(n)
 
-            unique_tree_structures = [extract_and_print_bsts(tree) for tree in bsts]
+#             unique_tree_structures = [extract_and_print_bsts(tree) for tree in bsts]
             
-            print(f"All unique BSTs for n = {n}:")
-            print(unique_tree_structures) 
-            print()
+#             print(f"All unique BSTs for n = {n}:")
+#             print(unique_tree_structures) 
+#             print()
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
 
 
 
