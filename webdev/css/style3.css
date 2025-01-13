@@ -1,35 +1,46 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    overflow: hidden; /* Prevent scrolling on the root level */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
 }
 
 .container {
     display: flex;
-    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
 }
 
-.fixed-side {
-    width: 17%; /* Fixed side takes up half the width */
-    height: 100%;
-    position: flex; /* Fixed position to keep it still on scroll */
-    top: 0;
-    left: 0;
-    background: url('sun-tornado.svg') no-repeat center center;
-    background-size: cover; /* Ensure the image covers the area */
+.graph-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
 }
 
-
-
-.scrollable-side {
-    width: 83%;
-    height: 100%;
-    overflow-y: scroll; /* Enable scrolling on the scrollable content */
-    margin-left: 17%; /* Push content to the right half of the screen */
+.spreadsheet-section {
+    flex: 1;
 }
 
-.scrollable-side section {
-    height: 100vh; /* Each section is the full height of the viewport */
+table {
     width: 100%;
-    /* Add your styles for the sections */
+    border-collapse: collapse;
+    margin-top: 1em;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+button {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
 }

@@ -24,11 +24,11 @@ body{
 
 /* Container w/ nav */
 /* Logo is to the left while nav spans top */
-.container{
+.container {
     padding: 10px 10%;
 }
 
-nav{
+nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -179,6 +179,67 @@ nav ul li a:hover::after{
 
 
 
+/* Import the openprops stylesheet */
+@import 'open-props';
+@import 'https://unpkg.com/open-props/normalize.min.css';
 
 
 /* My Work */
+.work-list-scroller {
+    --spacer: var(--size-3);
+    display: grid;
+    gap: var(--spacer);
+
+    /* Turn the grid rows into cols */
+    grid-auto-flow: column;
+    grid-auto-columns: 21%; /*col width*/
+
+    padding: 0 var(--spacer) var(--spacer);
+
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+
+    inline-size: min(100% - 4rem, 70rem);
+    margin-inline: auto;
+}
+
+.flow {
+    display: grid;
+    gap: var(--spacer);
+}
+
+.work-card {
+    display: grid;
+    grid-template-rows: min-content;
+    gap: var(--spacer);
+    padding: var(--spacer);
+    background: var(--surface-2);
+    border-radius: var(--radius-2);
+    box-shadow: var(--shawdow-2);
+}
+
+.work-card p {
+    font-size: 14px;
+}
+
+.work-card p span {
+    font-size: 24px;
+    color: springgreen;
+}
+
+/* Apply this to all work card images. */
+.work-card > img {
+    inline-size: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.snaps-inline {
+    scroll-snap-type: inline mandatory;
+    scroll-padding-inline: var(--spacer, 1rem);
+}
+
+/* Apply this to all snaps-inline children. */
+.snaps-inline > * {
+    scroll-snap-align: start;
+}

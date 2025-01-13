@@ -55,3 +55,6 @@ __pycache__/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Ignore the virtual environment directory
+freestyle_env/

@@ -1,152 +1,280 @@
 
 
 
-
-// MA
-#include <iostream>
-#include <glad/glad.h>
+// gpt1
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <iostream>
 
-const unsigned int SCREEN_WIDTH = 800;
-const unsigned int SCREEN_HEIGHT = 600;
-
-// Define the vertices of the complex shape
-struct Vertex {
-  glm::vec3 position;
-  glm::vec3 color;
+// Vertex data for a simple 3D cube
+float cubeVertices[] = {
+    // Positions          // Colors
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
+    // More vertices for other faces...
 };
 
-const Vertex vertices[] = {
-  {glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
-  {glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f)},
-  {glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 1.0f)},
-  {glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 1.0f)},
-  // Add more vertices to define the complex shape
-  {glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 1.0f)},
-  {glm::vec3(0.5f, 0.5f, 1.0f), glm::vec3(1.0f, 0.5f, 1.0f)},
-  {glm::vec3(1.0f, 0.5f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f)},
-  {glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.5f, 1.0f, 1.0f)},
-  {glm::vec3(0.5f, 1.0f, 1.0f), glm::vec3(0.5f, 0.5f, 1.0f)},
+// Indices for drawing the cube
+unsigned int cubeIndices[] = {
+    0, 1, 2, 2, 3, 0,
+    // Indices for other faces...
 };
 
-const unsigned int vertex_count = sizeof(vertices) / sizeof(vertices[0]);
+// Initialize OpenGL and draw a grid
+void renderGrid(int gridSize) 
+{
+    for (int x = -gridSize; x <= gridSize; x++) {
+        for (int z = -gridSize; z <= gridSize; z++) {
+            glPushMatrix();
+            glTranslatef(x, 0.0f, z); // Position the cube in the grid
+            glBegin(GL_QUADS); // Draw a simple quad for the "binary wall"
+            glColor3f(0.0f, 1.0f, 0.0f); // Bright green
+            glVertex3f(-0.5f, 0.0f, -0.5f);
+            glVertex3f(0.5f, 0.0f, -0.5f);
+            glVertex3f(0.5f, 0.0f, 0.5f);
+            glVertex3f(-0.5f, 0.0f, 0.5f);
+            glEnd();
+            glPopMatrix();
+        }
+    }
+}
 
-int main() {
-  // Initialize GLFW
-  glfwInit();
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+int main() 
+{
+    // Initialize GLFW
+    if (!glfwInit()) {
+        std::cerr << "Failed to initialize GLFW!" << std::endl;
+        return -1;
+    }
 
-  // Create a window
-  GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Complex Shape Rendering", nullptr, nullptr);
-  if (window == nullptr) {
-    std::cout << "Failed to create GLFW window" << std::endl;
+    // Create a windowed mode window and OpenGL context
+    GLFWwindow* window = glfwCreateWindow(800, 600, "Cyberspace Room", nullptr, nullptr);
+
+    if (!window) {
+        glfwTerminate();
+        return -1;
+    }
+
+    glfwMakeContextCurrent(window);
+
+    // Initialize GLEW
+    if (glewInit() != GLEW_OK) {
+        std::cerr << "Failed to initialize GLEW!" << std::endl;
+        return -1;
+    }
+
+    glEnable(GL_DEPTH_TEST);
+
+    // Main render loop
+    while (!glfwWindowShouldClose(window)) {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        renderGrid(10); // Render a grid of 10x10 cubes
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
     glfwTerminate();
-    return -1;
-  }
-  glfwMakeContextCurrent(window);
+    return 0;
+}
 
-  // Initialize GLEW
-  if (glewInit() != GLEW_OK) {
-    std::cout << "Failed to initialize GLEW" << std::endl;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// gpt2
+#include <SDL2/SDL.h>
+#include <iostream>
+#include <vector>
+
+// Define the grid and binary style parameters
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 600;
+const int GRID_SIZE = 10;  // Number of cells in the grid
+const int CELL_SIZE = 50; // Size of each cell in pixels
+const SDL_Color GRID_COLOR = {0, 255, 0, 255}; // Bright green
+
+// Initialize SDL
+bool initSDL(SDL_Window*& window, SDL_Renderer*& renderer) 
+{
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
+        return false;
+    }
+
+    window = SDL_CreateWindow("Cyberspace Room",
+                              SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                              SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    if (!window) {
+        std::cerr << "Failed to create window: " << SDL_GetError() << std::endl;
+        return false;
+    }
+
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (!renderer) {
+        std::cerr << "Failed to create renderer: " << SDL_GetError() << std::endl;
+        return false;
+    }
+
+    return true;
+}
+
+// Draw a grid representing the "cyberspace"
+void drawGrid(SDL_Renderer* renderer) {
+    for (int x = 0; x < GRID_SIZE; x++) {
+        for (int y = 0; y < GRID_SIZE; y++) {
+            // Calculate the top-left position of the cell
+            int xPos = x * CELL_SIZE;
+            int yPos = y * CELL_SIZE;
+
+            // Draw the outline of each grid cell
+            SDL_Rect cell = {xPos, yPos, CELL_SIZE, CELL_SIZE};
+            SDL_SetRenderDrawColor(renderer, GRID_COLOR.r, GRID_COLOR.g, GRID_COLOR.b, GRID_COLOR.a);
+            SDL_RenderDrawRect(renderer, &cell);
+
+            // Optionally draw "binary text" inside the cell
+            if ((x + y) % 2 == 0) {
+                SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255); // Green color for binary text
+                SDL_RenderDrawLine(renderer, xPos + 10, yPos + 10, xPos + CELL_SIZE - 10, yPos + CELL_SIZE - 10);
+                SDL_RenderDrawLine(renderer, xPos + CELL_SIZE - 10, yPos + 10, xPos + 10, yPos + CELL_SIZE - 10);
+            }
+        }
+    }
+}
+
+int main(int argc, char* argv[]) {
+    SDL_Window* window = nullptr;
+    SDL_Renderer* renderer = nullptr;
+
+    if (!initSDL(window, renderer)) {
+        return -1;
+    }
+
+    bool running = true;
+    SDL_Event event;
+
+    // Main render loop
+    while (running) {
+        // Handle events
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                running = false;
+            }
+        }
+
+        // Clear the screen
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black background
+        SDL_RenderClear(renderer);
+
+        // Draw the grid
+        drawGrid(renderer);
+
+        // Present the frame
+        SDL_RenderPresent(renderer);
+    }
+
+    // Clean up SDL
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ma
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <iostream>
+
+const int WIDTH = 800;
+const int HEIGHT = 600;
+
+int main() 
+{
+    if (!glfwInit()) {
+        std::cout << "Failed to initialize GLFW" << std::endl;
+        return -1;
+    }
+
+    glfwWindowHint(GLFW_SAMPLES, 4); // Anti-aliasing samples
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
+    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Cyberspace Room", nullptr, nullptr);
+
+    if (!window) {
+        std::cout << "Failed to create window" << std::endl;
+        glfwTerminate();
+        return -1;
+    }
+
+    glfwMakeContextCurrent(window);
+    glewInit();
+
+    // Load the 3D model of the cyberspace room (e.g., in OBJ format)
+    // You can use external libraries like GLM or Assimp to load and parse the model
+    // ...
+
+    // Set up lighting and camera
+    // ...
+
+    // Main loop
+    while (!glfwWindowShouldClose(window)) {
+        glfwPollEvents();
+
+        // Render the cyberspace room here
+        // Use the loaded 3D model to draw the room
+        // ...
+
+        glfwSwapBuffers(window);
+    }
+
+    glfwDestroyWindow(window);
     glfwTerminate();
-    return -1;
-  }
-
-  // Create a VAO
-  unsigned int VAO;
-  glGenVertexArrays(1, &VAO);
-
-  // Create a VBO
-  unsigned int VBO;
-  glGenBuffers(1, &VBO);
-
-  // Allocate memory for vertex data
-  unsigned int vertex_buffer_size = sizeof(Vertex) * vertex_count;
-  glBindBuffer(GL_ARRAY_BUFFER, VBO);
-  glBufferData(GL_ARRAY_BUFFER, vertex_buffer_size, nullptr, GL_STATIC_DRAW);
-
-  // Copy the vertex data to the GPU
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
-  glBindVertexArray(0);
-
-  // Create an index buffer
-  unsigned int index_buffer_size = sizeof(unsigned int) * 6; // For a triangle strip
-  unsigned int indices[] = {
-    0, 1, 2,
-    0, 2, 3,
-    // Add more indices to define the complex shape
-    4, 5, 6,
-    4, 6, 7,
-  };
-
-  unsigned int index_buffer;
-  glGenBuffers(1, &index_buffer);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_size, indices, GL_STATIC_DRAW);
-
-  // Define the vertex shader
-  const char* vertex_shader_source = "#version 330 core\n"
-                                    "layout (location = 0) in vec3 aPos;\n"
-                                    "layout (location = 1) in vec3 aColor;\n"
-                                    "out vec3 ourColor;\n"
-                                    "void main()\n"
-                                    "{\n"
-                                    "  gl_Position = vec4(aPos, 1.0);\n"
-                                    "  ourColor = aColor;\n"
-                                    "}";
-
-  // Define the fragment shader
-  const char* fragment_shader_source = "#version 330 core\n"
-                                      "out vec3 FragColor;\n"
-                                      "void main()\n"
-                                      "{\n"
-                                      "  FragColor = ourColor;\n"
-                                      "}";
-
-  // Compile the shaders
-  GLuint vertex_shader, fragment_shader;
-  if (glCreateShader(GL_VERTEX_SHADER, vertex_shader_source, nullptr, &vertex_shader) != GL_TRUE) {
-    std::cout << "Failed to create vertex shader" << std::endl;
-    glDeleteBuffers(1, &VBO);
-    glDeleteVertexArrays(1, &VAO);
-    glfwTerminate();
-    return -1;
-  }
-
-  if (glCreateShader(GL_FRAGMENT_SHADER, fragment_shader_source, nullptr, &fragment_shader) != GL_TRUE) {
-    std::cout << "Failed to create fragment shader" << std::endl;
-    glDeleteBuffers(1, &VBO);
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteShader(vertex_shader);
-    glDeleteShader(fragment_shader);
-    glfwTerminate();
-    return -1;
-  }
-
-  // Link the shader program
-  GLuint shader_program;
-  if (glCreateProgram() != GL_TRUE) {
-    std::cout << "Failed to create shader program" << std::endl;
-    glDeleteShader(vertex_shader);
-    glDeleteShader(fragment_shader);
-    glDeleteBuffers(1, &VBO);
-    glDeleteVertexArrays(1, &VAO);
-    glfwTerminate();
-    return -1;
-  }
-
-  if (glAttachShader(shader_program, vertex_shader) != GL_TRUE) {
-    std::cout << "Failed to attach vertex shader" << std::endl;
-    glDeleteProgram(shader_program);
-    glDeleteBuffers(1, &VBO);
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteShader(vertex_shader);
-    glDeleteShader(fragment_
+    return 0;
+}
 
 
 
@@ -158,63 +286,85 @@ int main() {
 
 
 
-// MB
-// #include <SDL2/SDL.h>
-// #include <SDL2/SDL_image.h>
-// #include <SDL2/SDL_ttf.h>
 
-// #include <iostream>
-// #include <cmath>
 
-// int main(int argc, char* argv[]) {
-//     // Initialize SDL
-//     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-//         std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
-//         return -1;
-//     }
 
-//     // Create window
-//     SDL_Window* window = SDL_CreateWindow("Complex Shape Rendering", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
-//     if (window == NULL) {
-//         std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
-//         return -1;
-//     }
 
-//     // Create renderer
-//     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-//     if (renderer == NULL) {
-//         std::cout << "Renderer could not be created! SDL_Error: " << SDL_GetError() << std::endl;
-//         return -1;
-//     }
 
-//     // Set texture filtering to linear
-//     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
-//     // Load image
-//     SDL_Surface* imageSurface = IMG_Load("path/to/your/image.png");
-//     if (imageSurface == NULL) {
-//         std::cout << "Unable to load image: " << SDL_GetError() << std::endl;
-//         return -1;
-//     }
 
-//     // Create texture from surface
-//     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, imageSurface);
-//     SDL_FreeSurface(imageSurface);
 
-//     // Set the position of the texture
-//     SDL_Rect rect = { 100, 100, imageSurface->w, imageSurface->h };
 
-//     // Render the texture
-//     SDL_RenderCopy(renderer, texture, NULL, &rect);
 
-//     // Clean up
-//     SDL_DestroyTexture(texture);
-//     SDL_DestroyRenderer(renderer);
-//     SDL_DestroyWindow(window);
-//     SDL_Quit();
 
-//     return 0;
-// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// mb
+#include <SDL2/SDL.h>
+#include <iostream>
+
+const int WINDOW_WIDTH = 1024;
+const int WINDOW_HEIGHT = 768;
+
+class CyberspaceRoom {
+public:
+    SDL_Rect bounds;
+
+    // Update the room's state based on input
+    void update(SDL_Event* event);
+
+    // Render the room
+    void render();
+};
+
+CyberspaceRoom::CyberspaceRoom() {
+    // Initialize SDL
+    SDL_Init(SDL_INIT_VIDEO);
+
+    bounds.x = 0;
+    bounds.y = 0;
+    bounds.width = WINDOW_WIDTH;
+    bounds.height = WINDOW_HEIGHT;
+
+    // Create a game window
+    SDL_Window* window = SDL_CreateWindow("Cyberspace Room",
+        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+        WINDOW_WIDTH, WINDOW_HEIGHT,
+        SDL_WINDOW_OPENGL);
+
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
+
+    // Your room object implementation here
+    // It should handle user input and rendering
+    m_renderer = renderer;
+}
+
+void CyberspaceRoom::update(SDL_Event* event) {
+    // Handle user input (e.g., movement, mouse clicks, etc.)
+    // Here you would update the room's position, rotate, etc.
+}
+void CyberspaceRoom::render() {
+    // Clear the color buffer
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_RenderClear(renderer);
+
+    // Draw the room (3D model or 2D sprites)
+    // For simplicity, let's assume you have a 2D SDL_Surface to draw the 3D model
+    // SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    // SDL_RenderCopy(renderer, model_surface, null, null);
+
 
 
 

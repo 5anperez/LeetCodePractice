@@ -1,0 +1,616 @@
+/* 
+Prompt: Using the image, generate JSON code for each complete recipe according to this example:
+
+The recipes were all sourced from the periodical titled "Successful Farming."
+*/
+
+{
+    "directions": [
+    "Place kidney beans into a large container and cover with about 1 quart water; let stand 8 hours to overnight. Drain.",
+    "Combine beans, 1 quart water, preserved lemon, sugar, black pepper, red chile pepper, bay leaf, garlic powder, and anise seed in a stockpot; bring to a boil. Reduce heat to low, cover stockpot, and simmer for 1 hour.",
+    "Remove lemon, bay leaf, and red chile pepper from bean mixture. Mash about 10% of the beans against the sides of the stockpot using the back of a spoon. Cover stockpot and simmer for 45 minutes more.",
+    "Remove cover from stockpot and simmer beans until beans are thickened and water is evaporated, about 15 minutes more."
+    ],
+    "ingredients": [
+    "1 pound dried red kidney beans, rinsed",
+    "2 quarts water",
+    "1 Moroccan-style preserved lemon, or to taste",
+    "1 tablespoon white sugar",
+    "1 tablespoon freshly ground black pepper",
+    "1 small red chile pepper, halved lengthwise",
+    "1 bay leaf",
+    "1 teaspoon garlic powder",
+    "1 teaspoon anise seed"
+    ],
+    "source": "allrecipes.com",
+    "tags": [],
+    "title": "Aaron's Amazing Simple Beans"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// gpt
+{
+    "title": "Christmas Tarts",
+    "ingredients": [
+      "1 cupful of finely chopped or ground raisins",
+      "1/2 cupful of chopped nut meats",
+      "1/2 cupful of sugar",
+      "1/4 cupful of soft butter",
+      "1 beaten egg",
+      "1 teaspoonful of grated lemon rind",
+      "2 tablespoonfuls of lemon juice",
+      "2 tablespoonfuls of fine cracker crumbs"
+    ],
+    "directions": [
+      "Mix the ingredients in the order named.",
+      "Place a rounding spoonful on rounds of rich pastry, measuring about 3 inches in diameter.",
+      "Moisten the edges of the pastry with water and press the same size rounds on top, fitting them and pressing in place.",
+      "Bake in a hot oven of 450 degrees until nicely browned."
+    ],
+    "source": "Successful Farming",
+    "tags": []
+}
+  
+{
+    "title": "Squash Souffle",
+    "ingredients": [
+      "2 cupfuls of hot steamed squash",
+      "1/4 cupful of butter",
+      "2 tablespoonfuls of brown sugar",
+      "1 teaspoonful of salt",
+      "1/8 teaspoonful of pepper",
+      "1 1/2 cupfuls of half milk and cream",
+      "2 beaten egg yolks",
+      "2 egg whites, beaten stiff"
+    ],
+    "directions": [
+      "Force squash through a sieve.",
+      "Add the brown sugar, butter, salt, pepper, milk, cream, and egg yolks beaten.",
+      "Fold in the beaten egg whites and place in a buttered baking dish.",
+      "Bake in a moderate oven of 350 degrees until firm and lightly browned."
+    ],
+    "source": "Successful Farming",
+    "tags": ["Christmas dish"]
+}
+
+{
+    "title": "Date Pudding",
+    "ingredients": [
+      "1 cupful of brown or white sugar",
+      "1 cupful of water",
+      "1/4 cupful of shortening",
+      "1 cupful of brown sugar",
+      "1 egg",
+      "1 cupful of milk",
+      "2 cupfuls of general-purpose flour",
+      "1 teaspoonful of combination type baking powder, or 2 teaspoons of tartrate or calcium phosphate baking powder",
+      "1/4 teaspoonful of salt",
+      "1 cupful of chopped dates",
+      "1 cupful of chopped nut meats"
+    ],
+    "directions": [
+      "Mix 1 cupful of brown or white sugar with 1 cupful of water.",
+      "Boil 1 minute and pour into a shallow loaf pan measuring about 8 x 8 inches.",
+      "Make the batter: Mix shortening, brown sugar, egg, milk, flour, baking powder, and salt.",
+      "Add chopped dates and nut meats.",
+      "Pour over the syrup in the pan.",
+      "Place in a moderate oven of 375 degrees and bake 35 minutes or until done.",
+      "Serve warm or cold, plain or with whipped cream or hard sauce."
+    ],
+    "source": "Successful Farming",
+    "tags": []
+}
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ma
+/*
+  So far, Ive modified the Image Understanding (partially -> not at all) and the Verbosity (too short -> just right) ranks. 
+*/
+[
+    {
+      "directions": [
+        "Place kidney beans into a large container and cover with about 1 quart water; let stand 8 hours to overnight. Drain.",
+        "Combine beans, 1 quart water, preserved lemon, sugar, black pepper, red chile pepper, bay leaf, garlic powder, and anise seed in a stockpot; bring to a boil. Reduce heat to low, cover stockpot, and simmer for 1 hour.",
+        "Remove lemon, bay leaf, and red chile pepper from bean mixture. Mash about 10% of the beans against the sides of the stockpot using the back of a spoon. Cover stockpot and simmer for 45 minutes more.",
+        "Remove cover from stockpot and simmer beans until beans are thickened and water is evaporated, about 15 minutes more."
+      ],
+      "ingredients": [
+        "1 pound dried red kidney beans, rinsed",
+        "2 quarts water",
+        "1 Moroccan-style preserved lemon, or to taste",
+        "1 tablespoon white sugar",
+        "1 tablespoon freshly ground black pepper",
+        "1 small red chile pepper, halved lengthwise",  
+        "1 bay leaf",
+        "1 teaspoon garlic powder",
+        "1 teaspoon anise seed"
+      ],
+      "source": "Successful Farming",
+      "tags": [],
+      "title": "Simple Kidney Beans"
+    },
+
+    {
+      "directions": [
+        "Place kidney beans into a large container and cover with about 1 quart water; let stand 8 hours to overnight. Drain.",
+        "Combine beans, 1 quart water, preserved lemon, sugar, black pepper, red chile pepper, bay leaf, garlic powder, and anise seed in a stockpot; bring to a boil. Reduce heat to low, cover stockpot, and simmer for 1 hour.",    
+        "Remove lemon, bay leaf, and red chile pepper from bean mixture. Mash about 10% of the beans against the sides of the stockpot using the back of a spoon. Cover stockpot and simmer for 45 minutes more.",
+        "Remove cover from stockpot and simmer beans until beans are thickened and water is evaporated, about 15 minutes more."
+      ],
+      "ingredients": [        
+        "1 pound dried red kidney beans, rinsed",
+        "2 quarts water",
+        "1 Moroccan-style preserved lemon, or to taste",
+        "1 tablespoon white sugar",
+        "1 tablespoon freshly ground black pepper",
+        "1 small red chile pepper, halved lengthwise",
+        "1 bay leaf",
+        "1 teaspoon garlic powder",
+        "1 teaspoon anise seed"
+      ],
+      "source": "Successful Farming",    
+      "tags": [],
+      "title": "Simple Kidney Beans"
+    },
+
+    {
+      "directions": [
+        "Place kidney beans into a large container and cover with about 1 quart water; let stand 8 hours to overnight. Drain.",
+        "Combine beans, 1 quart water, preserved lemon, sugar, black pepper, red chile pepper, bay leaf, garlic powder, and anise seed in a stockpot; bring to a boil. Reduce heat to low, cover stockpot, and simmer for 1 hour.",
+        "Remove lemon, bay leaf, and red chile pepper from bean mixture. Mash about 10% of the beans against the sides of the stockpot using the back of a spoon. Cover stockpot and simmer for 45 minutes more.",
+        "Remove cover from stockpot and simmer beans until beans are thickened and water is evaporated, about 15 minutes more."
+      ],      
+      "ingredients": [
+        "1 pound dried red kidney beans, rinsed",
+        "2 quarts water",
+        "1 Moroccan-style preserved lemon, or to taste",
+        "1 tablespoon white sugar",
+        "1 tablespoon freshly ground black pepper",      
+        "1 small red chile pepper, halved lengthwise",
+        "1 bay leaf",
+        "1 teaspoon garlic powder",
+        "1 teaspoon anise seed"
+      ],
+      "source": "Successful Farming",
+      "tags": [],
+      "title": "Simple Kidney Beans"  
+    },
+
+    {
+      "directions": [
+        "Place kidney beans into a large container and cover with about 1 quart water; let stand 8 hours to overnight. Drain.",
+        "Combine beans, 1 quart water, preserved lemon, sugar, black pepper, red chile pepper, bay leaf, garlic powder, and anise seed in a stockpot; bring to a boil. Reduce heat to low, cover stockpot, and simmer for 1 hour.",    
+        "Remove lemon, bay leaf, and red chile pepper from bean mixture. Mash about"
+      ]
+    }
+]
+
+
+
+
+
+
+
+
+
+
+// mb
+[
+    {
+      "directions": [
+        "Place kidney beans into a large container and cover with about 1 quart water; let stand 8 hours to overnight. Drain.",
+        "Combine beans, 1 quart water, preserved lemon, sugar, black pepper, red chile pepper, bay leaf, garlic powder, and anise seed in a stockpot; bring to a boil. Reduce heat to low, cover stockpot, and simmer for 1 hour.",
+        "Remove lemon, bay leaf, and red chile pepper from bean mixture. Mash about 10% of the beans against the sides of the stockpot using the back of a spoon. Cover stockpot and simmer for 45 minutes more.",
+        "Remove cover from stockpot and simmer beans until beans are thickened and water is evaporated, about 15 minutes more."
+      ],
+      "ingredients": [
+        "1 pound dried red kidney beans, rinsed",
+        "2 cups water",
+        "1 Moroccan-style preserved lemon, or to taste",
+        "1 tablespoon white sugar",
+        "1 tablespoon freshly ground black pepper",
+        "1 small red chile pepper, halved lengthwise",
+        "1 bay leaf",
+        "1 teaspoon garlic powder",
+        "1 teaspoon anise seed"
+      ],
+      "source": "allrecipes.com",
+      "tags": [],
+      "title": "Simple Kidney Beans"
+    },
+
+    {
+      "directions": [
+        "Place kidney beans into a large container and cover with about 1 quart water; let stand 8 hours to overnight. Drain.",
+        "Combine beans, 1 quart water, preserved lemon, sugar, black pepper, red chile pepper, bay leaf, garlic powder, and anise seed in a stockpot; bring to a boil. Reduce heat to low, cover stockpot, and simmer for 1 hour.",
+        "Remove lemon, bay leaf, and red chile pepper from bean mixture. Mash about 10% of the beans against the sides of the stockpot using the back of a spoon. Cover stockpot and simmer for 45 minutes more.",
+        "Remove cover from stockpot and simmer beans until beans are thickened and water is evaporated, about 15 minutes more."
+      ],
+      "ingredients": [
+        "1 pound dried red kidney beans, rinsed",
+        "2 cups water",
+        "1 Moroccan-style preserved lemon, or to taste",
+        "1 tablespoon white sugar",
+        "1 tablespoon freshly ground black pepper",
+        "1 small red chile pepper, halved lengthwise",
+        "1 bay leaf",
+        "1 teaspoon garlic powder",
+        "1 teaspoon anise seed"
+      ],
+      "source": "allrecipes.com",
+      "tags": [],
+      "title": "Kidney Beans with a Touch of Spice"
+    }
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+Prompt: 
+Please create a JSON output that includes exactly 5 objects found in this image. 
+
+The output should include object names, lengthy physical descriptions, and intended use. 
+
+Include specific furniture trend name for each design and list three complementary items. 
+
+Include instructions for how to make 8-bit icons of each item so I can use them in an interior design project.
+
+*/
+
+
+
+
+
+// gpt
+{
+    "objects": [
+        {
+            "name": "Wooden Sideboard",
+            "description": "A rectangular wooden sideboard with a polished dark wood finish, featuring two closed cabinets on either side and a central open section for displaying decorative items. The top is adorned with a traditional copper lampshade, small ceramic jars, and a framed picture.",
+            "intended_use": "Used for storage and display of decorative items or small functional objects.",
+
+            "design_trend": "Mid-Century Modern",
+            "complementary_items": ["Copper lampshade", "Framed artwork", "Decorative ceramic jars"],
+            
+            "icon_instructions": [
+            "1. Use an 8x16 grid for the sideboard outline.",
+            "2. Fill the bottom row with rectangles to represent the sideboard legs.",
+            "3. Add horizontal lines for the top surface and details for the cabinets.",
+            "4. Use a brown palette for the wood texture and copper for the lamp."
+            ]
+        },
+
+        {
+            "name": "Wicker Armchair",
+            "description": "A low-profile armchair with a curved backrest made of woven wicker. The frame is crafted from natural wood, featuring a smooth finish, and the seat is supported by slightly curved legs for stability.",
+            "intended_use": "A comfortable seating option that combines natural materials with an airy design.",
+            "design_trend": "Tropical Colonial",
+            "complementary_items": ["Cushioned throw pillow", "Side table with a vase", "Neutral area rug"],
+            "icon_instructions": [
+            "1. Use an 8x8 grid for the basic shape.",
+            "2. Sketch a rounded backrest and add diagonal lines to represent the wicker pattern.",
+            "3. Add small rectangles for the legs.",
+            "4. Use beige and light brown colors to indicate the natural materials."
+            ]
+        },
+
+        {
+            "name": "Floor Lamp",
+            "description": "A tall, slender floor lamp with a black metal pole and a simple, off-white fabric lampshade. The lamp's base is minimalistic and round, designed to blend seamlessly into the decor.",
+            "intended_use": "Provides ambient lighting for reading or enhancing the room's atmosphere.",
+            "design_trend": "Scandinavian Minimalism",
+            "complementary_items": ["Modern sofa", "Neutral throw blanket", "Shelf with books"],
+            "icon_instructions": [
+            "1. Use a 4x16 grid for the lamp's height.",
+            "2. Create a narrow vertical line for the pole and a small circle for the base.",
+            "3. Add a trapezoid for the lampshade.",
+            "4. Use white and black colors for a clean, minimalist look."
+            ]
+        },
+
+        {
+            "name": "Daybed",
+            "description": "A wooden-framed daybed with light green upholstered cushions and two matching throw pillows. The frame features angled legs and clean, straight lines, emphasizing functionality and elegance.",
+            "intended_use": "Offers a lounging or napping space, doubling as seating for guests.",
+
+            "design_trend": "Scandinavian Modern",
+            "complementary_items": ["Wool throw blanket", "Round side table", "Floor plant"],
+
+            "icon_instructions": [
+            "1. Use a 16x8 grid for the rectangular base.",
+            "2. Add short vertical lines for the legs and smaller rectangles for cushions.",
+            "3. Use green tones for the upholstery and light brown for the wood.",
+            "4. Include details like a small square for pillows."
+            ]
+        },
+
+        {
+            "name": "Round Side Table",
+            "description": "A compact wooden round side table with a small vase of yellow flowers on top. The table features three angled legs for stability and a smooth finish, matching the other wooden elements in the room.",
+            "intended_use": "Provides a surface for small decorative items or functional purposes like holding a drink or book.",
+            "design_trend": "Mid-Century Modern",
+            "complementary_items": ["Small vase with flowers", "Ceramic coasters", "Minimalist table lamp"],
+            "icon_instructions": [
+            "1. Use an 8x8 grid for the circular tabletop.",
+            "2. Add three angled lines for the legs.",
+            "3. Use brown for the table and yellow for the vase flowers.",
+            "4. Add a tiny green dot for leaves to enhance detail."
+            ]
+        }
+    ]
+  }
+
+
+
+
+
+
+
+
+
+
+// ma
+
+
+/*
+
+The 5th one is incomplete, e.g., it is missing the intended_use, furniture_trend, complementary_items, and icon_instructions. 
+
+The 1st one is a bit inaccurate, e.g., its not deep blue velvet, its green.
+
+The 2nd, 4th, and 5th objects are completely off.
+
+The only satisfactory object is the 3rd.
+
+*/
+[
+  {
+    "object": "Mid-Century Modern Sofa",
+    "description": "A timeless classic, this sofa features a sleek, tapered wooden leg design and a plush, upholstered seat cushion in a rich, deep blue velvet. The backrest is adorned with a unique geometric pattern, adding a touch of sophistication.",
+    "intended_use": "This sofa is perfect for creating a cozy and inviting living room space. It's ideal for lounging, reading, or entertaining guests.",
+
+    "furniture_trend": "Eames Lounge Chair and Ottoman",
+    "complementary_items": [
+      "Whitewashed Wooden Coffee Table",
+      "Marble Side Table",
+      "Black and White Photography Wall Art"
+    ],
+
+    "icon_instructions": "To create an 8-bit icon, draw a simple oval shape for the sofa. Add two tapered lines for the legs. For the geometric pattern on the backrest, use small triangles and squares. Color the sofa deep blue and the legs a light wood tone.",
+    "icon_code": "🛋️💙🪵🔺🔷🔸"
+  },
+
+  {
+    "object": "Glass and Metal Coffee Table",
+    "description": "A modern and elegant coffee table with a glass top and metal legs. The table features a unique 'X' shape on the base, adding a touch of industrial charm.",
+    "intended_use": "This coffee table is perfect for displaying magazines, books, or decorative items. It can also serve as a convenient surface for drinks and snacks.",
+
+    "furniture_trend": "Glass Coffee Table with Metal Base",
+    "complementary_items": [
+      "White Slipcovered Armchair",
+      "Floating Shelves",
+      "Black Metal Floor Lamp"
+    ],
+
+    "icon_instructions": "To create an 8-bit icon, draw a square for the base with a 'X' shape on top. Color the table glass clear and the legs black. Add a few small dots to represent decorative items.",
+    "icon_code": "☕️🪑🔵🔴🔴🔵🔷"
+  },
+
+  {
+    "object": "Rattan Armchair",
+    "description": "A cozy and comfortable armchair made from natural rattan. The chair features a curved armrest and a woven seat, creating a relaxed and inviting atmosphere.",
+    "intended_use": "This armchair is perfect for curling up with a good book or enjoying a cup of tea. It can also be used as an accent chair in a living room or bedroom.",
+
+    "furniture_trend": "Bohemian Rattan Furniture",
+    "complementary_items": [
+      "Macrame Wall Hanging",
+      "Woven Basket",
+      "Potted Plant"
+    ],
+
+    "icon_instructions": "To create an 8-bit icon, draw a circle for the chair. Add two curved lines for the armrests and a woven pattern for the seat. Color the chair natural rattan color.",
+    "icon_code": "🪑🌿🔴🔵🔷"
+  },
+
+  {
+    "object": "Industrial Pipe Shelving",
+    "description": "A unique and stylish shelving unit made from exposed metal pipes. The shelves are adjustable, allowing you to customize the storage space according to your needs.",
+    "intended_use": "This shelving unit is perfect for displaying books, plants, and decorative items. It can also be used to store kitchen essentials or organize your entryway.",
+
+    "furniture_trend": "Industrial Pipe Shelving",
+    "complementary_items": [
+      "Concrete Planter",
+      "Metal Sign",
+      "Whitewashed Wooden Crate"
+    ],
+
+    "icon_instructions": "To create an 8-bit icon, draw a series of intersecting lines to form the pipes. Color the pipes black and add small circles for the shelves. Add a few lines to represent the adjustable shelves.",
+    "icon_code": "🧱🔧🖤🔵🔷"
+  },
+
+  {
+    "object": "Marble Side Table",
+    "description": "A elegant side table with a white marble top and a simple black metal base. The table features a subtle gold leaf pattern, adding a touch of luxury.",
+  }
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// mb
+/*
+
+The 1st one is partially off, but almost correct.
+
+The 2nd, 3rd, and 4th objects are completely off. 
+
+The 5th object is partially, almost fully, incorrect.
+
+*/
+[
+    {
+      "object": "Mid-Century Modern Sofa",
+      "description": "This sofa features a sleek, curved silhouette with tapered legs. It is upholstered in a rich, forest green velvet that exudes luxury and sophistication. The sofa boasts a spacious, deep seat and plush cushions that invite you to sink in and relax.",
+      "intended_use": "The Mid-Century Modern Sofa is perfect for creating a cozy and inviting living room space. It's ideal for lounging, reading, or entertaining guests.",
+
+      "trend_name": "Earthy Elegance",
+      "complementary_items": ["Macrame wall hanging", "Side table with tapered legs", "Floor lamp with a brass finish"],
+
+      "icon_instructions": "To create an 8-bit icon, draw a simple outline of a sofa with curved lines for the silhouette. Use squares and rectangles to represent the cushions, legs, and armrests. Add a few dots for the buttons or tufting.",
+      "icon_code": "```ascii\nO    O:::\n|    |:\n|    |   |\n|    |   |\n|    |____|\nO    O```"
+    },
+
+    {
+      "object": "Marble Side Table",
+      "description": "This side table is a true masterpiece, crafted from white marble with subtle gray veining. It features a round top and a single, elegant pedestal base. The table's minimalist design adds a touch of modern sophistication to any space.",
+      "intended_use": "The Marble Side Table is perfect for placing a lamp, book, or decorative object. It can be used in a living room, bedroom, or any other space where you want to add a touch of luxury.",
+
+      "trend_name": "Minimalist Minimalism",
+      "complementary_items": ["Whitewashed wooden bowl", "Black and white photography prints", "Small succulents in terracotta pots"],
+
+      "icon_instructions": "To create an 8-bit icon, draw a simple circle for the table top. Use a single square or rectangle for the pedestal base. Add a few thin lines to represent the marble veining.",
+      "icon_code": "```ascii\nO    O:\n|    |:\n|    |   |\n|    |   |```"
+    },
+
+    {
+      "object": "Industrial Pipe Shelving",
+      "description": "This shelving unit is a perfect blend of industrial and modern design. It features exposed metal pipes in a matte black finish, creating a raw and edgy look. The shelves are spacious and sturdy, making it ideal for displaying books, plants, and decorative items.",
+      "intended_use": "The Industrial Pipe Shelving is perfect for organizing and displaying your favorite things. It can be used in a living room, bedroom, or home office.",
+
+      "trend_name": "Urban Industrial",
+      "complementary_items": ["Concrete planters", "Mason jar lamps", "Black and white artwork"],
+
+      "icon_instructions": "To create an 8-bit icon, draw a series of interconnected pipes (like a simple grid) for the shelving unit. Use squares and rectangles to represent the shelves.",
+      "icon_code": "```ascii\n   o---o\n  o | o  |\n  o | o---o```"
+    },
+
+    { 
+      "object": "Moroccan Tile Coffee Table",
+      "description": "This coffee table is a true work of art, featuring intricate Moroccan tiles in a mesmerizing blue and white pattern. The tabletop is surrounded by a sturdy wooden base, giving it a warm and inviting feel.",
+      "intended_use": "The Moroccan Tile Coffee Table is the centerpiece of any living room. It's perfect for placing drinks, magazines, or decorative objects.",
+
+      "trend_name": "Global Bohemian",
+      "complementary_items": ["Macrame plant hangers", "Pillows with Moroccan patterns", "A small rug with a geometric design"],
+
+      "icon_instructions": "To create an 8-bit icon, draw a simple circle for the tabletop. Use a square or rectangle for the base.  To represent the tile pattern, use a combination of small squares and dots.",
+      "icon_code": "```ascii\nO    O:\n|    |:\n|  *  * |```"
+    },
+
+    {
+      "object": "Scandinavian Armchair",
+      "description": "This armchair is a perfect embodiment of Scandinavian design, featuring a clean, simple silhouette with tapered legs. It's upholstered in a light gray fabric that invites you to cozy up.",
+      "intended_use": "The Scandinavian Armchair is ideal for creating a reading nook or adding a touch of comfort to any space. It's perfect for relaxing or entertaining guests.",
+
+      "trend_name": "Scandi Simplicity",
+      "complementary_items": ["Whitewashed wooden bowl", "Black and white photography prints", "A small side table with a lamp"],
+
+      "icon_instructions": "To create an 8-bit icon, draw a simple circle for the chair. Use squares and rectangles to represent the armrests, legs, and cushions. Add a few thin lines for the stitching.",
+      "icon_code": "```ascii\nO    O:\n|    |:\n|   *  |```"
+    }
+  ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,15 +1,44 @@
-.left, .right
-{
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
+}
+
+.container {
+    display: flex;
+    width: 80%;
+}
+
+.left-panel, .right-panel {
+    padding: 20px;
+    border-right: 1px solid #ccc;
+}
+
+.left-panel {
+    background-color: #fff;
+}
+
+.right-panel {
+    background-color: #f0f0f0;
+}
+
+table {
     width: 100%;
+    border-collapse: collapse;
 }
 
-.left
-{
-    background: aquamarine;
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
 }
 
-.right
-{
-    background: blue;
+th {
+    background-color: #f0f0f0;
+}
+
+#profit-graph {
+    border: 1px solid #ccc;
 }

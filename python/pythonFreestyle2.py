@@ -56,6 +56,654 @@
 
 
 
+'''
+
+This is a cool script that should return the most common colors in the image using the HSV colorspace. 
+
+Is it correct tho?
+
+'''
+
+
+
+# gpt
+# from PIL import Image
+# import cv2
+# import numpy as np
+# import matplotlib.pyplot as plt
+# from collections import Counter
+
+# # Load the image
+# image_path = "./images/extractCommonHSV.jpg"
+# image = cv2.imread(image_path)
+
+# # Convert the image to HSV color space
+# hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+# # Reshape the image for analysis
+# reshaped_image = hsv_image.reshape((-1, 3))
+
+# # Count the occurrences of unique HSV values
+# hsv_counts = Counter([tuple(hsv) for hsv in reshaped_image])
+
+# # Extract the most common HSV values
+# most_common_hsv = hsv_counts.most_common(10)
+
+# # Prepare results for output
+# common_hsv_colors = [
+#     {
+#         "Hue": hsv[0][0], 
+#         "Saturation": hsv[0][1], 
+#         "Value": hsv[0][2], 
+#         "Count": hsv[1]
+#     } for hsv in most_common_hsv]
+
+# # Display the results to the user
+# import pandas as pd
+# # import ace_tools as tools
+
+# df = pd.DataFrame(common_hsv_colors)
+# # tools.display_dataframe_to_user(name="Most Common HSV Colors in Image", dataframe=df)
+# print(df)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ma
+# import cv2
+# import numpy as np
+
+# def identify_colors(image_path, target_hue1, target_saturation, target_value, min_hue, min_saturation, min_value, max_hue, max_saturation, max_value):
+#     # Read the image in grayscale
+#     image = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2GRAY)
+
+#     # Define the target color range in HSV
+#     target_hue_range = np.array([target_hue1, target_hue1])
+#     target_saturation_range = np.array([target_saturation, target_saturation])
+#     target_value_range = np.array([target_value, target_value])
+
+#     # Find the colors in the image
+#     mask_hue = cv2.inRange(image, min_hue, max_hue)
+#     mask_saturation = cv2.inRange(image, min_saturation, max_saturation)
+#     mask_value = cv2.inRange(image, min_value, max_value)
+    
+#     mask = cv2.bitwise_and(cv2.bitwise_and(mask_hue, mask_saturation), mask_value)
+
+#     # Calculate the color count
+#     color_count = cv2.countNonZero(mask)
+
+#     # Calculate the saturation and value percentage
+#     saturation_percentage = cv2.countNonZero(
+#         cv2.bitwise_and(
+#             mask, cv2.inRange(image, target_saturation[0], target_saturation[1])
+#         )
+#     ) / color_count
+    
+#     value_percentage = cv2.countNonZero(
+#         cv2.bitwise_and(
+#             mask, cv2.inRange(image, target_value[0], target_value[1])
+#         )
+#     ) / color_count
+
+#     # Print the color count and percentage
+#     print(f"Color count: {color_count}")
+#     print(f"Saturation percentage: {saturation_percentage:.2f}%")
+#     print(f"Value percentage: {value_percentage:.2f}%")
+
+# image_path = './images/extractCommonHSV.jpg'  # Replace with the path to your image
+# identify_colors(image_path, target_hue1=0, target_saturation=255, target_value=255, min_hue=0, min_saturation=0, min_value=0, max_hue=180, max_saturation=255, max_value=255)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# mb
+import cv2
+import numpy as np
+
+# Function to convert BGR color to HSC
+def bgr_to_hsc(img):
+    h, s, v = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    return h, s, v
+
+# Load the image
+img = cv2.imread('./images/extractCommonHSV.jpg')  # Replace 'image.jpg' with the path to your image
+
+# Set the target HSC values
+h_min, h_max, s_min, s_max, c_min, c_max = 0, 180, 0, 255, 0, 255  
+
+# Convert image to HSC
+h, s, v = bgr_to_hsc(img)
+
+# Create a mask for the target colors
+mask = ((h >= h_min) & (h <= h_max)) & ((s >= s_min) & (s <= s_max)) & ((c_min <= v[:, :, 2]) & (v[:, :, 2] <= c_max))
+
+# Bitwise AND the mask with the original image
+result = cv2.bitwise_and(img, img, mask=mask)
+
+# Display the result
+cv2.imshow('Identified Colors', result)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+    Prob 312. Burst balloons:
+    You are given n balloons, indexed from 0 to n - 1. Each balloon is painted with a number on it represented by an array nums. You are asked to burst all the balloons. If you burst the ith balloon, you will get nums[i - 1] * nums[i] * nums[i + 1] coins. If i - 1 or i + 1 goes out of bounds of the array, then treat it as if there is a balloon with a 1 painted on it. Return the maximum coins you can collect by bursting the balloons wisely.
+    
+    Prompt: You are given a list of 'n' potential investments, where each investment has an expected percentage return. You will eventually select them all but only one at a time, so there will be 'n' selctions total. After a selection, you omit the investment selected. However, you need to select them in a clever way because upon selecting one, you will include both of its neighbors in the selection's value, and if the selection doesnt have a neighbor on either side, then a placeholder of 1 is used. Therefore, on each selection, take the product of the three investments to be the profit of the corresponding selection. Write a python method named 'simInvest(investments: List[int])' to simulate this and maximize the total profit of the selected investments. 
+'''
+
+
+
+
+
+# from typing import List
+
+# def simInvest(investments: List[int]) -> int:
+#     """
+#     Simulates the process of selecting investments to maximize the total profit.
+#     Each selection includes the selected investment and its neighbors,
+#     and calculates the product of the three.
+
+#     Args:
+#         investments (List[int]): List of potential investments represented by integers.
+
+#     Returns:
+#         int: The maximum total profit from selecting all investments in an optimal order.
+#     """
+#     # Add placeholder values to handle edges
+#     investments = [1] + investments + [1]
+#     n = len(investments)
+
+#     # Memoization table to store results
+#     dp = [[0] * n for _ in range(n)]
+
+#     # Solve for subproblems
+#     for length in range(2, n):  # Length of the range
+#         for left in range(0, n - length):  # Start of the range
+#             right = left + length  # End of the range
+#             # Maximize profit for the current range [left, right]
+#             for k in range(left + 1, right):  # k is the index being selected
+#                 dp[left][right] = max(
+#                     dp[left][right],
+#                     investments[left] * investments[k] * investments[right] + dp[left][k] + dp[k][right]
+#                 )
+
+#     return dp[0][n - 1]
+
+
+# # Example Usage:
+# investments = [10]
+# result = simInvest(investments)
+# print(result) # Expected: 10 (1 * 10 * 1)
+
+
+
+
+# investments1 = [1, 5, 8, 10]
+# result1 = simInvest(investments1)
+# # assert result1 == 500
+# print("I got", result1)
+
+# investments2 = [1, 2, 3, 4]
+# result2 = simInvest(investments2)
+# assert result2 == 40 
+
+# investments3 = [4, 3, 2, 1]
+# result3 = simInvest(investments3)
+# assert result3 == 40 
+
+# investments4 = [0, 5, 0, 3]
+# result4 = simInvest(investments4)
+# assert result4 == 20
+
+# investments5 = [1, 1, 1, 1]
+# result5 = simInvest(investments5)
+# assert result5 == 4
+
+# investments6 = [1, 100, 1, 100, 1]
+# result6 = simInvest(investments6)
+# assert result6 == 20300
+
+# investments7 = [i % 10 + 1 for i in range(1000)]
+# result7 = simInvest(investments7)
+# assert result7 == 428020
+
+# investments8 = [1] * 1000
+# result8 = simInvest(investments8)
+# assert result8 == 1000
+
+
+# print("All tests passed!")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+
+    DEBUG:
+        When I pass the function an invPeriod = [[-2,-3,3],[-5,-10,1],[10,30,-5]], the function must return 7, but it is incorrectly returning 6, why is that?
+        
+        
+    Problem 174: Dungeon game
+
+'''
+
+# def minCapitalRequired(invPeriod):
+#     if not invPeriod or not invPeriod[0]:
+#         return 0
+    
+#     m, n = len(invPeriod), len(invPeriod[0])
+#     # dp array to store the minimum capital required to survive up to each cell
+#     dp = [[0] * n for _ in range(m)]
+
+#     # Initialize the starting point
+#     dp[0][0] = max(1, 1 - invPeriod[0][0])
+
+#     # Fill the first row (only right movements)
+#     for j in range(1, n):
+#         dp[0][j] = max(dp[0][j-1] - invPeriod[0][j], 1)
+
+#     # Fill the first column (only down movements)
+#     for i in range(1, m):
+#         dp[i][0] = max(dp[i-1][0] - invPeriod[i][0], 1)
+
+#     # Fill the rest of the dp table
+#     for i in range(1, m):
+#         for j in range(1, n):
+#             # Minimum capital required to survive up to this cell from either left or above
+#             from_left = max(dp[i][j-1] - invPeriod[i][j], 1)
+#             from_above = max(dp[i-1][j] - invPeriod[i][j], 1)
+#             dp[i][j] = min(from_left, from_above)
+
+#     # The bottom-right corner contains the minimum initial capital required to survive to the end
+#     return dp[m-1][n-1]
+
+# # Example usage:
+# invPeriod = [
+#     [0, -2, 3],
+#     [-5, 2, 1],
+#     [3, -6, 4]
+# ]
+# print(minCapitalRequired(invPeriod))  # Output will depend on the matrix values
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+I need a program that accepts a 2d grid of integers and simulates a robot staring at the top left most corner, start, and must traverse the grid all the way to the bottom right most corner, the goal. However, positive ints help by giving points for life while negative ints do the opposite and the robot must never have points = 0, otherwise it dies and loses. The program simulates these rules and predicts the minimum initial health points needed to reach the goal by traversing the path in a way such that the robot only makes rightward or downward movements. Can you generate a python function that does this please?
+
+I need a function that can minimize the capitol required to ensure survival throughout times we call investment periods. This function will prepare us to avoid going bankrupt while traversing the investment periods. To illustrate net returns within investment periods, we construct 2d tables where rows represent different markets, and columns represent time periods, so the function must accept a mxn table "invPeriod", filled with gains and losses during specific periods and in specific markets, then simulate a traversal from cell (0,0), the start, to cell (n-1,m-1), the end, while surviving adverse periods (losses) and leveraging profitable opportunities. However, the traversal must only go in the direction of the end, and we must never go bankrupt. Finally, the function will return the value required to survive through the entire volatile investment period. Write the function in python.
+'''
+
+
+
+
+'''
+Whats the simplest case? Maybe one day, ie, whats the min cap needed to survive one day? eg, day1 = -3 and day2 = 1, then we must have atleast 4 on day1 to survive until day2. At the end, we cant have zero, so the min we can have is 1. Therefore, when were done traversing, all the positive cells plus all the negatives must equal that min, ie, postives + negatives = 1. Or, pos = 1 - neg, which generates our base case! so grid[n][m] = max(1, 1 - grid[n][m])
+
+'''
+
+
+
+# og
+# def minCapitalRequired(invPeriod):
+#     if not invPeriod or not invPeriod[0]:
+#         return 0
+
+#     m, n = len(invPeriod), len(invPeriod[0])
+#     dp = [[0] * n for _ in range(m)]
+
+#     # Start from the goal and calculate backward
+#     dp[m-1][n-1] = max(1, 1 - invPeriod[m-1][n-1])
+
+#     # Fill the last row (only can move left)
+#     for j in range(n-2, -1, -1):
+#         dp[m-1][j] = max(1, dp[m-1][j+1] - invPeriod[m-1][j])
+
+#     # Fill the last column (only can move up)
+#     for i in range(m-2, -1, -1):
+#         dp[i][n-1] = max(1, dp[i+1][n-1] - invPeriod[i][n-1])
+
+#     # Fill the rest of the dp table, moving from bottom-right to top-left
+#     for i in range(m-2, -1, -1):
+#         for j in range(n-2, -1, -1):
+#             min_required_right = max(1, dp[i][j+1] - invPeriod[i][j])
+#             min_required_down = max(1, dp[i+1][j] - invPeriod[i][j])
+#             dp[i][j] = min(min_required_right, min_required_down)
+
+#     return dp[0][0]
+
+
+
+
+
+
+
+# invPeriod1 = [[1, 2, 3],
+#               [4, 5, 6],
+#               [7, 8, 9]]
+# assert minCapitalRequired(invPeriod1) == 1
+
+# invPeriod2 = [[-10]]
+# assert minCapitalRequired((invPeriod2)) == 11
+
+# invPeriod3 = [[-1, -2, -3], 
+#               [-4, -5, -6], 
+#               [-7, -8, -9]] 
+# assert minCapitalRequired(invPeriod3) == 22
+
+# invPeriod4 = [[0, -2, -3], 
+#               [0, 0, -5], 
+#               [0, 0, 0]]
+# assert minCapitalRequired(invPeriod4) == 1
+
+# invPeriod5 = [[0]*50 for _ in range(50)]
+# invPeriod5[49][49] = -1 
+# assert minCapitalRequired(invPeriod5) == 2
+
+# invPeriod6 = [[-1]*50 for _ in range(50)]
+# assert minCapitalRequired(invPeriod6) == 100
+
+# invPeriod7 = [[-2, -3, 3], 
+#              [-5, -10, 1], 
+#              [10, 30, -5]]
+# assert minCapitalRequired(invPeriod7) == 7
+
+# print("All tests passed!")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
