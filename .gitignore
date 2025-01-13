@@ -58,3 +58,10 @@ Temporary Items
 
 # Ignore the virtual environment directory
 freestyle_env/
+
+# Ignore the images folder
+images/
+
+# Ignore the JSON scrap file
+freestyle.json
+markdownPreviews.md
