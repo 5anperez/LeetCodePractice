@@ -1,118 +1,235 @@
-// var checkPalindromeFormation = function(a, b) {
-//     if (a.length !== b.length) {
-//         return false;
-//     }
-    
-//     for (let i = 0; i < a.length; i++) {
-//         const a_prefix = a.slice(0, i);
-//         const a_suffix = a.slice(i);
-//         const b_prefix = b.slice(0, i);
-//         const b_suffix = b.slice(i);
-
-//         // console.log("This is what I am comparing: ")
-//         // console.log(a_prefix + b_suffix)
-//         // console.log("and ")
-//         // console.log(b_suffix.split('').reverse().join('') + a_prefix)
-
-//         let possPal1 = a_prefix + b_suffix;
-        
-//         if (possPal1 === possPal1.split('').reverse().join(''))
-//             return true;
 
 
-//         // console.log("Then, I compare: ")
-//         // console.log(b_prefix + a_suffix)
-//         // console.log("and ")
-//         // console.log(a_suffix.split('').reverse().join('') + b_prefix)
+/*
 
-//         let possPal2 = b_prefix + a_suffix;
-        
-//         if (possPal2 === possPal2.split('').reverse().join(''))
-//             return true;
+Prompt:
 
-//         // if (a_prefix + b_suffix === b_suffix.split('').reverse().join('') + a_prefix ||
-//         //     b_prefix + a_suffix === a_suffix.split('').reverse().join('') + b_prefix) {
-//         //     return true;
-//         // }
-//     }
+Create a simple JavaScript example that shows how to use arrow functions
 
-//     return false;
+*/
+
+
+// gpt
+
+
+// Example 1: Basic Arrow Function
+const greet = (name) => {
+  return `Hello, ${name}!`;
+};
+console.log(greet("Alice")); // Output: Hello, Alice!
+
+
+
+// Example 2: Arrow Function with Implicit Return
+const square = (num) => num * num; // No need for 'return' or curly braces
+console.log(square(4)); // Output: 16
+
+// Example 3: Arrow Function with No Parameters
+const sayHello = () => "Hello, World!";
+console.log(sayHello()); // Output: Hello, World!
+
+
+
+// Example 4: Arrow Function with One Parameter (Parentheses Optional)
+const double = x => x * 2; // Parentheses around 'x' are optional
+console.log(double(5)); // Output: 10
+
+
+
+// Example 5: Arrow Function in Array Mapping
+const numbers = [1, 2, 3, 4, 5];
+const doubledNumbers = numbers.map(num => num * 2);
+console.log(doubledNumbers); // Output: [2, 4, 6, 8, 10]
+
+
+
+
+// Example 6: Arrow Function as a Callback
+const isEven = num => num % 2 === 0;
+const evens = numbers.filter(isEven); // Filter even numbers
+console.log(evens); // Output: [2, 4]
+
+// Example 7: Arrow Functions and 'this' Binding
+class Counter {
+  constructor() {
+      this.count = 0;
+  }
+
+  increment() {
+      setTimeout(() => {
+          this.count++;
+          console.log(this.count); // Arrow function uses 'this' from Counter
+      }, 1000);
+  }
+}
+
+const counter = new Counter();
+counter.increment(); // Output: 1 (after 1 second)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ma
+// Define an arrow function to greet someone
+// const greet = (name) => `Hello, ${name}!`;
+
+// // Call the arrow function
+// console.log(greet('Alice'));  // Output: Hello, Alice!
+
+
+
+// // Define an arrow function to add two numbers
+// const add = (a, b) => a + b;
+
+// // Call the arrow function
+// console.log(add(5, 3));  // Output: 8
+
+
+
+// // Define an arrow function that returns a message
+// const sayHello = () => 'Hello!';
+
+// // Call the arrow function
+// console.log(sayHello());  // Output: Hello!
+
+
+
+// // Define an object with an arrow function as a property
+// const person = {
+//   name: 'Bob',
+//   greet: () => `Hello, my name is ${this.name}!`
 // };
 
+// // Call the arrow function on the object
+// console.log(person.greet());  // Output: Hello, my name is Bob!
 
-// var checkPalindromeFormation = function(a, b) {
-//     if (a.length !== b.length) {
-//       return false; // Invalid input, different lengths
-//     }
-  
-//     for (let splitIndex = 0; splitIndex <= a.length; splitIndex++) {
-//       const aPrefix = a.slice(0, splitIndex);
-//       const aSuffix = a.slice(splitIndex);
-//       const bPrefix = b.slice(0, splitIndex);
-//       const bSuffix = b.slice(splitIndex);
-  
-//       // Check both possible combinations
-//       if (isPalindrome(aPrefix + bSuffix) || isPalindrome(bPrefix + aSuffix)) {
-//         return true;
-//       }
-//     }
-  
-//     return false; // No combination worked
-//   };
-  
-//   // Improved version of isPalindrome for efficiency
-//   function isPalindrome(str) {
-//     for (let i = 0, j = str.length - 1; i < j; i++, j--) {
-//       if (str[i] !== str[j]) {
-//         return false;
-//       }
-//     }
-//     return true;
-//   }
+// // Define an arrow function that returns the square of a number
+// const square = num => num * num;
+
+// // Call the arrow function
+// console.log(square(4));  // Output: 16
 
 
 
-const profitGraphData = [
-  { month: "Jan", value: 100 },
-  { month: "Feb", value: 120 },
-  { month: "Mar", value: 80 },
-  /* Add more data points as needed */
-];
 
-const averageProfit = profitGraphData.reduce((total, curr) => total + curr.value, 0) / profitGraphData.length;
 
-const averageExpense = 80; // Replace with your average expense
-const warningProfitThreshold = 70; // Replace with your desired threshold
-const warningExpenseIncreasePercentage = 15;
 
-init();
 
-function init() {
-  generateTableData();
-  drawGraph();
 
-  // Add event listeners for click events
-  document.querySelectorAll('.profit-bar').forEach(bar => {
-    bar.addEventListener('click', showDetails);
-  });
 
-  document.querySelectorAll('td.month').forEach(month => {
-    month.addEventListener('click', showFullDetails);
-  });
 
-  document.querySelector('#exit-button').addEventListener('click', returnToOverview);
+
+
+
+
+
+
+
+
+
+
+// mb 
+// Traditional function
+function greet(name) {
+  return `Hello, ${name}!`;
 }
 
-function generateTableData() {
-  const tableBody = document.querySelector('#financial-table tbody');
-  tableBody.innerHTML = '';
+// Arrow function
+const greetArrow = name => `Hello, ${name}!`;
 
-  profitGraphData.forEach((data, index) => {
-    const month = data.month;
-    const value = data.value;
+// Using the traditional function
+console.log(greet('Alice'));  // Output: Hello, Alice!
 
-    let profitElement;
-  });
-}
+// Using the arrow function
+console.log(greetArrow('Bob'));  // Output: Hello, Bob!
+
+// Arrow functions with a single argument can omit the parentheses
+const addOne = x => x + 1;
+console.log(addOne(5));  // Output: 6
+
+// Arrow functions with multiple arguments require parentheses
+const multiply = (x, y) => x * y;
+console.log(multiply(3, 4));  // Output: 12
+
+// Arrow functions can be used as callback functions
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(x => x * 2);
+console.log(doubled);  // Output: [2, 4, 6, 8, 10]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

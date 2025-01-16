@@ -3,6 +3,207 @@
 
 
 
+'''
+
+Prompt: 
+
+
+'''
+
+
+
+# gpt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+
+Prompt: 
+
+I want to create a simple SQL database in python, how do I do this, can you also give example data and some queries? Will pandas work on this sql?
+
+
+
+NOTES:
+
+SQLite databases persist on disk as long as the .db file exists (e.g., example.db in this case, which is stored in the root directory, i.e., in /code, probably bc I ran the script from there?).
+
+
+'''
+
+# gpt
+# import sqlite3
+
+# # Connect to a database (or create it if it doesn't exist)
+# conn = sqlite3.connect("example.db")
+
+# # Create a cursor object to execute SQL commands
+# cursor = conn.cursor()
+
+# # Create a table
+# print("Creating the database now...\n")
+# cursor.execute("""
+# CREATE TABLE IF NOT EXISTS employees (
+#     id INTEGER PRIMARY KEY AUTOINCREMENT,
+#     name TEXT NOT NULL,
+#     age INTEGER NOT NULL,
+#     department TEXT NOT NULL,
+#     salary REAL NOT NULL
+# )
+# """)
+
+# # Commit the changes
+# conn.commit()
+
+
+# # Insert data into the table
+# print("Inserting data into the DB now...\n")
+# cursor.executemany("""
+# INSERT INTO employees (name, age, department, salary)
+# VALUES (?, ?, ?, ?)
+# """, [
+#     ("Alice", 30, "HR", 60000.00),
+#     ("Bob", 35, "Engineering", 80000.00),
+#     ("Charlie", 25, "Marketing", 50000.00),
+#     ("Diana", 40, "Engineering", 90000.00),
+#     ("Eve", 28, "HR", 55000.00)
+# ])
+
+# # Commit the changes
+# conn.commit()
+
+
+
+# # Example queries:
+# # Fetch all records
+# print("Fetching all the DB records now...\n")
+# cursor.execute("SELECT * FROM employees")
+# all_records = cursor.fetchall()
+# print("All Records:")
+# for record in all_records:
+#     print(record)
+# print("\n")
+
+# # Query: Find employees in the Engineering department
+# cursor.execute("SELECT * FROM employees WHERE department = 'Engineering'")
+# engineering_employees = cursor.fetchall()
+# print("\nEngineering Employees:")
+# for employee in engineering_employees:
+#     print(employee)
+# print("\n")
+
+# # Query: Find employees with a salary greater than 60,000
+# cursor.execute("SELECT name, salary FROM employees WHERE salary > 60000")
+# high_earners = cursor.fetchall()
+# print("\nHigh Earners:")
+# for earner in high_earners:
+#     print(earner)
+# print("\n")    
+    
+    
+# # Reading from the Database
+# import pandas as pd
+
+# # Read the employees table into a Pandas DataFrame
+# print("Reading the DB and creating a pandas dataframe now...\n")
+# df = pd.read_sql_query("SELECT * FROM employees", conn)
+# print("\nDataFrame:")
+# print(df)
+
+
+
+# # Writing to the Database
+# # Create a new DataFrame
+# print("Creating a pandas dataframe and inserting it into the SQL now...\n")
+# new_data = pd.DataFrame([
+#     {"name": "Frank", "age": 33, "department": "Sales", "salary": 70000},
+#     {"name": "Grace", "age": 29, "department": "HR", "salary": 60000}
+# ])
+
+# # Write the DataFrame to the database (append mode)
+# new_data.to_sql("employees", conn, if_exists="append", index=False)
+
+# # Verify the new data is added
+# df_updated = pd.read_sql_query("SELECT * FROM employees", conn)
+# print("\nUpdated DataFrame:")
+# print(df_updated)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -204,33 +405,33 @@ Is it correct tho?
 
 
 # mb
-import cv2
-import numpy as np
+# import cv2
+# import numpy as np
 
-# Function to convert BGR color to HSC
-def bgr_to_hsc(img):
-    h, s, v = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    return h, s, v
+# # Function to convert BGR color to HSC
+# def bgr_to_hsc(img):
+#     h, s, v = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+#     return h, s, v
 
-# Load the image
-img = cv2.imread('./images/extractCommonHSV.jpg')  # Replace 'image.jpg' with the path to your image
+# # Load the image
+# img = cv2.imread('./images/extractCommonHSV.jpg')  # Replace 'image.jpg' with the path to your image
 
-# Set the target HSC values
-h_min, h_max, s_min, s_max, c_min, c_max = 0, 180, 0, 255, 0, 255  
+# # Set the target HSC values
+# h_min, h_max, s_min, s_max, c_min, c_max = 0, 180, 0, 255, 0, 255  
 
-# Convert image to HSC
-h, s, v = bgr_to_hsc(img)
+# # Convert image to HSC
+# h, s, v = bgr_to_hsc(img)
 
-# Create a mask for the target colors
-mask = ((h >= h_min) & (h <= h_max)) & ((s >= s_min) & (s <= s_max)) & ((c_min <= v[:, :, 2]) & (v[:, :, 2] <= c_max))
+# # Create a mask for the target colors
+# mask = ((h >= h_min) & (h <= h_max)) & ((s >= s_min) & (s <= s_max)) & ((c_min <= v[:, :, 2]) & (v[:, :, 2] <= c_max))
 
-# Bitwise AND the mask with the original image
-result = cv2.bitwise_and(img, img, mask=mask)
+# # Bitwise AND the mask with the original image
+# result = cv2.bitwise_and(img, img, mask=mask)
 
-# Display the result
-cv2.imshow('Identified Colors', result)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+# # Display the result
+# cv2.imshow('Identified Colors', result)
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
 
 
 
