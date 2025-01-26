@@ -1,5 +1,898 @@
+Please perform a code review on the following class:
+
+import java.util.Scanner;
+
+public class GaussianElimination {
+
+    // Method to perform Gaussian elimination and solve the system of equations
+    public static void gaussianElimination(double[][] augmentedMatrix) {
+        int n = augmentedMatrix.length;
+
+        // Forward Elimination
+        for (int i = 0; i < n; i++) {
+            // Make the diagonal element augmentedMatrix[i][i] equal to 1
+            if (augmentedMatrix[i][i] == 0) {
+                System.out.println("Pivot is zero, the system cannot be solved.");
+                return;
+            }
+
+            for (int j = i + 1; j < n; j++) {
+                double factor = augmentedMatrix[j][i] / augmentedMatrix[i][i];
+
+                // Eliminate the variable from subsequent rows
+                for (int k = i; k < n + 1; k++) {
+                    augmentedMatrix[j][k] -= factor * augmentedMatrix[i][k];
+                }
+            }
+        }
+
+        // Back Substitution
+        double[] solution = new double[n];
+        for (int i = n - 1; i >= 0; i--) {
+            solution[i] = augmentedMatrix[i][n] / augmentedMatrix[i][i];
+            for (int j = i - 1; j >= 0; j--) {
+                augmentedMatrix[j][n] -= augmentedMatrix[j][i] * solution[i];
+            }
+        }
+
+        // Display the solution
+        System.out.println("Solution:");
+        for (int i = 0; i < n; i++) {
+            System.out.printf("x%d = %.2f\n", i + 1, solution[i]);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Define a 3x3 system of equations
+        double[][] augmentedMatrix = new double[3][4];
+
+        // User input for the augmented matrix (3x3 system)
+        System.out.println("Enter the coefficients for the system of linear equations:");
+        for (int i = 0; i < 3; i++) {
+            System.out.println("Equation " + (i + 1) + ":");
+            for (int j = 0; j < 3; j++) {
+                System.out.print("a" + (i + 1) + (j + 1) + " (coefficient of x" + (j + 1) + "): ");
+                augmentedMatrix[i][j] = scanner.nextDouble();
+            }
+            System.out.print("d" + (i + 1) + " (constant term): ");
+            augmentedMatrix[i][3] = scanner.nextDouble();
+        }
+
+        // Solve the system using Gaussian Elimination
+        gaussianElimination(augmentedMatrix);
+
+        scanner.close();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import java.util.Scanner;
+import java.util.InputMismatchException;
+
+public class GaussianElimination {
+
+    private static final int MATRIX_SIZE = 3;
+    private static final int AUGMENTED_MATRIX_SIZE = MATRIX_SIZE + 1;
+
+    // Method to perform Gaussian elimination and solve the system of equations
+    public static double[] gaussianElimination(double[][] augmentedMatrix) {
+        if (augmentedMatrix.length != MATRIX_SIZE || augmentedMatrix[0].length != AUGMENTED_MATRIX_SIZE) {
+            throw new IllegalArgumentException("Invalid matrix size");
+        }
+
+        int matrixSize = augmentedMatrix.length;
+
+        // Forward Elimination
+        for (int i = 0; i < matrixSize; i++) {
+            // Make the diagonal element augmentedMatrix[i][i] equal to 1
+            if (augmentedMatrix[i][i] == 0) {
+                throw new ArithmeticException("Pivot is zero, the system cannot be solved");
+            }
+
+            for (int j = i + 1; j < matrixSize; j++) {
+                double factor = augmentedMatrix[j][i] / augmentedMatrix[i][i];
+
+                // Eliminate the variable from subsequent rows
+                for (int k = i; k < AUGMENTED_MATRIX_SIZE; k++) {
+                    augmentedMatrix[j][k] -= factor * augmentedMatrix[i][k];
+                }
+            }
+        }
+
+        // Back Substitution
+        double[] solution = new double[matrixSize];
+        for (int i = matrixSize - 1; i >= 0; i--) {
+            solution[i] = augmentedMatrix[i][AUGMENTED_MATRIX_SIZE - 1] / augmentedMatrix[i][i];
+            for (int j = i - 1; j >= 0; j--) {
+                augmentedMatrix[j][AUGMENTED_MATRIX_SIZE - 1] -= augmentedMatrix[j][i] * solution[i];
+            }
+        }
+
+        return solution;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Define a 3x3 system of equations
+        double[][] augmentedMatrix = new double[MATRIX_SIZE][AUGMENTED_MATRIX_SIZE];
+
+        // User input for the augmented matrix (3x3 system)
+        System.out.println("Enter the coefficients for the system of linear equations:");
+        for (int i = 0; i < MATRIX_SIZE; i++) {
+            System.out.println("Equation " + (i + 1) + ":");
+            for (int j = 0; j < MATRIX_SIZE; j++) {
+                while (true) {
+                    try {
+                        System.out.print("a" + (i + 1) + (j + 1) + " (coefficient of x" + (j + 1) + "): ");
+                        augmentedMatrix[i][j] = scanner.nextDouble();
+                        break;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input. Please enter a number.");
+                        scanner.next(); // Clear invalid input
+                    }
+                }
+            }
+            while (true) {
+                try {
+                    System.out.print("d" + (i + 1) + " (constant term): ");
+                    augmentedMatrix[i][AUGMENTED_MATRIX_SIZE - 1] = scanner.nextDouble();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a number.");
+                    scanner.next(); // Clear invalid input
+                }
+            }
+        }
+
+        // Solve the system using Gaussian Elimination
+        try {
+            double[] solution = gaussianElimination(augmentedMatrix);
+            System.out.println("Solution:");
+            for (int i = 0; i < MATRIX_SIZE; i++) {
+                System.out.printf("x%d = %.2f\n", i + 1, solution[i]);
+            }
+        } catch (ArithmeticException | IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        scanner.close();
+    }
+}
+```
+Note that this refactored version includes additional error handling, input validation, and code organization improvements.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class GaussianElimination {
+
+    /**
+     * Solves a system of linear equations using Gaussian elimination.
+     *
+     * @param augmentedMatrix the augmented matrix representing the system
+     * @return the solution vector
+     * @throws IllegalArgumentException if the matrix is not square or has inconsistent dimensions
+     */
+    public static double[] solve(double[][] augmentedMatrix) {
+        if (!isSquareMatrix(augmentedMatrix)) {
+            throw new IllegalArgumentException("Matrix is not square");
+        }
+
+        // Perform Gaussian elimination
+        forwardElimination(augmentedMatrix);
+        return backSubstitution(augmentedMatrix);
+    }
+
+    /**
+     * Performs forward elimination on the augmented matrix.
+     *
+     * @param augmentedMatrix the augmented matrix
+     * @throws IllegalArgumentException if a pivot element is zero
+     */
+    private static void forwardElimination(double[][] augmentedMatrix) {
+        int n = augmentedMatrix.length;
+
+        for (int i = 0; i < n; i++) {
+            if (augmentedMatrix[i][i] == 0) {
+                throw new IllegalArgumentException("Pivot is zero, the system cannot be solved.");
+            }
+
+            for (int j = i + 1; j < n; j++) {
+                double factor = augmentedMatrix[j][i] / augmentedMatrix[i][i];
+
+                // Eliminate the variable from subsequent rows
+                for (int k = i; k < n + 1; k++) {
+                    augmentedMatrix[j][k] -= factor * augmentedMatrix[i][k];
+                }
+            }
+        }
+    }
+
+    /**
+     * Performs back substitution on the augmented matrix.
+     *
+     * @param augmentedMatrix the augmented matrix
+     * @return the solution vector
+     */
+    private static double[] backSubstitution(double[][] augmentedMatrix) {
+        int n = augmentedMatrix.length;
+        double[] solution = new double[n];
+
+        for (int i = n - 1; i >= 0; i--) {
+            solution[i] = augmentedMatrix[i][n] / augmentedMatrix[i][i];
+            for (int j = i - 1; j >= 0; j--) {
+                augmentedMatrix[j][n] -= augmentedMatrix[j][i] * solution[i];
+            }
+        }
+
+        return solution;
+    }
+
+    /**
+     * Checks if the matrix is square.
+     *
+     * @param matrix the matrix to check
+     * @return true if the matrix is square, false otherwise
+     */
+    private static boolean isSquareMatrix(double[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+
+        return rows == cols;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Get the size of the system from the user
+        System.out.print("Enter the size of the system (n): ");
+        int n = getPositiveIntegerInput(scanner);
+
+        // Create the augmented matrix
+        double[][] augmentedMatrix = new double[n][n + 1];
+
+        // Get the coefficients and constants from the user
+        System.out.println("Enter the coefficients and constants for the system:");
+        for (int i = 0; i < n; i++) {
+            System.out.println("Equation " + (i + 1) + ":");
+            for (int j = 0; j < n; j++) {
+                System.out.print("a" + (i + 1) + (j + 1) + " (coefficient of x" + (j + 1) + "): ");
+                augmentedMatrix[i][j] = getDoubleInput(scanner);
+            }
+            System.out.print("d" + (i + 1) + " (constant term): ");
+            augmentedMatrix[i][n] = getDoubleInput(scanner);
+        }
+
+        try {
+            // Solve the system using Gaussian elimination
+            double[] solution = solve(augmentedMatrix);
+
+            // Display the solution
+            System.out.println("Solution:");
+            for (int i = 0; i < n; i++) {
+                System.out.printf("x%d = %.2f\n", i + 1, solution[i]);
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
+    }
+
+    /**
+     * Gets a positive integer input from the user.
+     *
+     * @param scanner the scanner to use
+     * @return the positive integer input
+     */
+    private static int getPositiveIntegerInput(Scanner scanner) {
+        while (true) {
+            try {
+                int input = scanner.nextInt();
+                if (input > 0) {
+                    return input;
+                } else {
+                    System.out.print("Please enter a positive integer: ");
+                }
+            } catch (InputMismatchException e) {
+                System.out.print("Invalid input. Please enter a positive integer: ");
+                scanner.next();
+            }
+        }
+    }
+
+    /**
+     * Gets a double input from the user.
+     *
+     * @param scanner the scanner to use
+     * @return the double input
+     */
+    private static double getDoubleInput(Scanner scanner) {
+        while (true) {
+            try {
+                return scanner.nextDouble();
+            } catch (InputMismatchException e) {
+                System.out.print("Invalid input. Please enter a number: ");
+                scanner.next();
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+Prompt:
+I would like you to troubleshoot my code for any issues, particularly with error handling. If you identify a deficit, please document it providing and a brief analysis as to why the error can occur. Lastly, for each issue, if any, provide a way to rectify it.
+
+*/
+
 #include <stdio.h>
-#include <assert.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <openssl/evp.h>
+#include <openssl/aes.h>
+#include <openssl/sha.h>
+#include <openssl/rand.h>
+#include <sys/stat.h>
+#include <dirent.h>
+
+#define MAX_PATH 260
+#define MAX_USERS 100
+#define MAX_DOCUMENTS 1000
+#define SALT_SIZE 16
+#define KEY_SIZE 32
+#define IV_SIZE 12
+#define HASH_SIZE SHA256_DIGEST_LENGTH
+#define BUFFER_SIZE 8192
+
+typedef enum {
+    ROLE_ADMIN,
+    ROLE_MANAGER,
+    ROLE_USER
+} UserRole;
+
+typedef struct {
+    char username[50];
+    UserRole role;
+    unsigned char password_hash[HASH_SIZE];
+    unsigned char salt[SALT_SIZE];
+    int active;
+} UserAccess;
+
+typedef struct {
+    char document_id[50];
+    char owner[50];
+    time_t upload_time;
+    char* allowed_users[MAX_USERS];
+    int allowed_users_count;
+    unsigned char encryption_key[KEY_SIZE];
+    int active;
+} DocumentMetadata;
+
+typedef struct {
+    UserAccess users[MAX_USERS];
+    DocumentMetadata documents[MAX_DOCUMENTS];
+    char vault_path[MAX_PATH];
+    char audit_path[MAX_PATH];
+    int user_count;
+    int document_count;
+} SecureVault;
+
+void init_vault(SecureVault* vault, const char* vault_path, const char* audit_path) {
+    strncpy(vault->vault_path, vault_path, MAX_PATH - 1);
+    strncpy(vault->audit_path, audit_path, MAX_PATH - 1);
+    vault->user_count = 0;
+    vault->document_count = 0;
+
+    #ifdef _WIN32
+    _mkdir(vault_path);
+    _mkdir(audit_path);
+    #else
+    mkdir(vault_path, 0700);
+    mkdir(audit_path, 0700);
+    #endif
+
+    OpenSSL_add_all_algorithms();
+}
+
+void log_action(SecureVault* vault, const char* username, const char* action, const char* document_id) {
+    time_t now;
+    char timestamp[26];
+    char log_path[MAX_PATH];
+    FILE* log_file;
+
+    time(&now);
+    ctime_r(&now, timestamp);
+    timestamp[24] = '\0';
+
+    snprintf(log_path, MAX_PATH, "%s/audit.log", vault->audit_path);
+    log_file = fopen(log_path, "a");
+
+    if (log_file) {
+        fprintf(log_file, "[%s] User '%s' performed '%s' on document '%s'\n",
+        timestamp, username, action, document_id);
+        fclose(log_file);
+    }
+}
+
+int add_user(SecureVault* vault, const char* username, UserRole role, const char* password) {
+    if (vault->user_count >= MAX_USERS) return 0;
+    UserAccess* user = &vault->users[vault->user_count];
+    if (RAND_bytes(user->salt, SALT_SIZE) != 1) return 0;
+
+    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
+    if (!mdctx) return 0;
+
+    if (EVP_DigestInit_ex(mdctx, EVP_sha256(), NULL) != 1) {
+        EVP_MD_CTX_free(mdctx);
+        return 0;
+    }
+
+    if (EVP_DigestUpdate(mdctx, user->salt, SALT_SIZE) != 1) {
+        EVP_MD_CTX_free(mdctx);
+        return 0;
+    }
+    if (EVP_DigestUpdate(mdctx, password, strlen(password)) != 1) {
+        EVP_MD_CTX_free(mdctx);
+        return 0;
+    }
+    unsigned int hash_len;
+    if (EVP_DigestFinal_ex(mdctx, user->password_hash, &hash_len) != 1) {
+        EVP_MD_CTX_free(mdctx);
+        return 0;
+    }
+
+    EVP_MD_CTX_free(mdctx);
+    strncpy(user->username, username, 49);
+    user->role = role;
+    user->active = 1;
+    vault->user_count++;
+    log_action(vault, "SYSTEM", "USER_ADDED", username);
+    return 1;
+}
+
+int authenticate_user(SecureVault* vault, const char* username, const char* password) {
+    for (int i = 0; i < vault->user_count; i++) 
+    {
+        UserAccess* user = &vault->users[i];
+
+        if (strcmp(user->username, username) == 0 && user->active) {
+            unsigned char hash[HASH_SIZE];
+            EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
+            if (!mdctx) return 0;
+
+            if (EVP_DigestInit_ex(mdctx, EVP_sha256(), NULL) != 1) {
+                EVP_MD_CTX_free(mdctx);
+                return 0;
+            }
+            if (EVP_DigestUpdate(mdctx, user->salt, SALT_SIZE) != 1) {
+                EVP_MD_CTX_free(mdctx);
+                return 0;
+            }
+            if (EVP_DigestUpdate(mdctx, password, strlen(password)) != 1) {
+                EVP_MD_CTX_free(mdctx);
+                return 0;
+            }
+
+            unsigned int hash_len;
+            if (EVP_DigestFinal_ex(mdctx, hash, &hash_len) != 1) {
+                EVP_MD_CTX_free(mdctx);
+                return 0;
+            }
+            EVP_MD_CTX_free(mdctx);
+            return memcmp(hash, user->password_hash, HASH_SIZE) == 0;
+        }
+    }
+    return 0;
+}
+
+int upload_document(SecureVault* vault, const char* username, const char* password, const char* source_path, const char* document_id, char** allowed_users, int allowed_users_count) {
+    
+    if (!authenticate_user(vault, username, password)) return 0;
+
+    if (vault->document_count >= MAX_DOCUMENTS) return 0;
+
+    DocumentMetadata* doc = &vault->documents[vault->document_count];
+    if (RAND_bytes(doc->encryption_key, KEY_SIZE) != 1) return 0;
+
+    FILE* source_file = fopen(source_path, "rb");
+    if (!source_file) return 0;
+
+    char encrypted_path[MAX_PATH];
+    snprintf(encrypted_path, MAX_PATH, "%s/%s.enc", vault->vault_path, document_id);
+
+    FILE* encrypted_file = fopen(encrypted_path, "wb");
+    if (!encrypted_file) {
+        fclose(source_file);
+        return 0;
+    }
+
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+
+    unsigned char iv[IV_SIZE];
+    if (RAND_bytes(iv, IV_SIZE) != 1) {
+        EVP_CIPHER_CTX_free(ctx);
+        fclose(source_file);
+        fclose(encrypted_file);
+        return 0;
+    }
+
+    fwrite(iv, 1, IV_SIZE, encrypted_file);
+    if (!EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, doc->encryption_key, iv)) {
+        EVP_CIPHER_CTX_free(ctx);
+        fclose(source_file);
+        fclose(encrypted_file);
+        return 0;
+    }
+
+    unsigned char inbuf[BUFFER_SIZE], outbuf[BUFFER_SIZE + EVP_MAX_BLOCK_LENGTH];
+    int outlen, tmplen;
+    while (!feof(source_file)) {
+        size_t inlen = fread(inbuf, 1, BUFFER_SIZE, source_file);
+        if (!EVP_EncryptUpdate(ctx, outbuf, &outlen, inbuf, inlen)) {
+            EVP_CIPHER_CTX_free(ctx);
+            fclose(source_file);
+            fclose(encrypted_file);
+            return 0;
+        }
+        fwrite(outbuf, 1, outlen, encrypted_file);
+    }
+
+    if (!EVP_EncryptFinal_ex(ctx, outbuf, &tmplen)) {
+        EVP_CIPHER_CTX_free(ctx);
+        fclose(source_file);
+        fclose(encrypted_file);
+        return 0;
+    }
+
+    fwrite(outbuf, 1, tmplen, encrypted_file);
+    unsigned char tag[16];
+    if (!EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, tag)) {
+        EVP_CIPHER_CTX_free(ctx);
+        fclose(source_file);
+        fclose(encrypted_file);
+        return 0;
+    }
+    fwrite(tag, 1, 16, encrypted_file);
+    EVP_CIPHER_CTX_free(ctx);
+    fclose(source_file);
+    fclose(encrypted_file);
+    strncpy(doc->document_id, document_id, 49);
+    strncpy(doc->owner, username, 49);
+    doc->upload_time = time(NULL);
+    doc->allowed_users_count = allowed_users_count;
+
+    for (int i = 0; i < allowed_users_count && i < MAX_USERS; i++) {
+        doc->allowed_users[i] = strdup(allowed_users[i]);
+    }
+
+    doc->active = 1;
+    vault->document_count++;
+    log_action(vault, username, "UPLOAD", document_id);
+    return 1;
+}
+
+int download_document(SecureVault* vault, const char* username, const char* password, const char* document_id, const char* target_path) {
+   
+    if (!authenticate_user(vault, username, password)) return 0;
+
+    DocumentMetadata* doc = NULL;
+    for (int i = 0; i < vault->document_count; i++) {
+        if (strcmp(vault->documents[i].document_id, document_id) == 0 && vault->documents[i].active) {
+            doc = &vault->documents[i];
+            break;
+        }
+    }
+
+    if (!doc) return 0;
+    int has_access = 0;
+    for (int i = 0; i < doc->allowed_users_count; i++) {
+        if (strcmp(doc->allowed_users[i], username) == 0) {
+            has_access = 1;
+            break;
+        }
+    }
+
+    if (!has_access) return 0;
+
+    char encrypted_path[MAX_PATH];
+    snprintf(encrypted_path, MAX_PATH, "%s/%s.enc", vault->vault_path, document_id);
+
+    FILE* encrypted_file = fopen(encrypted_path, "rb");
+
+    if (!encrypted_file) return 0;
+    FILE* target_file = fopen(target_path, "wb");
+
+    if (!target_file) {
+        fclose(encrypted_file);
+        return 0;
+    }
+
+    unsigned char iv[IV_SIZE];
+    if (fread(iv, 1, IV_SIZE, encrypted_file) != IV_SIZE) {
+        fclose(encrypted_file);
+        fclose(target_file);
+        return 0;
+    }
+
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, doc->encryption_key, iv)) {
+        EVP_CIPHER_CTX_free(ctx);
+        fclose(encrypted_file);
+        fclose(target_file);
+        return 0;
+    }
+
+    unsigned char inbuf[BUFFER_SIZE], outbuf[BUFFER_SIZE + EVP_MAX_BLOCK_LENGTH];
+    int outlen, tmplen;
+    fseek(encrypted_file, 0, SEEK_END);
+    long file_size = ftell(encrypted_file);
+    fseek(encrypted_file, IV_SIZE, SEEK_SET);
+    long bytes_to_read = file_size - IV_SIZE - 16;
+
+    while (bytes_to_read > 0) {
+        size_t inlen = fread(inbuf, 1, bytes_to_read < BUFFER_SIZE ? bytes_to_read : BUFFER_SIZE, encrypted_file);
+        if (!EVP_DecryptUpdate(ctx, outbuf, &outlen, inbuf, inlen)) {
+            EVP_CIPHER_CTX_free(ctx);
+            fclose(encrypted_file);
+            fclose(target_file);
+            return 0;
+        }
+        fwrite(outbuf, 1, outlen, target_file);
+        bytes_to_read -= inlen;
+    }
+
+    unsigned char tag[16];
+    if (fread(tag, 1, 16, encrypted_file) != 16) {
+        EVP_CIPHER_CTX_free(ctx);
+        fclose(encrypted_file);
+        fclose(target_file);
+        return 0;
+    }
+
+    if (!EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, tag)) {
+        EVP_CIPHER_CTX_free(ctx);
+        fclose(encrypted_file);
+        fclose(target_file);
+        return 0;
+    }
+
+    if (!EVP_DecryptFinal_ex(ctx, outbuf, &tmplen)) {
+    EVP_CIPHER_CTX_free(ctx);
+    fclose(encrypted_file);
+    fclose(target_file);
+    return 0;
+    }
+    fwrite(outbuf, 1, tmplen, target_file);
+    EVP_CIPHER_CTX_free(ctx);
+    fclose(encrypted_file);
+    fclose(target_file);
+    log_action(vault, username, "DOWNLOAD", document_id);
+    return 1;
+}
+
+int main() {
+SecureVault vault;
+init_vault(&vault, "/secure/vault", "/secure/audit");
+add_user(&vault, "admin", ROLE_ADMIN, "admin123!");
+add_user(&vault, "user1", ROLE_USER, "user123!");
+char* allowed_users[] = {"admin", "user1"};
+upload_document(&vault, "admin", "admin123!", "/path/to/file.txt", "DOC001", allowed_users, 2);
+download_document(&vault, "user1", "user123!", "DOC001", "/path/to/output.txt");
+return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// #include <stdio.h>
+// #include <assert.h>
 
 
 
@@ -15,67 +908,65 @@
 */
 
 
-#include <limits.h>  // For INT_MAX
+// #include <limits.h>  // For INT_MAX
 
-int min(int a, int b) {
-    return a < b ? a : b;
-}
+// int min(int a, int b) {
+//     return a < b ? a : b;
+// }
 
-int stableTransMinJumps(int* packetRoute, int routeSize) {
-    // If the network is empty or has only a single router, return 0
-    if (routeSize <= 1) {
-        return 0;
-    }
+// int stableTransMinJumps(int* packetRoute, int routeSize) {
+//     // If the network is empty or has only a single router, return 0
+//     if (routeSize <= 1) {
+//         return 0;
+//     }
 
-    int minJumps[routeSize];
+//     int minJumps[routeSize];
 
-    // Initialize the minimum jump for the first router as 0
-    minJumps[0] = 0;
+//     // Initialize the minimum jump for the first router as 0
+//     minJumps[0] = 0;
 
-    // Initialize all other minimum jumps to infinity
-    for (int i = 1; i < routeSize; i++) {
-        minJumps[i] = INT_MAX;
-    }
+//     // Initialize all other minimum jumps to infinity
+//     for (int i = 1; i < routeSize; i++) {
+//         minJumps[i] = INT_MAX;
+//     }
 
-    // Iterate through the routers to find the minimum number of jumps to reach each router
-    for (int i = 0; i < routeSize; i++) {
-        for (int j = 1; j <= packetRoute[i]; j++) {
-            int nextRouter = i + j;
+//     // Iterate through the routers to find the minimum number of jumps to reach each router
+//     for (int i = 0; i < routeSize; i++) {
+//         for (int j = 1; j <= packetRoute[i]; j++) {
+//             int nextRouter = i + j;
             
-            if (nextRouter < routeSize) {
-                minJumps[nextRouter] = min(minJumps[nextRouter], minJumps[i] + 1);
-            }
-        }
-    }
+//             if (nextRouter < routeSize) {
+//                 minJumps[nextRouter] = min(minJumps[nextRouter], minJumps[i] + 1);
+//             }
+//         }
+//     }
 
-    // Return the minimum number of jumps to reach the last router
-    return minJumps[routeSize - 1] != INT_MAX ? minJumps[routeSize - 1] : -1;
-}
+//     // Return the minimum number of jumps to reach the last router
+//     return minJumps[routeSize - 1] != INT_MAX ? minJumps[routeSize - 1] : -1;
+// }
 
 
-void runTests() {
+// void runTests() {
     
-    int packetRoute1[] = {2, 3, 1, 1, 4}; 
-    int routeSize1 = sizeof(packetRoute1) / sizeof(packetRoute1[0]);
-    int result1 = stableTransMinJumps(packetRoute1, routeSize1);
-    assert(result1 == 2); 
-    printf("Test 1 passed\n");
+//     int packetRoute1[] = {2, 3, 1, 1, 4}; 
+//     int routeSize1 = sizeof(packetRoute1) / sizeof(packetRoute1[0]);
+//     int result1 = stableTransMinJumps(packetRoute1, routeSize1);
+//     assert(result1 == 2); 
+//     printf("Test 1 passed\n");
 
-    int packetRoute2[] = {2, 3, 0, 1, 4};
-    int routeSize2 = sizeof(packetRoute2) / sizeof(packetRoute2[0]);
-    int result2 = stableTransMinJumps(packetRoute2, routeSize2);
-    assert(result2 == 2); 
-    printf("Test 2 passed\n");
+//     int packetRoute2[] = {2, 3, 0, 1, 4};
+//     int routeSize2 = sizeof(packetRoute2) / sizeof(packetRoute2[0]);
+//     int result2 = stableTransMinJumps(packetRoute2, routeSize2);
+//     assert(result2 == 2); 
+//     printf("Test 2 passed\n");
 
-}
+// }
 
-int main() {
-    runTests();
-    printf("All tests passed!\n");
-    return 0;
-}
-
-
+// int main() {
+//     runTests();
+//     printf("All tests passed!\n");
+//     return 0;
+// }
 
 
 
@@ -90,9 +981,11 @@ int main() {
 
 
 
-// gpt
-#include <stdio.h>
-#include <stdbool.h>
+
+
+// // gpt
+// #include <stdio.h>
+// #include <stdbool.h>
 
 // Function to determine if the packet can reach the last router
 // bool stableTrans(int* packetRoute, int routeSize) {

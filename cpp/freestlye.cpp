@@ -1,279 +1,55 @@
 
 
 
-// gpt1
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
 
-// Vertex data for a simple 3D cube
-float cubeVertices[] = {
-    // Positions          // Colors
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-     0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-    // More vertices for other faces...
-};
 
-// Indices for drawing the cube
-unsigned int cubeIndices[] = {
-    0, 1, 2, 2, 3, 0,
-    // Indices for other faces...
-};
-
-// Initialize OpenGL and draw a grid
-void renderGrid(int gridSize) 
-{
-    for (int x = -gridSize; x <= gridSize; x++) {
-        for (int z = -gridSize; z <= gridSize; z++) {
-            glPushMatrix();
-            glTranslatef(x, 0.0f, z); // Position the cube in the grid
-            glBegin(GL_QUADS); // Draw a simple quad for the "binary wall"
-            glColor3f(0.0f, 1.0f, 0.0f); // Bright green
-            glVertex3f(-0.5f, 0.0f, -0.5f);
-            glVertex3f(0.5f, 0.0f, -0.5f);
-            glVertex3f(0.5f, 0.0f, 0.5f);
-            glVertex3f(-0.5f, 0.0f, 0.5f);
-            glEnd();
-            glPopMatrix();
-        }
-    }
-}
-
-int main() 
-{
-    // Initialize GLFW
-    if (!glfwInit()) {
-        std::cerr << "Failed to initialize GLFW!" << std::endl;
-        return -1;
-    }
-
-    // Create a windowed mode window and OpenGL context
-    GLFWwindow* window = glfwCreateWindow(800, 600, "Cyberspace Room", nullptr, nullptr);
-
-    if (!window) {
-        glfwTerminate();
-        return -1;
-    }
-
-    glfwMakeContextCurrent(window);
-
-    // Initialize GLEW
-    if (glewInit() != GLEW_OK) {
-        std::cerr << "Failed to initialize GLEW!" << std::endl;
-        return -1;
-    }
-
-    glEnable(GL_DEPTH_TEST);
-
-    // Main render loop
-    while (!glfwWindowShouldClose(window)) {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        renderGrid(10); // Render a grid of 10x10 cubes
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
-
-    glfwTerminate();
-    return 0;
-}
+/*
+Why is the for loop that is not commented out so much slower than the commented out one?
+*/
 
 
 
+#include <Raylib.h>
 
+int main() {
+    InitWindow(1,1, "Template");
+    //Shader s = LoadShader(NULL, "badshader.fs");
+    SetWindowState(FLAG_WINDOW_RESIZABLE | FLAG_WINDOW_UNDECORATED | FLAG_WINDOW_MAXIMIZED | FLAG_WINDOW_ALWAYS_RUN);
 
+    #ifndef _DEBUG
+    SetExitKey(KEY_NULL);
+    #endif // !_DEBUG
 
+    MaximizeWindow();
+    Camera3D c = {};
+    c.fovy = 90;
+    c.position = { 0.0f,10.0f,0.0f };
+    c.projection = CAMERA_PERSPECTIVE;
+    c.up = { 1.0f,0.0f,0.0f };
+    c.target = { 0.0f,0.0f,0.0f };
 
+    while (!WindowShouldClose()) {
+        BeginDrawing();
+        ClearBackground(BLACK);
+        BeginMode3D(c);
 
+        //BeginShaderMode(s);
 
-
-
-
-
-
-
-
-
-
-
-
-// gpt2
-#include <SDL2/SDL.h>
-#include <iostream>
-#include <vector>
-
-// Define the grid and binary style parameters
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
-const int GRID_SIZE = 10;  // Number of cells in the grid
-const int CELL_SIZE = 50; // Size of each cell in pixels
-const SDL_Color GRID_COLOR = {0, 255, 0, 255}; // Bright green
-
-// Initialize SDL
-bool initSDL(SDL_Window*& window, SDL_Renderer*& renderer) 
-{
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
-        return false;
-    }
-
-    window = SDL_CreateWindow("Cyberspace Room",
-                              SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                              SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-    if (!window) {
-        std::cerr << "Failed to create window: " << SDL_GetError() << std::endl;
-        return false;
-    }
-
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (!renderer) {
-        std::cerr << "Failed to create renderer: " << SDL_GetError() << std::endl;
-        return false;
-    }
-
-    return true;
-}
-
-// Draw a grid representing the "cyberspace"
-void drawGrid(SDL_Renderer* renderer) {
-    for (int x = 0; x < GRID_SIZE; x++) {
-        for (int y = 0; y < GRID_SIZE; y++) {
-            // Calculate the top-left position of the cell
-            int xPos = x * CELL_SIZE;
-            int yPos = y * CELL_SIZE;
-
-            // Draw the outline of each grid cell
-            SDL_Rect cell = {xPos, yPos, CELL_SIZE, CELL_SIZE};
-            SDL_SetRenderDrawColor(renderer, GRID_COLOR.r, GRID_COLOR.g, GRID_COLOR.b, GRID_COLOR.a);
-            SDL_RenderDrawRect(renderer, &cell);
-
-            // Optionally draw "binary text" inside the cell
-            if ((x + y) % 2 == 0) {
-                SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255); // Green color for binary text
-                SDL_RenderDrawLine(renderer, xPos + 10, yPos + 10, xPos + CELL_SIZE - 10, yPos + CELL_SIZE - 10);
-                SDL_RenderDrawLine(renderer, xPos + CELL_SIZE - 10, yPos + 10, xPos + 10, yPos + CELL_SIZE - 10);
-            }
-        }
-    }
-}
-
-int main(int argc, char* argv[]) {
-    SDL_Window* window = nullptr;
-    SDL_Renderer* renderer = nullptr;
-
-    if (!initSDL(window, renderer)) {
-        return -1;
-    }
-
-    bool running = true;
-    SDL_Event event;
-
-    // Main render loop
-    while (running) {
-        // Handle events
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                running = false;
-            }
+        for (float height = 9.9f; height > 0.0f; height -= 1.0f/256.0f) {
+            DrawTriangle3D({10.0f,height, 10.0f}, { 10.0f,height, -100.0f }, { -100.0f,height, 10.0f }, WHITE);
         }
 
-        // Clear the screen
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black background
-        SDL_RenderClear(renderer);
+        for (float height = 0.0f; height <= 9.9f; height += 1.0f/256.0f) {
+            DrawTriangle3D({ 10.0f,height, 10.0f }, { 10.0f,height, -100.0f }, { -100.0f,height, 10.0f }, WHITE);
+        }
 
-        // Draw the grid
-        drawGrid(renderer);
-
-        // Present the frame
-        SDL_RenderPresent(renderer);
+        //EndShaderMode();
+        //
+        DrawFPS(100, 100);
+        EndMode3D();
+        DrawText(TextFormat("%d", GetFPS()), 0, 0, 64, RED);
+        EndDrawing();
     }
-
-    // Clean up SDL
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ma
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
-
-const int WIDTH = 800;
-const int HEIGHT = 600;
-
-int main() 
-{
-    if (!glfwInit()) {
-        std::cout << "Failed to initialize GLFW" << std::endl;
-        return -1;
-    }
-
-    glfwWindowHint(GLFW_SAMPLES, 4); // Anti-aliasing samples
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Cyberspace Room", nullptr, nullptr);
-
-    if (!window) {
-        std::cout << "Failed to create window" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
-
-    glfwMakeContextCurrent(window);
-    glewInit();
-
-    // Load the 3D model of the cyberspace room (e.g., in OBJ format)
-    // You can use external libraries like GLM or Assimp to load and parse the model
-    // ...
-
-    // Set up lighting and camera
-    // ...
-
-    // Main loop
-    while (!glfwWindowShouldClose(window)) {
-        glfwPollEvents();
-
-        // Render the cyberspace room here
-        // Use the loaded 3D model to draw the room
-        // ...
-
-        glfwSwapBuffers(window);
-    }
-
-    glfwDestroyWindow(window);
-    glfwTerminate();
-    return 0;
 }
 
 
@@ -302,68 +78,6 @@ int main()
 
 
 
-
-
-
-
-
-
-
-
-
-// mb
-#include <SDL2/SDL.h>
-#include <iostream>
-
-const int WINDOW_WIDTH = 1024;
-const int WINDOW_HEIGHT = 768;
-
-class CyberspaceRoom {
-public:
-    SDL_Rect bounds;
-
-    // Update the room's state based on input
-    void update(SDL_Event* event);
-
-    // Render the room
-    void render();
-};
-
-CyberspaceRoom::CyberspaceRoom() {
-    // Initialize SDL
-    SDL_Init(SDL_INIT_VIDEO);
-
-    bounds.x = 0;
-    bounds.y = 0;
-    bounds.width = WINDOW_WIDTH;
-    bounds.height = WINDOW_HEIGHT;
-
-    // Create a game window
-    SDL_Window* window = SDL_CreateWindow("Cyberspace Room",
-        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-        WINDOW_WIDTH, WINDOW_HEIGHT,
-        SDL_WINDOW_OPENGL);
-
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
-
-    // Your room object implementation here
-    // It should handle user input and rendering
-    m_renderer = renderer;
-}
-
-void CyberspaceRoom::update(SDL_Event* event) {
-    // Handle user input (e.g., movement, mouse clicks, etc.)
-    // Here you would update the room's position, rotate, etc.
-}
-void CyberspaceRoom::render() {
-    // Clear the color buffer
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-    SDL_RenderClear(renderer);
-
-    // Draw the room (3D model or 2D sprites)
-    // For simplicity, let's assume you have a 2D SDL_Surface to draw the 3D model
-    // SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-    // SDL_RenderCopy(renderer, model_surface, null, null);
 
 
 

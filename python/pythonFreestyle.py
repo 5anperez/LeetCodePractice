@@ -1,3 +1,224 @@
+
+
+
+'''
+
+cluster analysis
+Markov Chain
+linear regression
+
+'''
+
+
+
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Read the JSON file
+file_path = './CSVs/num.json'  # Update this with your file's path
+with open(file_path, 'r') as file:
+    data = pd.read_json(file)
+
+# Flatten the data into a list of strings
+numbers = [item for sublist in data.values.tolist() for item in sublist]
+
+# Split numbers into a DataFrame
+df = pd.DataFrame(numbers, columns=['numbers'])
+df = df['numbers'].str.split(expand=True).astype(int)
+df.columns = [f'Num{i+1}' for i in range(df.shape[1])]
+
+# Basic statistical analysis
+summary_stats = df.describe()  # Summary statistics for each column
+number_frequency = df.melt(value_name='Number')['Number'].value_counts()  # Frequency of numbers
+
+# Output the results
+print("Summary Statistics:")
+print(summary_stats)
+print("\nTop 10 Frequent Numbers:")
+print(number_frequency.head(10))
+print("\n")
+
+# Begin the prediction process:
+# Analyze the frequency of numbers
+# number_counts = df.melt(value_name='Number')['Number'].value_counts().reset_index()
+# number_counts.columns = ['Number', 'Frequency']
+
+# # Predict the next set based on most frequent numbers
+# predicted_set = number_counts.sort_values(by='Frequency', ascending=False).head(6)['Number'].tolist()
+
+# # Print results
+# print("Predicted next set of numbers:", predicted_set)
+
+# Save the cleaned and processed DataFrame (optional)
+# df.to_csv('processed_numbers.csv', index=False)
+
+
+
+
+
+# Calculate moving averages
+window_size = 3
+moving_avg = df.rolling(window=window_size).mean().iloc[-1].round().astype(int)
+
+# Print prediction based on moving averages
+predicted_set = moving_avg.tolist()
+print("Predicted next set of numbers (Moving Average):", predicted_set)
+
+
+correlation_matrix = df.corr()
+print("Correlation Matrix:")
+print(correlation_matrix)
+
+
+# Visualize the correlation matrix
+plt.figure(figsize=(8, 6))
+sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm", fmt=".2f", cbar=True)
+plt.title("Correlation Matrix of Numbers")
+plt.show()
+
+
+
+
+# from collections import defaultdict
+
+# transitions = defaultdict(lambda: defaultdict(int))
+# for row in df.values:
+#     for i in range(len(row) - 1):
+#         transitions[row[i]][row[i + 1]] += 1
+
+# print("Transition Matrix:")
+# for k, v in transitions.items():
+#     print(k, dict(v))
+
+from collections import defaultdict
+
+# Build transition probabilities
+transitions = defaultdict(lambda: defaultdict(int))
+for row in df.values:
+    for i in range(len(row) - 1):
+        transitions[row[i]][row[i + 1]] += 1
+
+# Predict the next number in the sequence
+last_number = df.iloc[-1, -1]  # Last number in the last row
+next_number = max(transitions[last_number], key=transitions[last_number].get, default=None)
+print("Predicted number following the last:", next_number)
+
+
+
+probabilities = df.melt(value_name='Number')['Number'].value_counts(normalize=True)
+predicted_set = np.random.choice(probabilities.index, size=6, p=probabilities.values, replace=False)
+print("Predicted next set (Monte Carlo):", predicted_set)
+
+
+
+
+
+
+
+from sklearn.decomposition import PCA
+pca = PCA(n_components=2)  # Reduce to 2 components for visualization
+principal_components = pca.fit_transform(df)
+print("Explained Variance by Components:", pca.explained_variance_ratio_)
+
+
+from sklearn.cluster import KMeans
+# Perform k-means clustering
+k = 3  # Number of clusters
+kmeans = KMeans(n_clusters=k, random_state=42)
+df['Cluster'] = kmeans.fit_predict(df)
+
+# Visualize the clusters
+plt.figure(figsize=(8, 6))
+sns.scatterplot(data=df, x='Num1', y='Num2', hue='Cluster', palette='Set2', s=100)
+plt.title("k-Means Clustering")
+plt.xlabel("Num1")
+plt.ylabel("Num2")
+plt.legend(title='Cluster')
+plt.show()
+
+# Print cluster assignments
+print("Cluster Assignments:")
+print(df[['Cluster']])
+
+
+
+from scipy.cluster.hierarchy import linkage, dendrogram
+import matplotlib.pyplot as plt
+
+# Perform hierarchical clustering
+linked = linkage(df, method='ward')  # 'ward' minimizes variance within clusters
+
+# Plot dendrogram
+plt.figure(figsize=(10, 7))
+dendrogram(linked, labels=df.index, leaf_rotation=90, leaf_font_size=10)
+plt.title("Hierarchical Clustering Dendrogram")
+plt.xlabel("Sample Index")
+plt.ylabel("Distance")
+plt.show()
+
+
+
+
+# import networkx as nx
+
+# G = nx.Graph()
+# for row in df.values:
+#     for i in range(len(row)):
+#         for j in range(i + 1, len(row)):
+#             G.add_edge(row[i], row[j])
+
+# nx.draw(G, with_labels=True, node_size=700, node_color="lightblue")
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # import pandas as pd
 # import matplotlib.pyplot as plt
 # import seaborn as sns
@@ -21925,23 +22146,23 @@ create a pie chart showing the sales percentage per customer.
 
 # This code will calculate the correlation between police trust and mental health status.
 
-import pandas as pd
+# import pandas as pd
 
-data = {
-    'Data Availability': [1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1],
-    'Affordable Housing Units': [100, 200, 300, 100, 200, 300, 100, 200, 300, 100, 200, 300, 100, 200],
-    'Educational Quality Rating': [8, 7, 6, 9, 8, 7, 8, 7, 6, 9, 8, 7, 8, 7],
-    'Police Trust': [90, 80, 70, 80, 70, 60, 90, 80, 70, 80, 70, 60, 90, 80],
-    'Road Quality': [7, 8, 9, 6, 7, 8, 7, 8, 9, 6, 7, 8, 7, 8],
-    'Community Event Participation': [50, 60, 70, 40, 50, 60, 50, 60, 70, 40, 50, 60, 50, 60],
-    'Mental Health Status': [3, 2, 1, 4, 3, 2, 3, 2, 1, 4, 3, 2, 3, 2]
-}
-df = pd.DataFrame(data)
+# data = {
+#     'Data Availability': [1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1],
+#     'Affordable Housing Units': [100, 200, 300, 100, 200, 300, 100, 200, 300, 100, 200, 300, 100, 200],
+#     'Educational Quality Rating': [8, 7, 6, 9, 8, 7, 8, 7, 6, 9, 8, 7, 8, 7],
+#     'Police Trust': [90, 80, 70, 80, 70, 60, 90, 80, 70, 80, 70, 60, 90, 80],
+#     'Road Quality': [7, 8, 9, 6, 7, 8, 7, 8, 9, 6, 7, 8, 7, 8],
+#     'Community Event Participation': [50, 60, 70, 40, 50, 60, 50, 60, 70, 40, 50, 60, 50, 60],
+#     'Mental Health Status': [3, 2, 1, 4, 3, 2, 3, 2, 1, 4, 3, 2, 3, 2]
+# }
+# df = pd.DataFrame(data)
 
-# Calculating the correlation between Police Trust and Mental Health Status
-correlation = df['Police Trust'].corr(df['Mental Health Status'])
+# # Calculating the correlation between Police Trust and Mental Health Status
+# correlation = df['Police Trust'].corr(df['Mental Health Status'])
 
-print(f"The correlation between Police Trust and Mental Health Status is: {correlation}")
+# print(f"The correlation between Police Trust and Mental Health Status is: {correlation}")
 
 
 
