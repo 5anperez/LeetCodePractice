@@ -1,44 +1,304 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    background-color: blueviolet;
+    color: chartreuse;
+}
+  
+  
+header{
+width: 1200px;
+max-width: 90%;
+margin: auto;
+display: grid;
+grid-template-columns: 50px 1fr 50px;
+grid-template-rows: 50px;
+justify-content: center;
+align-items: center;
+position: relative;
+z-index: 100;
 }
 
-.container {
-    display: flex;
-    width: 80%;
+header .logo{
+font-weight: bold;
+}
+header .menu{
+color: blueviolet;
+font-weight: bolder;
+padding: 0;
+margin: 0;
+list-style: none;
+display: flex;
+justify-content: center;
+gap: 20px;
+}
+  
+/* CSS Slider */
+.slider{
+height: 100vh;
+margin-top: -50px;
+position: relative;
+}
+.slider .list .item{
+position: absolute;
+inset: 0 0 0 0;
+overflow: hidden;
+opacity: 0;
+transition: .5s;
+}
+.slider .list .item img{
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+.slider .list .item::after{
+content: '';
+width: 100%;
+height: 100%;
+position: absolute;
+left: 0;
+bottom: 0;
+background-image: linear-gradient(
+    to top, #000 20%, transparent
+);
+}
+.slider .list .item .content{
+position: absolute;
+left: 10%;
+top: 20%;
+width: 500px;
+max-width: 80%;
+z-index: 1;
+}
+.slider .list .item .content p:nth-child(1){
+text-transform: uppercase;
+letter-spacing: 10px;
+}
+.slider .list .item .content h2{
+font-size: 100px;
+margin: 0;
+}
+.slider .list .item.active{
+opacity: 1;
+z-index: 10;
+}
+@keyframes showContent {
+to{
+    transform: translateY(0);
+    filter: blur(0);
+    opacity: 1;
+}
+}
+.slider .list .item.active p:nth-child(1),
+.slider .list .item.active h2,
+.slider .list .item.active p:nth-child(3){
+transform: translateY(30px);
+filter: blur(20px);
+opacity: 0;
+animation: showContent .5s .7s ease-in-out 1 forwards;
+}
+.slider .list .item.active h2{
+animation-delay: 1s;
+}
+.slider .list .item.active p:nth-child(3){
+animation-duration: 1.5s;
+}
+  
+/* Arrow Buttons */
+.arrows{
+position: absolute;
+top: 30%;
+right: 50px;
+z-index: 100;
+}
+.arrows button{
+background-color: blue;
+border: none;
+font-family: monospace;
+width: 40px;
+height: 40px;
+border-radius: 5px;
+font-size: x-large;
+color: aqua;
+transition: .5s;
+}
+.arrows button:hover{
+background-color: chartreuse;
+color: #000;
 }
 
-.left-panel, .right-panel {
-    padding: 20px;
-    border-right: 1px solid #ccc;
+/* Thumbnails */
+.thumbnail{
+position: absolute;
+bottom: 70px;
+z-index: 11;
+display: flex;
+gap: 10px;
+width: 100%;
+height: 250px;
+padding: 0 50px;
+box-sizing: border-box;
+overflow: auto;
+justify-content: center;
+}
+.thumbnail::-webkit-scrollbar{
+width: 0;
+}
+.thumbnail .item{
+position: relative;
+width: 150px;
+height: 220px;
+filter: brightness(.5);
+transition: .5s;
+flex-shrink: 0;
+}
+.thumbnail .item img{
+width: 100%;
+height: 100%;
+object-fit: cover;
+border-radius: 10px;
+}
+.thumbnail .item.active{
+filter: brightness(1.5);
+}
+.thumbnail .item .content{
+position: absolute;
+inset: auto 10px 10px 10px;
+justify-content: center;
+color: aqua;
+font-size: 14px;
+text-align: center;
+}
+@media screen and (max-width: 678px) {
+.thumbnail{
+    justify-content: start;
+}
+.slider .list .item .content h2{
+    font-size: 60px;
+}
+.arrows{
+    top: 10%;
+}
 }
 
-.left-panel {
-    background-color: #fff;
+
+/* Modal */
+.modal {
+display: none;
+position: fixed;
+z-index: 100;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.8);
+justify-content: center;
+align-items: center;
 }
 
-.right-panel {
-    background-color: #f0f0f0;
+.modal-content {
+position: relative;
+background-color: #fff;
+padding: 20px;
+border-radius: 10px;
+width: 80%;
+max-width: 800px;
+text-align: center;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+.modal-content img {
+width: 100%;
+height: auto;
+border-radius: 10px;
 }
 
-th, td {
-    padding: 10px;
-    border: 1px solid #ccc;
+.modal-description {
+margin-top: 20px;
+color: #000;
 }
 
-th {
-    background-color: #f0f0f0;
+.modal-description h2 {
+margin: 0;
+font-size: 24px;
 }
 
-#profit-graph {
-    border: 1px solid #ccc;
+.modal-description p {
+font-size: 16px;
+}
+
+.close {
+position: absolute;
+top: 10px;
+right: 20px;
+font-size: 30px;
+color: #fff;
+cursor: pointer;
+}
+
+.close:hover {
+color: #f00;
+}
+
+
+
+
+
+.modal-buttons {
+margin-top: 20px;
+display: flex;
+gap: 10px;
+justify-content: center;
+}
+
+.modal-button {
+display: inline-block;
+padding: 10px 20px;
+background-color: blueviolet;
+color: white;
+text-decoration: none;
+border-radius: 5px;
+font-size: 16px;
+transition: background-color 0.3s;
+}
+
+.modal-button:hover {
+background-color: chartreuse;
+color: black;
+}
+
+
+
+
+
+/* Hide modal-specific content in the slider */
+.m-content {
+display: none;
+}
+
+/* Modal arrow buttons */
+.modal-arrows {
+position: absolute;
+top: 50%;
+width: 100%;
+display: flex;
+justify-content: space-between;
+transform: translateY(-50%);
+}
+
+.modal-arrows button {
+background-color: blue;
+border: none;
+font-family: monospace;
+width: 40px;
+height: 40px;
+border-radius: 5px;
+font-size: x-large;
+color: aqua;
+transition: 0.5s;
+}
+
+.modal-arrows button:hover {
+background-color: chartreuse;
+color: #000;
 }

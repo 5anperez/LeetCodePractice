@@ -1,65 +1,72 @@
-// Refactored to utilize jQuery, control the modals, and the modal's buttons:
+
+
+// Using the event object (recommended if you bind this function as an event handler)
+function opentab(tabname, e) {
+    // Remove the "active-link" class from all elements with the "tab-links" class
+    $(".tab-links").removeClass("active-link");
+    // Remove the "active-tab" class from all elements with the "tab-contents" class
+    $(".tab-contents").removeClass("active-tab");
+    
+    // Add the "active-link" class to the element that triggered the event.
+    // (You can also use $(this) if you bind the handler directly.)
+    $(e.currentTarget).addClass("active-link");
+    
+    // Select the element with the given id and add the "active-tab" class.
+    $("#" + tabname).addClass("active-tab");
+}
+
+
+
+// Style functions for landing page transitions
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        console.log(entry);
+        if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+        }
+    });
+});
+
+
+const hiddenElts = document.querySelectorAll('.container');
+hiddenElts.forEach((elt) => observer.observe(elt));
+const hiddenElts2 = document.querySelectorAll('.nav-item');
+hiddenElts2.forEach((elt) => observer.observe(elt));
+const hiddenElts3 = document.querySelectorAll('.work-card');
+hiddenElts2.forEach((elt) => observer.observe(elt));
+
+
+
+
+
+
+
+
+ // Refactored to utilize jQuery, control the modals, and the modal's buttons:
 $(document).ready(function() {
     // Get the slider items and thumbnail items as jQuery objects.
     // Must be specific because there are two different classes named "item"
-    let $items = $('.slider .list .item');         // Slider items
-    let $thumbnails = $('.thumbnail .item');       // Thumbnail items
-    let $next = $('#next');                        // Next button
-    let $prev = $('#prev');                        // Prev button
-  
+    let $items = $('#projects .container .work-card');        
+
     // Number of items, and active item index.
     let countItem = $items.length;
     let itemActive = 0;
-  
 
-
-    // ---- Home Page Navigation Buttons ----
-    // Method to traverse the slider active thumbnails via next button
-    $next.on('click', function() {
-        itemActive = (itemActive + 1) % countItem;
-        showSlider();
-    });
-  
-    // Method to traverse the slider active thumbnails via prev button
-    $prev.on('click', function() {
-        itemActive = (itemActive - 1 + countItem) % countItem;
-        showSlider();
-    });
-  
-
-
-    // Automatically click the next button to simulate cycling.
-    let refreshInterval = setInterval(() => {
-        $next.trigger('click');
-    }, 5000);
-  
 
     // Enables and disables list items and thumbnail items.
     function showSlider() {
         // Get the currently active items and then 
         // remove them to activate the next one.
-        $('.slider .list .item.active').removeClass('active');
-        $('.thumbnail .item.active').removeClass('active');
+        $('#projects .container .work-card.active').removeClass('active');
     
-        // Add the 'active' class to the next slider item and thumbnail.
+        // Add the 'active' class to the next slider item.
         $items.eq(itemActive).addClass('active');
-        $thumbnails.eq(itemActive).addClass('active');
-
-
-        // Restart the auto-cycle iff the modal is closed.
-        if (!$("#project-modal").is(":visible")){
-            // Reset the refresh interval.
-            clearInterval(refreshInterval);
-            refreshInterval = setInterval(function(){
-                $next.trigger('click');
-            }, 5000);
-        }
     } // showSlider()
   
 
     // Bind a click event on each thumbnail to let 
     // the user click a thumbnail directly.
-    $thumbnails.each(function(index) {
+    $items.each(function(index) {
         $(this).on('click', function() {
             itemActive = index;
             showSlider();
@@ -78,8 +85,6 @@ $(document).ready(function() {
 
     // Function to open the modal with full image and description for a given index.
     function openModal(index) {
-        // Pause auto-cycling.
-        clearInterval(refreshInterval);
 
         // Get the corresponding slider item.
         let $sliderItem = $items.eq(index);
@@ -106,12 +111,7 @@ $(document).ready(function() {
 
     // Function to close the modal.
     function closeModal() {
-        $("#project-modal").fadeOut(function() {
-            // Resume auto-cycling after the modal is closed.
-            refreshInterval = setInterval(() => {
-                $next.trigger('click');
-            }, 5000);
-        });
+        $("#project-modal").fadeOut();
     } // closeModal()
 
 
@@ -131,7 +131,6 @@ $(document).ready(function() {
     // ---- Modal Navigation Buttons ----
     function updateActiveItem(newIdx) {
         itemActive = newIdx;
-        showSlider();
         openModal(itemActive);
     } // updateActiveItem()
 
@@ -146,6 +145,27 @@ $(document).ready(function() {
     });
   }); // ready()
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

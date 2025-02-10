@@ -1,3 +1,30 @@
+/*
+Cool Fonts: 
+- Arsenal SC
+- Afacad Flux
+- Faculty Glyphic
+- 
+*/
+/* Global CSS custom properties (variables) */
+
+
+  
+
+@import url('https://fonts.googleapis.com/css2?family=Turret+Road:wght@200;300;400;500;700;800&display=swap');
+
+
+:root {
+    --purp-color: blueviolet;
+    --volt-color: chartreuse;
+    --royalBlue-color: blue;
+    --dark-blue-color: darkblue;
+    --aqua-color: aqua;
+    --magenta-color: magenta;
+    --spring-green-color: springgreen;
+    --border-color: rgb(62, 72, 75);
+}
+
+
 /* Base styles to ensure padding/margin are reset */
 * {
     margin: 0;
@@ -5,13 +32,19 @@
     box-sizing: border-box;
 }
 
-body{
-    background: darkblue;
-    color: aqua;
+body {
+    font-family: Turret Road;
+    background: var(--dark-blue-color);
+    color: var(--aqua-color);
+    background-image: url("../images/greyPillar.svg");
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: 30%;
 }
 
+
 /* Main: add a background image here */
-#header{
+#header {
     width: 100%;
     height: 100vh;
     /*
@@ -35,37 +68,39 @@ nav {
     flex-wrap: wrap;
 }
 
-.myLogo{
+/* Base style for all nav list items */
+
+.myLogo {
     width: 140px;
 }
 
 /* Format the nav links */
-nav ul li{
+nav ul li {
     display: inline-block;
     list-style: none;
     margin: 10px 20px;
 }
 
 /* */
-nav ul li a{
-    color: aqua;
+nav ul li a {
+    color: var(--aqua-color);
     text-decoration: none;
     font-size: 18px;
     position: relative;
 }
 
-nav ul li a::after{
+nav ul li a::after {
     content: '';
     width: 0%; /*appears on the hover*/
     height: 3px;
-    background: magenta;
+    background: var(--magenta-color);
     position: absolute;
     left: 0;
     bottom: -6px;
     transition: 0.5s;
 }
 
-nav ul li a:hover::after{
+nav ul li a:hover::after {
     width: 100%;
 }
 /* Format the nav links */
@@ -73,22 +108,22 @@ nav ul li a:hover::after{
 
 
 /* Leftside Intro */
-.header-text{
+.header-text {
     margin-top: 20%;
     font-size: 30px;
 }
 
-.header-text h1{
+.header-text h1 {
     margin-top: 20px;
     font-size: 60px;
 }
 
-.header-text p span{
-    color: magenta;
+.header-text p span {
+    color: var(--magenta-color);
 }
 
-.header-text h1 span{
-    color: springgreen;
+.header-text h1 span {
+    color: var(--spring-green-color);
 }
 
 
@@ -96,25 +131,28 @@ nav ul li a:hover::after{
 
 
 /* About Section */
-#about{
+#about {
+    width: 100%;
+    height: 100vh;
     padding: 80px 0;
-    color: aqua;
+    color: var(--aqua-color);
 }
 
-.row{
+.row {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
 }
 
-.about-col-1{
+.about-col-1 { 
     flex-basis: 35%;
 }
 
-.about-col-1 img{
+.about-col-1 img {
     width: 100%;
     border-radius: 15px;
 }
+
 
 .about-col-2{
     flex-basis: 60%;
@@ -123,7 +161,7 @@ nav ul li a:hover::after{
 .sub-title{
     font-size: 60px;
     font-weight: 600;
-    color: aqua;
+    color: var(--aqua-color);
 }
 
 .tab-titles{
@@ -140,14 +178,14 @@ nav ul li a:hover::after{
 }
 
 .tab-links span{
-    color: springgreen;
+    color: var(--spring-green-color);
 }
 
 .tab-links::after{
     content: '';
     width: 0;
     height: 3px;
-    background: magenta;
+    background: var(--magenta-color);
     position: absolute;
     left: 0;
     bottom: -8px;
@@ -164,7 +202,7 @@ nav ul li a:hover::after{
 }
 
 .tab-contents ul li span{
-    color: springgreen;
+    color: var(--spring-green-color);
     font-size: 14px;
 }
 
@@ -178,11 +216,31 @@ nav ul li a:hover::after{
 
 
 
-
+/* Projects Section */
 /* Import the openprops stylesheet */
 @import 'open-props';
 @import 'https://unpkg.com/open-props/normalize.min.css';
 
+
+#projects {
+    width: 100%;
+    height: 100vh;
+    padding: 80px 0;
+    background-image: url("../images/greekLongBorder.svg");
+    background-position: center bottom;
+    background-repeat: no-repeat;
+}
+
+/* Create a pseudo-element for the background image */
+
+
+.footer-img {
+    opacity: 50%;
+    padding: 20em;
+    
+    background-size: 100% 250%;
+    background-repeat: no-repeat;
+}
 
 /* My Work */
 .work-list-scroller {
@@ -216,6 +274,7 @@ nav ul li a:hover::after{
     background: var(--surface-2);
     border-radius: var(--radius-2);
     box-shadow: var(--shawdow-2);
+    cursor: pointer;
 }
 
 .work-card p {
@@ -224,7 +283,7 @@ nav ul li a:hover::after{
 
 .work-card p span {
     font-size: 24px;
-    color: springgreen;
+    color: var(--spring-green-color);
 }
 
 /* Apply this to all work card images. */
@@ -243,3 +302,184 @@ nav ul li a:hover::after{
 .snaps-inline > * {
     scroll-snap-align: start;
 }
+
+
+.container {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateX(-100%);
+    transition: all 1s;
+}
+
+.nav-item {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateX(-100%);
+    transition: all 1s;
+}
+
+
+
+@media(prefers-reduced-motion) {
+    .container {
+        transition: none;
+    }
+    .nav-item {
+        transition: none;
+    }
+}
+
+.show {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0);
+}
+
+.nav-item:nth-child(2) { transition-delay: 100ms; }
+.nav-item:nth-child(3) { transition-delay: 200ms; }
+.nav-item:nth-child(4) { transition-delay: 300ms; }
+.nav-item:nth-child(5) { transition-delay: 400ms; }
+.nav-item:nth-child(6) { transition-delay: 5000ms; }
+
+
+
+
+
+
+
+
+/* Modal container */
+/*
+These rules hide the modal by default, center the content, and provide a close button:
+*/
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 2000; /* Ensure it appears above everything else */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.8); /* Black background with opacity */
+}
+  
+/* Modal content box */
+.modal-content {
+margin: 5% auto; /* Center the modal */
+padding: 40px;
+border-radius: 1.25rem; 
+border: 0.5rem solid var(--border-color);
+width: 80%;
+max-width: 800px;
+position: relative;
+}
+
+/* Modal navigation buttons */
+.modal-nav {
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+background-color: rgba(0, 0, 0, 0.5);
+color: var(--magenta-color);
+border: none;
+padding: 10px;
+font-size: 24px;
+cursor: pointer;
+border-radius: 50%;
+z-index: 2100;
+}
+#modal-prev {
+left: 10px;
+}
+#modal-next {
+right: 10px;
+}
+  
+  
+  
+/* Modal image */
+.modal-content img {
+width: 100%;
+height: auto;
+}
+
+/* Modal description */
+#modal-description {
+margin-top: 15px;
+font-size: 18px;
+color: var(--royalBlue-color);
+}
+
+/* Close button */
+.close {
+position: absolute;
+top: 10px;
+right: 20px;
+color: var(--volt-color);
+font-size: 28px;
+font-weight: bold;
+cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+color: var(--purp-color);
+text-decoration: none;
+}
+
+  
+/* Modal buttons container */
+#modal-buttons {
+margin-top: 15px;
+text-align: center;
+}
+
+/* Modal button styling */
+.modal-button {
+display: inline-block;
+padding: 10px 20px;
+margin: 5px;
+background-color: var(--volt-color);
+color: black;
+text-decoration: none;
+font-weight: bold;
+border-radius: 4px;
+transition: background-color 0.3s ease;
+}
+
+.modal-button:hover {
+background-color: var(--purp-color);
+}
+
+.m-content {
+display: none;
+}
+
+
+
+
+@media screen and (max-width: 678px) {
+.thumbnail {
+    justify-content: start;
+}
+.slider .list .item .content h2 {
+    font-size: 60px;
+}
+.arrows {
+    top: 10%;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
